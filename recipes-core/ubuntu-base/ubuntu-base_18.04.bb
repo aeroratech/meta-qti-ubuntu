@@ -43,6 +43,8 @@ do_install() {
 	# WAR -- allow root user to login
 	sed -i '/pam_securetty.so/d' ${S}/etc/pam.d/login
 
+	#Allow tty connect when agetty start
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i "s/TTYVHangup=yes'/TTYVHangup=no'/" /lib/systemd/system/serial-getty@.service"
 	tar -czf ${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz ./*
 }
 
