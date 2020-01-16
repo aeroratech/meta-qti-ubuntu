@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM = " \
 DEB_BB_PATH = "${COREBASE}/meta-qti-ubuntu/recipes-packages/bsp"
 
 do_install() {
-    rm -f ${EXTERNAL_TOOLCHAIN}/*.deb
-    rm -rf ${EXTERNAL_TOOLCHAIN}/deb
     FILES_DEB_BB=$(ls ${DEB_BB_PATH}/*-ubuntu-native.bb ${DEB_BB_PATH}/*-cross-native.bb ${DEB_BB_PATH}/*-sysroot.bb)
     for filename in ${FILES_DEB_BB}
     do
