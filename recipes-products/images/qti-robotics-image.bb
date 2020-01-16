@@ -1,4 +1,4 @@
-inherit uimage
+inherit uimage extrausers
 
 #require ${META_QTI_BSP_IMAGE_PATH}/include/mdm-bootimg.inc
 #DEPENDS += " mkbootimg-native "
@@ -7,6 +7,8 @@ inherit uimage
 #require ${META_QTI_BSP_IMAGE_PATH}/include/mdm-ota-target-image-ext4.inc
 
 #MULTILIBRE_ALLOW_REP =. "/usr/include/python2.7/*|${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|${sysconfdir}|${nonarch_base_libdir}/udev|/lib/modules/[^/]*/modules.*|"
+
+EXTRA_USERS_PARAMS = "usermod -P oelinux123 root;"
 
 do_populate_lic_deploy[noexec] = "1"
 
@@ -17,6 +19,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             kernel-modules \
             adbd \
             binder \
+            usb-composition \
             "
             
 #            post-boot \
