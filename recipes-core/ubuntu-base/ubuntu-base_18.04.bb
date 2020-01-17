@@ -9,9 +9,13 @@ SRC_URI[md5sum] = "fce1e4f9b98c85436f06aa27013279a5"
 SRC_URI[sha256sum] = "62bd3b6df4340aa8e90d08229ced4f40aa8cbe84ed43f9f71791a46df5159f81"
 
 
+DEPENDS += "fakechroot \
+            fakeroot "
+
+
 do_unpack() {
-        fakeroot tar xz --no-same-owner -f ${DL_DIR}/ubuntu-base-18.04.2-base-arm64.tar.gz -C ${S}
-        cp -r ${FILE_DIRNAME}/files/apt-get.sh ${WORKDIR}/
+         fakeroot tar xz --no-same-owner -f ${DL_DIR}/ubuntu-base-18.04.2-base-arm64.tar.gz -C ${S}
+         cp -r ${DL_DIR}/ubuntu-base-18.04.2-base-arm64.tar.gz  ${WORKDIR}/
 }
 
 do_populate_lic[noexec] = "1"
@@ -20,13 +24,31 @@ do_install[fakeroot] = "1"
 
 do_install() {
 
+
+	cp  ${RECIPE_SYSROOT}/usr/lib/fakechroot/libfakechroot.so ${S}/usr/lib
+	cp  ${RECIPE_SYSROOT}/usr/lib/libfakeroot-0.so ${S}/usr/lib/libfakeroot-sysv.so
+	#cp  ${FILE_DIRNAME}/files/libfakeroot-sysv.so ${S}/usr/lib
+	chmod 777 -R ${S}/var/cache/apt/archives/partial
+	chmod 777 -R ${S}/var/lib/dpkg/
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo ${PATH}"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i '/$/a /lib/systemd' /etc/ld.so.conf.d/aarch64-linux-gnu.conf"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get update"
+
+	# add package you need to install here
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install systemd udev -y"
+
+	rm -rf ${S}/sbin/init
+	ln -sf ../lib/systemd/systemd sbin/init
+
+	# WAR -- allow root user to login
+	sed -i '/pam_securetty.so/d' ${S}/etc/pam.d/login
+
+	tar -czf ${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz ./*
 }
 
-do_install[depends] += "virtual/fakeroot-native:do_populate_sysroot"
 
 INSANE_SKIP_${PN} += "already-stripped"
 INSANE_SKIP_${PN} += "installed-vs-shipped"
 
 PACKAGE_NO_LOCALE = "1"
 PACKAGES = "${PN}"
-
