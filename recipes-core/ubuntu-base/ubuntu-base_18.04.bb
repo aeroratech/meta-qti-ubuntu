@@ -1,6 +1,8 @@
 #License applicable to the recipe file only,  not to the packages installed by this recipe.
 LICENSE = "BSD-3-clause"
 
+include ubuntu-base.inc
+
 SRC_URI += "http://cdimage.ubuntu.com/ubuntu-base/releases/18.04/release/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
 SRC_URI[md5sum] = "fce1e4f9b98c85436f06aa27013279a5"
