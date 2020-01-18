@@ -1,0 +1,8 @@
+PSEUDO_DISABLED="1"
+FAKEROOTENV = " PSEUDO_DISABLED=1"
+FAKEROOTBASEENV = "PSEUDO_DISABLED=1"
+FAKEROOTCMD = ""
+FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+FAKEROOTDIRS = ""
+PREFERRED_PROVIDER_virtual/fakeroot-native ?= ""
+PATH =. "/usr/bin:/usr/sbin:/usr/local/sbin:/usr/sbin:/sbin:/bin:"
