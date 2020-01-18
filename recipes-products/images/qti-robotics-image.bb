@@ -36,10 +36,7 @@ CORE_IMAGE_BASE_INSTALL = " \
 #"
 
 
-DEB_PREPROCESS_COMMANDS += "do_ubuntu_rootfs;"
-
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
-
 
 do_ubuntu_rootfs(){
     tar -xf ${UBUNTU_TAR_FILE} --exclude=dev -C ${IMAGE_ROOTFS}
@@ -53,8 +50,8 @@ do_ubuntu_rootfs(){
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
 #
 #   ---- fix error : unknown group 'messagebus' in statoverride file ----
-    rm ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
-    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
+#    rm ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
+#    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
 #   ----------------------------------------------------------------------
 #   ---- fix error : do_rootfs: Preinstall for package xxxx failed ----
     rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/*.postinst   
@@ -64,29 +61,24 @@ do_ubuntu_rootfs(){
 #   ----------------------------------------------------------------------
 }
 
-
-
-
-# design this part to avoid python3 dpkg installation error
-PMPY="${COREBASE}/meta/lib/oe/package_manager.py"
-do_pm(){
-    bbwarn " applying Ubuntu PM changes "
-    sed -i 's/if m is not None:/if m is not None and not "python3.6" and not "util-linux\*":/g' ${PMPY}
+do_deb_pre() {
+    do_ubuntu_rootfs
 }
 
-do_rec_pm(){
-    bbwarn " recovering Ubuntu PM changes "
-    sed -i 's/if m is not None and not "python3.6" and not "util-linux\*":/if m is not None:/g' ${PMPY}
+do_fs_post() {
+    #fix adbd launch command
+    sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/etc/launch_adbd
 }
+
+
+#----------------------------------------------------------
+#---- to record 4 useful Yocto process timing ----
+DEB_PREPROCESS_COMMANDS = " do_deb_pre "
+#DEB_POSTPROCESS_COMMANDS = " do_deb_post "
+#ROOTFS_PREPROCESS_COMMAND += "do_fs_pre; "
+ROOTFS_POSTPROCESS_COMMAND += "do_fs_post; "
+#----------------------------------------------------------
 
 
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete
-
-#----------------------------------------------------------
-#----to record there are 2 useful Yocto process timing ----
-#DEB_PREPROCESS_COMMANDS = " do_pm "
-#DEB_POSTPROCESS_COMMANDS = " rec_pm "
-#ROOTFS_POSTPROCESS_COMMAND += "do_fsconfig; "
-#ROOTFS_PREPROCESS_COMMAND += "do_pm; "
-#----------------------------------------------------------
