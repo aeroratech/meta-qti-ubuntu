@@ -9,6 +9,7 @@ inherit uimage extrausers
 #MULTILIBRE_ALLOW_REP =. "/usr/include/python2.7/*|${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|${sysconfdir}|${nonarch_base_libdir}/udev|/lib/modules/[^/]*/modules.*|"
 
 EXTRA_USERS_PARAMS = "usermod -P oelinux123 root;"
+EXTRA_USERS_PARAMS += "usermod -g 3003 _apt;"
 
 do_populate_lic_deploy[noexec] = "1"
 
@@ -24,20 +25,6 @@ CORE_IMAGE_BASE_INSTALL = " \
             ab-slot-util \
             abctl \
             "
-            
-#            post-boot \
-#            usb-composition \
-#            qcacld30-ll \
-#            cld80211-lib \
-#            wpa-supplicant-qcacld-naples \
-#            hostap-daemon-qcacld \
-#           wlan-conf \
-#            wireless-tools \
-#            qmi-framework-vendor \
-#            kmod \
-#            libcap \
-#"
-
 
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
 

@@ -33,9 +33,13 @@ do_install() {
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo ${PATH}"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i '/$/a /lib/systemd' /etc/ld.so.conf.d/aarch64-linux-gnu.conf"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get update"
+	#set hostname and hosts
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '${MACHINE}' > /etc/hostname"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.0.1 localhost' > /etc/hosts"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.1.1 ${MACHINE}' >> /etc/hosts"
 
 	# add package you need to install here
-	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install systemd udev -y"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install systemd udev vim dhcpcd5 libnl-3-dev libnl-genl-3-dev kmod wpasupplicant inetutils-ping wget net-tools wireless-tools -y"
 
 	rm -rf ${S}/sbin/init
 	ln -sf ../lib/systemd/systemd sbin/init
@@ -45,7 +49,8 @@ do_install() {
 
 	#Allow tty connect when agetty start
         fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i "s/TTYVHangup=yes'/TTYVHangup=no'/" /lib/systemd/system/serial-getty@.service"
-	tar -czf ${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz ./*
+	fakechroot fakeroot chroot ${S} /bin/bash -c "tar -cpzf ubuntu-base-18.04.2-base-arm64.tar.gz --exclude=/ubuntu-base-18.04.2-base-arm64.tar.gz --one-file-system /"
+	cp ubuntu-base-18.04.2-base-arm64.tar.gz ${EXTERNAL_TOOLCHAIN}/
 }
 
 

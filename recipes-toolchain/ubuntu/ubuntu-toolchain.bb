@@ -257,9 +257,9 @@ do_install (){
     ln -s libglib-2.0.so.0.5600.1    ${D}${libdir}/${UBUN_TARGET_SYS}/libglib-2.0.so
     ln -s libgthread-2.0.so.0.5600.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgthread-2.0.so    
 
-    #FIX libnl symbols
-    ln -s libnl-3.so.200.24.0 ${D}${base_libdir}/${UBUN_TARGET_SYS}/libnl-3.so
-    ln -s libnl-genl-3.so.200.24.0 ${D}${base_libdir}/${UBUN_TARGET_SYS}/libnl-genl-3.so
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libnl*.pc ${D}${libdir}/pkgconfig
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libnl* ${D}${base_libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libnl3 ${D}${includedir}/${UBUN_TARGET_SYS}
 
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
@@ -458,6 +458,7 @@ RPROVIDES_libnl = " \
                   "
 PKGV_libnl = "3.2.28"
 PKGR_libnl = "0"
+PKG_libnl="libnl-3-dev"
 
 PACKAGES += "libssl1.1"
 FILES_libssl1.1 += "${libdir}/${UBUN_TARGET_SYS}/libssl.so.*"
