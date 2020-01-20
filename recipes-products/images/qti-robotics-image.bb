@@ -20,6 +20,9 @@ CORE_IMAGE_BASE_INSTALL = " \
             adbd \
             binder \
             usb-composition \
+            systemd-machine-units \
+            ab-slot-util \
+            abctl \
             "
             
 #            post-boot \
@@ -44,7 +47,13 @@ do_ubuntu_rootfs(){
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
     chown -R root:root ${IMAGE_ROOTFS}/bin/su 
     chmod a+s ${IMAGE_ROOTFS}/bin/su 
-
+    #add overlay fs & firmware
+    mkdir -p ${IMAGE_ROOTFS}/overlay
+    mkdir -p ${IMAGE_ROOTFS}/overlay/etc
+    mkdir -p ${IMAGE_ROOTFS}/overlay/.etc-work
+    mkdir -p ${IMAGE_ROOTFS}/overlay/data
+    mkdir -p ${IMAGE_ROOTFS}/overlay/.data-work
+    mkdir -p ${IMAGE_ROOTFS}/firmware
 #   ---- design to avoid do_rootfs status error ----
 #    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu 
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
