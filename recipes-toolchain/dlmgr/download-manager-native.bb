@@ -1,44 +1,72 @@
 inherit native
-
+# License applies to this recipe code, not the toolchain itself
 LICENSE = "BSD-3-Clause"
-LIC_FILES_CHKSUM = " \
-                       file://${COREBASE}/meta/files/common-licenses/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9 \
-                       "
+LIC_FILES_CHKSUM = "\
+    file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302 \
+    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420 \
+"
 
-DEB_BB_PATH = "${COREBASE}/meta-qti-ubuntu/recipes-packages/bsp"
+DEB_BB_PATH = "${COREBASE}/meta-qti-ubuntu/recipes-packages/"
 
-do_install() {
-    FILES_DEB_BB=$(ls ${DEB_BB_PATH}/*-ubuntu-native.bb ${DEB_BB_PATH}/*-cross-native.bb ${DEB_BB_PATH}/*-sysroot.bb)
-    for filename in ${FILES_DEB_BB}
-    do
-        rm -f ${EXTERNAL_TOOLCHAIN}/FULL_LINK
-	    rm -f ${EXTERNAL_TOOLCHAIN}/DEB_NAME
-	    #get full_link
-        export  FULL_LINK=$(grep "FULL_LINK" ${filename} )
-        export  FULL_LINK=$( echo ${FULL_LINK} | sed "s/FULL_LINK =/ /" )
-        export  FULL_LINK=$(echo ${FULL_LINK}  | sed "s/'/ /g")
-	    echo ${FULL_LINK} > ${EXTERNAL_TOOLCHAIN}/FULL_LINK
-        #get DEB_NAME
-        export  DEB_NAME=$(grep "DEB_NAME" ${filename} )
-        export  DEB_NAME=$( echo ${DEB_NAME} | sed "s/DEB_NAME =/ /" )
-        export  DEB_NAME=$(echo ${DEB_NAME} | sed "s/'/ /g")
-	    echo ${DEB_NAME} > ${EXTERNAL_TOOLCHAIN}/DEB_NAME
-	    if [ `cat ${EXTERNAL_TOOLCHAIN}/FULL_LINK` ]; then
-	        #download deb
-	        cat ${EXTERNAL_TOOLCHAIN}/FULL_LINK | xargs wget -N $1  -P ${EXTERNAL_TOOLCHAIN}/
-	        if [ `cat ${EXTERNAL_TOOLCHAIN}/DEB_NAME` ]; then
-                #install deb
-                /usr/bin/dpkg-deb -X ${EXTERNAL_TOOLCHAIN}/$(cat ${EXTERNAL_TOOLCHAIN}/DEB_NAME) ${EXTERNAL_TOOLCHAIN}/deb
-            else
-                bbfatal '${EXTERNAL_TOOLCHAIN}/DEB_NAME did not exist'
-	        fi
-	    else
-	        bbfatal '${EXTERNAL_TOOLCHAIN}/FULL_LINK did not exist'
-	    fi
-    done
-    rm -f ${EXTERNAL_TOOLCHAIN}/FULL_LINK
-    rm -f ${EXTERNAL_TOOLCHAIN}/DEB_NAME
+def gen_src_uri(d):
+    import re
+    DEB_BB_PATH = d.getVar('DEB_BB_PATH')
+    src_uri_list = []
+    recipe_list = []
+    src_uri = ''
+    for dir_index in os.listdir(DEB_BB_PATH):
+        DEB_BB_DIR = os.path.join(DEB_BB_PATH,dir_index)
+        if os.path.isdir(DEB_BB_DIR):
+            for file in os.listdir(DEB_BB_DIR):
+                filename = os.path.join(DEB_BB_DIR, file)
+                if os.path.isfile(filename):
+                    if "-ubuntu-native.bb" in file or \
+                        "-cross-native.bb" in file or \
+                        "-sysroot.bb" in file:
+                        recipe_list.append(filename)
+
+    for recipe in recipe_list:
+        with open(recipe, "r") as fd:
+            dl_url = ''
+            md5sum = ''
+            for line in fd:
+                if "FULL_LINK" in line:
+                    dl_url = re.findall(r"\'.*\'", line)
+                    dl_url = dl_url[0].strip("\"\'") if dl_url else ''
+
+                elif "SRC_URI[md5sum]" in line:
+                    md5sum = re.findall(r'\"\w+\"', line)
+                    md5sum = md5sum[0].strip("\"\'") if md5sum else ''
+
+                if dl_url and md5sum:
+                    break
+
+            if not dl_url or not md5sum:
+                bb.fatal("no FULL_LINK or MD5SUM defined in %s, please check" %recipe)
+
+            src_uri_list.append("%s;md5sum=%s" %(dl_url, md5sum))
+
+    src_uri = " ".join(src_uri_list)
+    return src_uri
+
+SRC_URI := "${@gen_src_uri(d)}"
+
+python do_install() {
+    src_uri = (d.getVar('SRC_URI') or '').split()
+    for item in src_uri:
+        deb_name = os.path.basename(item.split(';')[0])
+        deb_file = os.path.join(d.getVar('DL_DIR'), deb_name)
+        inst_dir = (d.getVar('EXTERNAL_TOOLCHAIN') or '')
+        if not inst_dir :
+            bb.fatal("EXTERNAL_TOOLCHAIN not define")
+        elif not os.path.isfile(deb_file) :
+            bb.fatal("deb not found: " + deb_file)
+
+        inst_dir = os.path.join(inst_dir, "deb")
+        cmd = "/usr/bin/dpkg-deb -X %s %s" %(deb_file, inst_dir)
+        bb.warn(cmd)
+        if os.system(cmd) != 0 :
+            bb.fatal("failed to excute cmd: " + cmd)
 }
 
-deltask do_populate_sysroot_setscene
-
+deltask do_populate_sysroot_setscene do_unpack
