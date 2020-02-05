@@ -87,6 +87,16 @@ DEB_PREPROCESS_COMMANDS = " do_deb_pre "
 ROOTFS_POSTPROCESS_COMMAND += "do_fs_post; "
 #----------------------------------------------------------
 
+#Install packages for audio
+CORE_IMAGE_BASE_INSTALL += " \
+            audiodlkm \
+            init-audio \
+            ss-services \
+            qmi \
+            qmi-framework \
+            qmi-framework-vendor \
+            tinyalsa \
+"
 
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete
