@@ -77,6 +77,10 @@ do_deb_pre() {
 do_fs_post() {
     #fix adbd launch command
     sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/etc/launch_adbd
+
+    #fix apt status version error
+    sed -i "s@git-r@0-1@g" ${IMAGE_ROOTFS}/var/lib/dpkg/status
+    sed -i "s@>= git@>= 0@g" ${IMAGE_ROOTFS}/var/lib/dpkg/status
 }
 
 
