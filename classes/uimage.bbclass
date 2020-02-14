@@ -107,7 +107,6 @@ DEPENDS += "\
              mtd-utils-native \
              openssl-native \
              pkgconfig-native \
-             virtual/bootloader \
 "
 
 # Check and remove empty packages before rootfs creation
