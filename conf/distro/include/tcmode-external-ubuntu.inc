@@ -97,6 +97,14 @@ PREFERRED_PROVIDER_bzip2 = "ubuntu-toolchain"
 PREFERRED_PROVIDER_ncurses = "ubuntu-toolchain"
 PREFERRED_PROVIDER_binutils-native = "ubuntu-toolchain"
 
+PREFERRED_VERSION_cairo = "1.15.10"
+PREFERRED_VERSION_gdk-pixbuf = "2.36.12"
+PREFERRED_VERSION_harfbuzz = "1.7.2"
+PREFERRED_VERSION_pango = "1.40.14"
+PREFERRED_VERSION_libx11 = "1.6.4"
+PREFERRED_VERSION_libxcb = "1.14"
+PREFERRED_VERSION_gobject-introspection = "1.56.1"
+
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST} "
 
 DISTRO_FEATURES_LIBC = "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-crypt \

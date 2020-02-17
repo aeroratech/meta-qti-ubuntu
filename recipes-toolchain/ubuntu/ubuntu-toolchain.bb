@@ -231,6 +231,41 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/bzlib.h ${D}${includedir}
     ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
 
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/xml2-config  ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libxml2/*  ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libxml-2.0.pc ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxml2.so ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxml2.so.2 ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxml2.so.2.9.4 ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/xml2Conf.sh  ${D}${libdir}/${UBUN_TARGET_SYS}
+
+    #FIX mount/blkid/uuid pkgconfig scripts links
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/drm  ${D}${includedir}
+    rm -rf ${D}${includedir}/rpcsvc
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libmount  ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/mount.pc ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libmount.a ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libmount.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libmount.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libmount.so
+    ln -sf ./libmount.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libmount.so.1
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/blkid  ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/blkid.pc ${D}${libdir}/pkgconfig
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libblkid.a ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libblkid.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libblkid.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libblkid.so
+    ln -sf ./libblkid.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libblkid.so.1
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/uuid  ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/uuid.pc ${D}${libdir}/pkgconfig
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libuuid.a ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libuuid.so.1.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libuuid.so.1.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libuuid.so
+    ln -sf ./libuuid.so.1.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libuuid.so.1
+
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/unicode  ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/layout  ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libicu* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/* ${D}${libdir}/pkgconfig/
+
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libiberty.a ${D}${libdir}/${UBUN_TARGET_SYS}
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpam.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
