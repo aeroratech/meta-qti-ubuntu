@@ -25,6 +25,14 @@ CORE_IMAGE_BASE_INSTALL = " \
             ab-slot-util \
             abctl \
             "
+#Install packages for wlan
+CORE_IMAGE_BASE_INSTALL += " \
+            qcacld32-ll \
+            cnss-daemon \
+            cld80211-lib \
+            wlan-conf \
+            qmi-framework-vendor \
+            "
 
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
