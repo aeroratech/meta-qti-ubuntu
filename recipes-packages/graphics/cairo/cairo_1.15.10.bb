@@ -12,7 +12,7 @@ DEPENDS += " \
     libx11 \
     libfreetype6-0 \
     libfreetype6-dev \
-    libexpat1 \
+    expat \
     libfontconfig1-0 \
     libfontconfig1-dev \
     libcairo2-0 \

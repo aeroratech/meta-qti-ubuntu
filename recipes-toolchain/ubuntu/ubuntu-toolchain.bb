@@ -81,6 +81,7 @@ ALLOW_EMPTY_libxml2 = "1"
 ALLOW_EMPTY_glib-2.0 = "1"
 ALLOW_EMPTY_shadow = "1"
 ALLOW_EMPTY_libnl = "1"
+ALLOW_EMPTY_expat = "1"
 ALLOW_EMPTY_libpam = "1"
 ALLOW_EMPTY_libquadmath-staticdev = "1"
 ALLOW_EMPTY_libmudflap-dev = "1"
@@ -296,6 +297,14 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libnl* ${D}${base_libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libnl3 ${D}${includedir}/${UBUN_TARGET_SYS}
 
+    ## libexpat & libexpat-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libexpat*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so* ${D}${base_libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/expat*.h ${D}${includedir}${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/expat*.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/expat*.pc ${D}${libdir}/pkgconfig
+    ln -sf ../../..${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so.1.6.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libexpat.so
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
         rm -rf ${D}${base_libdir}/libz.so.*
@@ -494,6 +503,22 @@ RPROVIDES_libnl = " \
 PKGV_libnl = "3.2.28"
 PKGR_libnl = "0"
 PKG_libnl="libnl-3-dev"
+
+PACKAGES += "expat"
+FILES_expat += " \
+        ${libdir}/${UBUN_TARGET_SYS}/libexpat*.so*  \
+        ${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so* \
+               "
+
+PROVIDES += " \
+            expat \
+            "
+RPROVIDES_expat += " \
+                expat \
+                "
+PKGV_expat = "2.2.5"
+PKGR_expat = "3"
+PKG_expat ="libexpat1"
 
 PACKAGES += "libssl1.1"
 FILES_libssl1.1 += "${libdir}/${UBUN_TARGET_SYS}/libssl.so.*"
