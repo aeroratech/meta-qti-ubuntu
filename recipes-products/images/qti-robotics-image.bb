@@ -98,8 +98,23 @@ do_fs_post() {
     #fix apt status version error
     sed -i "s@git-r@0-1@g" ${IMAGE_ROOTFS}/var/lib/dpkg/status
     sed -i "s@>= git@>= 0@g" ${IMAGE_ROOTFS}/var/lib/dpkg/status
-}
 
+#   ---- fix mesa/adreno file list conflicts ----
+    if [ -e ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list ]; then
+        sed -i '/usr\/include\/KHR/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/KHR\/khrplatform.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/EGL\/egl.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/EGL\/eglext.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/EGL\/eglplatform.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/GLES2\/gl2.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/GLES2\/gl2ext.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/GLES2\/gl2platform.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/GLES3\/gl3.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/GLES3\/gl31.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/GLES3\/gl32.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+        sed -i '/usr\/include\/GLES3\/gl3platform.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
+    fi
+}
 
 #----------------------------------------------------------
 #---- to record 4 useful Yocto process timing ----
