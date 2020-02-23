@@ -49,6 +49,8 @@ do_ubuntu_rootfs(){
     mkdir -p ${IMAGE_ROOTFS}/overlay/data
     mkdir -p ${IMAGE_ROOTFS}/overlay/.data-work
     mkdir -p ${IMAGE_ROOTFS}/firmware
+    mkdir -p ${IMAGE_ROOTFS}/lib/firmware
+    ln -sf /firmware/image ${IMAGE_ROOTFS}/lib/firmware/updates
 #   ---- design to avoid do_rootfs status error ----
 #    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu 
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
