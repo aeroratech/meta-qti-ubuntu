@@ -26,6 +26,8 @@ CORE_IMAGE_BASE_INSTALL = " \
             abctl \
             yavta \
             post-boot \
+            adsprpc \
+            qmi-framework \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
@@ -67,6 +69,22 @@ do_ubuntu_rootfs(){
 #   ---- fix user conflicts ----
 # 
 #   ----------------------------------------------------------------------
+    ln -sf /lib/systemd/system/adsprpcd.service \
+                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd.service
+    ln -sf /lib/systemd/system/adsprpcd_rootpd.service \
+                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd_rootpd.service
+    ln -sf /lib/systemd/system/adsprpcd_audiopd.service \
+               ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd_audiopd.service
+    ln -sf /lib/systemd/system/adsprpcd_sensorspd.service \
+                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd_sensorspd.service
+    ln -sf /lib/systemd/system/cdsprpcd.service \
+                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/cdsprpcd.service
+    ln -sf /lib/systemd/system/adsprpcd.service \
+                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd.service
+    ln -sf /lib/systemd/system/mdsprpcd.service \
+                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/mdsprpcd.service
+    ln -sf /lib/systemd/system/cdsp.service \
+                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/cdsp.service
 }
 
 do_deb_pre() {
