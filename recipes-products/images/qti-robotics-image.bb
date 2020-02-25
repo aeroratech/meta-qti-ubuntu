@@ -25,6 +25,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             ab-slot-util \
             abctl \
             yavta \
+            post-boot \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
