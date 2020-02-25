@@ -24,6 +24,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             systemd-machine-units \
             ab-slot-util \
             abctl \
+            yavta \
             "
 
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
