@@ -96,7 +96,25 @@ ALLOW_EMPTY_libg2c-dev = "1"
 ALLOW_EMPTY_libssp = "1"
 ALLOW_EMPTY_libstdc++-precompile-dev = "1"
 ALLOW_EMPTY_libstdc++-staticdev = "1"
-
+ALLOW_EMPTY_udev = "1"
+ALLOW_EMPTY_systemd = "1"
+ALLOW_EMPTY_systemd-dev = "1"
+ALLOW_EMPTY_systemd-journal-remote = "1"
+ALLOW_EMPTY_systemd-journal-gatewayd = "1"
+ALLOW_EMPTY_systemd-journal-upload = "1"
+ALLOW_EMPTY_systemd-compat-units = "1"
+ALLOW_EMPTY_systemd-conf = "1"
+ALLOW_EMPTY_systemd-serialgetty = "1"
+ALLOW_EMPTY_systemd-vconsole-setup = "1"
+ALLOW_EMPTY_systemd-initramfs = "1"
+ALLOW_EMPTY_systemd-container = "1"
+ALLOW_EMPTY_systemd-analyze = "1"
+ALLOW_EMPTY_systemd-rpm-macros = "1"
+ALLOW_EMPTY_systemd-xorg-xinitrc = "1"
+ALLOW_EMPTY_systemd-kernel-install = "1"
+ALLOW_EMPTY_systemd-zsh-completion = "1"
+ALLOW_EMPTY_systemd-gui = "1"
+ALLOW_EMPTY_systemd-binfmt = "1"
 
 PV = "0"
 BINV = "0"
@@ -175,8 +193,9 @@ do_install (){
 	install -d ${D}/DEBIAN
 	install -d ${D}${libdir}
 	install -d ${D}${libdir}/pkgconfig
-    install -d ${D}${libdir}/gcc/${HOST_ARCH}/7
+	install -d ${D}${libdir}/gcc/${HOST_ARCH}/7
 	install -d ${D}${libdir}/${UBUN_TARGET_SYS}
+	install -d ${D}/usr/share/pkgconfig/
 
 #    usr/${UBUN_TARGET_SYS}/lib cannot be created
 #    install -d ${D}/usr/${UBUN_TARGET_SYS}/lib/
@@ -231,6 +250,13 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/bzlib.h ${D}${includedir}
     ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
+
+    #udev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so.*  ${D}/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so  ${D}/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libudev.h  ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libudev.pc  ${D}/${libdir}/pkgconfig/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/udev.pc ${D}/usr/share/pkgconfig/
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/xml2-config  ${D}/usr/bin/
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libxml2/*  ${D}${includedir}
@@ -615,8 +641,6 @@ RPROVIDES_libc6 = " \
                     lsbinitscripts lsbinitscripts-dev \
                     util-linux util-linux-native \
                     util-linux-sulogin  util-linux-agetty util-linux-mount util-linux-fsck \
-                    systemd systemd-dev \
-                    systemd-journal-remote systemd-journal-gatewayd systemd-journal-upload \
                   "
 
 libc_baselibs = " \
@@ -655,6 +679,119 @@ other_libs = " \
 FILES_libc6 = "${libc_baselibs} ${glib_libs} ${other_libs} DEBIAN/*"
 FILES_libc6-dev = "${libdir}/${UBUN_TARGET_SYS}/*_nonshared.a ${libdir}/${UBUN_TARGET_SYS}/*_nonshared.a ${libdir}/${UBUN_TARGET_SYS}/*.o DEBIAN/*"
 FILES_libc6-staticdev = "${libdir}/${UBUN_TARGET_SYS}/*.a ${libdir}/${UBUN_TARGET_SYS}/*.a DEBIAN/*"
+
+# systemd
+PACKAGES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gatewayd \
+              systemd-journal-upload systemd-compat-units systemd-conf systemd-serialgetty \
+              systemd-systemctl-native "
+PROVIDES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gatewayd \
+             systemd-journal-upload systemd-compat-units systemd-conf systemd-serialgetty \
+             systemd-systemctl-native "
+PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
+PACKAGES_DYNAMIC += "^systemd-locale-.*"
+
+RPROVIDES_udev = "udev udev-hwdb hotplug"
+FILES_udev += "${libdir}/dummy"
+PKGR_udev = "0"
+PKGV_udev = "0"
+
+RPROVIDES_systemd = "systemd libsystemd0 systemd-systemctl-native systemd-locale systemd-dbg \
+                    systemd-bash-completion systemd-staticdev systemd-doc \
+                    "
+FILES_systemd += "${libdir}/dummy"
+PKGR_systemd = "0"
+PKGV_systemd = "0"
+
+RPROVIDES_systemd-dev = "libsystemd-dev"
+FILES_systemd-dev += "${libdir}/dummy"
+PKGR_systemd-dev = "0"
+PKGV_systemd-dev = "0"
+
+RPROVIDES_systemd-journal-remote = "systemd-journal-remote"
+FILES_systemd-journal-remote += "${libdir}/dummy"
+PKGR_systemd-journal-remote = "0"
+PKGV_systemd-journal-remote = "0"
+
+RPROVIDES_systemd-journal-gatewayd = "systemd-journal-gatewayd"
+FILES_systemd-journal-gatewayd += "${libdir}/dummy"
+PKGR_systemd-journal-gatewayd = "0"
+PKGV_systemd-journal-gatewayd = "0"
+
+RPROVIDES_systemd-journal-upload = "systemd-journal-upload"
+FILES_systemd-journal-upload += "${libdir}/dummy"
+PKGR_systemd-journal-upload = "0"
+PKGV_systemd-journal-upload = "0"
+
+RPROVIDES_systemd-compat-units = "systemd-compat-units"
+FILES_systemd-compat-units += "${libdir}/dummy"
+PKGR_systemd-compat-units = "0"
+PKGV_systemd-compat-units = "0"
+
+RPROVIDES_systemd-conf = "systemd-conf"
+FILES_systemd-conf += "${libdir}/dummy"
+PKGR_systemd-conf = "0"
+PKGV_systemd-conf = "0"
+
+RPROVIDES_systemd-serialgetty = "systemd-serialgetty-locale systemd-serialgetty-dbg systemd-serialgetty-doc \
+                     systemd-serialgetty-staticdev systemd-serialgetty-dev systemd-serialgetty \
+                    "
+FILES_systemd-serialgetty += "${libdir}/dummy"
+PKGR_systemd-serialgetty = "0"
+PKGV_systemd-serialgetty = "0"
+
+PACKAGES += "systemd-vconsole-setup \
+             systemd-initramfs systemd-container systemd-analyze systemd-rpm-macros \
+             systemd-xorg-xinitrc  systemd-kernel-install \
+             systemd-zsh-completion systemd-gui systemd-binfmt \
+             "
+PROVIDES += "systemd-vconsole-setup \
+             systemd-initramfs systemd-container systemd-analyze systemd-rpm-macros \
+             systemd-xorg-xinitrc systemd-zsh-completion systemd-gui systemd-binfmt \
+             "
+RPROVIDES_systemd-vconsole-setup = "systemd-vconsole-setup"
+FILES_systemd-vconsole-setup += "${libdir}/dummy"
+PKGR_systemd-vconsole-setup = "0"
+PKGV_systemd-vconsole-setup = "0"
+
+RPROVIDES_systemd-initramfs = "systemd-initramfs"
+FILES_systemd-initramfs += "${libdir}/dummy"
+PKGR_systemd-initramfs = "0"
+PKGV_systemd-initramfs = "0"
+
+RPROVIDES_systemd-container = "systemd-container"
+FILES_systemd-container += "${libdir}/dummy"
+PKGR_systemd-container = "0"
+PKGV_systemd-container = "0"
+
+RPROVIDES_systemd-analyze = "systemd-analyze"
+FILES_systemd-analyze += "${libdir}/dummy"
+PKGR_systemd-analyze = "0"
+PKGV_systemd-analyze = "0"
+
+RPROVIDES_systemd-rpm-macros = "systemd-rpm-macros"
+FILES_systemd-rpm-macros += "${libdir}/dummy"
+PKGR_systemd-rpm-macros = "0"
+PKGV_systemd-rpm-macros = "0"
+
+RPROVIDES_systemd-xorg-xinitrc = "systemd-xorg-xinitrc"
+FILES_systemd-xorg-xinitrc += "${libdir}/dummy"
+PKGR_systemd-xorg-xinitrc = "0"
+PKGV_systemd-xorg-xinitrc = "0"
+
+RPROVIDES_systemd-zsh-completion = "systemd-zsh-completion"
+FILES_systemd-zsh-completion += "${libdir}/dummy"
+PKGR_systemd-zsh-completion = "0"
+PKGV_systemd-zsh-completion = "0"
+
+RPROVIDES_systemd-gui = "systemd-gui"
+FILES_systemd-gui += "${libdir}/dummy"
+PKGR_systemd-gui = "0"
+PKGV_systemd-gui = "0"
+
+RPROVIDES_systemd-binfmt = "systemd-binfmt"
+FILES_systemd-binfmt += "${libdir}/dummy"
+PKGR_systemd-binfmt = "0"
+PKGV_systemd-binfmt = "0"
 
 #  version control
 PKG_libc6 = "libc6"
