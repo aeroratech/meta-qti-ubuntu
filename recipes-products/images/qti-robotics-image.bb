@@ -24,6 +24,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             systemd-machine-units \
             ab-slot-util \
             abctl \
+            yavta \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
