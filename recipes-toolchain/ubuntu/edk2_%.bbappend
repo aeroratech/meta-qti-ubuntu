@@ -9,4 +9,5 @@ EXTRA_OEMAKE = "'CLANG_BIN=${STAGING_BINDIR_NATIVE}/llvm-arm-toolchain/bin/' \
                 'INIT_BIN_LE=\"/sbin/init\"'\
                 'RW_ROOTFS=1'\
                 'EDK_TOOLS_PATH=${S}/BaseTools'\
+                'ENABLE_SYSTEMD_BOOTSLOT=${SYSTEMD_BOOTSLOT_ENABLED}'\
                 'EARLY_ETH_ENABLED=${EARLY_ETH}'"
