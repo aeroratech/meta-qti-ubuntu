@@ -55,6 +55,9 @@ do_ubuntu_rootfs(){
     mkdir -p ${IMAGE_ROOTFS}/firmware
     mkdir -p ${IMAGE_ROOTFS}/lib/firmware
     ln -sf /firmware/image ${IMAGE_ROOTFS}/lib/firmware/updates
+    ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
+#   replace the cpufreq governor ondemand with schedutil
+    rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
 #   ---- design to avoid do_rootfs status error ----
 #    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu 
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
