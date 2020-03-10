@@ -172,6 +172,11 @@ CORE_IMAGE_BASE_INSTALL += " \
             qmi-framework \
             qmi-framework-vendor \
             tinyalsa \
+            omx \
+            encoders \
+            qsthw-api \
+            soundtrigger \
+            acdbloader \
 "
 
 #addtask do_pm before do_rootfs
