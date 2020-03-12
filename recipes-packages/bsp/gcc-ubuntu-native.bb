@@ -2,7 +2,7 @@ inherit native deb-dl
 
 LICENSE = "GPL-3.0-with-GCC-exception & GPLv3"
 
-SRC_URI[md5sum] = "52e620b14fe53f7e35e5666d282d1358"
+SRC_URI[md5sum] = "f30d7be636a20b5b4e55636847641509"
 
-FULL_LINK = 'http://security.ubuntu.com/ubuntu/pool/main/g/gcc-7/gcc-7_7.4.0-1ubuntu1~18.04.1_amd64.deb'
-DEB_NAME = 'gcc-7_7.4.0-1ubuntu1~18.04.1_amd64.deb'
+FULL_LINK = 'http://security.ubuntu.com/ubuntu/pool/main/g/gcc-7/gcc-7_7.5.0-3ubuntu1~18.04_amd64.deb'
+DEB_NAME = 'gcc-7_7.5.0-3ubuntu1~18.04_amd64.deb'
