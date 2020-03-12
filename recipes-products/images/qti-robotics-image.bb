@@ -117,6 +117,13 @@ do_fs_post() {
         sed -i '/usr\/include\/GLES3\/gl32.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
         sed -i '/usr\/include\/GLES3\/gl3platform.h/d' ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list
     fi
+
+    cat > ${IMAGE_ROOTFS}/etc/udev/rules.d/ion.rules << EOF
+ACTION=="add" SUBSYSTEM=="misc", KERNEL=="ion", OWNER="system", GROUP="system", MODE="0664"
+EOF
+    cat > ${IMAGE_ROOTFS}/etc/udev/rules.d/kgsl.rules << EOF
+KERNEL=="kgsl-3d0", MODE="0666"
+EOF
 }
 
 #----------------------------------------------------------
