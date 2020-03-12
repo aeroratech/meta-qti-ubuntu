@@ -13,6 +13,34 @@ DEPENDS += "fakechroot \
             fakeroot "
 
 
+get_rootfs_packages () {
+        if \
+        ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-debug', 'true', 'false', d)}; \
+        then
+                UBUN_ROOTFS_PACKAGE="${UBUN_BASIC_DEBUG_PACKAGES}"
+        fi
+
+        if \
+        ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-perf', 'true', 'false', d)}; \
+        then
+                UBUN_ROOTFS_PACKAGE="${UBUN_BASIC_PERF_PACKAGES}"
+        fi
+
+        if \
+        ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'true', 'false', d)}; \
+        then
+                UBUN_ROOTFS_PACKAGE="${UBUN_FULLSTACK_DEBUG_PACKAGES}"
+        fi
+
+
+        if \
+        ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-perf', 'true', 'false', d)}; \
+        then
+               UBUN_ROOTFS_PACKAGE="${UBUN_FULLSTACK_PERF_PACKAGES}"
+        fi
+}
+
+
 do_unpack() {
          fakeroot tar xz --no-same-owner -f ${DL_DIR}/ubuntu-base-18.04.2-base-arm64.tar.gz -C ${S}
          cp -r ${DL_DIR}/ubuntu-base-18.04.2-base-arm64.tar.gz  ${WORKDIR}/
@@ -24,7 +52,8 @@ do_install[fakeroot] = "1"
 
 do_install() {
 
-
+	get_rootfs_packages
+        echo ${UBUN_ROOTFS_PACKAGE}
 	cp  ${RECIPE_SYSROOT}/usr/lib/fakechroot/libfakechroot.so ${S}/usr/lib
 	cp  ${RECIPE_SYSROOT}/usr/lib/libfakeroot-0.so ${S}/usr/lib/libfakeroot-sysv.so
 	#cp  ${FILE_DIRNAME}/files/libfakeroot-sysv.so ${S}/usr/lib
@@ -37,10 +66,8 @@ do_install() {
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '${MACHINE}' > /etc/hostname"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.0.1 localhost' > /etc/hosts"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.1.1 ${MACHINE}' >> /etc/hosts"
-
-	# add package you need to install here
-	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install systemd udev vim dhcpcd5 libnl-3-dev libnl-genl-3-dev kmod wpasupplicant inetutils-ping wget net-tools wireless-tools usbutils apparmor libatomic1 -y"
-
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install rsyslog  -y"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 	rm -rf ${S}/sbin/init
 	ln -sf ../lib/systemd/systemd sbin/init
 
