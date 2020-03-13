@@ -142,13 +142,11 @@ PROVIDES += "\
             virtual/crypt \
             virtual/libc-locale \
             libarchive-native \
-            util-linux-native \
             e2fsprogs-native \
             nativesdk-libarchive \
             util-linux \
             lsbinitscripts \
             glib-2.0 \
-            glib-2.0-native \
             mtd-utils-native \
             libpam \
             shadow \
@@ -179,6 +177,9 @@ PROVIDES += "\
             sqlite3 \
             bzip2 \
             ncurses \
+            gstreamer1.0 \
+            gstreamer1.0-plugins-base \
+            gstreamer1.0-plugins-bad \
 "
 
 
@@ -214,6 +215,7 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/glib-2.0 ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/sys ${D}${includedir}
@@ -311,18 +313,9 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/glib-2.0/include/*.h ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/g*.pc ${D}${libdir}/pkgconfig
-    
-    ln -s libgmodule-2.0.so.0.5600.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgmodule-2.0.so.0
-    ln -s libgio-2.0.so.0.5600.1     ${D}${libdir}/${UBUN_TARGET_SYS}/libgio-2.0.so.0
-    ln -s libgobject-2.0.so.0.5600.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgobject-2.0.so.0
-    ln -s libglib-2.0.so.0.5600.1    ${D}${libdir}/${UBUN_TARGET_SYS}/libglib-2.0.so.0
-    ln -s libgthread-2.0.so.0.5600.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgthread-2.0.so.0
-    
-    ln -s libgmodule-2.0.so.0.5600.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgmodule-2.0.so
-    ln -s libgio-2.0.so.0.5600.1     ${D}${libdir}/${UBUN_TARGET_SYS}/libgio-2.0.so
-    ln -s libgobject-2.0.so.0.5600.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgobject-2.0.so
-    ln -s libglib-2.0.so.0.5600.1    ${D}${libdir}/${UBUN_TARGET_SYS}/libglib-2.0.so
-    ln -s libgthread-2.0.so.0.5600.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgthread-2.0.so    
+    #copy gstreamer libraries
+    cp ${CP_ARGS}    ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/gstreamer*.pc ${D}${libdir}/pkgconfig/
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libnl*.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libnl* ${D}${base_libdir}/${UBUN_TARGET_SYS}
@@ -343,6 +336,22 @@ do_install (){
     ln -sf ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8
     ln -sf ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8.1.2
 
+    ## libpng
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpng* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libpng ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libpng16 ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/png.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pngconf.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pnglibconf.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libpng*.pc ${D}${libdir}/pkgconfig
+
+    ## libxkbcommon
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/xkbcommon.pc ${D}${libdir}/pkgconfig
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/xkbcommon ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.a ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so
+    ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so.0
 
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
@@ -594,7 +603,7 @@ PKGR_iw = "0"
 PACKAGES += "glib-2.0"
 FILES_glib-2.0 += "${libdir}/dummy"
 RPROVIDES_glib-2.0 = " \
-                    glib-2.0 glib-2.0-native \
+                    glib-2.0 \
                     glib-2.0-codegen glib-2.0-locale glib-2.0-dbg glib-2.0-staticdev glib-2.0-bash-completion glib-2.0-doc glib-2.0-utils glib-2.0-dev \
                    "
 PKGV_glib-2.0 = "0"
@@ -662,7 +671,7 @@ RPROVIDES_libc6 = " \
                     shared-mime-info shared-mime-info-native \
                     e2fsprogs-e2fsck\
                     lsbinitscripts lsbinitscripts-dev \
-                    util-linux util-linux-native \
+                    util-linux \
                     util-linux-sulogin  util-linux-agetty util-linux-mount util-linux-fsck \
                   "
 
@@ -717,6 +726,18 @@ RPROVIDES_udev = "udev udev-hwdb hotplug"
 FILES_udev += "${libdir}/dummy"
 PKGR_udev = "0"
 PKGV_udev = "0"
+
+PROVIDES += "libpng"
+RPROVIDES_libpng = "libpng"
+FILES_libpng += "${libdir}/dummy"
+PKGR_libpng = "0"
+PKGV_libpng = "0"
+
+PROVIDES += "libxkbcommon"
+RPROVIDES_libxkbcommon = "libxkbcommon"
+FILES_libxkbcommon += "${libdir}/dummy"
+PKGR_libxkbcommon = "0"
+PKGV_libxkbcommon = "0"
 
 RPROVIDES_systemd = "systemd libsystemd0 systemd-systemctl-native systemd-locale systemd-dbg \
                     systemd-bash-completion systemd-staticdev systemd-doc \

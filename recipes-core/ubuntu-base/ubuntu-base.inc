@@ -34,6 +34,13 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " git \
                                  tftp-hpa \
                                  tftpd-hpa \
                                 "
+
+UBUN_MULTIMEDIA_BASIC_PACKAFES = " xkb-data \
+                                   libcairo2 \
+                                   libpng16-16 \
+                                   libxkbcommon0 \
+                                 "
+
 UBUN_MULTIMEDIA_PACKAFES = " alsa-utils \
                              gstreamer1.0-alsa \
                              gstreamer1.0-gl \
@@ -58,23 +65,11 @@ UBUN_MULTIMEDIA_PACKAFES = " alsa-utils \
                              gstreamer1.0-plugins-bad \
                              gstreamer1.0-tools \
                              libgstreamer-gl1.0-0 \
-                             libcairo2-dev \
-                             libxrender-dev \
-                             libxcb-shm0-dev \
-                             libgdk-pixbuf2.0-dev \
-                             libpixman-1-dev \
-                             libxkbcommon-dev \
-                             libmtdev1 \
-                             libevdev2 \
-                             libinput-dev \
                              locales \
                              curl \
                              lsb-release \
                              python3-argcomplete \
                              gnupg2 \
-                             libcairo2 \
-                             libpng16-16 \
-                             libxkbcommon0 \
                              libsqlite3-dev \
                              libitm1 \
                              libtsan0 \
@@ -85,7 +80,7 @@ UBUN_MULTIMEDIA_PACKAFES = " alsa-utils \
 
 
 
-UBUN_BASIC_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES}"
-UBUN_BASIC_PERF_PACKAGES ="${UBUN_BASIC_PACKAGES}"
+UBUN_BASIC_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
+UBUN_BASIC_PERF_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
 UBUN_FULLSTACK_DEBUG_PACKAGES = "${UBUN_BASIC_PERF_PACKAGES} ${UBUN_PLATFORM_EXTRA_PACKAGES} ${UBUN_MULTIMEDIA_PACKAFES}"
 UBUN_FULLSTACK_PERF_PACKAGES = "${UBUN_BASIC_PERF_PACKAGES} ${UBUN_PLATFORM_EXTRA_PACKAGES} ${UBUN_MULTIMEDIA_PACKAFES}"

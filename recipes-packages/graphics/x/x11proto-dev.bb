@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "\
     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420 \
 "
 
-FULL_LINK = 'http://mirrors.kernel.org/ubuntu/pool/main/x/xorgproto/x11proto-dev_2018.4-4_all.deb'
+FULL_LINK = 'http://ports.ubuntu.com/ubuntu-ports/pool/main/x/xorgproto/x11proto-dev_2018.4-4_all.deb'
 DEB_NAME = 'x11proto-dev_2018.4-4_all.deb'
 
 SRC_URI[md5sum] = "1ae702d30ee651a034046af3cb70465b"
