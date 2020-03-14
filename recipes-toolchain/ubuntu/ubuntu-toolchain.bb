@@ -221,7 +221,12 @@ do_install (){
     mv ${D}${includedir}/c++/7/* ${D}${includedir}/c++
     mv ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
 
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/7/libgcc*.a ${D}${libdir}/${UBUN_TARGET_SYS}
     ln -sf ./libgcc_s.so.1 ${D}/${libdir}/aarch64-linux-gnu/libgcc_s.so
+    ln -sf ./libstdc++.so.6.0.25 ${D}/${libdir}/aarch64-linux-gnu/libstdc++.so
+
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/7/libatomic.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libselinux.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libselinux.pc ${D}${libdir}/pkgconfig
@@ -467,6 +472,7 @@ FILES_libgcc = "\
 "
 FILES_libgcc-dev = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgcc*.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libgcc*.a \
 "
 PKG_libgcc = "libgcc1"
 PKGR = "0"
