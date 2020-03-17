@@ -53,7 +53,7 @@ do_install[fakeroot] = "1"
 do_install() {
 
 	get_rootfs_packages
-        echo ${UBUN_ROOTFS_PACKAGE}
+    echo ${UBUN_ROOTFS_PACKAGE}
 	cp  ${RECIPE_SYSROOT}/usr/lib/fakechroot/libfakechroot.so ${S}/usr/lib
 	cp  ${RECIPE_SYSROOT}/usr/lib/libfakeroot-0.so ${S}/usr/lib/libfakeroot-sysv.so
 	#cp  ${FILE_DIRNAME}/files/libfakeroot-sysv.so ${S}/usr/lib
@@ -66,7 +66,7 @@ do_install() {
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '${MACHINE}' > /etc/hostname"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.0.1 localhost' > /etc/hosts"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.1.1 ${MACHINE}' >> /etc/hosts"
-        fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install rsyslog  -y"
+    fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install rsyslog  -y"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 	rm -rf ${S}/sbin/init
 	ln -sf ../lib/systemd/systemd sbin/init

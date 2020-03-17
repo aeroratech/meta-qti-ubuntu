@@ -16,7 +16,6 @@ do_populate_lic_deploy[noexec] = "1"
 DEPENDS += "ubuntu-base"
 
 CORE_IMAGE_BASE_INSTALL = " \
-            edk2 \
             kernel-modules \
             adbd \
             binder \
