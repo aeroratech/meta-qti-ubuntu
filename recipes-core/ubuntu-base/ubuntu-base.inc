@@ -80,6 +80,7 @@ UBUN_MULTIMEDIA_PACKAFES = " alsa-utils \
                              libtsan0 \
                              liblsan0 \
                              libcc1-0 \
+                             libjpeg-turbo8 \
                              "
 
 

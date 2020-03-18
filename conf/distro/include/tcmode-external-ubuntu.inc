@@ -104,6 +104,7 @@ PREFERRED_PROVIDER_systemd-systemctl-native = "ubuntu-toolchain"
 PREFERRED_PROVIDER_systemd-vconsole-setup = "ubuntu-toolchain"
 PREFERRED_PROVIDER_systemd-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_udev = "ubuntu-toolchain"
+PREFERRED_PROVIDER_jpeg = "ubuntu-toolchain"
 
 PREFERRED_VERSION_cairo = "1.15.10"
 PREFERRED_VERSION_gdk-pixbuf = "2.36.12"
