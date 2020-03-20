@@ -336,6 +336,14 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/expat*.pc ${D}${libdir}/pkgconfig
     ln -sf ../../..${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so.1.6.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libexpat.so
 
+    #libjpeg jpeg
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libjpeg.so.8 ${D}/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libjpeg.so.8.1.2 ${D}/lib/aarch64-linux-gnu/
+
+    ln -sf ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8
+    ln -sf ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8.1.2
+
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
         rm -rf ${D}${base_libdir}/libz.so.*
@@ -456,6 +464,15 @@ PACKAGES += "\
     libgfortran-dev \
     libgfortran-staticdev \
    "
+#  libjpeg-turbo
+PKG_jpeg = "libjpeg-turbo8"
+PACKAGES += "jpeg"
+PROVIDES += "jpeg"
+
+RPROVIDES_jpeg = "jpeg"
+FILES_jpeg += "${libdir}/dummy"
+PKGR_jpeg = "0"
+PKGV_jpeg = "0"
 
 #  libgcc
 PACKAGES += "\
