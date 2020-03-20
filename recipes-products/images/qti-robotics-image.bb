@@ -45,7 +45,7 @@ do_ubuntu_rootfs(){
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
     chown -R root:root ${IMAGE_ROOTFS}/bin/su 
     chmod a+s ${IMAGE_ROOTFS}/bin/su 
-    #add overlay fs & firmware
+    #add overlay fs & firmware & dsp & bt_firmware
     mkdir -p ${IMAGE_ROOTFS}/overlay
     mkdir -p ${IMAGE_ROOTFS}/overlay/etc
     mkdir -p ${IMAGE_ROOTFS}/overlay/.etc-work
@@ -54,6 +54,8 @@ do_ubuntu_rootfs(){
     mkdir -p ${IMAGE_ROOTFS}/firmware
     mkdir -p ${IMAGE_ROOTFS}/lib/firmware
     ln -sf /firmware/image ${IMAGE_ROOTFS}/lib/firmware/updates
+    mkdir -p ${IMAGE_ROOTFS}/dsp
+    mkdir -p ${IMAGE_ROOTFS}/bt_firmware
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
 #   replace the cpufreq governor ondemand with schedutil
     rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
