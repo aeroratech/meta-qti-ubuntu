@@ -27,6 +27,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             post-boot \
             adsprpc \
             qmi-framework \
+            packagegroup-startup-scripts \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
