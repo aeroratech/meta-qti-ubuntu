@@ -137,6 +137,7 @@ ROOTFS_POSTPROCESS_COMMAND += "do_fs_post; "
 
 #Install packages for audio
 CORE_IMAGE_BASE_INSTALL += " \
+            audiohal \
             audiodlkm \
             init-audio \
             ss-services \
