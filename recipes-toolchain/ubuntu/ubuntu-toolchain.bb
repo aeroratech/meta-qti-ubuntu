@@ -82,6 +82,7 @@ ALLOW_EMPTY_glib-2.0 = "1"
 ALLOW_EMPTY_shadow = "1"
 ALLOW_EMPTY_libnl = "1"
 ALLOW_EMPTY_expat = "1"
+ALLOW_EMPTY_dbus = "1"
 ALLOW_EMPTY_libpam = "1"
 ALLOW_EMPTY_libquadmath-staticdev = "1"
 ALLOW_EMPTY_libmudflap-dev = "1"
@@ -353,6 +354,15 @@ do_install (){
     ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so
     ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so.0
 
+    # libdbus-1 & libdbus-1-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libdbus*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    install -d ${D}${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/dbus-arch-deps.h ${D}${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libdbus*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/dbus-1.0 ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/dbus*.pc ${D}${libdir}/pkgconfig
+    ln -sf ./libdbus-1.so.3.19.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libdbus-1.so
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
         rm -rf ${D}${base_libdir}/libz.so.*
@@ -577,6 +587,24 @@ RPROVIDES_expat += " \
 PKGV_expat = "2.2.5"
 PKGR_expat = "3"
 PKG_expat ="libexpat1"
+
+PACKAGES += "dbus dbus-lib"
+FILES_dbus += " \
+        ${libdir}/${UBUN_TARGET_SYS}/libdbus*.so*  \
+               "
+
+PROVIDES += " \
+            dbus \
+            dbus-lib \
+            "
+RPROVIDES_dbus += " \
+                dbus \
+                "
+PKGV_dbus = "1.12.2"
+PKGR_dbus = "0"
+PKG_dbus ="dbus-1"
+
+
 
 PACKAGES += "libssl1.1"
 FILES_libssl1.1 += "${libdir}/${UBUN_TARGET_SYS}/libssl.so.*"
