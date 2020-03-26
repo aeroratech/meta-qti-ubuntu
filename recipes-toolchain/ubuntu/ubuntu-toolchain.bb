@@ -363,6 +363,12 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/dbus*.pc ${D}${libdir}/pkgconfig
     ln -sf ./libdbus-1.so.3.19.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libdbus-1.so
 
+    ## libsystemd & libsystemd-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libsystemd*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/systemd ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libsystemd*.pc ${D}${libdir}/pkgconfig
+    ln -sf ./libsystemd.so.0.21.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libsystemd.so
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
         rm -rf ${D}${base_libdir}/libz.so.*
@@ -770,7 +776,7 @@ PKGV_libxkbcommon = "0"
 RPROVIDES_systemd = "systemd libsystemd0 systemd-systemctl-native systemd-locale systemd-dbg \
                     systemd-bash-completion systemd-staticdev systemd-doc \
                     "
-FILES_systemd += "${libdir}/dummy"
+FILES_systemd += "${libdir}/${UBUN_TARGET_SYS}/libsystemd*.so*"
 PKGR_systemd = "0"
 PKGV_systemd = "0"
 
