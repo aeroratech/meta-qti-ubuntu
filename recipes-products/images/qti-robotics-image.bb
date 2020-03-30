@@ -36,7 +36,17 @@ CORE_IMAGE_BASE_INSTALL += " \
             wlan-conf \
             qmi-framework-vendor \
             "
-
+#install drm
+CORE_IMAGE_BASE_INSTALL += " \
+            libdrm \
+            libdrm-tests \
+            libdrm-kms \
+            "
+#Install packages for graphic and display
+CORE_IMAGE_BASE_INSTALL += " \
+            adreno \
+            weston \
+            "
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
 do_ubuntu_rootfs(){
