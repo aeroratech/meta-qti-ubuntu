@@ -379,6 +379,11 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lz4*.h ${D}${includedir}
     ln -sf ./liblz4.so.1.7.1 ${D}${libdir}/${UBUN_TARGET_SYS}/liblz4.so
 
+    ## libgpg-error & libgpg-error-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libgpg-error*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/gpg*.h ${D}${includedir}/${UBUN_TARGET_SYS}
+    ln -sf ./libgpg-error.so.0.20.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgpg-error.so
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
         rm -rf ${D}${base_libdir}/libz.so.*
