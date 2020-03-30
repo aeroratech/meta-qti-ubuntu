@@ -83,6 +83,7 @@ ALLOW_EMPTY_shadow = "1"
 ALLOW_EMPTY_libnl = "1"
 ALLOW_EMPTY_expat = "1"
 ALLOW_EMPTY_dbus = "1"
+ALLOW_EMPTY_liblzma = "1"
 ALLOW_EMPTY_libpam = "1"
 ALLOW_EMPTY_libquadmath-staticdev = "1"
 ALLOW_EMPTY_libmudflap-dev = "1"
@@ -363,6 +364,14 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/dbus*.pc ${D}${libdir}/pkgconfig
     ln -sf ./libdbus-1.so.3.19.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libdbus-1.so
 
+    ## xz & liblzma & liblzma-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lzma.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lzma ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/liblzma*.pc ${D}${libdir}/pkgconfig
+    ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
+
     ## libsystemd & libsystemd-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libsystemd*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/systemd ${D}${includedir}
@@ -625,7 +634,28 @@ PKGV_dbus = "1.12.2"
 PKGR_dbus = "0"
 PKG_dbus ="dbus-1"
 
+PACKAGES += "liblzma"
+FILES_liblzma += " \
+        ${libdir}/${UBUN_TARGET_SYS}/liblzma*.so*  \
+               "
 
+PROVIDES += " \
+            liblzma \
+            xz \
+            xz-dev \
+            "
+RPROVIDES_liblzma += " \
+                liblzma \
+                xz \
+                xz-dev \
+                "
+PKGV_liblzma = "5.2.2"
+PKGR_liblzma = "1"
+PKG_liblzma ="liblzma"
+
+PKGV_xz = "5.2.2"
+PKGR_xz = "1"
+PKG_xz ="xz"
 
 PACKAGES += "libssl1.1"
 FILES_libssl1.1 += "${libdir}/${UBUN_TARGET_SYS}/libssl.so.*"
