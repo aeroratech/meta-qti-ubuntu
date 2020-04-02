@@ -74,6 +74,9 @@ do_install() {
 	# WAR -- allow root user to login
 	sed -i '/pam_securetty.so/d' ${S}/etc/pam.d/login
 
+	#logind.conf -- Ignore PowerKey
+	sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=ignore/' ${S}/etc/systemd/logind.conf
+
 	#Allow tty connect when agetty start
         fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i "s/TTYVHangup=yes'/TTYVHangup=no'/" /lib/systemd/system/serial-getty@.service"
 	fakechroot fakeroot chroot ${S} /bin/bash -c "tar -cpzf ubuntu-base-18.04.2-base-arm64.tar.gz --exclude=/ubuntu-base-18.04.2-base-arm64.tar.gz --one-file-system /"
