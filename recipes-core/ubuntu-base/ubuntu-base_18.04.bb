@@ -81,6 +81,10 @@ do_install() {
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 	rm -rf ${S}/sbin/init
 	ln -sf ../lib/systemd/systemd sbin/init
+    rm -rf ${S}/usr/lib/aarch64-linux-gnu/libwayland-egl.so
+    ln -sf ../usr/lib/libwayland-egl.so.1 usr/lib/aarch64-linux-gnu/libwayland-egl.so
+    rm -rf ${S}/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
+    ln -sf ../usr/lib/libwayland-egl.so.1 usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
         # Create socket directory for logd.service
         touch ${S}/usr/lib/tmpfiles.d/platform.conf
         fakechroot fakeroot  chroot ${S} /bin/bash -c "echo 'd /dev/socket 0777 - - - -' >> /usr/lib/tmpfiles.d/platform.conf"
