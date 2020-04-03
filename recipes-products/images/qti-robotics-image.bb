@@ -136,6 +136,18 @@ EOF
     cat > ${IMAGE_ROOTFS}/etc/udev/rules.d/kgsl.rules << EOF
 KERNEL=="kgsl-3d0", MODE="0666"
 EOF
+    # fix issue that fails to reboot due to tty driver hangs
+    rm -rf ${IMAGE_ROOTFS}/sbin/reboot
+    cat > ${IMAGE_ROOTFS}/sbin/reboot << EOF
+nohup /sbin/reboot.sh &>/dev/null &
+EOF
+    cat > ${IMAGE_ROOTFS}/sbin/reboot.sh << EOF
+/bin/systemctl stop serial-getty@ttyMSM0
+/bin/systemctl reboot
+EOF
+    chmod +x ${IMAGE_ROOTFS}/sbin/reboot
+    chmod +x ${IMAGE_ROOTFS}/sbin/reboot.sh
+
 }
 
 #----------------------------------------------------------
