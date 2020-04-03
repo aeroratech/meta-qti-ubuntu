@@ -48,6 +48,10 @@ CORE_IMAGE_BASE_INSTALL += " \
             adreno \
             weston \
             "
+#Install packages for video
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-video \
+            "
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
 do_ubuntu_rootfs(){
