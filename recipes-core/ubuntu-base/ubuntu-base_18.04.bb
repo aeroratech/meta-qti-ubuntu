@@ -60,7 +60,8 @@ do_install() {
 	chmod 777 -R ${S}/var/cache/apt/archives/partial
 	chmod 777 -R ${S}/var/lib/dpkg/
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo ${PATH}"
-	fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i '/$/a /lib/systemd' /etc/ld.so.conf.d/aarch64-linux-gnu.conf"
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i '1i /usr/lib' /etc/ld.so.conf.d/aarch64-linux-gnu.conf"
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '/lib/systemd'>> /etc/ld.so.conf.d/aarch64-linux-gnu.conf"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get update"
 	#set hostname and hosts
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '${MACHINE}' > /etc/hostname"
