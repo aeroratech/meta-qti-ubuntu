@@ -342,11 +342,11 @@ do_install (){
     ln -sf ../../..${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so.1.6.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libexpat.so
 
     #libjpeg jpeg
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libjpeg.so.8 ${D}/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libjpeg.so.8.1.2 ${D}/lib/aarch64-linux-gnu/
-
-    ln -sf ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8
-    ln -sf ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8.1.2
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libjpeg.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/j*.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/j*.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libjpeg.pc ${D}${libdir}/pkgconfig
+    ln -s ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8.1.2
 
     ## libpng
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpng* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -478,7 +478,6 @@ do_install (){
     ln -s ${UBUN_TARGET_SYS}/libpam.so.0.83.1 ${D}${libdir}/libpam.so
     ln -s ${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/libselinux.so
     ln -s ${UBUN_TARGET_SYS}/libsepol.so.1 ${D}${libdir}/libsepol.so
-  
 }
 
 PACKAGES += " \ 
@@ -539,7 +538,7 @@ PACKAGES += "jpeg"
 PROVIDES += "jpeg"
 
 RPROVIDES_jpeg = "jpeg"
-FILES_jpeg += "${libdir}/dummy"
+FILES_jpeg += "${libdir}/${UBUN_TARGET_SYS}/libjpeg.so*"
 PKGR_jpeg = "0"
 PKGV_jpeg = "0"
 
