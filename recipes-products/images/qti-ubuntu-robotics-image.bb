@@ -160,5 +160,9 @@ CORE_IMAGE_BASE_INSTALL += " \
             acdbloader \
 "
 
+CORE_IMAGE_BASE_INSTALL += " \
+	packagegroup-qti-ml \
+"
+
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete

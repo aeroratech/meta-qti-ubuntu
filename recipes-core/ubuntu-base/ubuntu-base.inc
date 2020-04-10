@@ -51,6 +51,7 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libwayland-cursor0 \
                                    libwayland-server0 \
                                    libwayland-dev \
+                                   libjpeg-turbo8 \
                                  "
 
 #video, camera packages
@@ -90,7 +91,6 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libtsan0 \
                              liblsan0 \
                              libcc1-0 \
-                             libjpeg-turbo8 \
                              "
 
 

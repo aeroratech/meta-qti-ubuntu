@@ -57,6 +57,6 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # qti-mm-parser: Support QTI multimeida parsers
 # qti-video-decoder: Support QTI video decoder
 # qti-video-encoder: Support QTI video encoder
-#
+# tensoflow-lite: Support for tensorflow lite
 
-DISTRO_FEATURES_append = " qti-audio qti-video-decoder qti-video-encoder qti-adsp qti-cdsp audio-dlkm qti-camera qti-fastcv"
+DISTRO_FEATURES_append = " qti-audio qti-video-decoder qti-video-encoder qti-adsp qti-cdsp audio-dlkm qti-camera qti-fastcv tensorflow-lite"
