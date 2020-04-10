@@ -28,6 +28,9 @@ CORE_IMAGE_BASE_INSTALL = " \
             adsprpc \
             qmi-framework \
             packagegroup-startup-scripts \
+            ab-status-updater \
+            reboot-daemon \
+            diag-reboot-app \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
