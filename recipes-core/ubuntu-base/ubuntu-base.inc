@@ -13,8 +13,8 @@ UBUN_BASIC_PACKAGES = " systemd \
                         dhcpcd5 \
                         libnl-3-dev \
                         libnl-genl-3-dev \
+                        libnl-route-3-dev \
                         kmod \
-                        wpasupplicant \
                         inetutils-ping \
                         wget \
                         net-tools \

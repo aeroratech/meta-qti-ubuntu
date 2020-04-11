@@ -28,10 +28,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
-            qcacld32-ll \
-            cnss-daemon \
-            cld80211-lib \
-            wlan-conf \
+            packagegroup-qti-wifi \
             "
 #install drm
 CORE_IMAGE_BASE_INSTALL += " \

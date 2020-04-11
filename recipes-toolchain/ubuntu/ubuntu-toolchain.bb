@@ -331,6 +331,7 @@ do_install (){
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libnl*.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libnl* ${D}${base_libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libnl* ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libnl3 ${D}${includedir}/${UBUN_TARGET_SYS}
 
     ## libexpat & libexpat-dev
@@ -632,6 +633,18 @@ PKGV_libnl = "3.2.28"
 PKGR_libnl = "0"
 PKG_libnl="libnl-3-dev"
 
+PACKAGES += "libnl-route"
+FILES_libnl += "${libdir}/${UBUN_TARGET_SYS}/libnl-*.so.*"
+PROVIDES += " \
+            libnl-route \
+            "
+RPROVIDES_libnl = " \
+                  libnl-route \
+                  "
+PKGV_libnl = "3.2.29"
+PKGR_libnl = "0"
+PKG_libnl="libnl-3-dev"
+
 PACKAGES += "expat"
 FILES_expat += " \
         ${libdir}/${UBUN_TARGET_SYS}/libexpat*.so*  \
@@ -716,17 +729,6 @@ PKG_libssl1.1 = "libssl1.1"
 
 PKGR_libssl1.1 = "0"
 PKGV_libssl1.1 = "0"
-
-PACKAGES += "iw"
-FILES_iw += "${libdir}/dummy"
-PROVIDES += " \
-            iw \
-            "
-RPROVIDES_iw += " \
-                iw \
-                "
-PKGV_iw = "4.13"
-PKGR_iw = "0"
 
 PACKAGES += "glib-2.0"
 FILES_glib-2.0 += "${libdir}/dummy"
