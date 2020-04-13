@@ -710,11 +710,12 @@ RPROVIDES_glib-2.0 = " \
                     glib-2.0 \
                     glib-2.0-codegen glib-2.0-locale glib-2.0-dbg glib-2.0-staticdev glib-2.0-bash-completion glib-2.0-doc glib-2.0-utils glib-2.0-dev \
                    "
+PKG_glib-2.0 = "libglib2.0-0"
 PKGV_glib-2.0 = "0"
 PKGR_glib-2.0 = "0"
                    
 PACKAGES += "libxml2"
-FILES_libxml2 += "${libdir}/dummy"
+FILES_libxml2 += "${libdir}/${UBUN_TARGET_SYS}/libxml2.so.2*"
 RPROVIDES_libxml2 = " \
                     libxml2 \
                    "
