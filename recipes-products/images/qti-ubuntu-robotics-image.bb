@@ -55,6 +55,11 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-video \
             "
+#Install packages for camera
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-camera \
+            "
+
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
 do_ubuntu_rootfs(){
