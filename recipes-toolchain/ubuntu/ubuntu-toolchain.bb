@@ -393,6 +393,11 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/gpg*.h ${D}${includedir}/${UBUN_TARGET_SYS}
     ln -sf ./libgpg-error.so.0.20.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgpg-error.so
 
+    ## libasound2
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libasound.so* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/alsa.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/alsa  ${D}${includedir}/
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
         rm -rf ${D}${base_libdir}/libz.so.*
@@ -800,6 +805,20 @@ PROVIDES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gat
              systemd-systemctl-native "
 PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
 PACKAGES_DYNAMIC += "^systemd-locale-.*"
+
+# libasound
+PACKAGES += "alsa-lib"
+PROVIDES += "alsa-lib"
+FILES_alsa-lib = " \
+    ${libdir}/${UBUN_TARGET_SYS}/libasound.so* \
+    ${includedir}/alsa \
+"
+RPROVIDES_alsa-lib += " \
+    libasound \
+"
+PKGV_alsa-lib = "0"
+PKGR_alsa-lib = "0"
+PKG_alsa-lib = "libasound2"
 
 RPROVIDES_udev = "udev udev-hwdb hotplug"
 FILES_udev += "${libdir}/${UBUN_TARGET_SYS}/libudev.so*"
