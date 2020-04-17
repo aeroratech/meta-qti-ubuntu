@@ -82,6 +82,8 @@ ALLOW_EMPTY_glib-2.0 = "1"
 ALLOW_EMPTY_shadow = "1"
 ALLOW_EMPTY_libnl = "1"
 ALLOW_EMPTY_expat = "1"
+ALLOW_EMPTY_dbus = "1"
+ALLOW_EMPTY_liblzma = "1"
 ALLOW_EMPTY_libpam = "1"
 ALLOW_EMPTY_libquadmath-staticdev = "1"
 ALLOW_EMPTY_libmudflap-dev = "1"
@@ -353,6 +355,44 @@ do_install (){
     ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so
     ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so.0
 
+    # libdbus-1 & libdbus-1-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libdbus*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    install -d ${D}${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/dbus-arch-deps.h ${D}${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libdbus*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/dbus-1.0 ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/dbus*.pc ${D}${libdir}/pkgconfig
+    ln -sf ./libdbus-1.so.3.19.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libdbus-1.so
+
+    ## xz & liblzma & liblzma-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lzma.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lzma ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/liblzma*.pc ${D}${libdir}/pkgconfig
+    ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
+
+    ## libsystemd & libsystemd-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libsystemd*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/systemd ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libsystemd*.pc ${D}${libdir}/pkgconfig
+    ln -sf ./libsystemd.so.0.21.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libsystemd.so
+
+    ## ligcrypt & libgcrypt-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libgcrypt*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/gcrypt.h ${D}${includedir}
+    ln -sf ./libgcrypt.so.20.2.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgcrypt.so
+
+    ## liglz4 & liblz4-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liblz4*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lz4*.h ${D}${includedir}
+    ln -sf ./liblz4.so.1.7.1 ${D}${libdir}/${UBUN_TARGET_SYS}/liblz4.so
+
+    ## libgpg-error & libgpg-error-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libgpg-error*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/gpg*.h ${D}${includedir}/${UBUN_TARGET_SYS}
+    ln -sf ./libgpg-error.so.0.20.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgpg-error.so
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libz.so.1 ];then
         rm -rf ${D}${base_libdir}/libz.so.*
@@ -578,6 +618,45 @@ PKGV_expat = "2.2.5"
 PKGR_expat = "3"
 PKG_expat ="libexpat1"
 
+PACKAGES += "dbus dbus-lib"
+FILES_dbus += " \
+        ${libdir}/${UBUN_TARGET_SYS}/libdbus*.so*  \
+               "
+
+PROVIDES += " \
+            dbus \
+            dbus-lib \
+            "
+RPROVIDES_dbus += " \
+                dbus \
+                "
+PKGV_dbus = "1.12.2"
+PKGR_dbus = "0"
+PKG_dbus ="dbus-1"
+
+PACKAGES += "liblzma"
+FILES_liblzma += " \
+        ${libdir}/${UBUN_TARGET_SYS}/liblzma*.so*  \
+               "
+
+PROVIDES += " \
+            liblzma \
+            xz \
+            xz-dev \
+            "
+RPROVIDES_liblzma += " \
+                liblzma \
+                xz \
+                xz-dev \
+                "
+PKGV_liblzma = "5.2.2"
+PKGR_liblzma = "1"
+PKG_liblzma ="liblzma"
+
+PKGV_xz = "5.2.2"
+PKGR_xz = "1"
+PKG_xz ="xz"
+
 PACKAGES += "libssl1.1"
 FILES_libssl1.1 += "${libdir}/${UBUN_TARGET_SYS}/libssl.so.*"
 PROVIDES += " \
@@ -742,7 +821,7 @@ PKGV_libxkbcommon = "0"
 RPROVIDES_systemd = "systemd libsystemd0 systemd-systemctl-native systemd-locale systemd-dbg \
                     systemd-bash-completion systemd-staticdev systemd-doc \
                     "
-FILES_systemd += "${libdir}/dummy"
+FILES_systemd += "${libdir}/${UBUN_TARGET_SYS}/libsystemd*.so*"
 PKGR_systemd = "0"
 PKGV_systemd = "0"
 
