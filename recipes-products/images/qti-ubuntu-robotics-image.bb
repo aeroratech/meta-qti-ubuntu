@@ -17,20 +17,13 @@ DEPENDS += "ubuntu-base"
 
 CORE_IMAGE_BASE_INSTALL = " \
             kernel-modules \
-            adbd \
-            binder \
-            usb-composition \
             systemd-machine-units \
-            ab-slot-util \
-            abctl \
             yavta \
-            post-boot \
-            adsprpc \
-            qmi-framework \
             packagegroup-startup-scripts \
-            ab-status-updater \
-            reboot-daemon \
-            diag-reboot-app \
+            packagegroup-android-utils \
+            packagegroup-qti-core-prop \
+            packagegroup-qti-dsp \
+            packagegroup-qti-ss-mgr \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
@@ -38,7 +31,6 @@ CORE_IMAGE_BASE_INSTALL += " \
             cnss-daemon \
             cld80211-lib \
             wlan-conf \
-            qmi-framework-vendor \
             "
 #install drm
 CORE_IMAGE_BASE_INSTALL += " \
@@ -170,10 +162,6 @@ CORE_IMAGE_BASE_INSTALL += " \
             audiohal \
             audiodlkm \
             init-audio \
-            ss-services \
-            qmi \
-            qmi-framework \
-            qmi-framework-vendor \
             tinyalsa \
             omx \
             encoders \
