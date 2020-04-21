@@ -372,6 +372,13 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/liblzma*.pc ${D}${libdir}/pkgconfig
     ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
 
+    ## zlib1g & zlib1g-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libz.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libz.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/zlib.pc ${D}${libdir}/pkgconfig
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zlib.h ${D}${includedir}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zconf.h ${D}${includedir}
+
     ## libsystemd & libsystemd-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libsystemd*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/systemd ${D}${includedir}
@@ -399,9 +406,6 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/alsa  ${D}${includedir}/
 
     #FIX symbol
-    if [ -f ${D}${base_libdir}/libz.so.1 ];then
-        rm -rf ${D}${base_libdir}/libz.so.*
-    fi
     if [ -f ${D}${base_libdir}/libncursesw.so.5 ];then
         rm -rf ${D}${base_libdir}/libncurses*
         rm -rf ${D}${base_libdir}/libtinfo*
@@ -622,6 +626,18 @@ RPROVIDES_expat += " \
 PKGV_expat = "2.2.5"
 PKGR_expat = "3"
 PKG_expat ="libexpat1"
+
+PACKAGES += "zlib"
+FILES_zlib += " \
+             ${D}${libdir}/${UBUN_TARGET_SYS}/libz.* \
+             ${D}${includedir}/zlib.h \
+             ${D}${includedir}/zconf.h \
+"
+PROVIDES += "zlib"
+RPROVIDES_zlib += "zlib"
+PKGV_zlib = "0"
+PKGR_zlib = "0"
+PKG_zlib ="zlib1g"
 
 PACKAGES += "dbus dbus-lib"
 FILES_dbus += " \
@@ -1116,4 +1132,3 @@ INSANE_SKIP_libssp += "ldflags"
 INSANE_SKIP_libgomp += "ldflags"
 INSANE_SKIP_libitm += "ldflags"
 INSANE_SKIP_gdbserver += "ldflags"
-INSANE_SKIP_zlib += "file-rdeps"
