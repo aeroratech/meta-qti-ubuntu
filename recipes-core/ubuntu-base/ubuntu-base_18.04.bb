@@ -71,6 +71,10 @@ do_install() {
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 	rm -rf ${S}/sbin/init
 	ln -sf ../lib/systemd/systemd sbin/init
+        # Create socket directory for logd.service
+        touch ${S}/usr/lib/tmpfiles.d/platform.conf
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "echo 'd /dev/socket 0777 - - - -' >> /usr/lib/tmpfiles.d/platform.conf"
+
 
 	# WAR -- allow root user to login
 	sed -i '/pam_securetty.so/d' ${S}/etc/pam.d/login
