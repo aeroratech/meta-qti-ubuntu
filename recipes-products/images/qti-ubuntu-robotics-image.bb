@@ -3,8 +3,8 @@ inherit uimage extrausers
 #require ${META_QTI_BSP_IMAGE_PATH}/include/mdm-bootimg.inc
 #DEPENDS += " mkbootimg-native "
 
-#require ${META_QTI_BSP_IMAGE_PATH}/include/mdm-ota-target-image-ubi.inc
-#require ${META_QTI_BSP_IMAGE_PATH}/include/mdm-ota-target-image-ext4.inc
+#require include/mdm-ota-target-image-ubi.inc
+require include/ubuntu-ota-target-image-ext4.inc
 
 #MULTILIBRE_ALLOW_REP =. "/usr/include/python2.7/*|${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|${sysconfdir}|${nonarch_base_libdir}/udev|/lib/modules/[^/]*/modules.*|"
 
@@ -45,6 +45,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-video \
             ${@bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf",  "packagegroup-qti-gst", "", d)} \
+	    "
+#Install packages for OTA
+CORE_IMAGE_BASE_INSTALL += " \
+            recovery-ab \
             "
 #Install packages for camera
 CORE_IMAGE_BASE_INSTALL += " \
