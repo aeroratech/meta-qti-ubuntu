@@ -89,3 +89,8 @@ DISTRO_FEATURES_append = " \
     qti-camera \
     qti-fastcv \
     "
+
+## bootfs parameter ##
+BOOTFS_TYPE = "ext3"
+BOOTFS_BLOCK_SIZE = "4096"
+BOOTFS_SIZE_EXT3 = "96M"

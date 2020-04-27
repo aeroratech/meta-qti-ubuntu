@@ -167,9 +167,16 @@ python __anonymous () {
         bb.build.addtask('makesystem', 'do_build', 'do_rootfs', d)
 }
 
+#mount boot_a /boot
+do_mount_bootfs() {
+    if ! grep -q boot_a ${IMAGE_ROOTFS}/etc/fstab;then
+        echo "/dev/disk/by-partlabel/boot_a       /boot           ext3    defaults        0       2" >> ${IMAGE_ROOTFS}/etc/fstab
+    fi
+}
 ### Generate system.img #####
 # Alter system image size if varity is enabled.
 do_makesystem[prefuncs]  += " ${@bb.utils.contains('DISTRO_FEATURES', 'dm-verity', 'adjust_system_size_for_verity', '', d)}"
+do_makesystem[prefuncs]  += " ${@bb.utils.contains('DISTRO_FEATURES', 'boot_with_fs', 'do_mount_bootfs', '', d)}"
 do_makesystem[postfuncs] += " ${@bb.utils.contains('DISTRO_FEATURES', 'dm-verity', 'make_verity_enabled_system_image', '', d)}"
 do_makesystem[dirs]       = "${DEPLOY_DIR_IMAGE}"
 
@@ -258,4 +265,45 @@ do_make_veritybootimg[depends] += "virtual/kernel:do_deploy"
 python () {
     if bb.utils.contains('DISTRO_FEATURES', 'dm-verity', True, False, d):
         bb.build.addtask('do_make_veritybootimg', 'do_image_complete', 'do_rootfs', d)
+    if bb.utils.contains('DISTRO_FEATURES', 'boot_with_fs', True, False, d):
+        bb.build.addtask('do_make_bootfs', 'do_image_complete', 'do_image', d)
+        bb.build.addtask('do_bootimg_deb', 'do_image_complete', 'do_make_bootfs', d)
+}
+
+# With boot_with_fs, make the bootfs.img
+BOOTFS_TARGET ?= "${IMAGE_NAME}-bootfs.img"
+BOOTIMAGE_DATETIME ?= "${IMAGE_NAME}-boot-${DATETIME}.img"
+do_make_bootfs() {
+    if [ -d "${WORKDIR}/boot" ];then
+        rm -rf ${WORKDIR}/boot
+    fi
+    mkdir ${WORKDIR}/boot
+    cp ${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET} ${WORKDIR}/boot/${BOOTIMAGE_DATETIME}
+    cp ${THISDIR}/${BASEMACHINE}/${BASEMACHINE}-menu.cfg ${WORKDIR}/boot/menu.cfg
+    echo "boot=${BOOTIMAGE_DATETIME}" >> ${WORKDIR}/boot/menu.cfg
+    /sbin/mke2fs -b ${BOOTFS_BLOCK_SIZE} -t ${BOOTFS_TYPE} -d ${WORKDIR}/boot/ ${DEPLOY_DIR_IMAGE}/${BOOTFS_TARGET} ${BOOTFS_SIZE_EXT3}
+}
+
+#with boot_with_fs, make bootimg deb package
+BOOTIMAGE_DEB ?= "${WORKDIR}/deploy-debs/bootimg_0.1_arm64"
+do_bootimg_deb() {
+    if [ ! -d "${WORKDIR}/deploy-debs" ];then
+        mkdir ${WORKDIR}/deploy-debs
+    fi
+    mkdir ${BOOTIMAGE_DEB}
+    cp -rf ${WORKDIR}/boot ${BOOTIMAGE_DEB}/
+    mkdir ${BOOTIMAGE_DEB}/DEBIAN
+    touch ${BOOTIMAGE_DEB}/DEBIAN/control
+    chmod 0755 ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo "Package: bootimg" >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo "Version: 0.1" >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo "Section: kernel" >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo "Priority: optional" >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo "Architecture: arm64" >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo "Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>" >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo "Description: bootimg version 0.1" >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    echo  >> ${BOOTIMAGE_DEB}/DEBIAN/control
+    dpkg -b ${BOOTIMAGE_DEB} ${BOOTIMAGE_DEB}.deb
+    cp ${BOOTIMAGE_DEB}.deb ${DEPLOY_DIR_DEB}/all
+    rm -rf ${BOOTIMAGE_DEB}
 }
