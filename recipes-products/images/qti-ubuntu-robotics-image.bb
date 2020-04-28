@@ -169,5 +169,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 	packagegroup-qti-ml \
 "
 
+#Install packages for pulseaudio
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-pulseaudio \
+"
+
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete

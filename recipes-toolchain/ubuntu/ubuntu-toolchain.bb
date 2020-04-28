@@ -908,7 +908,7 @@ RPROVIDES_dbus += " \
                 "
 PKGV_dbus = "1.12.2"
 PKGR_dbus = "0"
-PKG_dbus ="dbus-1"
+PKG_dbus ="libdbus-1-3"
 
 PACKAGES += "liblzma"
 FILES_liblzma += " \
