@@ -7,9 +7,9 @@ FAKEROOTDIRS = ""
 PREFERRED_PROVIDER_virtual/fakeroot-native ?= ""
 PATH =. "/usr/bin:/usr/sbin:/usr/local/sbin:/usr/sbin:/sbin:/bin:"
 
+#Packages to ensure boot up and WLAN function
 UBUN_BASIC_PACKAGES = " systemd \
                         udev \
-                        vim \
                         dhcpcd5 \
                         libnl-3-dev \
                         libnl-genl-3-dev \
@@ -20,29 +20,32 @@ UBUN_BASIC_PACKAGES = " systemd \
                         net-tools \
                         wireless-tools \
                         usbutils \
-                        apparmor \
-                        libatomic1 \
-                        libgomp1 \
                        "
-UBUN_PLATFORM_EXTRA_PACKAGES = " git \
-                                 libseccomp-dev \
+
+
+UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libseccomp2 \
                                  seccomp \
-                                 alsa-utils \
                                  gdb \
                                  openssh-server \
                                  tftp-hpa \
                                  tftpd-hpa \
+                                 vim \
+                                 apparmor \
+                                 libatomic1 \
+                                 libgomp1 \
                                 "
 
-UBUN_MULTIMEDIA_BASIC_PACKAFES = " xkb-data \
+#Packages to enasure display and audio function
+UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
+                                   xkb-data \
                                    libcairo2 \
                                    libpng16-16 \
                                    libxkbcommon0 \
                                  "
 
-UBUN_MULTIMEDIA_PACKAFES = " alsa-utils \
-                             gstreamer1.0-alsa \
+#video, camera packages
+UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              gstreamer1.0-gl \
                              gir1.2-gstreamer-1.0 \
                              gstreamer1.0-gtk3 \
