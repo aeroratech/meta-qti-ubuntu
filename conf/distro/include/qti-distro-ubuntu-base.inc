@@ -59,4 +59,4 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # qti-video-encoder: Support QTI video encoder
 #
 
-DISTRO_FEATURES_append = " qti-audio qti-video-decoder qti-video-encoder qti-adsp qti-cdsp audio-dlkm"
+DISTRO_FEATURES_append = " qti-audio qti-video-decoder qti-video-encoder qti-adsp qti-cdsp audio-dlkm qti-camera"

@@ -48,6 +48,11 @@ CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-video \
             ${@bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf",  "packagegroup-qti-gst", "", d)} \
             "
+#Install packages for camera
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-camera \
+            "
+
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
 do_ubuntu_rootfs(){
