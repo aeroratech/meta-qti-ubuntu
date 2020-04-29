@@ -149,6 +149,7 @@ PROVIDES += "\
             util-linux \
             lsbinitscripts \
             glib-2.0 \
+            libffi \
             mtd-utils-native \
             libpam \
             shadow \
@@ -221,7 +222,9 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/glib-2.0 ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/sys ${D}${includedir}
@@ -319,6 +322,9 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/glib-2.0/include/*.h ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/g*.pc ${D}${libdir}/pkgconfig
+    #copy libffi libraries
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libffi.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libffi*.a ${D}${libdir}/${UBUN_TARGET_SYS}
     #copy gstreamer libraries
     cp ${CP_ARGS}    ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/gstreamer*.pc ${D}${libdir}/pkgconfig/
@@ -799,11 +805,11 @@ libc_baselibs = " \
 				${libdir}/${UBUN_TARGET_SYS}/libcrypt-*.so ${libdir}/${UBUN_TARGET_SYS}/libcrypt*.so.* \
                 "
 glib_libs = " \
-            ${libdir}/${UBUN_TARGET_SYS}/libgio-2.0.so.* \
-            ${libdir}/${UBUN_TARGET_SYS}/libglib-2.0.so.* \
-            ${libdir}/${UBUN_TARGET_SYS}/libgmodule-2.0.so.* \
-            ${libdir}/${UBUN_TARGET_SYS}/libgobject-2.0.so.* \
-            ${libdir}/${UBUN_TARGET_SYS}/libgthread-2.0.so.* \
+            ${libdir}/${UBUN_TARGET_SYS}/libgio-2.0.so* \
+            ${libdir}/${UBUN_TARGET_SYS}/libglib-2.0.so* \
+            ${libdir}/${UBUN_TARGET_SYS}/libgmodule-2.0.so* \
+            ${libdir}/${UBUN_TARGET_SYS}/libgobject-2.0.so* \
+            ${libdir}/${UBUN_TARGET_SYS}/libgthread-2.0.so* \
             "
 other_libs = " \
             ${libdir}/${UBUN_TARGET_SYS}/libblkid.so.* \
@@ -1133,6 +1139,7 @@ FILES_gstreamer1.0-plugins-base = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstsdp-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgsttag-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstriff-1.0.so.0* \
+    ${libdir}/${UBUN_TARGET_SYS}/libgstgl-1.0.so.0* \
 "
 SUMMARY_gstreamer1.0 = "Plugins base for the GStreamer multimedia framework 1.x"
 RPROVIDES_gstreamer1.0 = "gstreamer1.0-plugins-base"
@@ -1179,6 +1186,13 @@ PACKAGES += "gstreamer1.0-libav"
 RPROVIDES_gstreamer1.0-libav = "gstreamer1.0-libav-locale gstreamer1.0-libav-dbg gstreamer1.0-libav-dev gstreamer1.0-libav-doc gstreamer1.0-libav-staticdev gstreamer1.0-libav"
 PKGV_gstreamer1.0-libav = "0"
 PKGR_gstreamer1.0-libav = "0"
+
+PACKAGES += "libffi"
+RPROVIDES_libffi = "libffi-staticdev libffi-doc libffi-dbg libffi-dev libffi-locale"
+FILES_libffi = "${libdir}/${UBUN_TARGET_SYS}/libffi.so"
+PKG_libffi = "libffi6"
+PKGV_libffi = "3.2.1"
+PKGR_libffi = "8"
 
 UBUN_VER_MAIN ??= ""
 
