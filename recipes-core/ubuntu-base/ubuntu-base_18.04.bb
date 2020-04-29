@@ -76,7 +76,8 @@ do_install() {
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '${MACHINE}' > /etc/hostname"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.0.1 localhost' > /etc/hosts"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.1.1 ${MACHINE}' >> /etc/hosts"
-	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install rsyslog  -y"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install --fix-broken humanity-icon-theme -y"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install rsyslog -y"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 	rm -rf ${S}/sbin/init
 	ln -sf ../lib/systemd/systemd sbin/init
