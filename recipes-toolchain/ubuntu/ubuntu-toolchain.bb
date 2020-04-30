@@ -382,6 +382,7 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/zlib.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zlib.h ${D}${includedir}
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zconf.h ${D}${includedir}
+    ln -sf ./libz.so.1.2.11 ${D}${libdir}/${UBUN_TARGET_SYS}/libz.so
 
     ## libsystemd & libsystemd-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libsystemd*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -633,9 +634,9 @@ PKG_expat ="libexpat1"
 
 PACKAGES += "zlib"
 FILES_zlib += " \
-             ${D}${libdir}/${UBUN_TARGET_SYS}/libz.* \
-             ${D}${includedir}/zlib.h \
-             ${D}${includedir}/zconf.h \
+             ${libdir}/${UBUN_TARGET_SYS}/libz.* \
+             ${includedir}/zlib.h \
+             ${includedir}/zconf.h \
 "
 PROVIDES += "zlib"
 RPROVIDES_zlib += "zlib"
