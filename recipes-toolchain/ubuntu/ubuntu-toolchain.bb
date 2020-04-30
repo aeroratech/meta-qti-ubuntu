@@ -727,12 +727,10 @@ PACKAGES += "libselinux1"
 FILES_libselinux1 += "${libdir}/${UBUN_TARGET_SYS}/libselinux.so.* "
 PROVIDES += " \
             libselinux \
-            libselinux-native \
             libsemanage \
             "
 RPROVIDES_libselinux1 = " \
                     libselinux \
-                    libselinux-native \
                     libsemanage \
                    "
 PKGV_libselinux1 = "2.6.9"
