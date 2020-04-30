@@ -46,6 +46,15 @@ do_unpack() {
          cp -r ${DL_DIR}/ubuntu-base-18.04.2-base-arm64.tar.gz  ${WORKDIR}/
 }
 
+
+# Go to persistent-storage.rules and create bootdevice/by-name symlinks with gpt
+do_create_the_links(){
+	sed -i 's/LABEL="persistent_storage_end"/# block\/bootdevice\/by-name links'"\n"'LABEL="persistent_storage_end"/g' \
+		${S}/lib/udev/rules.d/60-persistent-storage.rules
+	sed -i 's/LABEL="persistent_storage_end"/ENV{ID_PART_ENTRY_SCHEME}=="gpt", ENV{ID_PART_ENTRY_NAME}=="?*", SYMLINK+="block\/bootdevice\/by-name\/$env{ID_PART_ENTRY_NAME}"'"\n\n"'LABEL="persistent_storage_end"/g' \
+		${S}/lib/udev/rules.d/60-persistent-storage.rules
+}
+
 do_populate_lic[noexec] = "1"
 do_package_qa[noexec] = "1"
 do_install[fakeroot] = "1"
@@ -53,7 +62,7 @@ do_install[fakeroot] = "1"
 do_install() {
 
 	get_rootfs_packages
-    echo ${UBUN_ROOTFS_PACKAGE}
+	echo ${UBUN_ROOTFS_PACKAGE}
 	cp  ${RECIPE_SYSROOT}/usr/lib/fakechroot/libfakechroot.so ${S}/usr/lib
 	cp  ${RECIPE_SYSROOT}/usr/lib/libfakeroot-0.so ${S}/usr/lib/libfakeroot-sysv.so
 	#cp  ${FILE_DIRNAME}/files/libfakeroot-sysv.so ${S}/usr/lib
@@ -67,7 +76,7 @@ do_install() {
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '${MACHINE}' > /etc/hostname"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.0.1 localhost' > /etc/hosts"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "echo '127.0.1.1 ${MACHINE}' >> /etc/hosts"
-    fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install rsyslog  -y"
+	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install rsyslog  -y"
 	fakechroot fakeroot  chroot ${S} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 	rm -rf ${S}/sbin/init
 	ln -sf ../lib/systemd/systemd sbin/init
@@ -81,6 +90,9 @@ do_install() {
 
 	#logind.conf -- Ignore PowerKey
 	sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=ignore/' ${S}/etc/systemd/logind.conf
+
+	# Go to persistent-storage.rules and create bootdevice/by-name symlinks
+	do_create_the_links
 
 	#Allow tty connect when agetty start
         fakechroot fakeroot  chroot ${S} /bin/bash -c "sed -i "s/TTYVHangup=yes'/TTYVHangup=no'/" /lib/systemd/system/serial-getty@.service"
