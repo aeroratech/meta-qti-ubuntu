@@ -23,6 +23,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-android-utils \
             packagegroup-qti-core-prop \
             packagegroup-qti-dsp \
+            packagegroup-qti-fastcv \
             packagegroup-qti-ss-mgr \
             "
 #Install packages for wlan
