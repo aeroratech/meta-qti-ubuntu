@@ -25,7 +25,8 @@ UBUN_BASIC_PACKAGES = " systemd \
                         libssl1.1 \
                         libssl-dev \
                         openssl \
-                      "
+                        zlib1g \
+                       "
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \

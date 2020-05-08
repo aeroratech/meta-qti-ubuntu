@@ -384,12 +384,13 @@ do_install (){
     ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
 
     ## zlib1g & zlib1g-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libz.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libz.* ${D}${base_libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libz.* ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/zlib.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zlib.h ${D}${includedir}
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zconf.h ${D}${includedir}
-    ln -sf ./libz.so.1.2.11 ${D}${libdir}/${UBUN_TARGET_SYS}/libz.so
+    ln -sf ./../../../${base_libdir}/${UBUN_TARGET_SYS}/libz.so.1.2.11 ${D}${libdir}/${UBUN_TARGET_SYS}/libz.so
+    ln -sf ./libz.so.1.2.11 ${D}${base_libdir}/${UBUN_TARGET_SYS}/libz.so.1
 
     ## libsystemd & libsystemd-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libsystemd*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -663,6 +664,7 @@ PKG_expat ="libexpat1"
 PACKAGES += "zlib"
 FILES_zlib += " \
              ${libdir}/${UBUN_TARGET_SYS}/libz.* \
+             ${base_libdir}/${UBUN_TARGET_SYS}/libz.so* \
              ${includedir}/zlib.h \
              ${includedir}/zconf.h \
 "
