@@ -44,6 +44,10 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libcairo2 \
                                    libpng16-16 \
                                    libxkbcommon0 \
+                                   libwayland-client0 \
+                                   libwayland-cursor0 \
+                                   libwayland-server0 \
+                                   libwayland-dev \
                                  "
 
 #video, camera packages

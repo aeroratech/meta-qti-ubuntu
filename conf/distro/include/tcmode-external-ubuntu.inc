@@ -127,6 +127,7 @@ PREFERRED_VERSION_libxcb = "1.14"
 PREFERRED_VERSION_gobject-introspection = "1.56.1"
 PREFERRED_VERSION_dbus = "1.12.2"
 PREFERRED_VERSION_dbus-native = "1.12.2"
+PREFERRED_VERSION_wayland = "1.14.1"
 
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST} "
 
