@@ -85,6 +85,12 @@ do_install() {
         touch ${S}/usr/lib/tmpfiles.d/platform.conf
         fakechroot fakeroot  chroot ${S} /bin/bash -c "echo 'd /dev/socket 0777 - - - -' >> /usr/lib/tmpfiles.d/platform.conf"
 
+        #fix pre_postinsts
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "mkdir /var/lib/dpkg/info/postinst"
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "mv /var/lib/dpkg/info/*.postinst /var/lib/dpkg/info/postinst"
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "mkdir /var/lib/dpkg/info/preinst"
+        fakechroot fakeroot  chroot ${S} /bin/bash -c "mv /var/lib/dpkg/info/*.preinst /var/lib/dpkg/info/preinst"
+
 
 	# WAR -- allow root user to login
 	sed -i '/pam_securetty.so/d' ${S}/etc/pam.d/login

@@ -824,10 +824,10 @@ FILES_libc6-staticdev = "${libdir}/${UBUN_TARGET_SYS}/*.a ${libdir}/${UBUN_TARGE
 # systemd
 PACKAGES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gatewayd \
               systemd-journal-upload systemd-compat-units systemd-conf systemd-serialgetty \
-              systemd-systemctl-native "
+              "
 PROVIDES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gatewayd \
              systemd-journal-upload systemd-compat-units systemd-conf systemd-serialgetty \
-             systemd-systemctl-native "
+              "
 PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
 PACKAGES_DYNAMIC += "^systemd-locale-.*"
 
@@ -862,7 +862,7 @@ FILES_libxkbcommon += "${libdir}/dummy"
 PKGR_libxkbcommon = "0"
 PKGV_libxkbcommon = "0"
 
-RPROVIDES_systemd = "systemd libsystemd0 systemd-systemctl-native systemd-locale systemd-dbg \
+RPROVIDES_systemd = "systemd libsystemd0 systemd-locale systemd-dbg \
                     systemd-bash-completion systemd-staticdev systemd-doc \
                     "
 FILES_systemd += "${libdir}/${UBUN_TARGET_SYS}/libsystemd*.so*"

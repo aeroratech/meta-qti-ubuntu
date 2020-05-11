@@ -62,12 +62,7 @@ do_ubuntu_rootfs(){
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
     chown -R root:root ${IMAGE_ROOTFS}/bin/su 
     chmod a+s ${IMAGE_ROOTFS}/bin/su 
-    #add overlay fs & firmware & dsp & bt_firmware
-    mkdir -p ${IMAGE_ROOTFS}/overlay
-    mkdir -p ${IMAGE_ROOTFS}/overlay/etc
-    mkdir -p ${IMAGE_ROOTFS}/overlay/.etc-work
-    mkdir -p ${IMAGE_ROOTFS}/overlay/data
-    mkdir -p ${IMAGE_ROOTFS}/overlay/.data-work
+    #add firmware & dsp & bt_firmware
     mkdir -p ${IMAGE_ROOTFS}/firmware
     mkdir -p ${IMAGE_ROOTFS}/lib/firmware
     ln -sf /firmware/image ${IMAGE_ROOTFS}/lib/firmware/updates
@@ -84,28 +79,9 @@ do_ubuntu_rootfs(){
 #    rm ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
 #   ----------------------------------------------------------------------
-#   ---- fix error : do_rootfs: Preinstall for package xxxx failed ----
-    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/*.postinst   
-    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/*.preinst   
 #   ---- fix user conflicts ----
 # 
 #   ----------------------------------------------------------------------
-    ln -sf /lib/systemd/system/adsprpcd.service \
-                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd.service
-    ln -sf /lib/systemd/system/adsprpcd_rootpd.service \
-                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd_rootpd.service
-    ln -sf /lib/systemd/system/adsprpcd_audiopd.service \
-               ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd_audiopd.service
-    ln -sf /lib/systemd/system/adsprpcd_sensorspd.service \
-                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd_sensorspd.service
-    ln -sf /lib/systemd/system/cdsprpcd.service \
-                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/cdsprpcd.service
-    ln -sf /lib/systemd/system/adsprpcd.service \
-                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/adsprpcd.service
-    ln -sf /lib/systemd/system/mdsprpcd.service \
-                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/mdsprpcd.service
-    ln -sf /lib/systemd/system/cdsp.service \
-                ${IMAGE_ROOTFS}/lib/systemd/system/multi-user.target.wants/cdsp.service
 }
 
 do_deb_pre() {
@@ -153,6 +129,12 @@ EOF
 EOF
     chmod +x ${IMAGE_ROOTFS}/sbin/reboot
     chmod +x ${IMAGE_ROOTFS}/sbin/reboot.sh
+
+    #recover package postinsts
+    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst/*.postinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
+    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
 
 }
 
