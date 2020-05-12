@@ -18,6 +18,9 @@ do_install() {
    install -d ${D}/usr/lib/aarch64-linux-gnu/gobject-introspection
 
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/gobject-introspection/*  ${D}/usr/lib/aarch64-linux-gnu/gobject-introspection/
+
+   install -d ${D}/usr/share/aclocal
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/aclocal/introspection.m4 ${D}/usr/share/aclocal/
 }
 
 do_package_qa[noexec] = "1"
