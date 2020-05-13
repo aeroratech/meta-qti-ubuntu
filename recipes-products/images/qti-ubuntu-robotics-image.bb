@@ -53,6 +53,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-camera \
             "
+#Install packages for bluetooth
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-bluetooth \
+"
 
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base-18.04.2-base-arm64.tar.gz"
 

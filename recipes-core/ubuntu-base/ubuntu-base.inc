@@ -19,6 +19,7 @@ UBUN_BASIC_PACKAGES = " systemd \
                         wget \
                         net-tools \
                         wireless-tools \
+                        psmisc \
                         usbutils \
                         libffi6 \
                        "
