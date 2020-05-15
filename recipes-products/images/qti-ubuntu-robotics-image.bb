@@ -142,12 +142,17 @@ EOF
 
 }
 
+do_post_install() {
+    sed -i "/Config-Version/d" ${IMAGE_ROOTFS}/var/lib/dpkg/status
+}
+
 #----------------------------------------------------------
 #---- to record 4 useful Yocto process timing ----
 DEB_PREPROCESS_COMMANDS = " do_deb_pre "
 #DEB_POSTPROCESS_COMMANDS = " do_deb_post "
 #ROOTFS_PREPROCESS_COMMAND += "do_fs_pre; "
 ROOTFS_POSTPROCESS_COMMAND += "do_fs_post; "
+ROOTFS_POSTINSTALL_COMMAND += "do_post_install"
 #----------------------------------------------------------
 
 #Install packages for audio
