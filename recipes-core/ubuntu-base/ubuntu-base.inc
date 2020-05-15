@@ -22,7 +22,10 @@ UBUN_BASIC_PACKAGES = " systemd \
                         psmisc \
                         usbutils \
                         libffi6 \
-                       "
+                        libssl1.1 \
+                        libssl-dev \
+                        openssl \
+                      "
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \

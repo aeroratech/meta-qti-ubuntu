@@ -117,6 +117,8 @@ PREFERRED_PROVIDER_gstreamer1.0-plugins-bad = "ubuntu-toolchain"
 PREFERRED_PROVIDER_gstreamer1.0-plugins-good = "ubuntu-toolchain"
 PREFERRED_PROVIDER_gstreamer1.0-plugins-ugly = "ubuntu-toolchain"
 PREFERRED_PROVIDER_gstreamer1.0-rtsp-server = "ubuntu-toolchain"
+PREFERRED_PROVIDER_libssl1.1 = "ubuntu-toolchain"
+PREFERRED_PROVIDER_openssl = "ubuntu-toolchain"
 
 PREFERRED_VERSION_cairo = "1.15.10"
 PREFERRED_VERSION_gdk-pixbuf = "2.36.12"

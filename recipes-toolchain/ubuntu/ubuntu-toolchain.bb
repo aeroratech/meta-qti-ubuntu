@@ -416,6 +416,16 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/alsa.pc  ${D}${libdir}/pkgconfig/
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/alsa  ${D}${includedir}/
 
+    ## libssl &libssl-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/openssl/  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/openssl/  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libssl* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libcrypto* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libssl.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig//libcrypto.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/openssl.pc  ${D}${libdir}/pkgconfig/
+
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libncursesw.so.5 ];then
         rm -rf ${D}${base_libdir}/libncurses*
@@ -688,16 +698,23 @@ PKGV_xz = "5.2.2"
 PKGR_xz = "1"
 PKG_xz ="xz"
 
-PACKAGES += "libssl1.1"
-FILES_libssl1.1 += "${libdir}/${UBUN_TARGET_SYS}/libssl.so.*"
-PROVIDES += " \
-            libssl \
-            "
-RPROVIDES_libssl1.1 += " \
-                       libssl \
-                       "
-PKGV_libssl1.1 = "1.0"
+##libssl & openssl & libssl-dev
+
+PACKAGES += "openssl"
+PROVIDES += "openssl"
+RPROVIDES_openssl = "openssl"
+PKG_openssl = "openssl"
+PKGR_openssl = "0"
+PKGV_openssl = "0"
+
+PACKAGES += "libssl1.1 libssl-dev"
+PROVIDES += "libssl1.1 libssl-dev"
+PROVIDES_libssl1.1 = "libssl1.1 libssl-dev"
+FILES_libssl1.1 = "${libdir}/${UBUN_TARGET_SYS}/libssl*.so.*"
+PKG_libssl1.1 = "libssl1.1"
+
 PKGR_libssl1.1 = "0"
+PKGV_libssl1.1 = "0"
 
 PACKAGES += "iw"
 FILES_iw += "${libdir}/dummy"
