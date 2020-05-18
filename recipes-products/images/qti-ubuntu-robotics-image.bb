@@ -31,14 +31,10 @@ CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-wifi \
             "
 #install drm
-CORE_IMAGE_BASE_INSTALL += " \
-            libdrm \
-            libdrm-tests \
-            libdrm-kms \
-            "
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
             adreno \
+            libdrm-modetest \
             weston \
             "
 #Install packages for video
