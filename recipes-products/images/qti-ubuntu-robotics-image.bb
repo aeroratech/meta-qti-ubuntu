@@ -39,6 +39,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
             adreno \
+            libdrm-modetest \
             weston \
             "
 #Install packages for video
