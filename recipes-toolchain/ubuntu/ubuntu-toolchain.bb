@@ -117,6 +117,27 @@ ALLOW_EMPTY_systemd-kernel-install = "1"
 ALLOW_EMPTY_systemd-zsh-completion = "1"
 ALLOW_EMPTY_systemd-gui = "1"
 ALLOW_EMPTY_systemd-binfmt = "1"
+ALLOW_EMPTY_libcap = "1"
+ALLOW_EMPTY_libcap-dev = "1"
+ALLOW_EMPTY_libatomic-ops = "1"
+ALLOW_EMPTY_libffi = "1"
+ALLOW_EMPTY_libvorbis = "1"
+ALLOW_EMPTY_libvorbis-dev = "1"
+ALLOW_EMPTY_speexdsp = "1"
+ALLOW_EMPTY_libogg = "1"
+ALLOW_EMPTY_libsamplerate0 = "1"
+ALLOW_EMPTY_libsamplerate0-dev = "1"
+ALLOW_EMPTY_libsndfile1 = "1"
+ALLOW_EMPTY_libsndfile1-dev = "1"
+ALLOW_EMPTY_flac = "1"
+ALLOW_EMPTY_flac-dev = "1"
+ALLOW_EMPTY_libflac = "1"
+ALLOW_EMPTY_libflac-dev = "1"
+ALLOW_EMPTY_libflac++ = "1"
+ALLOW_EMPTY_libflac++-dev = "1"
+ALLOW_EMPTY_liboggflac = "1"
+ALLOW_EMPTY_liboggflac++ = "1"
+ALLOW_EMPTY_libasound2-plugins = "1"
 
 PV = "0"
 BINV = "0"
@@ -266,6 +287,73 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/bzlib.h ${D}${includedir}
     ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
+
+    #libcap & libcap-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcap*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libcap* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/sys/capability.h ${D}/usr/include/sys/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libcap.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libcap.so.2.25 ${D}${libdir}/${UBUN_TARGET_SYS}/libcap.so
+
+    #libsndfile1 & libsndfile1-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libsndfile.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/sndfile.* ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/sndfile.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libsndfile.so.1.0.28 ${D}${libdir}/${UBUN_TARGET_SYS}/libsndfile.so
+
+    #libogg & libogg-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libogg.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/ogg ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/ogg.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libogg.so.0.8.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libogg.so
+
+    #libflac8 & libflac-dev & libflac++6v5 & libflac++-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libFLAC*.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libFLAC*.a ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/FLAC ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/flac.pc ${D}/usr/share/pkgconfig/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/flac++.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libFLAC.so.8.3.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libFLAC.so
+    ln -sf ./libFLAC++.so.6.3.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libFLAC++.so
+
+    #libvorbis & libvorbis-dev & libvorbisenc2 & libvorbisfile3
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libvorbis*.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/vorbis ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/vorbis*.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libvorbis.so.0.4.8  ${D}${libdir}/${UBUN_TARGET_SYS}/libvorbis.so
+    ln -sf ./libvorbisenc.so.2.0.11  ${D}${libdir}/${UBUN_TARGET_SYS}/libvorbisenc.so
+    ln -sf ./libvorbisfile.so.3.3.7  ${D}${libdir}/${UBUN_TARGET_SYS}/libvorbisfile.so
+
+    #libatomic1 & libatomic1-ops-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libatomic*.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/atomic_ops*.h ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/atomic_ops ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/atomic_ops.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libatomic.so.1.2.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so.1
+
+    #libsamplerate0  & libsamplerate0-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libsamplerate*.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/samplerate*.h ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/samplerate.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libsamplerate.so.0.1.8  ${D}${libdir}/${UBUN_TARGET_SYS}/libsamplerate.so
+
+    #speexdsp  & speexdsp-dev & libspeex1  &libspeex-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libspeexdsp*.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libspeex.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/speex ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/speexdsp.pc ${D}/usr/share/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/speex.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libspeexdsp.so.1.5.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libspeexdsp.so
+    ln -sf ./libspeex.so.1.5.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libspeex.so
+
+    #alsa-plugins->libasound2-plugins
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/alsa-lib ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_best.so
+    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_linear.so
+    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_medium.so
+    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_order.so
+    ln -sf ./libasound_module_rate_speexrate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_speexrate_best.so
+    ln -sf ./libasound_module_rate_speexrate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_speexrate_medium.so
 
     #udev
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so.*  ${D}/${libdir}/${UBUN_TARGET_SYS}
@@ -443,9 +531,6 @@ do_install (){
         rm -rf ${D}${base_libdir}/libpam*
         rm -rf ${D}${base_libdir}/security
     fi
-    if [ -f ${D}${base_libdir}/libcap.so.2 ];then
-        rm -rf ${D}${base_libdir}/libcap.so*
-    fi
     if [ -f ${D}${base_libdir}/libattr.so.1 ];then
         rm -rf ${D}${base_libdir}/libattr.so*
     fi  
@@ -554,6 +639,23 @@ FILES_jpeg += "${libdir}/${UBUN_TARGET_SYS}/libjpeg.so*"
 PKGR_jpeg = "0"
 PKGV_jpeg = "0"
 
+
+#  libcap
+PACKAGES += "\
+            libcap \
+            libcap-dev \
+"
+FILES_libcap += " \
+         ${libdir}/${UBUN_TARGET_SYS}/libcap.so.*  \
+         ${libdir}/${UBUN_TARGET_SYS}/libcap.a  \
+"
+PROVIDES += "libcap"
+RPROVIDES_libcap += "libcap"
+PKG_libcap = "libcap2"
+PKGR_libcap = "0"
+PKGV_libcap = "0"
+
+
 #  libgcc
 PACKAGES += "\
     libgcc \
@@ -660,6 +762,124 @@ RPROVIDES_expat += " \
 PKGV_expat = "2.2.5"
 PKGR_expat = "3"
 PKG_expat ="libexpat1"
+
+#  libsndfile1
+PACKAGES += "libsndfile1 libsndfile1-dev"
+PROVIDES += " libsndfile1 "
+RPROVIDES_libsndfile1 += " \
+		libsndfile1 \
+		"
+FILES_libsndfile1 += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libsndfile.* \
+    ${includedir}/sndfile.* \
+"
+PKG_libsndfile1 ="libsndfile1"
+PKGV_libsndfile1 = "0"
+PKGR_libsndfile1 = "0"
+
+#  libogg
+PACKAGES += "libogg libogg-dev"
+PROVIDES += " libogg "
+RPROVIDES_libogg += " \
+                libogg \
+                "
+FILES_libogg += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libogg.* \
+"
+PKG_libogg ="libogg0"
+PKGV_libogg = "0"
+PKGR_libogg = "0"
+
+#  flac
+PACKAGES += "flac"
+PROVIDES += "flac libflac libflac++"
+RPROVIDES_flac += "flac libflac libflac++"
+FILES_flac += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libFLAC*.* \
+"
+PKG_flac ="libflac8"
+PKGV_flac = "0"
+PKGR_flac = "0"
+
+#  libvorbis
+PACKAGES += "libvorbis"
+PROVIDES += "libvorbis"
+RPROVIDES_libvorbis += "libvorbis"
+FILES_libvorbis += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libvorbis.so.* \
+"
+PKG_libvorbis ="libvorbis0a"
+PKGV_libvorbis = "0"
+PKGR_libvorbis = "0"
+
+#  libvorbisenc2
+PACKAGES += "libvorbisenc2"
+PROVIDES += "libvorbisenc2"
+RPROVIDES_libvorbisenc2 += "libvorbisenc2"
+FILES_libvorbisenc2 += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libvorbisenc.so.* \
+"
+PKG_libvorbisenc2 = "libvorbisenc2"
+PKGV_libvorbisenc2 = "0"
+PKGR_libvorbisenc2 = "0"
+
+#  libvorbisfile3
+PACKAGES += "libvorbisfile3"
+PROVIDES += "libvorbisfile3"
+RPROVIDES_libvorbisfile3 += "libvorbisfile3"
+FILES_libvorbisfile3 += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libvorbisfile.so.* \
+"
+PKG_libvorbisfile3 = "libvorbisfile3"
+PKGV_libvorbisfile3 = "0"
+PKGR_libvorbisfile3 = "0"
+
+#  libatomic-ops
+PACKAGES += "libatomic-ops"
+PROVIDES += " libatomic-ops "
+RPROVIDES_libatomic-ops += " \
+                libatomic-ops \
+                "
+FILES_libatomic-ops += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libatomic-ops.* \
+"
+PKG_libatomic-ops ="libatomic1"
+PKGV_libatomic-ops = "0"
+PKGR_libatomic-ops = "0"
+
+#  speexdsp
+PACKAGES += "speexdsp"
+PROVIDES += "speexdsp"
+RPROVIDES_speexdsp += "speexdsp"
+FILES_speexdsp += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libspeexdsp*.* \
+    ${libdir}/${UBUN_TARGET_SYS}/libspeex*.* \
+"
+PKG_speexdsp ="libspeexdsp1"
+PKGV_speexdsp = "0"
+PKGR_speexdsp = "0"
+
+#  libsamplerate0
+PACKAGES += "libsamplerate0"
+PROVIDES += "libsamplerate0"
+RPROVIDES_libatomic-ops += "libsamplerate0"
+FILES_libsamplerate0 += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libsamplerate0.* \
+"
+PKG_libsamplerate0 ="libsamplerate0"
+PKGV_libsamplerate0 = "0"
+PKGR_libsamplerate0 = "0"
+
+#  aulsa-plugins -> libasound2-plugins
+PACKAGES += "libasound2-plugins"
+PROVIDES += "libasound2-plugins"
+RPROVIDES_libasound2-plugins += "libasound2-plugins"
+FILES_libasound2-plugins += " \
+    ${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module* \
+"
+PKG_libasound2-plugins ="libasound2-plugins"
+PKGV_libasound2-plugins = "0"
+PKGR_libasound2-plugins = "0"
 
 PACKAGES += "zlib"
 FILES_zlib += " \

@@ -86,6 +86,30 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libtsan0 \
                              liblsan0 \
                              libcc1-0 \
+                             libcap2 \
+                             libcap-ng0 \
+                             libcap-dev \
+                             libcap-ng-dev \
+                             libatomic1 \
+                             libatomic-ops-dev \
+                             libvorbis0a \
+                             libvorbis-dev \
+                             libvorbisenc2 \
+                             libvorbisfile3 \
+                             libspeexdsp1 \
+                             libspeexdsp-dev \
+                             libspeex1 \
+                             libspeex-dev \
+                             libogg0 \
+                             libogg-dev \
+                             libsamplerate0 \
+                             libsamplerate0-dev \
+                             libsndfile1-dev \
+                             libsndfile1 \
+                             libflac8 \
+                             libflac++6v5 \
+                             libflac++-dev \
+                             libasound2-plugins \
                              "
 
 
