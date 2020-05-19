@@ -181,6 +181,7 @@ ALLOW_EMPTY_json-c = "1"
 ALLOW_EMPTY_json-c-dev = "1"
 ALLOW_EMPTY_libssl1.0 = "1"
 ALLOW_EMPTY_libssl1.0-dev = "1"
+ALLOW_EMPTY_gdk-pixbuf = "1"
 
 PV = "0"
 BINV = "0"
@@ -247,7 +248,6 @@ PROVIDES += "\
             gstreamer1.0 \
             gstreamer1.0-plugins-base \
             gstreamer1.0-plugins-good \
-            gstreamer1.0-plugins-bad \
             gstreamer1.0-plugins-ugly \
             gstreamer1.0-rtsp-server \
             gstreamer1.0-libav \
@@ -255,21 +255,25 @@ PROVIDES += "\
 
 
 do_install (){
-	install -d ${D}${base_libdir}
-	install -d ${D}${base_libdir}/${UBUN_TARGET_SYS}
-	install -d ${D}${bindir}
-	install -d ${D}${sbindir}
-	install -d ${D}${libexecdir}
-	install -d ${D}${datadir}
-	install -d ${D}${includedir}
-	install -d ${D}${includedir}/${UBUN_TARGET_SYS}
-	install -d ${D}/DEBIAN
-	install -d ${D}${libdir}
-	install -d ${D}${libdir}/pkgconfig
-	install -d ${D}${libdir}/gcc/${HOST_ARCH}/7
-	install -d ${D}${libdir}/${UBUN_TARGET_SYS}
-	install -d ${D}/usr/share/pkgconfig/
-	install -d ${D}/usr/share/aclocal/
+    install -d ${D}${base_libdir}
+    install -d ${D}${base_libdir}/${UBUN_TARGET_SYS}
+    install -d ${D}${bindir}
+    install -d ${D}${sbindir}
+    install -d ${D}${libexecdir}
+    install -d ${D}${datadir}
+    install -d ${D}${includedir}
+    install -d ${D}${includedir}/${UBUN_TARGET_SYS}
+    install -d ${D}/DEBIAN
+    install -d ${D}${libdir}
+    install -d ${D}${libdir}/pkgconfig
+    install -d ${D}${libdir}/gcc/${HOST_ARCH}/7
+    install -d ${D}${libdir}/${UBUN_TARGET_SYS}
+    install -d ${D}/usr/share/pkgconfig/
+    install -d ${D}/usr/share/aclocal/
+    install -d ${D}/usr/lib/aarch64-linux-gnu/gdk-pixbuf-2.0/
+    install -d ${D}/usr/include/gdk-pixbuf-2.0/
+    install -d ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig/
+    install -d ${D}/usr/share/thumbnailers/
 
 #    usr/${UBUN_TARGET_SYS}/lib cannot be created
 #    install -d ${D}/usr/${UBUN_TARGET_SYS}/lib/
@@ -283,7 +287,6 @@ do_install (){
     cp ${CP_ARGS} -H ${D}${libdir}/${UBUN_TARGET_SYS}/*.o ${D}${base_libdir}
 
     sed -i "s@/usr/aarch64-linux-gnu/lib@./@g" ${D}/usr/lib/${UBUN_TARGET_SYS}/libc.so
-
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
@@ -529,7 +532,11 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/unicode  ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/layout  ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libicu* ${D}${libdir}/${UBUN_TARGET_SYS}/
+
+    #copied all pkgconfig files here
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/* ${D}${libdir}/pkgconfig/
+    #clean wayland pkgconfig files here
+    rm -rf ${D}${libdir}/pkgconfig/wayland-*.pc
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libiberty.a ${D}${libdir}/${UBUN_TARGET_SYS}
 
@@ -549,12 +556,27 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libffi*.a ${D}${libdir}/${UBUN_TARGET_SYS}
     #copy gstreamer libraries
     cp ${CP_ARGS}    ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstwayland*
+    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/libgstwaylandsink*
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/gstreamer*.pc ${D}${libdir}/pkgconfig/
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libnl*.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libnl* ${D}${base_libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libnl* ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libnl3 ${D}${includedir}/
+
+    ## gdk-pixbuf
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/gdk-pixbuf-2.0/* ${D}${libdir}/${UBUN_TARGET_SYS}/gdk-pixbuf-2.0
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libgdk_pixbuf-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/gdk-pixbuf* ${D}/usr/bin/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gdk-pixbuf-2.0/*  ${D}/usr/include/gdk-pixbuf-2.0/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libgdk_pixbuf_xlib-2.0.so.0.3611.0  ${D}${libdir}/${UBUN_TARGET_SYS}/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/gdk-pixbuf*.pc  ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/thumbnailers/* ${D}/usr/share/thumbnailers/
+   ln -sf ./libgdk_pixbuf-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf-2.0.so
+   ln -sf ./libgdk_pixbuf-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf-2.0.so.0
+   ln -sf ./libgdk_pixbuf_xlib-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf_xlib-2.0.so
+   ln -sf ./libgdk_pixbuf_xlib-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf_xlib-2.0.so.0
 
     ## libexpat & libexpat-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libexpat*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -1980,9 +2002,9 @@ FILES_gstreamer1.0 = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstreamer-1.0.so.0* \
 "
 SUMMARY_gstreamer1.0 = "Core GStreamer libraries and elements"
-RPROVIDES_gstreamer1.0 = "gstreamer1.0 gstreamer1.0-plugins-bad"
+RPROVIDES_gstreamer1.0 = "gstreamer1.0"
 PKG_gstreamer1.0 = "libgstreamer1.0-0"
-PKGV_gstreamer1.0 = "0"
+PKGV_gstreamer1.0 = "1.14.4"
 PKGR_gstreamer1.0 = "0"
 
 PACKAGES += "gstreamer1.0-plugins-base"
@@ -2003,7 +2025,7 @@ FILES_gstreamer1.0-plugins-base = "\
 SUMMARY_gstreamer1.0 = "Plugins base for the GStreamer multimedia framework 1.x"
 RPROVIDES_gstreamer1.0 = "gstreamer1.0-plugins-base"
 PKG_gstreamer1.0 = "libgstreamer-plugins-base1.0-0"
-PKGV_gstreamer1.0 = "0"
+PKGV_gstreamer1.0 = "1.14.4"
 PKGR_gstreamer1.0 = "0"
 
 PACKAGES += "gstreamer1.0-plugins-bad"
@@ -2017,19 +2039,18 @@ FILES_gstreamer1.0-plugins-bad = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstmpegts-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstplayer-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgsturidownloader-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstwayland-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstwebrtc-1.0.so.0* \
 "
 SUMMARY_gstreamer1.0 = "Plugins bad for the GStreamer multimedia framework 1.x"
 RPROVIDES_gstreamer1.0 = "gstreamer1.0-plugins-bad"
 PKG_gstreamer1.0 = "libgstreamer-plugins-bad1.0-0"
-PKGV_gstreamer1.0 = "0"
+PKGV_gstreamer1.0 = "1.14.4"
 PKGR_gstreamer1.0 = "0"
 
 PACKAGES += "gstreamer1.0-plugins-good"
 RPROVIDES_gstreamer1.0-plugins-good = "gstreamer1.0-plugins-good gstreamer1.0-plugins-good-apps gstreamer1.0-plugins-good-doc gstreamer1.0-plugins-good-dbg gstreamer1.0-plugins-good-locale gstreamer1.0-plugins-good-staticdev gstreamer1.0-plugins-good-meta gstreamer1.0-plugins-good-glib gstreamer1.0-plugins-good-dev"
 PKG_gstreamer1.0-plugins-good = "libgstreamer-plugins-good1.0-0"
-PKGV_gstreamer1.0-plugins-good = "0"
+PKGV_gstreamer1.0-plugins-good = "1.14.4"
 PKGR_gstreamer1.0-plugins-good = "0"
 
 PACKAGES += "gstreamer1.0-plugins-ugly"
@@ -2070,6 +2091,40 @@ libdrm-freedreno \
 libpthread-stubs \
 libpciaccess \
 "
+
+#gdk-pixbuf
+ALLOW_EMPTY_gdk-pixbuf-bin = "1"
+ALLOW_EMPTY_gdk-pixbuf-xlib = "1"
+ALLOW_EMPTY_gdk-pixbuf-dev = "1"
+PACKAGES += "gdk-pixbuf"
+FILES_gdk-pixbuf += " \
+        ${libdir}/${UBUN_TARGET_SYS}/gdk-pixbuf-2.0/* \
+        ${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf* \
+        ${bindir}/gdk-pixbuf* \
+        "
+FILES_gdk-pixbuf-bin += " \
+        ${datadir}/thumbnailers/gdk-pixbuf-thumbnailer.thumbnailer \
+        "
+FILES_gdk-pixbuf-xlib += "${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf_xlib*"
+FILES_gdk-pixbuf-dev += "${libdir}/dummy"
+
+PROVIDES += " \
+                gdk-pixbuf \
+            "
+
+RPROVIDES_gdk-pixbuf += " \
+            gdk-pixbuf \
+            gdk-pixbuf-doc \
+            gdk-pixbuf-staticdev \
+            gdk-pixbuf-locale \
+            gdk-pixbuf-dbg \
+            gdk-pixbuf-dev \
+            gdk-pixbuf-bin \
+            gdk-pixbuf-xlib \
+          "
+PKGV_gdk-pixbuf = "2.36.11"
+PKGR_gdk-pixbuf = "2"
+PKG_gdk-pixbuf ="libgdk-pixbuf2.0-0"
 
 UBUN_VER_MAIN ??= ""
 

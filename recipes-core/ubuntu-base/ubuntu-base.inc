@@ -61,6 +61,7 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libjpeg-turbo8 \
                                    libdrm-dev \
                                    libdrm2 \
+                                   libgdk-pixbuf2.0-0 \
                                  "
 
 #video, camera packages

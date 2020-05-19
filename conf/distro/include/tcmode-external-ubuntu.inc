@@ -102,6 +102,10 @@ PREFERRED_PROVIDER_libqhull-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcryptopp = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcrypto++ = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcrypto++-dev = "ubuntu-toolchain"
+
+# gstreamer bad plugins
+PNBLACKLIST[gdk-pixbuf] = "Using ubuntu toolchain"
+
 PREFERRED_PROVIDER_libcap = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libatomic-ops = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libvorbis = "ubuntu-toolchain"
@@ -208,6 +212,8 @@ PREFERRED_PROVIDER_json-c = "ubuntu-toolchain"
 PREFERRED_PROVIDER_json-c-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libssl1.0.0 = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libssl1.0.0-dev = "ubuntu-toolchain"
+PREFERRED_PROVIDER_gdk-pixbuf = "ubuntu-toolchain"
+
 PREFERRED_VERSION_cairo = "1.15.10"
 PREFERRED_VERSION_gdk-pixbuf = "2.36.12"
 PREFERRED_VERSION_harfbuzz = "1.7.2"
