@@ -176,3 +176,189 @@ CORE_IMAGE_BASE_INSTALL += " \
 
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete
+
+def check_packages(d) :
+    import re, json, os
+    dep_chain = []
+    buildtime_pkg_list = {} ## packages that needed in build time, i.e., should be installed
+    rootfs_pkg_dict = {}    ## packages that installed into rootfs indeed
+
+    def get_installed_pkgs() :
+        ''' Description:
+                Get infos of all packages installed in rootfs through status file.
+
+                Packages with property 'OE:' means that it's from Yocto.
+            Return:
+                A dict that contains info of all packages installed into rootfs
+        '''
+        status_file = oe.path.join(d.getVar('IMAGE_ROOTFS'), "/var/lib/dpkg/status")
+        pkg_dict = {}
+
+        with open(status_file, 'r') as fd:
+            pkg_name = ''
+            pkg_info = {}
+            is_parsing = False
+            keys = ["OE", "Depends", "Version", "Pre-Depends"]
+            for line in fd :
+                if line.startswith("Package: ") :
+                    if is_parsing :
+                        bb.fatal("Invalid content, don't expect to get two \"Package:\" line within one package block")
+
+                    ''' begin of one pkg info '''
+                    is_parsing = True
+                    pkg_name = re.match("^Package: (.*)", line).group(1)
+                    pkg_info = {}
+
+                elif line.isspace() :
+                    if is_parsing is False :
+                        bb.warn(" don't expect to get an empty line while not in parsing state, ignore")
+                        continue
+
+                    ''' end of one pkg info '''
+                    is_parsing = False
+                    pkg_dict[pkg_name] = pkg_info
+
+                elif is_parsing :
+                    for key in keys:
+                        keyword = key + ": "
+                        if line.startswith(keyword):
+                            pkg_info[key] = re.match("^%s(.*)" % keyword, line).group(1)
+                            break
+
+            ''' Maybe the last pkg info is end without empty line '''
+            if is_parsing :
+                is_parsing = False
+                pkg_dict[pkg_name] = pkg_info
+
+        return pkg_dict
+
+
+    def check_runtime_dependency(d, pkg) :
+        ''' Description:
+                Travelsal dependencyies for a given package. All packages inside that dependency chain
+                will be stored in gloabl var buildtime_pkg_list
+
+                Directory PKGDATA_DIR contains all package info including RDepends/RPROVIDES/...,
+                these packages are built by Yocto.
+        '''
+        nonlocal dep_chain
+        nonlocal buildtime_pkg_list
+        nonlocal rootfs_pkg_dict
+        pkgdata_dir = d.getVar('PKGDATA_DIR')
+
+        dep_chain.append(pkg)
+        if pkg in buildtime_pkg_list :
+            dep_chain = dep_chain[:-1]
+            ''' dep-chain already checked, skip '''
+            bb.note(" --> ".join(dep_chain) + " --> {}(*) ".format(pkg))
+            return
+
+        pkg_rt_file = ''
+        if os.path.exists(pkgdata_dir + '/runtime-reverse/%s' % pkg) :
+            pkg_rt_file = pkgdata_dir + '/runtime-reverse/%s' % pkg
+        elif os.path.exists(pkgdata_dir + '/runtime/%s' % pkg) :
+            pkg_rt_file = pkgdata_dir + '/runtime/%s' % pkg
+
+        if not pkg_rt_file:
+            dep_chain = dep_chain[:-1]
+            bb.note(" --> ".join(dep_chain) + " --> {}(?) ".format(pkg))
+            return
+
+        bb.note(" --> ".join(dep_chain)) # print stack
+
+        with open(pkg_rt_file, "r") as fd :
+            deb_name = ''
+            rdep_list = ''
+            pn = ''
+            buildtime_pkg_list[pkg] = {}
+
+            for line in fd :
+                pkg_regex = pkg.replace('+', '\+')
+                if deb_name and rdep_list and pn :
+                    break
+                elif line.startswith("PN: ") :
+                    pn = re.match("PN: (.*)", line).group(1)
+                    buildtime_pkg_list[pkg]["PN"] = pn
+
+                elif line.startswith("PKG_{}".format(pkg)) :
+                    deb_name = re.match("PKG_{}: (.*)".format(pkg_regex), line).group(1)
+                    buildtime_pkg_list[pkg]["deb_name"] = deb_name
+
+                elif line.startswith("RDEPENDS_{}".format(pkg)) :
+                    rdep_string = re.match("RDEPENDS_{}: (.*)".format(pkg_regex), line).group(1)
+                    rdep_list = re.sub(r"\(.*?\)", "", rdep_string).split()
+                    buildtime_pkg_list[pkg]["rdep_list"] = rdep_list
+
+        if "rdep_list" not in buildtime_pkg_list[pkg] :
+            ''' this pacakge does not depends on anything, i.e., it is at the buttom of the dependency chain '''
+            dep_stack = dep_chain[:-1]
+            return
+
+        for sub_pkg in buildtime_pkg_list[pkg]["rdep_list"] :
+            check_runtime_dependency(d, sub_pkg)
+
+        dep_chain = dep_chain[:-1]
+        return
+
+    ## begin of the function ##
+    rootfs_pkg_dict = get_installed_pkgs()
+    pkgs_to_install = d.getVar('IMAGE_INSTALL').split()
+    for pkg in pkgs_to_install :
+        check_runtime_dependency(d, pkg)
+
+
+    mismatch_list = []
+    missed_list = []
+
+    for pkg in buildtime_pkg_list :
+        if "deb_name" not in buildtime_pkg_list[pkg]:
+            continue
+
+        deb_name = buildtime_pkg_list[pkg]["deb_name"]
+
+        if deb_name in rootfs_pkg_dict :
+            '''
+            A package with specific deb-name does be installed into rootfs, but still need check
+            if that package is provided by Yocto but not from ubuntu.
+
+            An exception: package from ubuntu-toolchain is just used at compile-time, not for runtime
+            '''
+            if 'OE' not in rootfs_pkg_dict[deb_name] and "ubuntu-toolchain" != buildtime_pkg_list[pkg]["PN"]:
+                mismatch_list.append(deb_name)
+        else :
+            skipval = "-locale-|^locale-base-|-dev$|-doc$|-dbg$|-staticdev$|^kernel-module-"
+            skipregex = re.compile(skipval)
+            if skipregex.search(pkg):
+                bb.note("skip: {}".format(pkg))
+            else:
+                missed_list.append(deb_name)
+
+    if len(mismatch_list) != 0:
+        bb.warn("\n\n\n"
+                "###################################\n"
+                "#### Package Mismatch Detected ####\n"
+                "###################################\n"
+                "Package listed below is built by Yocto and is used in build time as a dependency, but the\n"
+                "ubuntu version package is installed instead. i.e., build-time packages and runtime packages mismatch\n"
+                "This may be because ubuntu-base has already installed those packages with a higher version.\n"
+                "please check if it's expected.\n"
+                "{}\n\n".format(mismatch_list))
+
+    if len(missed_list) != 0:
+        bb.warn("\n\n\n"
+                "#################################\n"
+                "#### Package Missed Detected ####\n"
+                "#################################\n"
+                "Package listed should've been installed, but no such package info is found in rootfs/var/lib/dpkg/status,\n"
+                "i.e., they are not installed into rootfs.\n"
+                "{}\n\n"
+                "This might caused by reason below, please check\n"
+                "1. package conflicts\n"
+                "2. PKG name defined in ubuntu-toolchain is not consistent with the oss package name\n\n".format(missed_list))
+
+
+do_check_packages[nostamp] = "1"
+python do_check_packages () {
+    check_packages(d)
+}
+addtask do_check_packages after do_rootfs before do_makesystem
