@@ -1,0 +1,113 @@
+From ba669a0a7a1a195fdb8657356c87288581dba44a Mon Sep 17 00:00:00 2001
+From: Bo Zhang <bozhang@codeaurora.org>
+Date: Tue, 19 May 2020 17:14:08 +0800
+Subject: [PATCH] change update-alternatives for ubuntu
+
+---
+ update-alternatives | 50 +++++++++++++++++++++++++++++----------------
+ 1 file changed, 32 insertions(+), 18 deletions(-)
+
+diff --git a/update-alternatives b/update-alternatives
+index d4fa7eb..24c8c7a 100644
+--- a/update-alternatives
++++ b/update-alternatives
+@@ -21,7 +21,10 @@
+ set -e
+ 
+ # admin dir
+-ad="$OPKG_OFFLINE_ROOT/usr/lib/opkg/alternatives"
++ad="$OPKG_OFFLINE_ROOT/var/lib/dpkg/alternatives"
++
++# altdir dir
++al="$OPKG_OFFLINE_ROOT/etc/alternatives"
+ 
+ usage() {
+ 	echo "update-alternatives: $*
+@@ -52,16 +55,20 @@ register_alt() {
+ 	fi
+ 
+ 	if [ -e "$ad/$name" ]; then
+-		local olink=`head -n 1 $ad/$name`
++		local olink=`sed -n "2p" $ad/$name`
+ 		if [ "$link" != "$olink" ]; then
+ 			echo "update-alternatives: renaming $name link from $olink to $link"
+ 			local link_str=`echo $link | protect_slashes`
+ 			sed -e "1s/.*/$link_str/" $ad/$name > $ad/$name.new
+ 			mv $ad/$name.new $ad/$name
++		        echo "" >> "$ad/$name"
+ 			mv $OPKG_OFFLINE_ROOT$olink $OPKG_OFFLINE_ROOT$link
+ 		fi
+ 	else
+-		echo "$link" > "$ad/$name"
++		echo "auto" > "$ad/$name"
++		echo "$link" >> "$ad/$name"
++		echo "" >> "$ad/$name"
++		echo "" >> "$ad/$name"
+ 	fi
+ 
+ 	return 0
+@@ -96,19 +103,24 @@ add_alt() {
+ 	if grep -qw "$priority" $ad/$name; then
+ 		echo "Warn: update-alternatives: $name has multiple providers with the same priority, please check $ad/$name for details"
+ 	fi
+-	echo "$path $priority" >> $ad/$name
++	sed -i '$d' $ad/$name
++	echo "$path" >> $ad/$name
++	echo "$priority" >> $ad/$name
++	echo "" >> $ad/$name
+ }
+ 
+ find_best_alt() {
+ 	[ $# -lt 1 ] && return 1
+ 	[ ! -f $ad/$name ] && return 0
+ 
+-	link=$OPKG_OFFLINE_ROOT`head -n 1 $ad/$name`
++	link=$OPKG_OFFLINE_ROOT`sed -n "2p" $ad/$name`
+ 
+-	prio=`sed -ne "1!p" $ad/$name | sed -e "s/\(.*\) \(.*\)/\2 \1/g" | sort -nr | head -n 1 | sed 's/ [^ ]*$//'`
++	#prio=`sed -ne "1!p" $ad/$name | sed -e "s/\(.*\) \(.*\)/\2 \1/g" | sort -nr | head -n 1 | sed 's/ [^ ]*$//'`
++	prio=`cat $ad/$name | sort -nr | head -n 1`
+ 	if [ -z "$prio" ]; then
+ 		echo "update-alternatives: removing $link as no more alternatives exist for it"
+ 		rm $ad/$name
++		rm $al/$name
+ 		if [ -L $link ]; then
+ 			rm $link
+ 		fi
+@@ -116,19 +128,21 @@ find_best_alt() {
+ 	fi
+ 
+ 	## Find last line with highest priority.
+-	path=`grep "${prio}$" $ad/$name | tail -n 1 | sed 's/ [^ ]*$//'`
+-
+-	if [ ! -e $link -o -L $link ]; then
+-		local link_dir=`dirname $link`
+-		if [ ! -d $link_dir ]; then
+-			mkdir -p $link_dir
+-		fi
+-		ln -snf $path $link
+-		echo "update-alternatives: Linking $link to $path"
+-	else
+-		echo "update-alternatives: Error: not linking $link to $path since $link exists and is not a link"
+-		return 1
++	#path=`grep "${prio}$" $ad/$name | tail -n 1 | sed 's/ [^ ]*$//'`
++	let path_nr=`sed -ne "/${prio}$/=" $ad/$name | tail -n 1`
++	path_nr=`expr $path_nr - 1`
++	path=`sed -ne "${path_nr}p" $ad/$name`
++
++	# create a symbolic link
++	local link_dir=`dirname $link`
++	if [ ! -d $link_dir ]; then
++		mkdir -p $link_dir
++	fi
++	if [ ! -L $al/$name ]; then
++	        ln -snf "/etc/alternatives/"$name $link
+ 	fi
++	ln -snf $path $al/$name
++	echo "update-alternatives: Linking $link to $path"
+ 
+ 	return 0
+ }
+-- 
+2.17.1
+
