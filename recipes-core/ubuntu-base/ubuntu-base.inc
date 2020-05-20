@@ -40,6 +40,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  apparmor \
                                  libatomic1 \
                                  libgomp1 \
+                                 dnsmasq \
                                 "
 
 #Packages to enasure display and audio function
