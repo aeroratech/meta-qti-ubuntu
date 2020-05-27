@@ -123,8 +123,32 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libflac++6v5 \
                              libflac++-dev \
                              libasound2-plugins \
+                             libevdev2 \
+                             libinput10 \
+                             libinput-dev \
+                             libmtdev1 \
+                             libmtdev-dev \
+                             libwrap0 \
+                             libwrap0-dev \
+                             liba52-0.7.4 \
+                             liba52-0.7.4-dev \
+                             libqhull-dev \
+                             libqhull7 \
+                             libcrypto++6 \
+                             libcrypto++-dev \
+                             libcroco3 \
+                             libcroco3-dev \
+                             libgudev-1.0-0 \
+                             libgudev-1.0-dev \
+                             libid3tag0 \
+                             libid3tag0-dev \
+                             librsvg2-2 \
+                             librsvg2-dev \
+                             libsoup2.4-1 \
+                             libsoup2.4-dev \
+                             liborc-0.4-0 \
+                             liborc-0.4-dev \
                              "
-
 
 
 UBUN_BASIC_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
