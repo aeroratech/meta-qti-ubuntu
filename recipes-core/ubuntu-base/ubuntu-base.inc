@@ -34,6 +34,16 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libatomic1 \
                                  libgomp1 \
                                  dnsmasq \
+                                 libevdev2 \
+                                 libevdev-dev \
+                                 libbsd0 \
+                                 libbsd-dev \
+                                 libpciaccess0 \
+                                 libpciaccess-dev \
+                                 xutils-dev \
+                                 libpthread-stubs0-dev \
+                                 libpixman-1-dev \
+                                 libpixman-1-0 \
                                 "
 
 #Packages to enasure display and audio function

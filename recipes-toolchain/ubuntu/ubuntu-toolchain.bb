@@ -138,6 +138,12 @@ ALLOW_EMPTY_libflac++-dev = "1"
 ALLOW_EMPTY_liboggflac = "1"
 ALLOW_EMPTY_liboggflac++ = "1"
 ALLOW_EMPTY_libasound2-plugins = "1"
+ALLOW_EMPTY_libevdev = "1"
+ALLOW_EMPTY_libpciacess = "1"
+ALLOW_EMPTY_libffi = "1"
+ALLOW_EMPTY_libbsd = "1"
+ALLOW_EMPTY_libpthread-stubs = "1"
+ALLOW_EMPTY_pixman = "1"
 
 PV = "0"
 BINV = "0"
@@ -225,6 +231,7 @@ do_install (){
 	install -d ${D}${libdir}/gcc/${HOST_ARCH}/7
 	install -d ${D}${libdir}/${UBUN_TARGET_SYS}
 	install -d ${D}/usr/share/pkgconfig/
+	install -d ${D}/usr/share/aclocal/
 
 #    usr/${UBUN_TARGET_SYS}/lib cannot be created
 #    install -d ${D}/usr/${UBUN_TARGET_SYS}/lib/
@@ -515,6 +522,39 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig//libcrypto.pc  ${D}${libdir}/pkgconfig/
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/openssl.pc  ${D}${libdir}/pkgconfig/
 
+    ## libevdev2 & libevdev-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libevdev.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libevdev-1.0/libevdev  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libevdev.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/alsa  ${D}${includedir}/
+    ln -sf ./libevdev.so.2.1.20 ${D}${libdir}/${UBUN_TARGET_SYS}/libevdev.so.2
+    ln -sf ./libevdev.so.2.1.20 ${D}${libdir}/${UBUN_TARGET_SYS}/libevdev.so
+
+    ## libpciaccess & libpciaccess-dev & xorg-macros
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpciaccess.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pciaccess.h  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/pciaccess.pc  ${D}${libdir}/pkgconfig/
+    ln -sf ./libpciaccess.so.0.11.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so.0
+    ln -sf ./libpciaccess.so.0.11.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xorg-macros.pc  ${D}/usr/share/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/aclocal/xorg-macros.m4  ${D}/usr/share/aclocal/
+
+    ## libbsd0 & libbsd-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libbsd.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libbsd*.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/bsd  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libbsd*.pc  ${D}${libdir}/pkgconfig/
+    ln -sf ./libbsd.so.0.8.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0
+    ln -sf ./libbsd.so.0.8.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libbsd.so
+
+    ##  libpthread-stubs0-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/pthread-stubs.pc  ${D}${libdir}/pkgconfig/
+
+    # libpixman-1-0 & libpixman-1-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpixman-1.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/pixman-1.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pixman-1  ${D}${includedir}/
+    ln -sf ./libpixman-1.so.0.34.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libpixman-1.so
 
     #FIX symbol
     if [ -f ${D}${base_libdir}/libncursesw.so.5 ];then
@@ -639,7 +679,6 @@ FILES_jpeg += "${libdir}/${UBUN_TARGET_SYS}/libjpeg.so*"
 PKGR_jpeg = "0"
 PKGV_jpeg = "0"
 
-
 #  libcap
 PACKAGES += "\
             libcap \
@@ -655,6 +694,99 @@ PKG_libcap = "libcap2"
 PKGR_libcap = "0"
 PKGV_libcap = "0"
 
+#libpixman-1
+PACKAGES += "pixman  pixman-dev"
+PROVIDES += "pixman pixman-dev"
+RPROVIDES_pixman += " \
+                pixman \
+                "
+FILES_pixman += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libpixman-1.* \
+"
+PKG_pixman ="libpixman-1-0"
+PKGV_pixman = "0"
+PKGR_pixman = "0"
+
+# libpthread-stubs
+
+PKG_libpthread-stubs = "libpthread-stubs0-dev"
+PKGR_libpthread-stubs = "0"
+PKGV_libpthread-stubs = "0"
+
+PACKAGE += " libpthread-stubs "
+PROVIDES += " libpthread-stubs "
+
+FILES_libpthread-stubs = "${libdir}/dummy"
+
+#libbsd
+
+PKG_libbsd = "libbsd0"
+PKGR_libbsd = "0"
+PKGV_libbsd = "0"
+PACKAGE += "\
+    libbsd \
+    libbsd-dev \
+"
+PROVIDES += "\
+    libbsd \
+    libbsd-dev \
+"
+FILES_libbsd = "\
+    ${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0 \
+    ${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0.8.7 \
+"
+FILES_libbsd-dev = "\
+    ${libdir}/${UBUN_TARGET_SYS}/libbsd-ctor.a \
+    ${libdir}/${UBUN_TARGET_SYS}/libbsd.a \
+    ${libdir}/${UBUN_TARGET_SYS}/libbsd.so \
+    ${includedir}/bsd \
+"
+# libpciaccess
+PKG_libpciaccess = "libpciaccess0"
+PKGR_libpciaccess = "0"
+PKGV_libpciaccess = "0"
+PACKAGE  += "\
+    libpciaccess \
+    libpciaccess-dev \
+"
+PROVIDES += "\
+    libpciaccess \
+    libpciaccess-dev \
+    xorg-macros \
+"
+FILES_libpciaccess  = "\
+    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so.0 \
+    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so.0.11.1 \
+"
+FILES_libpciacess-dev = "\
+    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.a \
+    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so \
+    ${includedir}/pciaccess.h \
+"
+
+# libevdev
+PKG_libevdev = "libevdev2"
+PKGR_libevdev = "0"
+PKGV_libevdev = "0"
+PACKAGES += "\
+    libevdev \
+"
+PROVIDES +="\
+    libevdev \
+    libevdev-dev \
+"
+RPROVIDES_libevdev +="\
+    libevdev \
+    libevdev-dev \
+"
+FILES_libevdev = "\
+    ${libdir}/${UBUN_TARGET_SYS}/libevdev.so.2 \
+    ${libdir}/${UBUN_TARGET_SYS}/libevdev.so.2.1.20 \
+"
+FILES_libevdev-dev = "\
+    ${libdir}/${UBUN_TARGET_SYS}/libevdev.a \
+    ${libdir}/${UBUN_TARGET_SYS}/libevdev.so \
+"
 
 #  libgcc
 PACKAGES += "\
