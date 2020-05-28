@@ -152,6 +152,8 @@ PREFERRED_VERSION_gobject-introspection = "1.56.1"
 PREFERRED_VERSION_dbus = "1.12.2"
 PREFERRED_VERSION_dbus-native = "1.12.2"
 PREFERRED_VERSION_wayland = "1.14.1"
+PREFERRED_VERSION_libhardware = "1.0"
+PREFERRED_VERSION_camera-metadata = "1.1"
 
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST} "
 
