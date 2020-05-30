@@ -166,6 +166,22 @@ ALLOW_EMPTY_libid3tag = "1"
 ALLOW_EMPTY_librsvg = "1"
 ALLOW_EMPTY_libsoup-2.4 = "1"
 
+
+ALLOW_EMPTY_libtheora = "1"
+ALLOW_EMPTY_libtheora-dev = "1"
+ALLOW_EMPTY_liburcu = "1"
+ALLOW_EMPTY_liburcu-dev = "1"
+ALLOW_EMPTY_libwebp = "1"
+ALLOW_EMPTY_libwebp-dev = "1"
+ALLOW_EMPTY_mpg123 = "1"
+ALLOW_EMPTY_mpg123-dev = "1"
+ALLOW_EMPTY_taglib = "1"
+ALLOW_EMPTY_taglib-dev = "1"
+ALLOW_EMPTY_json-c = "1"
+ALLOW_EMPTY_json-c-dev = "1"
+ALLOW_EMPTY_libssl1.0 = "1"
+ALLOW_EMPTY_libssl1.0-dev = "1"
+
 PV = "0"
 BINV = "0"
 TARGET_SYS = "${UBUN_TARGET_SYS}"
@@ -246,6 +262,7 @@ do_install (){
 	install -d ${D}${libexecdir}
 	install -d ${D}${datadir}
 	install -d ${D}${includedir}
+	install -d ${D}${includedir}/${UBUN_TARGET_SYS}
 	install -d ${D}/DEBIAN
 	install -d ${D}${libdir}
 	install -d ${D}${libdir}/pkgconfig
@@ -280,37 +297,29 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/gnu ${D}${includedir}
     mv ${D}${includedir}/c++/7/* ${D}${includedir}/c++
     mv ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
-
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/7/libgcc*.a ${D}${libdir}/${UBUN_TARGET_SYS}
     ln -sf ./libgcc_s.so.1 ${D}/${libdir}/aarch64-linux-gnu/libgcc_s.so
     ln -sf ./libstdc++.so.6.0.25 ${D}/${libdir}/aarch64-linux-gnu/libstdc++.so
-
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/7/libatomic.* ${D}${libdir}/${UBUN_TARGET_SYS}
     ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
-
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libselinux.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libselinux.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
     ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
-
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libsepol.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libsepol.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libsepol.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
     ln -sf ./libsepol.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libsepol.so
-    
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libpcre.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libpcre.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpcre.so.3 ${D}${libdir}/${UBUN_TARGET_SYS}
     ln -sf ./libpcre.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libpcre.so
-    
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libtermcap.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libtermcap.so ${D}${libdir}/${UBUN_TARGET_SYS}
-    
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libtinfo.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/tinfo.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libtinfo.so.5 ${D}${libdir}/${UBUN_TARGET_SYS}
     ln -sf ./libtinfo.so.5 ${D}${libdir}/${UBUN_TARGET_SYS}/libtinfo.so
-
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libbz2.a ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/bzlib.h ${D}${includedir}
@@ -545,7 +554,7 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libnl*.pc ${D}${libdir}/pkgconfig
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libnl* ${D}${base_libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libnl* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libnl3 ${D}${includedir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libnl3 ${D}${includedir}/
 
     ## libexpat & libexpat-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libexpat*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -674,6 +683,68 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pixman-1  ${D}${includedir}/
     ln -sf ./libpixman-1.so.0.34.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libpixman-1.so
 
+    # libtheora0 & libtheora-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtheora.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtheoradec.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/theoradec.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/theoraenc.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/theora  ${D}${includedir}/
+    ln -sf ./libtheora.so.0.3.10 ${D}${libdir}/${UBUN_TARGET_SYS}/libtheora.so
+    ln -sf ./libtheoraenc.so.1.1.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libtheoraenc.so
+    ln -sf ./libtheoradec.so.1.1.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libtheoradec.so
+
+    # liburcu6 & liburcu-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liburcu*.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/liburcu*.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/urcu  ${D}${includedir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/urcu.h  ${D}${includedir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/urcu-*.h  ${D}${includedir}/${UBUN_TARGET_SYS}/
+    ln -sf ./liburcu-bp.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-bp.so
+    ln -sf ./liburcu-cds.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-cds.so
+    ln -sf ./liburcu-common.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-common.so
+    ln -sf ./liburcu-mb.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-mb.so
+    ln -sf ./liburcu-qsbr.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-qsbr.so
+    ln -sf ./liburcu-signal.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-signal.so
+    ln -sf ./liburcu.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu.so2
+
+    # libwebp6 & libwebpdemux2 & libwebpmux3 & libwebp-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwebp.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwebpdemux.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwebpmux.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libwebp.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libwebpdemux.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libwebpmux.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/webp  ${D}${includedir}/
+    ln -sf ./libwebp.so.6.0.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libwebp.so
+    ln -sf ./libwebpmux.so.3.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libwebpmux.so
+    ln -sf ./libwebpdemux.so.2.0.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libwebpdemux.so
+
+    # libmpg123-0 & libout123-0 & libmpg123-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libmpg123.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libout123.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libmpg123.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libout123.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/fmt123.h  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mpg123.h  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/out123.h  ${D}${includedir}/
+    ln -sf ./libmpg123.so.0.44.8 ${D}${libdir}/${UBUN_TARGET_SYS}/libmpg123.so
+    ln -sf ./libout123.so.0.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libout123.so
+
+    # libtag1v5-vanilla & libtagc0 & libtagc0-dev & libtag1-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtag.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtag_c.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/taglib.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/taglib_c.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/taglib  ${D}${includedir}/
+    ln -sf ./libtag.so.1.17.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libtag.so
+    ln -sf ./libtag_c.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libtag_c.so
+
+    # libjson-c3 & libjson-c-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libjson-c.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/json-c.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/json-c  ${D}${includedir}/
+    ln -sf ./libjson-c.so.3.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libjson-c.so
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libncursesw.so.5 ];then
         rm -rf ${D}${base_libdir}/libncurses*
@@ -710,7 +781,6 @@ do_install (){
     if [ -f ${D}${base_libdir}/libblkid.so.1 ];then
         rm -rf ${D}${base_libdir}/libblkid.so*
     fi
-
 
     #FIX SYMBOL LINK
     ln -sf ld-${UBUN_VER_LIBC}.so ${D}${base_libdir}/${UBUN_TARGET_SYS}/ld-linux-aarch64.so.1
@@ -1195,7 +1265,7 @@ RPROVIDES_liblzma += " \
                 "
 PKGV_liblzma = "5.2.2"
 PKGR_liblzma = "1"
-PKG_liblzma ="liblzma"
+PKG_liblzma ="liblzma5"
 
 PKGV_xz = "5.2.2"
 PKGR_xz = "1"
@@ -1543,6 +1613,95 @@ RPROVIDES_alsa-lib += " \
 PKGV_alsa-lib = "0"
 PKGR_alsa-lib = "0"
 PKG_alsa-lib = "libasound2"
+
+#libtheora
+PACKAGES += "libtheora libtheora-dev"
+PROVIDES += "libtheora libtheora-dev "
+RPROVIDES_libtheora += " \
+                libtheora \
+                libtheora-dev \
+                "
+FILES_libtheora += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libtheora.* \
+    ${libdir}/${UBUN_TARGET_SYS}/libtheoradec.* \
+"
+PKG_libtheora ="libtheora0"
+PKGV_libtheora = "0"
+PKGR_libtheora = "0"
+
+#liburcu
+PACKAGES += "liburcu liburcu-dev"
+PROVIDES += "liburcu liburcu-dev "
+RPROVIDES_liburcu += " \
+                liburcu \
+                liburcu-dev \
+                "
+FILES_liburcu += " \
+    ${libdir}/${UBUN_TARGET_SYS}/liburcu*.* \
+"
+PKG_libgudev ="liburcu6"
+PKGV_libgudev = "0"
+PKGR_libgudev = "0"
+
+#libwebp
+PACKAGES += "libwebp libwebp-dev"
+PROVIDES += "libwebp libwebp-dev "
+RPROVIDES_libwebp += " \
+                libwebp \
+                libwebp-dev \
+                "
+FILES_libwebp += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libwebp.* \
+    ${libdir}/${UBUN_TARGET_SYS}/libwebpdemux.* \
+    ${libdir}/${UBUN_TARGET_SYS}/libwebpmux.* \
+"
+PKG_libwebp ="libwebp6"
+PKGV_libwebp = "0"
+PKGR_libwebp = "0"
+
+#mpg123
+PACKAGES += "mpg123 mpg123-dev"
+PROVIDES += "mpg123 mpg123-dev "
+RPROVIDES_mpg123 += " \
+                mpg123 \
+                mpg123-dev \
+                "
+FILES_mpg123 += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libmpg123.* \
+    ${libdir}/${UBUN_TARGET_SYS}/libout123.* \
+"
+PKG_mpg123 ="libmpg123-0"
+PKGV_mpg123 = "0"
+PKGR_mpg123 = "0"
+
+#taglib
+PACKAGES += "taglib taglib-dev"
+PROVIDES += "taglib taglib-dev "
+RPROVIDES_taglib += " \
+                taglib \
+                taglib-dev \
+                "
+FILES_taglib += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libtag.* \
+    ${libdir}/${UBUN_TARGET_SYS}/libtag_c.* \
+"
+PKG_taglib ="libtag1v5-vanilla"
+PKGV_taglib = "0"
+PKGR_taglib = "0"
+
+#json-c
+PACKAGES += "json-c json-c-dev"
+PROVIDES += "json-c json-c-dev "
+RPROVIDES_sbc += " \
+                json-c \
+                json-c-dev \
+                "
+FILES_json-c += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libjson-c.* \
+"
+PKG_json-c ="libjson-c3"
+PKGV_json-c = "0"
+PKGR_json-c = "0"
 
 RPROVIDES_udev = "udev udev-hwdb hotplug"
 FILES_udev += "${libdir}/${UBUN_TARGET_SYS}/libudev.so*"

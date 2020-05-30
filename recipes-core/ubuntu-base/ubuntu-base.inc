@@ -15,7 +15,7 @@ UBUN_BASIC_PACKAGES = " systemd \
                         psmisc \
                         usbutils \
                         libffi6 \
-                        libssl1.1 \
+                        libssl1.1 \		
                         libssl-dev \
                         openssl \
                         zlib1g \
@@ -148,6 +148,23 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libsoup2.4-dev \
                              liborc-0.4-0 \
                              liborc-0.4-dev \
+			     libtheora0 \
+                             libtheora-dev \
+                             liburcu6 \
+                             liburcu-dev \
+                             libwebp6 \
+                             libwebpdemux2 \
+                             libwebpmux3 \
+                             libwebp-dev \
+                             libmpg123-0 \
+                             libmpg123-dev \
+                             libout123-0 \
+                             libtag1v5-vanilla \
+                             libtagc0 \
+                             libtagc0-dev \
+                             libtag1-dev \
+                             libjson-c3 \
+                             libjson-c-dev \
                              "
 
 
