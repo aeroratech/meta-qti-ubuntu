@@ -122,6 +122,30 @@ humanity_theme_install() {
 	set -e
 }
 
+apt_update() {
+	echo "QCOM_TARGET_SOURCELIST: ${QCOM_TARGET_SOURCELIST}"
+	# If QCOM_TARGET_SOURCELIST is set, we prefer to use it as sourcelist
+	if [ -n "${QCOM_TARGET_SOURCELIST}" ]; then
+		echo "use QCOM_TARGET_SOURCELIST as sourcelist"
+		cp ${TMP_WKDIR}/etc/apt/sources.list ${TMP_WKDIR}/etc/apt/sources.list_backup
+		sed -i "1i${QCOM_TARGET_SOURCELIST}" ${TMP_WKDIR}/etc/apt/sources.list
+		set +e
+		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+		exitcode=$?
+		if [ "$exitcode" != "0" ]; then
+			echo "QCOM_TARGET_SOURCELIST is invalid"
+			rm -rf ${TMP_WKDIR}/etc/apt/sources.list
+			mv ${TMP_WKDIR}/etc/apt/sources.list_backup ${TMP_WKDIR}/etc/apt/sources.list
+			fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+		fi
+		set -e
+	# If QCOM_TARGET_SOURCELIS not set. we use default sourcelist
+	else
+		echo "QCOM_TARGET_SOURCELIST not set"
+		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+	fi
+}
+
 do_ubuntu_install() {
 	cache_avaliable=0
 	## copy cache if exists to speed up apt install process ##
@@ -144,8 +168,8 @@ do_ubuntu_install() {
 
 	sed -i '1i /usr/lib' ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
 	echo '/lib/systemd'>> ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
-	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
 	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "cd /var; rm run; ln -s ../run run"
+	apt_update
 	#set hostname and hosts
 	echo '${MACHINE}' > ${TMP_WKDIR}/etc/hostname
 	echo '127.0.0.1 localhost' > ${TMP_WKDIR}/etc/hosts
