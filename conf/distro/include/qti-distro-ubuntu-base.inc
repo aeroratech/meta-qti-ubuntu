@@ -15,7 +15,7 @@ PRODUCT ?= "ubuntu"
 
 TCMODE = 'external-ubuntu'
 TCLIBC = 'glibc'
-PACKAGE_CLASSES = 'package_deb'
+PACKAGE_CLASSES = 'qpackage_deb'
 
 #SECURITY_PIE_CFLAGS = "-fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wa,--noexecstack ${SECURITY_STRINGFORMAT}"
 
