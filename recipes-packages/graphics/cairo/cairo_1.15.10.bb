@@ -19,6 +19,7 @@ DEPENDS += " \
     libcairo-gobject2 \
     libcairo-script-interpreter2 \
     libcairo2-dev1 \
+    pixman \
     "
 
 do_install() {
