@@ -89,6 +89,8 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              python3-argcomplete \
                              gnupg2 \
                              libsqlite3-dev \
+                             weston \
+                             libweston-3-0 \
                              libitm1 \
                              libtsan0 \
                              liblsan0 \
