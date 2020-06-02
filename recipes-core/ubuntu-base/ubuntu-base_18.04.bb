@@ -62,6 +62,7 @@ python fix_symlink() {
 
 ubuntu_post_install() {
 	pushd ${TMP_WKDIR}
+	fakeroot touch ./ubuntu-base-18.04.2-base-arm64.tar.gz
 	fakeroot tar -cpzf ubuntu-base-18.04.2-base-arm64.tar.gz --exclude=./ubuntu-base-18.04.2-base-arm64.tar.gz --one-file-system ./
 	popd
 	mkdir -p ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done
