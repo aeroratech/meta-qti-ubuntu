@@ -176,15 +176,9 @@ ROOTFS_POSTINSTALL_COMMAND += "do_post_install"
 
 #Install packages for audio
 CORE_IMAGE_BASE_INSTALL += " \
-            audiohal \
-            audiodlkm \
-            init-audio \
-            tinyalsa \
+            packagegroup-qti-audio \
             omx \
-            encoders \
-            qsthw-api \
             soundtrigger \
-            acdbloader \
 "
 
 CORE_IMAGE_BASE_INSTALL += " \

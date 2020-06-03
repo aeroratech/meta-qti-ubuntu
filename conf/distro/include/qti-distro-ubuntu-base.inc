@@ -70,6 +70,8 @@ DISTRO_FEATURES_append = " \
 
 ## QTI defined distro features ##
 # qti-audio:         Support QTI audio solution
+# qti-audio-encoder: Support QTI audio encoder
+# qti-audio-cal:     Support QTI audio calibration solution
 # qti-video:         Support QTI video solution
 # qti-video-decoder: Support QTI video decoder
 # qti-video-encoder: Support QTI video encoder
@@ -84,6 +86,8 @@ DISTRO_FEATURES_append = " \
 
 DISTRO_FEATURES_append = " \
     qti-audio \
+    qti-audio-encoder \
+    qti-audio-cal \
     qti-video \
     qti-video-decoder \
     qti-video-encoder \
