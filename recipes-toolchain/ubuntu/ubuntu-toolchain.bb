@@ -362,6 +362,16 @@ do_install (){
     ln -sf ./libasound_module_rate_speexrate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_speexrate_best.so
     ln -sf ./libasound_module_rate_speexrate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_speexrate_medium.so
 
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libdrm/ ${D}/usr/include/
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/freedreno/ ${D}/usr/include/
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libsync.h ${D}/usr/include/libsync.h
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/xf86drm.h ${D}/usr/include/xf86drm.h
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/xf86drmMode.h ${D}/usr/include/xf86drmMode.h
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libdrm.so*   ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libdrm_free*   ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm* ${D}${libdir}/pkgconfig
+    ln -sf ./libdrm.so.2.4.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libdrm.so
+
     #udev
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so.*  ${D}/${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so  ${D}/${libdir}/${UBUN_TARGET_SYS}
@@ -1567,6 +1577,24 @@ FILES_libffi = "${libdir}/${UBUN_TARGET_SYS}/libffi.so"
 PKG_libffi = "libffi6"
 PKGV_libffi = "3.2.1"
 PKGR_libffi = "8"
+
+#libdrm
+PACKAGES += "libdrm libdrm2 libdrm-dev libdrm-freedreno"
+PROVIDES += "libdrm libdrm2 libdrm-dev libdrm-freedreno drm"
+FILES_libdrm += " \
+${libdir}/${UBUN_TARGET_SYS}/libdrm* \
+             "
+PKG_libdrm = "libdrm2"
+PKGV_libdrm = "0"
+PKGR_libdrm = "0"
+
+DEPENDS_libdrm += " \
+libdrm2 \
+libdrm-dev \
+libdrm-freedreno \
+libpthread-stubs \
+libpciaccess \
+"
 
 UBUN_VER_MAIN ??= ""
 

@@ -57,6 +57,8 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libwayland-server0 \
                                    libwayland-dev \
                                    libjpeg-turbo8 \
+                                   libdrm-dev \
+                                   libdrm2 \
                                  "
 
 #video, camera packages
