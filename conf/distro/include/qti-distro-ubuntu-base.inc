@@ -50,6 +50,16 @@ USERADD_PARAM_${PN}_append =  " -g diag -G root diag "
 SYSTEM_SIZE_EXT4 = "33554432000"
 KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 
+##################################################################
+# list of distro features
+##################################################################
+#
+# opencl:          Include the Open Computing Language
+# pulseaudio:      Use pulseaudio audio server
+# tensorflow-lite: Include the tensorflow lite inference engine.
+
+DISTRO_FEATURES_append = "opencl pulseaudio tensorflow-lite"
+
 ## QTI defined distro features ##
 # qti-audio:     Support QTI audio solution
 # qti-bluetooth: Support QTI bluetooth solution
@@ -57,7 +67,5 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # qti-mm-parser: Support QTI multimeida parsers
 # qti-video-decoder: Support QTI video decoder
 # qti-video-encoder: Support QTI video encoder
-# tensoflow-lite: Support for tensorflow lite
-# pulseaudio: Use pulseaudio audio server
 
-DISTRO_FEATURES_append = " qti-audio qti-video-decoder qti-video-encoder qti-adsp qti-cdsp audio-dlkm qti-camera qti-fastcv tensorflow-lite pulseaudio "
+DISTRO_FEATURES_append = " qti-audio qti-video-decoder qti-video-encoder qti-adsp qti-cdsp audio-dlkm qti-camera qti-fastcv"
