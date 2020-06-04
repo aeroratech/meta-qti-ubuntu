@@ -132,7 +132,6 @@ do_ubuntu_install() {
 	echo '127.0.0.1 localhost' > ${TMP_WKDIR}/etc/hosts
 	echo '127.0.1.1 ${MACHINE}' >> ${TMP_WKDIR}/etc/hosts
 
-	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install --fix-broken humanity-icon-theme -y"
 	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install rsyslog -y"
 	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 
