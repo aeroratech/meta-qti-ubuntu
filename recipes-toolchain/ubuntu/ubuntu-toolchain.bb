@@ -705,6 +705,13 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pixman-1  ${D}${includedir}/
     ln -sf ./libpixman-1.so.0.34.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libpixman-1.so
 
+    ## libjsoncpp1 & libjsoncpp-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/jsoncpp/json/  ${D}${includedir}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/jsoncpp.pc  ${D}${libdir}/pkgconfig/
+    ln -sf ./libjsoncpp.so.1.7.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.so
+    ln -sf ./libjsoncpp.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.so
+
     # libtheora0 & libtheora-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtheora.* ${D}${libdir}/${UBUN_TARGET_SYS}/
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtheoradec.* ${D}${libdir}/${UBUN_TARGET_SYS}/
@@ -889,7 +896,6 @@ FILES_jpeg += "${libdir}/${UBUN_TARGET_SYS}/libjpeg.so*"
 PKGR_jpeg = "0"
 PKGV_jpeg = "0"
 
-
 #orc
 PACKAGES += "liborc-0.4 liborc-test-0.4 orc orc-dev"
 PROVIDES += "liborc-0.4 liborc-test-0.4 orc orc-dev "
@@ -901,7 +907,31 @@ FILES_orc += " \
 PKG_orc ="liborc-0.4-0"
 PKGV_orc = "0"
 PKGR_orc = "0"
-
+#  libjsoncpp libjsoncpp-dev
+PKG_jsoncpp = "libjsoncpp1"
+PKGR_jsoncpp = "0"
+PKGV_jsoncpp = "0"
+PACKAGES += "\
+            jsoncpp \
+            jsoncpp-dev \
+            libjsoncpp-dev \
+"
+PROVIDES += "\
+            jsoncpp \
+            jsoncpp-dev \
+            libjsoncpp \
+            libjsoncpp-dev \
+"
+RPROVIDES_jsoncpp += "\
+            jsoncpp \
+            jsoncpp-dev \
+            libjsoncpp \
+            libjsoncpp-dev \
+"
+FILES_jsoncpp += " \
+         ${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.so.* \
+         ${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.a \
+"
 #  libcap
 PACKAGES += "\
             libcap \

@@ -51,6 +51,7 @@ PNBLACKLIST[libgcc] = "Using ubuntu toolchain"
 PNBLACKLIST[libdrm] = "Using ubuntu toolchain"
 PNBLACKLIST[gcc-cross] = "Using ubuntu toolchain"
 PNBLACKLIST[gcc-runtime] = "Using ubuntu toolchain"
+PNBLACKLIST[jsoncpp] = "Using ubuntu toolchain"
 
 # Replace meta libs with ubuntu
 PNBLACKLIST[libcap] = "Using ubuntu toolchain"
@@ -213,7 +214,7 @@ PREFERRED_PROVIDER_json-c-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libssl1.0.0 = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libssl1.0.0-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_gdk-pixbuf = "ubuntu-toolchain"
-
+PREFERRED_PROVIDER_jsoncpp = "ubuntu-toolchain"
 PREFERRED_VERSION_cairo = "1.15.10"
 PREFERRED_VERSION_gdk-pixbuf = "2.36.12"
 PREFERRED_VERSION_harfbuzz = "1.7.2"
