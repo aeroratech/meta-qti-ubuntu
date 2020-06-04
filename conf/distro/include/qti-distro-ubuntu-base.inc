@@ -59,7 +59,6 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # tensorflow-lite: Include the tensorflow lite inference engine.
 # wayland:         Include the Wayland display server protocol
 # drm:             Use DRM display drivers, provided machine supports it
-# audio-dlkm:      Audio kernel modules
 
 DISTRO_FEATURES_append = " \
     opencl \
@@ -67,17 +66,19 @@ DISTRO_FEATURES_append = " \
     tensorflow-lite \
     wayland \
     drm \
-    audio-dlkm \
     "
 
 ## QTI defined distro features ##
 # qti-audio:         Support QTI audio solution
-# qti-bluetooth:     Support QTI bluetooth solution
-# qti-camera:        Support QTI camera solution
-# qti-mm-parser:     Support QTI multimeida parsers
-# qti-video:         Support for QTI video solution
+# qti-video:         Support QTI video solution
 # qti-video-decoder: Support QTI video decoder
 # qti-video-encoder: Support QTI video encoder
+# qti-adsp:          Support QTI adsp solution
+# qti-cdsp:          Support QTI cdsp solution
+# audio-dlkm:        Support QTI audio drivers
+# qti-camera:        Support QTI camera solution
+# qti-fastcv:        Support QTI fastcv solution
+# qti-qmmf:          Support QMMF
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -86,8 +87,10 @@ DISTRO_FEATURES_append = " \
     qti-video-encoder \
     qti-adsp \
     qti-cdsp \
+    audio-dlkm \
     qti-camera \
     qti-fastcv \
+    qti-qmmf \
     "
 
 ## bootfs parameter ##

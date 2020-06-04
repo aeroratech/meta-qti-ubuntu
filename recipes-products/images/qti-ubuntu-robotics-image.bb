@@ -27,6 +27,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-dsp \
             packagegroup-qti-fastcv \
             packagegroup-qti-ss-mgr \
+            packagegroup-qti-qmmf \
             "
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
