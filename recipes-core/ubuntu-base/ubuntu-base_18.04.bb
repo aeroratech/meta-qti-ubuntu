@@ -104,6 +104,24 @@ do_create_the_links() {
 		${TMP_WKDIR}/lib/udev/rules.d/60-persistent-storage.rules
 }
 
+
+humanity_theme_install() {
+	set +e
+	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install humanity-icon-theme -y"
+	exitcode=$?
+	flag=0
+	while [[ "$exitcode" != "0" && "${flag}" -le "3" ]]; do
+		echo "humanity-icon-theme package install failed"
+		echo "re-try count: ${flag}"
+		((flag++));
+		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get clean"
+		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install humanity-icon-theme -y"
+		exitcode=$?
+	done
+	set -e
+}
+
 do_ubuntu_install() {
 	cache_avaliable=0
 	## copy cache if exists to speed up apt install process ##
@@ -132,6 +150,9 @@ do_ubuntu_install() {
 	echo '127.0.0.1 localhost' > ${TMP_WKDIR}/etc/hosts
 	echo '127.0.1.1 ${MACHINE}' >> ${TMP_WKDIR}/etc/hosts
 
+	# There has a low probability that downloaded broken humanity-icon-theme.
+	# We will clean the cache and take a re-try to fix it
+	humanity_theme_install
 	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install rsyslog -y"
 	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 
