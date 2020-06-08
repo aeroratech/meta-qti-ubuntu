@@ -58,7 +58,7 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # pulseaudio:      Use pulseaudio audio server
 # tensorflow-lite: Include the tensorflow lite inference engine.
 
-DISTRO_FEATURES_append = "opencl pulseaudio tensorflow-lite"
+DISTRO_FEATURES_append = " opencl pulseaudio tensorflow-lite "
 
 ## QTI defined distro features ##
 # qti-audio:     Support QTI audio solution
