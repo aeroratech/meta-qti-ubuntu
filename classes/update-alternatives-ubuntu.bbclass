@@ -2,22 +2,22 @@
 #
 #This file is derived from https://source.codeaurora.org/quic/ype/external/yoctoproject.org/poky/tree/meta/classes/update-alternatives.bbclass
 #
-#Permission is hereby granted, free of charge, to any person obtaining a copy 
-#of this software and associated documentation files (the "Software"), to deal 
-#in the Software without restriction, including without limitation the rights 
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
-#copies of the Software, and to permit persons to whom the Software is 
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
 #furnished to do so, subject to the following conditions:
 #
-#The above copyright notice and this permission notice shall be included in 
+#The above copyright notice and this permission notice shall be included in
 #all copies or substantial portions of the Software.
 #
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
 # This class is used to help the alternatives system which is useful when
@@ -91,6 +91,8 @@ PACKAGE_WRITE_DEPS += "virtual/update-alternatives-native"
 
 do_package_qa[noexec] = "1"
 
+RDEPENDS_${PN} += "update-alternatives-recovery"
+
 def gen_updatealternativesvardeps(d):
     pkgs = (d.getVar("PACKAGES") or "").split()
     vars = (d.getVar("UPDALTVARS") or "").split()
@@ -152,6 +154,15 @@ populate_packages[vardeps] += "${UPDALTVARS} ${@gen_updatealternativesvars(d)}"
 # the split and strip steps..  packagecopy seems to be the earliest reasonable
 # place.
 python perform_packagecopy_append () {
+    # skip files
+    def skip_files(d, pkg):
+        files = []
+        if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
+           systemd_packages = d.getVar('SYSTEMD_PACKAGES') or ""
+           if pkg in systemd_packages.split():
+              files = files + (d.getVar('SYSTEMD_SERVICE_' + pkg) or "").split()
+        return files
+
     # Check for deprecated usage...
     pn = d.getVar('BPN')
     if d.getVar('ALTERNATIVE_LINKS') != None:
@@ -160,11 +171,8 @@ python perform_packagecopy_append () {
     # Do actual update alternatives processing
     pkgdest = d.getVar('PKGD')
     for pkg in (d.getVar('PACKAGES') or "").split():
-        # If the src == dest, we know we need to rename the dest by appending ${BPN}
-        link_rename = {}
-        alter_name = (d.getVar('ALTERNATIVE_%s' % pkg) or "").split()
-        if len(alter_name) > 0:
-            d.setVar('FILES_%s' % pkg, "")	
+        if (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
+            d.setVar('FILES_%s' % pkg, "")
             # append package name to qti-xxxxx
             pkg_name = d.getVar('PKG_%s' % pkg) or ""
             if pkg_name:
@@ -172,7 +180,14 @@ python perform_packagecopy_append () {
             else:
                pkg_name = 'qti-' + pkg
             d.setVar('PKG_%s' % pkg, pkg_name)
+        else:
+            continue
+
+        skip_list = skip_files(d, pkg)
+
         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
+            if alt_name in skip_list:
+               continue
             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
             if not alt_link:
                 alt_link = "%s/%s" % (d.getVar('bindir'), alt_name)
@@ -184,8 +199,6 @@ python perform_packagecopy_append () {
 
             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name)
             alt_target   = alt_target or d.getVar('ALTERNATIVE_TARGET_%s' % pkg) or d.getVar('ALTERNATIVE_TARGET') or alt_link
-            # Sometimes alt_target is specified as relative to the link name.
-            # alt_target   = os.path.join(os.path.dirname(alt_link), alt_target)
 
             # Rename the target.
             src = '%s/%s' % (pkgdest, alt_target)
@@ -208,7 +221,7 @@ python perform_packagecopy_append () {
                 os.rename(src, dest)
                 # If the target and link have different name, make a soft link for target
                 if alt_link != alt_target:
-                    os.symlink(alt_target_rename, pkgdest + alt_target)
+                    os.symlink(('../' * (alt_target.count('/') - 1) + alt_target_rename[1:]), pkgdest + alt_target)
                     d.appendVar('FILES_%s' % pkg, ' ' + alt_target)
             else:
                 bb.warn("%s: alternative target (%s or %s) does not exist, skipping..." % (pn, alt_target, alt_target_rename))
@@ -255,12 +268,6 @@ python populate_packages_updatealternatives () {
             alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
 
         if alt_setup_links:
-            # RDEPENDS setup
-            #provider = d.getVar('VIRTUAL-RUNTIME_update-alternatives')
-            #if provider:
-                #bb.note('adding runtime requirement for update-alternatives for %s' % pkg)
-                #d.appendVar('RDEPENDS_%s' % pkg, ' ' + d.getVar('MLPREFIX', False) + provider)
-
             bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
             bb.note('%s' % alt_setup_links)
             postinst = d.getVar('pkg_postinst_%s' % pkg) or '#!/bin/sh\n'
