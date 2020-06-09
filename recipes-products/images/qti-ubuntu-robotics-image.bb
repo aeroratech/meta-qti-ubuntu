@@ -20,6 +20,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             systemd-machine-units \
             update-alternatives-recovery \
             yavta \
+            depends-update \
             packagegroup-startup-scripts \
             packagegroup-android-utils \
             packagegroup-qti-core-prop \
@@ -90,9 +91,27 @@ do_deb_pre() {
     do_ubuntu_rootfs
 }
 
+do_fix_oe_depends() {
+    i=0,j=0
+    cat ${IMAGE_ROOTFS}/var/lib/dpkg/status | while read line
+    do
+      let i+=1
+      if [[ "$line" == Depends:* && "$line" != "Depends: libc6 (>= 2.27)" ]];then
+          j=$i
+      elif [[ "$line" == Package:* ]];then
+          j=0
+      elif [[ "$line" == OE:* && "$j" != 0 ]];then
+         sed -in "${j}c Depends: libc6 (>= 2.27)" ${IMAGE_ROOTFS}/var/lib/dpkg/status
+      fi
+    done
+}
+
 do_fs_post() {
     #fix adbd launch command
     sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/etc/launch_adbd
+
+    #fix apt status of OE package Depends
+    do_fix_oe_depends
 
 #   ---- fix mesa/adreno file list conflicts ----
     if [ -e ${IMAGE_ROOTFS}/var/lib/dpkg/info/adreno.list ]; then
