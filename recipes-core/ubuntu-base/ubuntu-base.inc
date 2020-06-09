@@ -18,6 +18,7 @@ UBUN_BASIC_PACKAGES = " systemd \
                         libssl1.1 \
                         libssl-dev \
                         openssl \
+                        procps \
                         zlib1g \
 			zip \
                        "
