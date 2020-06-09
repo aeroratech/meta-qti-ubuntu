@@ -18,6 +18,7 @@ DEPENDS += "ubuntu-base"
 CORE_IMAGE_BASE_INSTALL = " \
             kernel-modules \
             systemd-machine-units \
+            update-alternatives-recovery \
             yavta \
             packagegroup-startup-scripts \
             packagegroup-android-utils \
