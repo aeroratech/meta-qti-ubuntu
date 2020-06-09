@@ -15,7 +15,7 @@ UBUN_BASIC_PACKAGES = " systemd \
                         psmisc \
                         usbutils \
                         libffi6 \
-                        libssl1.1 \
+                        libssl1.1 \		
                         libssl-dev \
                         openssl \
                         procps \
@@ -124,8 +124,49 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libflac++6v5 \
                              libflac++-dev \
                              libasound2-plugins \
+                             libevdev2 \
+                             libinput10 \
+                             libinput-dev \
+                             libmtdev1 \
+                             libmtdev-dev \
+                             libwrap0 \
+                             libwrap0-dev \
+                             liba52-0.7.4 \
+                             liba52-0.7.4-dev \
+                             libqhull-dev \
+                             libqhull7 \
+                             libcrypto++6 \
+                             libcrypto++-dev \
+                             libcroco3 \
+                             libcroco3-dev \
+                             libgudev-1.0-0 \
+                             libgudev-1.0-dev \
+                             libid3tag0 \
+                             libid3tag0-dev \
+                             librsvg2-2 \
+                             librsvg2-dev \
+                             libsoup2.4-1 \
+                             libsoup2.4-dev \
+                             liborc-0.4-0 \
+                             liborc-0.4-dev \
+			     libtheora0 \
+                             libtheora-dev \
+                             liburcu6 \
+                             liburcu-dev \
+                             libwebp6 \
+                             libwebpdemux2 \
+                             libwebpmux3 \
+                             libwebp-dev \
+                             libmpg123-0 \
+                             libmpg123-dev \
+                             libout123-0 \
+                             libtag1v5-vanilla \
+                             libtagc0 \
+                             libtagc0-dev \
+                             libtag1-dev \
+                             libjson-c3 \
+                             libjson-c-dev \
                              "
-
 
 
 UBUN_BASIC_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
