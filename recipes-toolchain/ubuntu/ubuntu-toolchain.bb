@@ -723,7 +723,7 @@ PKG_libpthread-stubs = "libpthread-stubs0-dev"
 PKGR_libpthread-stubs = "0"
 PKGV_libpthread-stubs = "0"
 
-PACKAGE += " libpthread-stubs "
+PACKAGES += " libpthread-stubs "
 PROVIDES += " libpthread-stubs "
 
 FILES_libpthread-stubs = "${libdir}/dummy"
@@ -733,7 +733,7 @@ FILES_libpthread-stubs = "${libdir}/dummy"
 PKG_libbsd = "libbsd0"
 PKGR_libbsd = "0"
 PKGV_libbsd = "0"
-PACKAGE += "\
+PACKAGES += "\
     libbsd \
     libbsd-dev \
 "
@@ -741,6 +741,11 @@ PROVIDES += "\
     libbsd \
     libbsd-dev \
 "
+RPROVIDES_libbsd += " \
+    libbsd \
+    libbsd-dev \
+    "
+
 FILES_libbsd = "\
     ${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0 \
     ${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0.8.7 \
@@ -755,7 +760,7 @@ FILES_libbsd-dev = "\
 PKG_libpciaccess = "libpciaccess0"
 PKGR_libpciaccess = "0"
 PKGV_libpciaccess = "0"
-PACKAGE  += "\
+PACKAGES  += "\
     libpciaccess \
     libpciaccess-dev \
 "
