@@ -90,6 +90,7 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              gstreamer1.0-libav \
                              gstreamer1.0-tools \
                              libgstreamer-gl1.0-0 \
+                             libgbm-dev \
                              locales \
                              curl \
                              lsb-release \
