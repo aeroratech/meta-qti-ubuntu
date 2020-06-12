@@ -191,6 +191,11 @@ CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-pulseaudio \
 "
 
+#Install packages for securemsm
+CORE_IMAGE_BASE_INSTALL += " \
+	${@bb.utils.contains('COMBINED_FEATURES', 'qti-security', 'packagegroup-qti-securemsm', '', d)} \
+"
+
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete
 
