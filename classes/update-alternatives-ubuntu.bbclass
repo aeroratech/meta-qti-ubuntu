@@ -163,6 +163,63 @@ python perform_packagecopy_append () {
               files = files + (d.getVar('SYSTEMD_SERVICE_' + pkg) or "").split()
         return files
 
+    # remove alternative files from FILES
+    def filter_files(d, pkg, rm):
+        files = d.getVar('FILES_%s' % pkg) or ""
+        files_list = files.split()
+        try:
+            files_list.remove(rm)
+        except ValueError:
+            return
+        d.setVar('FILES_%s' % pkg, ' '.join(files_list))
+
+    # get files from FILES
+    def get_files(d, pkg):
+        pkgdest = d.getVar('PKGD') or ""
+        old_files = d.getVar('FILES_%s' % pkg) or ""
+        new_files = []
+        file_list = []
+        if not old_files:
+            return
+        for file in old_files.split():
+            path = pkgdest + file
+            if os.path.isdir(path):
+                out = os.popen("find %s -type f,l" % path)
+                str1 = out.read()
+                out.close()
+                new_files += str1.split()
+                if not os.listdir(path):
+                    new_files.append(path)
+                else:
+                    for root, dirs, files in os.walk(path, topdown=False):
+                        for name in dirs:
+                            if not os.listdir(os.path.join(root, name)):
+                              new_files.append(os.path.join(root, name))
+                continue
+            out = os.popen("ls %s" % path)
+            str1 = out.read()
+            out.close()
+            if str1.split():
+                for f in str1.split():
+                    if os.path.isfile(f) or os.path.islink(f):
+                        new_files.append(f)
+                    elif os.path.isdir(f):
+                        out = os.popen("find %s -type f,l" % f)
+                        str2 = out.read()
+                        out.close()
+                        new_files += str2.split()
+                        if not os.listdir(f):
+                            new_files.append(f)
+                        else:
+                            for root, dirs, files in os.walk(f, topdown=False):
+                                for name in dirs:
+                                    if not os.listdir(os.path.join(root, name)):
+                                        new_files.append(os.path.join(root, name))
+        new_files = list(set(new_files))
+        new_files.sort()
+        for f in new_files:
+            file_list.append(f[len(pkgdest):])
+        d.setVar('FILES_%s' % pkg, ' '.join(file_list))
     # Check for deprecated usage...
     pn = d.getVar('BPN')
     if d.getVar('ALTERNATIVE_LINKS') != None:
@@ -172,7 +229,7 @@ python perform_packagecopy_append () {
     pkgdest = d.getVar('PKGD')
     for pkg in (d.getVar('PACKAGES') or "").split():
         if (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
-            d.setVar('FILES_%s' % pkg, "")
+            get_files(d, pkg)
             # append package name to qti-xxxxx
             pkg_name = d.getVar('PKG_%s' % pkg) or ""
             if pkg_name:
@@ -192,10 +249,7 @@ python perform_packagecopy_append () {
             if not alt_link:
                 alt_link = "%s/%s" % (d.getVar('bindir'), alt_name)
                 d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, alt_link)
-            if alt_link.startswith(os.path.join(d.getVar('sysconfdir'), 'init.d')):
-                # Managing init scripts does not work (bug #10433), foremost
-                # because of a race with update-rc.d
-                bb.fatal("Using update-alternatives for managing SysV init scripts is not supported")
+            filter_files(d, pkg, alt_link)
 
             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name)
             alt_target   = alt_target or d.getVar('ALTERNATIVE_TARGET_%s' % pkg) or d.getVar('ALTERNATIVE_TARGET') or alt_link
@@ -228,10 +282,9 @@ python perform_packagecopy_append () {
                 continue
 
             d.setVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name, alt_target_rename)
-                
 }
 
-PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
+PACKAGESPLITFUNCS_prepend = "${@'' if 'update-alternatives.bbclass' in (d.getVar('BBINCLUDED', True)) else 'populate_packages_updatealternatives '}"
 
 python populate_packages_updatealternatives () {
     pn = d.getVar('BPN')
