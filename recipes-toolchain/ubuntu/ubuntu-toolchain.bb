@@ -774,6 +774,11 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/json-c  ${D}${includedir}/
     ln -sf ./libjson-c.so.3.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libjson-c.so
 
+    ## libltdl
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libltdl.* ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libltdl.so.7.3.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libltdl.so
+    ln -sf ./libltdl.so.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libltdl.so
+
     #FIX symbol
     if [ -f ${D}${base_libdir}/libncursesw.so.5 ];then
         rm -rf ${D}${base_libdir}/libncurses*
@@ -886,6 +891,19 @@ PACKAGES += "\
     libgfortran-dev \
     libgfortran-staticdev \
    "
+#libltdl7 and libltdl-dev
+
+PKG_libltdl = "libltdl7"
+
+PACKAGES += "libltdl"
+PROVIDES += "libltdl"
+RPROVIDES_libltdl += "libltdl"
+FILES_libltdl += "\
+        ${libdir}/${UBUN_TARGET_SYS}/libltdl* \
+"
+
+PKGR_libltdl = "0"
+PKGV_libltdl = "0"
 #  libjpeg-turbo
 PKG_jpeg = "libjpeg-turbo8"
 PACKAGES += "jpeg"

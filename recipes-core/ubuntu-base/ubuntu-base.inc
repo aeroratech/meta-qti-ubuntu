@@ -48,6 +48,8 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libpixman-1-0 \
                                  libjsoncpp1 \
                                  libjsoncpp-dev \
+                                 libltdl7 \
+                                 libltdl-dev \
                                 "
 
 #Packages to enasure display and audio function
