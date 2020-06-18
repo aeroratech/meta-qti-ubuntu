@@ -79,6 +79,7 @@ DISTRO_FEATURES_append = " \
 # qti-camera:        Support QTI camera solution
 # qti-fastcv:        Support QTI fastcv solution
 # qti-qmmf:          Support QMMF
+# qti-security:      Support QTI security solution
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -91,6 +92,7 @@ DISTRO_FEATURES_append = " \
     qti-camera \
     qti-fastcv \
     qti-qmmf \
+    qti-security \
     "
 
 ## bootfs parameter ##
