@@ -154,7 +154,7 @@ do_ubuntu_install() {
 	# We will clean the cache and take a re-try to fix it
 	humanity_theme_install
 	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install rsyslog -y"
-	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
+	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "export DEBIAN_FRONTEND=noninteractive; apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 
 	rm -rf ${TMP_WKDIR}/sbin/init
 	ln -sf ../lib/systemd/systemd ${TMP_WKDIR}/sbin/init
