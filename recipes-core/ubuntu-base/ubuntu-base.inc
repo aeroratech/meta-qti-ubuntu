@@ -36,6 +36,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libatomic1 \
                                  libgomp1 \
                                  dnsmasq \
+				 iw \
                                  libevdev2 \
                                  libevdev-dev \
                                  libbsd0 \
