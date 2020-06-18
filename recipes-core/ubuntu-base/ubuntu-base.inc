@@ -96,6 +96,7 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libgbm-dev \
                              locales \
                              curl \
+			     cplay \
                              lsb-release \
                              python3-argcomplete \
                              gnupg2 \
