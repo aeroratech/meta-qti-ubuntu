@@ -246,8 +246,6 @@ PROVIDES += "\
             bzip2 \
             ncurses \
             gstreamer1.0 \
-            gstreamer1.0-plugins-base \
-            gstreamer1.0-plugins-good \
             gstreamer1.0-plugins-ugly \
             gstreamer1.0-rtsp-server \
             gstreamer1.0-libav \
@@ -294,6 +292,7 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
+    rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/sys ${D}${includedir}
@@ -558,6 +557,8 @@ do_install (){
     cp ${CP_ARGS}    ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
     rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstwayland*
     rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/libgstwaylandsink*
+    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstaudio*
+    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/libgstpulseaudio*
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/gstreamer*.pc ${D}${libdir}/pkgconfig/
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libnl*.pc ${D}${libdir}/pkgconfig
@@ -2040,7 +2041,6 @@ PKGR_gstreamer1.0 = "0"
 PACKAGES += "gstreamer1.0-plugins-base"
 FILES_gstreamer1.0-plugins-base = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstfft-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstaudio-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstrtsp-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstapp-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstvideo-1.0.so.0* \
