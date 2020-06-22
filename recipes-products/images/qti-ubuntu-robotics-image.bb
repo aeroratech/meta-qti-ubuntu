@@ -57,6 +57,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-bluetooth \
 "
+#Install packages for gst-ros2
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-gst-ros2 \
+            "
 
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
