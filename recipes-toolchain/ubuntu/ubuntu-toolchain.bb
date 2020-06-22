@@ -2091,6 +2091,9 @@ RPROVIDES_gstreamer1.0-rtsp-server = "gstreamer1.0-rtsp-server-glib gstreamer1.0
 PKG_gstreamer1.0-rtsp-server = "libgstrtspserver-1.0-0"
 PKGV_gstreamer1.0-rtsp-server = "0"
 PKGR_gstreamer1.0-rtsp-server = "0"
+FILES_gstreamer1.0-rtsp-server += "\
+    ${libdir}/${UBUN_TARGET_SYS}/libgstrtspserver* \
+"
 
 PACKAGES += "gstreamer1.0-libav"
 RPROVIDES_gstreamer1.0-libav = "gstreamer1.0-libav-locale gstreamer1.0-libav-dbg gstreamer1.0-libav-dev gstreamer1.0-libav-doc gstreamer1.0-libav-staticdev gstreamer1.0-libav"
