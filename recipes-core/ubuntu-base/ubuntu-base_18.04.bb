@@ -145,6 +145,7 @@ do_ubuntu_install() {
 	sed -i '1i /usr/lib' ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
 	echo '/lib/systemd'>> ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
 	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "cd /var; rm run; ln -s ../run run"
 	#set hostname and hosts
 	echo '${MACHINE}' > ${TMP_WKDIR}/etc/hostname
 	echo '127.0.0.1 localhost' > ${TMP_WKDIR}/etc/hosts
