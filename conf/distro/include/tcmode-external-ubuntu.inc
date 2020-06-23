@@ -17,6 +17,8 @@
 #LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
+#Add meta pn_block
+require recipes-pn-block.inc
 
 EXTERNAL_TOOLCHAIN ?= "${DL_DIR}"
 
@@ -45,52 +47,9 @@ BASE_LIB_tune-aarch64_be = "lib"
 GCCMULTILIB_forcevariable = "--disable-multilib"
 IMAGE_LINGUAS_forcevariable = ""
 
-# Blacklist toolchain recipes as a belt-and-suspenders way to use the external toolchain
-PNBLACKLIST[glibc] = "Using ubuntu toolchain"
-PNBLACKLIST[libgcc] = "Using ubuntu toolchain"
-PNBLACKLIST[libdrm] = "Using ubuntu toolchain"
-PNBLACKLIST[gcc-cross] = "Using ubuntu toolchain"
-PNBLACKLIST[gcc-runtime] = "Using ubuntu toolchain"
+#meta-qti-bsp
 PNBLACKLIST[jsoncpp] = "Using ubuntu toolchain"
 PNBLACKLIST[libdrm-modetest] = "Using ubuntu toolchain"
-
-# Replace meta libs with ubuntu
-PNBLACKLIST[libcap] = "Using ubuntu toolchain"
-PNBLACKLIST[libatomic-ops] = "Using ubuntu toolchain"
-PNBLACKLIST[libcroco] = "Using ubuntu toolchain"
-PNBLACKLIST[libgudev] = "Using ubuntu toolchain"
-PNBLACKLIST[libid3tag] = "Using ubuntu toolchain"
-PNBLACKLIST[librsvg] = "Using ubuntu toolchain"
-PNBLACKLIST[libsoup-2.4] = "Using ubuntu toolchain"
-PNBLACKLIST[libinput] = "Using ubuntu toolchain"
-PNBLACKLIST[mtdev] = "Using ubuntu toolchain"
-PNBLACKLIST[liba52] = "Using ubuntu toolchain"
-PNBLACKLIST[qhull] = "Using ubuntu toolchain"
-PNBLACKLIST[libcryptopp] = "Using ubuntu toolchain"
-PNBLACKLIST[tcp-wrappers] = "Using ubuntu toolchain"
-PNBLACKLIST[orc] = "Using ubuntu toolchain"
-PNBLACKLIST[libtheora] = "Using ubuntu toolchain"
-PNBLACKLIST[liburcu] = "Using ubuntu toolchain"
-PNBLACKLIST[libwebp] = "Using ubuntu toolchain"
-PNBLACKLIST[mpg123] = "Using ubuntu toolchain"
-PNBLACKLIST[json-c] = "Using ubuntu toolchain"
-
-# pulseaudio
-PNBLACKLIST[libvorbis] = "Using ubuntu toolchain"
-PNBLACKLIST[speexdsp] = "Using ubuntu toolchain"
-PNBLACKLIST[libogg] = "Using ubuntu toolchain"
-PNBLACKLIST[libsamplerate0] = "Using ubuntu toolchain"
-PNBLACKLIST[libsndfile1] = "Using ubuntu toolchain"
-PNBLACKLIST[flac] = "Using ubuntu toolchain"
-PNBLACKLIST[alsa-plugins] = "Using ubuntu toolchain"
-PNBLACKLIST[libevdev] = "Using ubuntu toolchain"
-PNBLACKLIST[libpciaccess] = "Using ubuntu toolchain"
-PNBLACKLIST[libbsd] = "Using ubuntu toolchain"
-PNBLACKLIST[pximan] = "Using ubuntu toolchain"
-PNBLACKLIST[libpthread-stubs] = "Using ubuntu toolchain"
-PNBLACKLIST[libffi] = "Using ubuntu toolchain"
-PNBLACKLIST[libltdl] = "Using ubuntu toolchain"
-PNBLACKLIST[iso-codes] = "Using ubuntu toolchain"
 
 PREFERRED_PROVIDER_iso-codes = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libinput = "ubuntu-toolchain"
@@ -107,9 +66,6 @@ PREFERRED_PROVIDER_libqhull-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcryptopp = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcrypto++ = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcrypto++-dev = "ubuntu-toolchain"
-
-# gstreamer bad plugins
-PNBLACKLIST[gdk-pixbuf] = "Using ubuntu toolchain"
 
 PREFERRED_PROVIDER_libcap = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libatomic-ops = "ubuntu-toolchain"
