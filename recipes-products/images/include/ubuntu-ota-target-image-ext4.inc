@@ -138,7 +138,7 @@ do_recovery_ext4() {
 
     #Getting content for OTA folder
     mkdir -p ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/OTA/bin
-    cp   ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/RECOVERY/usr/bin/applypatch ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/OTA/bin/.
+    cp   ${DEPLOY_DIR_IMAGE}/applypatch ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/OTA/bin/.
 
     cp   ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/RECOVERY/usr/bin/updater ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/OTA/bin/.
 
