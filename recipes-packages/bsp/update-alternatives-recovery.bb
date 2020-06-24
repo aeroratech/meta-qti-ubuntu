@@ -9,6 +9,8 @@ ${LICENSE};md5=550794465ba0ec5312d6919e203a55f9"
 FILESEXTRAPATHS_prepend := "${WORKSPACE}/vendor/qcom/opensource/ubuntu-oss/:"
 SRC_URI   = "file://update-alternatives"
 
+BBCLASSEXTEND = "native"
+
 S = "${WORKDIR}/update-alternatives"
 
 do_compile[noexec]="1"
