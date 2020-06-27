@@ -29,6 +29,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  seccomp \
                                  gdb \
                                  openssh-server \
+				 cluster-glue \
                                  tftp-hpa \
                                  tftpd-hpa \
                                  vim \
