@@ -43,6 +43,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libbsd-dev \
                                  libpciaccess0 \
                                  libpciaccess-dev \
+				 libion0 \
                                  xutils-dev \
                                  libpthread-stubs0-dev \
                                  libpixman-1-dev \
