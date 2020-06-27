@@ -222,6 +222,8 @@ HOST_ARCH="x86_64-linux-gnu"
 TARGET_ARCH="aarch64-linux-gnu"
 
 
+SYSROOT_DIRS_append = "/opt/ros/dashing"
+
 PACKAGES = "libc6 libunistring2 libc-bin catchsegv sln nscd ldd tzcode glibc-thread-db libcidn libmemusage libnss-db libsegfault libsotruss glibc-extra-nss "
 
 
@@ -302,6 +304,9 @@ do_install (){
     install -d ${D}/usr/include/gdk-pixbuf-2.0/
     install -d ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig/
     install -d ${D}/usr/share/thumbnailers/
+
+# mkdir ros2 dashing dir
+    install -d ${D}/opt/ros/dashing/
 
 #    usr/${UBUN_TARGET_SYS}/lib cannot be created
 #    install -d ${D}/usr/${UBUN_TARGET_SYS}/lib/
@@ -640,6 +645,9 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.a ${D}${libdir}/${UBUN_TARGET_SYS}/
     ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so
     ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so.0
+
+    # copy ros2 dashing to /opt/ros/dashing
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/opt/ros/dashing/* ${D}/opt/ros/dashing
 
     # libdbus-1 & libdbus-1-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libdbus*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -1514,17 +1522,360 @@ RPROVIDES_libxml2 = " \
 PKGV_libxml2 = "2.8.4+dfsg1"
 PKGR_libxml2 = "6.1ubuntu1.2"          
 
+#ros2 dashing
+# libros-dashing-ament-index-cpp
+PACKAGES += "libros-dashing-ament-index-cpp"
+FILES_libros-dashing-ament-index-cpp += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libament_index_cpp.so \
+"
+PROVIDES += "libros-dashing-ament-index-cpp"
+RPROVIDES_libros-dashing-ament-index-cpp += "libros-dashing-ament-index-cpp"
+PKG_libros-dashing-ament-index-cpp = "libros-dashing-ament-index-cpp"
+PKGR_libros-dashing-ament-index-cpp = "0"
+PKGV_libros-dashing-ament-index-cpp = "0"
+
+# libros-dashing-builtin-interfaces-sysroot
+PACKAGES += "libros-dashing-builtin-interfaces"
+FILES_libros-dashing-builtin-interfaces += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__python.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_generator_c.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_cpp.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_c.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_fastrtps_c.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_opensplice_cpp.so \
+    ${libdir}/${UBUN_TARGET_SYS}/libbuiltin_interfaces__rosidl_typesupport_opensplice_c.so \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/builtin_interfaces/builtin_interfaces_s__rosidl_typesupport_c.cpython-36m-aarch64-linux-gnu.so \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/builtin_interfaces/builtin_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-36m-aarch64-linux-gnu.so \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/builtin_interfaces/builtin_interfaces_s__rosidl_typesupport_opensplice_c.cpython-36m-aarch64-linux-gnu.so \
+"
+PROVIDES += "libros-dashing-builtin-interfaces"
+RPROVIDES_libros-dashing-builtin-interfaces += "libros-dashing-builtin-interfaces"
+PKG_libros-dashing-builtin-interfaces = "libros-dashing-builtin-interfaces"
+PKGR_libros-dashing-builtin-interfaces = "0"
+PKGV_libros-dashing-builtin-interfaces = "0"
+
+# libros-dashing-class-loader-sysroot
+PACKAGES += "libros-dashing-class-loader"
+FILES_libros-dashing-class-loader += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libclass_loader.so \
+"
+PROVIDES += "libros-dashing-class-loader"
+RPROVIDES_libros-dashing-class-loader += "libros-dashing-class-loader"
+PKG_libros-dashing-class-loader = "libros-dashing-class-loader"
+PKGR_libros-dashing-class-loader = "0"
+PKGV_libros-dashing-class-loader = "0"
+
+# libros-dashing-console-bridge-vendor-sysroot
+PACKAGES += "\
+    libros-dashing-console-bridge-vendor \
+"
+FILES_libcap += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libconsole_bridge.so  \
+"
+PROVIDES += "libros-dashing-console-bridge-vendor"
+RPROVIDES_libros-dashing-console-bridge-vendor += "libros-dashing-console-bridge-vendor"
+PKG_libros-dashing-console-bridge-vendor = "libros-dashing-console-bridge-vendor"
+PKGR_libros-dashing-console-bridge-vendor = "0"
+PKGV_libros-dashing-console-bridge-vendor = "0"
+
+# libros-dashing-cv-bridge-sysroot
+PACKAGES += "\
+    libros-dashing-cv-bridge \
+"
+FILES_libros-dashing-cv-bridge += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libcv_bridge.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/cv_bridge/boost/cv_bridge_boost.so  \
+"
+PROVIDES += "libros-dashing-cv-bridge"
+RPROVIDES_libros-dashing-cv-bridge += "libros-dashing-cv-bridge"
+PKG_libros-dashing-cv-bridge = "libros-dashing-cv-bridge"
+PKGR_libros-dashing-cv-bridge = "0"
+PKGV_libros-dashing-cv-bridge = "0"
+
+# libros-dashing-image-transport-sysroot
+PACKAGES += "\
+    libros-dashing-image-transport \
+"
+FILES_libros-dashing-image-transport += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libimage_transport_plugins.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libimage_transport.so  \
+"
+PROVIDES += "libros-dashing-image-transport"
+RPROVIDES_libros-dashing-image-transport += "libros-dashing-image-transport"
+PKG_libros-dashing-image-transport = "libros-dashing-image-transport"
+PKGR_libros-dashing-image-transport = "0"
+PKGV_libros-dashing-image-transport = "0"
+
+# libros-dashing-libyaml-vendor-sysroot
+PACKAGES += "\
+    libros-dashing-libyaml-vendor \
+"
+FILES_libros-dashing-libyaml-vendor += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libyaml.so  \
+"
+PROVIDES += "libros-dashing-libyaml-vendor"
+RPROVIDES_libros-dashing-libyaml-vendor += "libros-dashing-libyaml-vendor"
+PKG_libros-dashing-libyaml-vendor = "libros-dashing-libyaml-vendor"
+PKGR_libros-dashing-libyaml-vendor = "0"
+PKGV_libros-dashing-libyaml-vendor = "0"
+
+# libros-dashing-message-filters-sysroot
+PACKAGES += "\
+    libros-dashing-message-filters \
+"
+FILES_libros-dashing-message-filters += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libmessage_filters.so  \
+"
+PROVIDES += "libros-dashing-message-filters"
+RPROVIDES_libros-dashing-message-filters += "libros-dashing-message-filters"
+PKG_libros-dashing-message-filters = "libros-dashing-message-filters"
+PKGR_libros-dashing-message-filters = "0"
+PKGV_libros-dashing-message-filters = "0"
+
+# libros-dashing-rcl-interfaces-sysroot
+PACKAGES += "\
+    libros-dashing-rcl-interfaces \
+"
+FILES_libros-dashing-rcl-interfaces += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__python.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_generator_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_fastrtps_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_fastrtps_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_introspection_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_introspection_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_opensplice_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_interfaces__rosidl_typesupport_opensplice_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/rcl_interfaces/rcl_interfaces_s__rosidl_typesupport_c.cpython-36m-aarch64-linux-gnu.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/rcl_interfaces/rcl_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-36m-aarch64-linux-gnu.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/rcl_interfaces/rcl_interfaces_s__rosidl_typesupport_opensplice_c.cpython-36m-aarch64-linux-gnu.so  \
+"
+PROVIDES += "libros-dashing-rcl-interfaces"
+RPROVIDES_libros-dashing-rcl-interfaces += "libros-dashing-rcl-interfaces"
+PKG_libros-dashing-rcl-interfaces = "libros-dashing-rcl-interfaces"
+PKGR_libros-dashing-rcl-interfaces = "0"
+PKGV_libros-dashing-rcl-interfaces = "0"
+
+# libros-dashing-rcl-logging-noop-sysroot
+PACKAGES += "\
+    libros-dashing-rcl-logging-noop \
+"
+FILES_libros-dashing-rcl-logging-noop += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_logging_noop.so  \
+"
+PROVIDES += "libros-dashing-rcl-logging-noop"
+RPROVIDES_libros-dashing-rcl-logging-noop += "libros-dashing-rcl-logging-noop"
+PKG_libros-dashing-rcl-logging-noop = "libros-dashing-rcl-logging-noop"
+PKGR_libros-dashing-rcl-logging-noop = "0"
+PKGV_libros-dashing-rcl-logging-noop = "0"
+
+# libros-dashing-rcl-sysroot
+PACKAGES += "\
+    libros-dashing-rcl \
+"
+FILES_libros-dashing-rcl += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl.so  \
+"
+PROVIDES += "libros-dashing-rcl"
+RPROVIDES_libros-dashing-rcl += "libros-dashing-rcl"
+PKG_libros-dashing-rcl = "libros-dashing-rcl"
+PKGR_libros-dashing-rcl = "0"
+PKGV_libros-dashing-rcl = "0"
+
+# libros-dashing-rcl-yaml-param-parser-sysroot
+PACKAGES += "\
+    libros-dashing-rcl-yaml-param-parser \
+"
+FILES_libros-dashing-rcl-yaml-param-parser += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librcl_yaml_param_parser.so  \
+"
+PROVIDES += "libros-dashing-rcl-yaml-param-parser"
+RPROVIDES_libros-dashing-rcl-yaml-param-parser += "libros-dashing-rcl-yaml-param-parser"
+PKG_libros-dashing-rcl-yaml-param-parser = "libros-dashing-rcl-yaml-param-parser"
+PKGR_libros-dashing-rcl-yaml-param-parser = "0"
+PKGV_libros-dashing-rcl-yaml-param-parser = "0"
+
+# libros-dashing-rclcpp-sysroot
+PACKAGES += "\
+    libros-dashing-rclcpp \
+"
+FILES_libros-dashing-rclcpp += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librclcpp.so  \
+"
+PROVIDES += "libros-dashing-rclcpp"
+RPROVIDES_libros-dashing-rclcpp += "libros-dashing-rclcpp"
+PKG_libros-dashing-rclcpp = "libros-dashing-rclcpp"
+PKGR_libros-dashing-rclcpp = "0"
+PKGV_libros-dashing-rclcpp = "0"
+
+# libros-dashing-rcutils-sysroot
+PACKAGES += "\
+    libros-dashing-rcutils \
+"
+FILES_libros-dashing-rcutils += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librcutils.so  \
+"
+PROVIDES += "libros-dashing-rcutils"
+RPROVIDES_libros-dashing-rcutils += "libros-dashing-rcutils"
+PKG_libros-dashing-rcutils = "libros-dashing-rcutils"
+PKGR_libros-dashing-rcutils = "0"
+PKGV_libros-dashing-rcutils = "0"
+
+# libros-dashing-rmw-implementation-sysroot
+PACKAGES += "\
+    libros-dashing-rmw-implementation \
+"
+FILES_libros-dashing-rmw-implementation += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librmw_implementation.so  \
+"
+PROVIDES += "libros-dashing-rmw-implementation"
+RPROVIDES_libros-dashing-rmw-implementation += "libros-dashing-rmw-implementation"
+PKG_libros-dashing-rmw-implementation = "libros-dashing-rmw-implementation"
+PKGR_libros-dashing-rmw-implementation = "0"
+PKGV_libros-dashing-rmw-implementation = "0"
+
+# libros-dashing-rmw-sysroot
+PACKAGES += "\
+    libros-dashing-rmw \
+"
+FILES_libros-dashing-rmw += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librmw.so  \
+"
+PROVIDES += "libros-dashing-rmw"
+RPROVIDES_libros-dashing-rmw += "libros-dashing-rmw"
+PKG_libros-dashing-rmw = "libros-dashing-rmw"
+PKGR_libros-dashing-rmw = "0"
+PKGV_libros-dashing-rmw = "0"
+
+# libros-dashing-rosgraph-msgs-sysroot
+PACKAGES += "\
+    libros-dashing-rosgraph-msgs \
+"
+FILES_libros-dashing-rosgraph-msgs += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__python.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_generator_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_fastrtps_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_fastrtps_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_introspection_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_introspection_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_opensplice_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/librosgraph_msgs__rosidl_typesupport_opensplice_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/rosgraph_msgs/rosgraph_msgs_s__rosidl_typesupport_c.cpython-36m-aarch64-linux-gnu.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/rosgraph_msgs/rosgraph_msgs_s__rosidl_typesupport_fastrtps_c.cpython-36m-aarch64-linux-gnu.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/rosgraph_msgs/rosgraph_msgs_s__rosidl_typesupport_opensplice_c.cpython-36m-aarch64-linux-gnu.so  \
+"
+PROVIDES += "libros-dashing-rosgraph-msgs"
+RPROVIDES_libros-dashing-rosgraph-msgs += "libros-dashing-rosgraph-msgs"
+PKG_libros-dashing-rosgraph-msgs = "libros-dashing-rosgraph-msgs"
+PKGR_libros-dashing-rosgraph-msgs = "0"
+PKGV_libros-dashing-rosgraph-msgs = "0"
+
+# libros-dashing-rosidl-generator-c-sysroot
+PACKAGES += "\
+    libros-dashing-rosidl-generator-c \
+"
+FILES_libros-dashing-rosidl-generator-c += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librosidl_generator_c.so  \
+"
+PROVIDES += "libros-dashing-rosidl-generator-c"
+RPROVIDES_libros-dashing-rosidl-generator-c += "libros-dashing-rosidl-generator-c"
+PKG_libros-dashing-rosidl-generator-c = "libros-dashing-rosidl-generator-c"
+PKGR_libros-dashing-rosidl-generator-c = "0"
+PKGV_libros-dashing-rosidl-generator-c = "0"
+
+# libros-dashing-rosidl-typesupport-c-sysroot
+PACKAGES += "\
+    libros-dashing-rosidl-typesupport-c \
+"
+FILES_libros-dashing-rosidl-typesupport-c += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librosidl_typesupport_c.so  \
+"
+PROVIDES += "libros-dashing-rosidl-typesupport-c"
+RPROVIDES_libros-dashing-rosidl-typesupport-c += "libros-dashing-rosidl-typesupport-c"
+PKG_libros-dashing-rosidl-typesupport-c = "libros-dashing-rosidl-typesupport-c"
+PKGR_libros-dashing-rosidl-typesupport-c = "0"
+PKGV_libros-dashing-rosidl-typesupport-c = "0"
+
+# libros-dashing-rosidl-typesupport-cpp-sysroot
+PACKAGES += "\
+    libros-dashing-rosidl-typesupport-cpp \
+"
+FILES_libros-dashing-rosidl-typesupport-cpp += " \
+    ${libdir}/${UBUN_TARGET_SYS}/librosidl_typesupport_cpp.so  \
+"
+PROVIDES += "libros-dashing-rosidl-typesupport-cpp"
+RPROVIDES_libros-dashing-rosidl-typesupport-cpp += "libros-dashing-rosidl-typesupport-cpp"
+PKG_libros-dashing-rosidl-typesupport-cpp = "libros-dashing-rosidl-typesupport-cpp"
+PKGR_libros-dashing-rosidl-typesupport-cpp = "0"
+PKGV_libros-dashing-rosidl-typesupport-cpp = "0"
+
+# libros-dashing-sensor-msgs-sysroot
+PACKAGES += "\
+    libros-dashing-sensor-msgs \
+"
+FILES_libros-dashing-sensor-msgs += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__python.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_generator_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_fastrtps_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_fastrtps_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_introspection_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_introspection_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_opensplice_cpp.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/libsensor_msgs__rosidl_typesupport_opensplice_c.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/sensor_msgs/sensor_msgs_s__rosidl_typesupport_c.cpython-36m-aarch64-linux-gnu.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/sensor_msgs/sensor_msgs_s__rosidl_typesupport_fastrtps_c.cpython-36m-aarch64-linux-gnu.so  \
+    ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/sensor_msgs/sensor_msgs_s__rosidl_typesupport_opensplice_c.cpython-36m-aarch64-linux-gnu.so  \
+"
+PROVIDES += "libros-dashing-sensor-msgs"
+RPROVIDES_libros-dashing-sensor-msgs += "libros-dashing-sensor-msgs"
+PKG_libros-dashing-sensor-msgs = "libros-dashing-sensor-msgs"
+PKGR_libros-dashing-sensor-msgs = "0"
+PKGV_libros-dashing-sensor-msgs = "0"
+
+# libros-dashing-std-msgs-sysroot
+PACKAGES += "\
+        libros-dashing-std-msgs \
+"
+FILES_libros-dashing-std-msgs += " \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__python.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_generator_c.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_cpp.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_c.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_fastrtps_c.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_introspection_cpp.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_introspection_c.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_opensplice_cpp.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/libstd_msgs__rosidl_typesupport_opensplice_c.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/std_msgs/std_msgs_s__rosidl_typesupport_c.cpython-36m-aarch64-linux-gnu.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/std_msgs/std_msgs_s__rosidl_typesupport_fastrtps_c.cpython-36m-aarch64-linux-gnu.so  \
+        ${libdir}/${UBUN_TARGET_SYS}/python3.6/site-packages/std_msgs/std_msgs_s__rosidl_typesupport_opensplice_c.cpython-36m-aarch64-linux-gnu.so  \
+"
+PROVIDES += "libros-dashing-std-msgs"
+RPROVIDES_libros-dashing-std-msgs += "libros-dashing-std-msgs"
+PKG_libros-dashing-std-msgs = "libros-dashing-std-msgs"
+PKGR_libros-dashing-std-msgs = "0"
+PKGV_libros-dashing-std-msgs = "0"
+# ros2 dashing end
 
 ALLOW_EMPTY_libselinux1 = "1"
 PACKAGES += "libselinux1"
 FILES_libselinux1 += "${libdir}/${UBUN_TARGET_SYS}/libselinux.so.* "
 PROVIDES += " \
-            libselinux \
-            libsemanage \
+        libselinux \
+        libsemanage \
             "
 RPROVIDES_libselinux1 = " \
-                    libselinux \
-                    libsemanage \
+        libselinux \
+        libsemanage \
                    "
 PKGV_libselinux1 = "2.6.9"
 
