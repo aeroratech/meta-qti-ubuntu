@@ -43,6 +43,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libevdev-dev \
                                  libbsd0 \
                                  libbsd-dev \
+				 makepatch \
                                  libpciaccess0 \
                                  libpciaccess-dev \
 				 libion0 \
