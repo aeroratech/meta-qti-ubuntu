@@ -183,6 +183,36 @@ ALLOW_EMPTY_libssl1.0 = "1"
 ALLOW_EMPTY_libssl1.0-dev = "1"
 ALLOW_EMPTY_gdk-pixbuf = "1"
 
+#ros2 dashing packages
+ALLOW_EMPTY_libros-dashing-ament-index-cpp = "1"
+ALLOW_EMPTY_libros-dashing-builtin-interfaces = "1"
+ALLOW_EMPTY_libros-dashing-class-loader = "1"
+ALLOW_EMPTY_libros-dashing-console-bridge-vendor = "1"
+ALLOW_EMPTY_libros-dashing-cv-bridge = "1"
+ALLOW_EMPTY_libros-dashing-image-transport = "1"
+ALLOW_EMPTY_libros-dashing-libyaml-vendor = "1"
+ALLOW_EMPTY_libros-dashing-message-filters = "1"
+ALLOW_EMPTY_libros-dashing-rcl-interfaces = "1"
+ALLOW_EMPTY_libros-dashing-rcl-logging-noop = "1"
+ALLOW_EMPTY_libros-dashing-rcl = "1"
+ALLOW_EMPTY_libros-dashing-rcl-yaml-param-parser= "1"
+ALLOW_EMPTY_libros-dashing-rclcpp = "1"
+ALLOW_EMPTY_libros-dashing-rcutils = "1"
+ALLOW_EMPTY_libros-dashing-rmw-implementation = "1"
+ALLOW_EMPTY_libros-dashing-rmw = "1"
+ALLOW_EMPTY_libros-dashing-rosgraph-msgs = "1"
+ALLOW_EMPTY_libros-dashing-rosidl-generator-c = "1"
+ALLOW_EMPTY_libros-dashing-rosidl-typesupport-c = "1"
+ALLOW_EMPTY_libros-dashing-rosidl-typesupport-cpp = "1"
+ALLOW_EMPTY_libros-dashing-sensor-msgs = "1"
+ALLOW_EMPTY_libros-dashing-std-msgs = "1"
+
+# add libpoco-dev & libtinyxml2 library
+ALLOW_EMPTY_libpoco-dev = "1"
+ALLOW_EMPTY_libpocofoundation50 = "1"
+ALLOW_EMPTY_libtinyxml2 = "1"
+ALLOW_EMPTY_libtinyxml2-dev = "1"
+
 PV = "0"
 BINV = "0"
 TARGET_SYS = "${UBUN_TARGET_SYS}"
@@ -779,6 +809,15 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libltdl.* ${D}${libdir}/${UBUN_TARGET_SYS}/
     ln -sf ./libltdl.so.7.3.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libltdl.so
     ln -sf ./libltdl.so.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libltdl.so
+    # libtinyxml2 install lib
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/tinyxml2.h ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/aarch64-linux-gnu/libtinyxml2.so ${D}${base_libdir}/${UBUN_TARGET_SYS}
+    ln -sf ./libtinyxml2.so.6 ${D}${libdir}/${UBUN_TARGET_SYS}/libtinyxml2.so.6
+    ln -sf ./libtinyxml2.so.66.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libtinyxml2.so.6
+
+    # libpoco-dev install lib
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/Poco ${D}${includedir}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/libPocoFoundation.so ${D}${base_libdir}/
 
     #FIX symbol
     if [ -f ${D}${base_libdir}/libncursesw.so.5 ];then
@@ -1086,6 +1125,33 @@ PKG_libgcc = "libgcc1"
 PKGR = "0"
 PKGV = "0"
 
+# libpoco-dev
+PACKAGES += "\
+    libpoco-dev \
+    libpocofoundation50 \
+"
+FILES_libpoco-dev += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libPocoFoundation.so  \
+"
+PROVIDES += "libpoco-dev"
+RPROVIDES_libpoco-dev += "libpoco-dev"
+PKG_libpoco-dev = "libpoco-dev"
+PKGR_libpoco-dev = "0"
+PKGV_libpoco-dev = "0"
+
+# libtinyxml2
+PACKAGES += "\
+    libtinyxml2 \
+    libtinyxml2-dev \
+"
+FILES_libtinyxml2 += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libtinyxml2.so.6  \
+"
+PROVIDES += "libtinyxml2"
+RPROVIDES_libtinyxml2 += "libtinyxml2"
+PKG_libtinyxml2 = "libtinyxml2"
+PKGR_libtinyxml2 = "0"
+PKGV_libtinyxml2 = "0"
 #  libpam
 PACKAGES += "libpam"
 FILES_libpam += "${libdir}/dummy"
