@@ -32,6 +32,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  tftp-hpa \
                                  tftpd-hpa \
                                  vim \
+				 hostapd \
                                  apparmor \
                                  libatomic1 \
                                  libgomp1 \
