@@ -100,6 +100,11 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              gstreamer1.0-tools \
                              libgstreamer-gl1.0-0 \
                              libgbm-dev \
+			     opencl-clhpp-headers \
+			     opencl-c-headers \
+			     mesa-common-dev \
+			     libgles2-mesa-dev \
+			     libegl1-mesa-dev \
                              locales \
                              curl \
                              lsb-release \
