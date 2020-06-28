@@ -6,6 +6,8 @@ RDEPENDS_pulseaudio-server_remove = "alsa-plugins-pulseaudio-conf"
 RDEPENDS_pulseaudio-server += "libasound2-plugins"
 RDEPENDS_pulseaudio-misc += "libpulse-simple"
 
+SYSTEMD_SERVICE_${PN}-server_remove += "volatile-var-lib-pulse.service"
+
 EXTRA_OECONF += "--disable-effect-trumpet"
 
 PACKAGES_prepend = " \
