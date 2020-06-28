@@ -134,6 +134,7 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libspeexdsp-dev \
                              libspeex1 \
                              libspeex-dev \
+                             pulseaudio-esound-compat \
                              libogg0 \
                              libogg-dev \
                              libsamplerate0 \
