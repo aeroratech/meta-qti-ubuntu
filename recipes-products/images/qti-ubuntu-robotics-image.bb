@@ -21,6 +21,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             update-alternatives-recovery \
             yavta \
             depends-update \
+            ota-upgrade \
             packagegroup-startup-scripts \
             packagegroup-android-utils \
             packagegroup-qti-core-prop \
