@@ -80,6 +80,7 @@ DISTRO_FEATURES_append = " \
 # qti-fastcv:        Support QTI fastcv solution
 # qti-qmmf:          Support QMMF
 # qti-security:      Support QTI security solution
+# qti-gst-ros2:      Support QTI gst ros2
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -93,6 +94,7 @@ DISTRO_FEATURES_append = " \
     qti-fastcv \
     qti-qmmf \
     qti-security \
+    qti-gst-ros2 \
     "
 
 ## bootfs parameter ##
