@@ -1,3 +1,4 @@
+inherit python3native
 
 LICENSE = "BSD-3-Clause"
 # License applies to this recipe code, not the packages itself.
@@ -12,9 +13,11 @@ do_install() {
     install -d ${D}/usr/lib/aarch64-linux-gnu
     install -d ${D}/usr/include
     install -d ${D}/usr/lib/Poco
+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
 
     # copy ros2 dashing to /opt/ros/dashing
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/opt/ros/dashing/* ${D}/opt/ros/dashing
+	cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/opt/ros/dashing/lib/python3.6/site-packages/* ${D}${PYTHON_SITEPACKAGES_DIR}
 
     # libtinyxml2 install lib
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/tinyxml2.h ${D}/usr/include
@@ -25,5 +28,13 @@ do_install() {
     # libpoco-dev install lib
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/Poco ${D}/usr/include
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/libPocoFoundation.so ${D}/usr/lib
+
+    # python3-catkin-pkg-modules_0.4.22-1_all install lib
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/python3/dist-packages/catkin_pkg ${D}${PYTHON_SITEPACKAGES_DIR}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/python3/dist-packages/catkin_pkg_modules-0.4.22.egg-info ${D}${PYTHON_SITEPACKAGES_DIR}
+
+    # python3-pkg-resources_39.0.1-2_all install lib
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/python3/dist-packages/pkg_resources ${D}${PYTHON_SITEPACKAGES_DIR}
+
 }
 do_package_qa[noexec] = "1"
