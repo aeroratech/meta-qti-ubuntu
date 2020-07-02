@@ -52,6 +52,7 @@ PNBLACKLIST[libdrm] = "Using ubuntu toolchain"
 PNBLACKLIST[gcc-cross] = "Using ubuntu toolchain"
 PNBLACKLIST[gcc-runtime] = "Using ubuntu toolchain"
 PNBLACKLIST[jsoncpp] = "Using ubuntu toolchain"
+PNBLACKLIST[libdrm-modetest] = "Using ubuntu toolchain"
 
 # Replace meta libs with ubuntu
 PNBLACKLIST[libcap] = "Using ubuntu toolchain"

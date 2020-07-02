@@ -71,6 +71,7 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libdrm-dev \
                                    libdrm2 \
                                    libgdk-pixbuf2.0-0 \
+                                   libdrm-tests \
                                  "
 
 #video, camera packages
