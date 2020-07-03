@@ -35,3 +35,6 @@ do_install_append () {
 }
 
 do_package_qa[noexec] = "1"
+
+# config update-alternatives for gstreamer1.0-plugins-base
+require update-alternatives/gstreamer1.0-plugins-base.inc
