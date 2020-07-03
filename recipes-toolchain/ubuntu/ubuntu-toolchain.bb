@@ -574,6 +574,7 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/* ${D}${libdir}/pkgconfig/
     #clean wayland pkgconfig files here
     rm -rf ${D}${libdir}/pkgconfig/wayland-*.pc
+    rm -rf ${D}${libdir}/pkgconfig/libelf.pc
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libiberty.a ${D}${libdir}/${UBUN_TARGET_SYS}
 

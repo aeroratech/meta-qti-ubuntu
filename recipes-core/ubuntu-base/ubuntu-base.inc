@@ -27,7 +27,6 @@ UBUN_BASIC_PACKAGES = " systemd \
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libseccomp2 \
                                  seccomp \
-                                 gdb \
                                  openssh-server \
 				 cluster-glue \
                                  tftp-hpa \
@@ -56,6 +55,11 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libltdl7 \
                                  libltdl-dev \
                                 "
+
+UBUN_DEBUG_PACKAGES = " gdb \
+                        strace \
+                        valgrind \
+"
 
 #Packages to enasure display and audio function
 UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
@@ -194,5 +198,5 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
 
 UBUN_BASIC_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
 UBUN_BASIC_PERF_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
-UBUN_FULLSTACK_DEBUG_PACKAGES = "${UBUN_BASIC_PERF_PACKAGES} ${UBUN_PLATFORM_EXTRA_PACKAGES} ${UBUN_MULTIMEDIA_PACKAFES}"
+UBUN_FULLSTACK_DEBUG_PACKAGES = "${UBUN_BASIC_PERF_PACKAGES} ${UBUN_PLATFORM_EXTRA_PACKAGES} ${UBUN_MULTIMEDIA_PACKAFES} ${UBUN_DEBUG_PACKAGES}"
 UBUN_FULLSTACK_PERF_PACKAGES = "${UBUN_BASIC_PERF_PACKAGES} ${UBUN_PLATFORM_EXTRA_PACKAGES} ${UBUN_MULTIMEDIA_PACKAFES}"

@@ -31,6 +31,12 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-ss-mgr \
             packagegroup-qti-qmmf \
             "
+
+#Install packages for debug
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'packagegroup-qti-ubuntu-debug-tools', '', d)} \
+"
+
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-wifi \
