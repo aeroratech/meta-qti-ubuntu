@@ -184,6 +184,14 @@ ALLOW_EMPTY_libssl1.0-dev = "1"
 ALLOW_EMPTY_gdk-pixbuf = "1"
 ALLOW_EMPTY_iso-codes = "1"
 
+# add opencv
+ALLOW_EMPTY_libopencv-core-dev = "1"
+ALLOW_EMPTY_libopencv-core3.2 = "1"
+ALLOW_EMPTY_libopencv-imgcodecs-dev = "1"
+ALLOW_EMPTY_libopencv-imgcodecs3.2 = "1"
+ALLOW_EMPTY_libopencv-imgproc-dev = "1"
+ALLOW_EMPTY_libopencv-imgproc3.2 = "1"
+
 PV = "0"
 BINV = "0"
 TARGET_SYS = "${UBUN_TARGET_SYS}"
@@ -408,6 +416,29 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mtdev-plumbing.h  ${D}${includedir}/
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mtdev.h  ${D}${includedir}/
     ln -sf ./libmtdev.so.1.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libmtdev.so
+
+    # libopencv-core3.2 & libopencv-core-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_core.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2 ${D}/usr/include/
+    ln -sf ./libopencv_core.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2
+    ln -sf ./libopencv_core.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_core.so
+
+    # libopencv-imgcodecs3.2 & libopencv-imgcodecs-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgcodecs ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgcodecs.hpp ${D}/usr/include/opencv2
+    ln -sf ./libopencv_imgcodecs.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2
+    ln -sf ./libopencv_imgcodecs.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so
+
+    # libopencv-imgproc3.2 & libopencv-imgproc-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgproc.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgproc ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgproc.hpp ${D}/usr/include/opencv2
+    ln -sf ./libopencv_imgproc.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2
+    ln -sf ./libopencv_imgproc.so.3.2 ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgproc.so
 
     # libwrap0 & libwrap0-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwrap.* ${D}${libdir}/${UBUN_TARGET_SYS}/
@@ -2097,6 +2128,30 @@ RPROVIDES_gstreamer1.0 = "gstreamer1.0-plugins-base"
 PKG_gstreamer1.0 = "libgstreamer-plugins-base1.0-0"
 PKGV_gstreamer1.0 = "1.14.4"
 PKGR_gstreamer1.0 = "0"
+
+#libopencv-core3.2
+PACKAGES += "\
+    libopencv-core3.2 \
+    libopencv-core-dev \
+"
+PROVIDES += "libopencv-core3.2 libopencv-core-dev"
+RPROVIDES_libopencv-core += "libopencv-core3.2 libopencv-core-dev"
+
+# libopencv-imgcodecs3.2
+PACKAGES += "\
+    libopencv-imgcodecs3.2 \
+    libopencv-imgcodecs-dev \
+"
+PROVIDES += "libopencv-imgcodecs3.2 libopencv-imgcodecs-dev"
+RPROVIDES_libopencv-imgcodecs += "libopencv-imgcodecs3.2 libopencv-imgcodecs-dev"
+
+# libopencv-imgproc3.2
+PACKAGES += "\
+    libopencv-imgproc3.2 \
+    libopencv-imgproc-dev \
+"
+PROVIDES += "libopencv-imgproc3.2 libopencv-imgproc-dev"
+RPROVIDES_libopencv-imgproc += "libopencv-imgproc3.2 libopencv-imgproc-dev"
 
 PACKAGES += "gstreamer1.0-plugins-bad"
 FILES_gstreamer1.0-plugins-bad = "\
