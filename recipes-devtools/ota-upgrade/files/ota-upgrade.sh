@@ -30,6 +30,64 @@
 #
 ###############################################################################
 
+R="\033[1;31m"
+G="\033[1;32m"
+B="\033[1;36m"
+Y="\033[1;33m"
+I="\033[1;34m" ## Indigo
+P="\033[1;35m"
+O="\033[0m"
+
+function font_color() {
+	case $1 in
+		'R'|'r') echo -n -e "\033[1;31m";;
+		"G"|'g') echo -n -e "\033[1;32m";;
+		"Y"|'y') echo -n -e "\033[1;33m";;
+		"B"|'b') echo -n -e "\033[1;36m";;
+		"P"|'p') echo -n -e "\033[1;34m";;
+			  *) echo -n -e "\033[0m";;
+	esac
+}
+
+function fix_dependence_link() {
+
+	font_color Y
+	echo -e "\n"
+	echo -e "#######################################################################"
+	echo -e "# Fix Steps:                                                          #"
+	echo -e "# 1.Run command: apt --fix-broken install to fix broken dependence    #"
+	echo -e "# 2.Run command: apt install /data/QTI/*  to install missing packages #"
+	echo -e "#######################################################################"
+	echo -e "\n"
+	font_color
+
+	font_color Y
+	echo -e "\n"
+	echo -e "#######################################################################"
+	echo -e "# Check:                                                              #"
+	echo -e "# If the missing packages are installed , type <exit> quit            #"
+	echo -e "# Don't do anything else except for handling the dependence issue.    #"
+	echo -e "#######################################################################"
+	echo -e "\n"
+	font_color
+
+	# create tmp rc file
+	RC_FILE=$(mktemp)
+	cat > ${RC_FILE} << EOF
+export PS1="\033[1;31m#DEPENDENCE# \033[1;32m\w/ $ \033[0m"
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+EOF
+	bash --rcfile ${RC_FILE} || true
+
+	[ -f "${RC_FILE}" ] && rm ${RC_FILE}
+
+}
 #Start OTA upgrade
 echo '############################################'
 echo '#                                          #'
@@ -65,20 +123,23 @@ else
  echo ''
 fi
 
-for filename in `ls /data/QTI`
-do
- dpkg -i /data/QTI/$filename > /data/qti.log
- if [[ $? = 0 ]]; then
-  echo "DPKG ${filename} successfully"
- else
-  echo '********************************************'
-  echo '*                                          *'
-  echo "ERROR: DPKG ${filename} DEB FAILED"
-  echo '*                                          *'
-  echo '********************************************'
-  echo ''
- fi
-done
+##Use apt install command to install the QTI packages
+apt install /data/QTI/*
+if [[ $? = 0 ]]; then
+	echo "APT install successfully"
+	echo ''
+else
+	font_color Y
+	echo -e "\n"
+	echo -e "#######################################################################"
+	echo -e "# Sometime the dependence link will broken                            #"
+	echo -e "# You might want to run 'apt --fix-broken install' to correct.        #"
+	echo -e "# Check the error messages to find out the missing packages.          #"
+	echo -e "#######################################################################"
+	echo -e "\n"
+	font_color
+	fix_dependence_link
+fi
 
 #fix adbd launch command
 sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/etc/launch_adbd
