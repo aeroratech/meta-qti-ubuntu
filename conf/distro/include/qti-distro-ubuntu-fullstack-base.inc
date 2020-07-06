@@ -50,14 +50,55 @@ USERADD_PARAM_${PN}_append =  " -g diag -G root diag "
 SYSTEM_SIZE_EXT4 = "33554432000"
 KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 
-
-## QTI defined distro features ##
-# qti-adsp:          Support QTI adsp solution
-# qti-cdsp:          Support QTI cdsp solution
+##################################################################
+# list of distro features
+##################################################################
+#
+# opencl:          Include the Open Computing Language
+# pulseaudio:      Use pulseaudio audio server
+# tensorflow-lite: Include the tensorflow lite inference engine.
+# wayland:         Include the Wayland display server protocol
+# drm:             Use DRM display drivers, provided machine supports it
 
 DISTRO_FEATURES_append = " \
+    opencl \
+    pulseaudio \
+    tensorflow-lite \
+    wayland \
+    drm \
+    "
+
+## QTI defined distro features ##
+# qti-audio:         Support QTI audio solution
+# qti-audio-encoder: Support QTI audio encoder
+# qti-audio-cal:     Support QTI audio calibration solution
+# qti-video:         Support QTI video solution
+# qti-video-decoder: Support QTI video decoder
+# qti-video-encoder: Support QTI video encoder
+# qti-adsp:          Support QTI adsp solution
+# qti-cdsp:          Support QTI cdsp solution
+# audio-dlkm:        Support QTI audio drivers
+# qti-camera:        Support QTI camera solution
+# qti-fastcv:        Support QTI fastcv solution
+# qti-qmmf:          Support QMMF
+# qti-security:      Support QTI security solution
+# qti-gst-ros2:      Support QTI gst ros2
+
+DISTRO_FEATURES_append = " \
+    qti-audio \
+    qti-audio-encoder \
+    qti-audio-cal \
+    qti-video \
+    qti-video-decoder \
+    qti-video-encoder \
     qti-adsp \
     qti-cdsp \
+    audio-dlkm \
+    qti-camera \
+    qti-fastcv \
+    qti-qmmf \
+    qti-security \
+    qti-gst-ros2 \
     "
 
 ## bootfs parameter ##
