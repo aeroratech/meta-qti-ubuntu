@@ -182,6 +182,7 @@ ALLOW_EMPTY_json-c-dev = "1"
 ALLOW_EMPTY_libssl1.0 = "1"
 ALLOW_EMPTY_libssl1.0-dev = "1"
 ALLOW_EMPTY_gdk-pixbuf = "1"
+ALLOW_EMPTY_iso-codes = "1"
 
 PV = "0"
 BINV = "0"
@@ -490,6 +491,12 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/orc-0.4  ${D}${includedir}/
     ln -sf ./liborc-0.4.so.0.25.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liborc-0.4.so
     ln -sf ./liborc-test-0.4.so.0.25.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liborc-test-0.4.so
+
+    # iso-codes
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/iso-codes ${D}/usr/share/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/locale ${D}/usr/share/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/xml  ${D}/usr/share/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/iso-codes.pc  ${D}/usr/share/pkgconfig/
 
     #udev
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so.*  ${D}/${libdir}/${UBUN_TARGET_SYS}
@@ -965,6 +972,22 @@ RPROVIDES_libcap += "libcap"
 PKG_libcap = "libcap2"
 PKGR_libcap = "0"
 PKGV_libcap = "0"
+
+#iso-codes
+PACKAGES += "\
+            iso-codes \
+            iso-codes-dev \
+"
+FILES_iso-codes += " \
+         ${datadir}/iso-codes  \
+         ${datadir}/locale  \
+         ${datadir}/xml  \
+"
+PROVIDES += "iso-codes"
+RPROVIDES_iso-codes += "iso-codes"
+PKG_iso-codes = "iso-codes"
+PKGR_iso-codes = "0"
+PKGV_iso-codes = "0"
 
 #libpixman-1
 PACKAGES += "pixman  pixman-dev"
