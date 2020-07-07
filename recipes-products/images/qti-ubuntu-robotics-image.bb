@@ -10,6 +10,7 @@ require include/ubuntu-ota-target-image-ext4.inc
 
 EXTRA_USERS_PARAMS = "usermod -P oelinux123 root;"
 EXTRA_USERS_PARAMS += "usermod -g 3003 _apt;"
+EXTRA_USERS_PARAMS += "usermod --gid pulse --append --groups audio,input,plugdev,diag pulse"
 
 do_populate_lic_deploy[noexec] = "1"
 
