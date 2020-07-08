@@ -183,43 +183,16 @@ python perform_packagecopy_append () {
             return
         for file in old_files.split():
             path = pkgdest + file
-            if os.path.isdir(path):
-                out = os.popen("find %s -type f,l" % path)
-                str1 = out.read()
-                out.close()
-                new_files += str1.split()
-                if not os.listdir(path):
-                    new_files.append(path)
-                else:
-                    for root, dirs, files in os.walk(path, topdown=False):
-                        for name in dirs:
-                            if not os.listdir(os.path.join(root, name)):
-                              new_files.append(os.path.join(root, name))
-                continue
-            out = os.popen("ls %s" % path)
+            out = os.popen("find %s -type f,l;find %s -type d -empty" % (path, path))
             str1 = out.read()
             out.close()
-            if str1.split():
-                for f in str1.split():
-                    if os.path.isfile(f) or os.path.islink(f):
-                        new_files.append(f)
-                    elif os.path.isdir(f):
-                        out = os.popen("find %s -type f,l" % f)
-                        str2 = out.read()
-                        out.close()
-                        new_files += str2.split()
-                        if not os.listdir(f):
-                            new_files.append(f)
-                        else:
-                            for root, dirs, files in os.walk(f, topdown=False):
-                                for name in dirs:
-                                    if not os.listdir(os.path.join(root, name)):
-                                        new_files.append(os.path.join(root, name))
+            new_files += str1.split()
         new_files = list(set(new_files))
         new_files.sort()
         for f in new_files:
             file_list.append(f[len(pkgdest):])
         d.setVar('FILES_%s' % pkg, ' '.join(file_list))
+
     # Check for deprecated usage...
     pn = d.getVar('BPN')
     if d.getVar('ALTERNATIVE_LINKS') != None:
