@@ -188,6 +188,7 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libtag1-dev \
                              libjson-c3 \
                              libjson-c-dev \
+                             iso-codes \
                              "
 
 
