@@ -162,6 +162,7 @@ CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-audio \
             omx \
             soundtrigger \
+            pa-qti-soundtrigger \
 "
 
 CORE_IMAGE_BASE_INSTALL += " \
