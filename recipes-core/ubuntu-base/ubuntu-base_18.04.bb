@@ -175,7 +175,7 @@ do_ubuntu_install() {
 	mkdir -p ${TMP_WKDIR}/var/lib/dpkg/info/preinst
 	mv ${TMP_WKDIR}/var/lib/dpkg/info/*.preinst ${TMP_WKDIR}/var/lib/dpkg/info/preinst
 
-	# WAR -- allow root user to login
+	# PAM: allow login as root
 	sed -i '/pam_securetty.so/d' ${TMP_WKDIR}/etc/pam.d/login
 
 	#logind.conf -- Ignore PowerKey
