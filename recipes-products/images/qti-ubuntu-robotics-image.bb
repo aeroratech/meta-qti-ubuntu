@@ -155,6 +155,18 @@ do_post_install() {
     sed -i "/Config-Version/d" ${IMAGE_ROOTFS}/var/lib/dpkg/status
 }
 
+do_enable_coredump() {
+    sed -i -e 's/#DefaultLimitCORE=/DefaultLimitCORE=infinity/' ${IMAGE_ROOTFS}/etc/systemd/system.conf
+    echo "#Coredump configurations" > ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
+    echo "kernel.core_pattern = /data/coredump/core.%e.%p" >> ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
+    echo "fs.suid_dumpable = 2" >>  ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
+    mkdir -p ${IMAGE_ROOTFS}/data/coredump
+}
+
+#install debug symbol
+IMAGE_FEATURES_append = "\
+            ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', ' dbg-pkgs', '', d)} \
+"
 #----------------------------------------------------------
 #---- to record 4 useful Yocto process timing ----
 DEB_PREPROCESS_COMMANDS = " do_deb_pre "
@@ -162,6 +174,10 @@ DEB_PREPROCESS_COMMANDS = " do_deb_pre "
 #ROOTFS_PREPROCESS_COMMAND += "do_fs_pre; "
 ROOTFS_POSTPROCESS_COMMAND += "do_fs_post; "
 ROOTFS_POSTINSTALL_COMMAND += "do_post_install"
+ROOTFS_POSTPROCESS_COMMAND += "\
+            ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'do_enable_coredump; ', '', d)} \
+"
+
 #----------------------------------------------------------
 
 #Install packages for audio

@@ -1124,7 +1124,6 @@ FILES_libevdev-dev = "\
 PACKAGES += "\
     libgcc \
     libgcc-dev \
-    libgcc-dbg \
 "
 PROVIDES += " \
             libgcc \
