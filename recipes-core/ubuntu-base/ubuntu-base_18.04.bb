@@ -17,12 +17,13 @@ PACKAGES = "${PN}"
 
 TMP_WKDIR = "${WORKDIR}/ubuntu_base_tmp"
 DEB_CACHE_DIR  = "${WORKDIR}/deb_cache"
+OTA_OSS  = "${DEPLOY_DIR_IMAGE}/OSS"
 
 do_unpack[noexec] = "1"
 do_install[noexec] = "1"
 do_populate_lic[noexec] = "1"
 do_package_qa[noexec] = "1"
-do_ubuntu_install[dirs] += "${TMP_WKDIR} ${DEB_CACHE_DIR}"
+do_ubuntu_install[dirs] += "${TMP_WKDIR} ${DEB_CACHE_DIR} ${OTA_OSS}"
 do_ubuntu_install[postfuncs] = "restore_sourcelist fix_symlink ubuntu_post_install"
 
 ## In chroot environment, when creates a link pointing to a absolute path, the chroot
@@ -215,6 +216,9 @@ do_ubuntu_install() {
 
 	#Allow tty connect when agetty start
 	sed -i "s/TTYVHangup=yes'/TTYVHangup=no'/" ${TMP_WKDIR}/lib/systemd/system/serial-getty@.service
+
+	#Copy the OSS package for installing when OTA
+	cp ${TMP_WKDIR}/var/cache/apt/archives ${OTA_OSS}/ -rf
 }
 
 addtask do_ubuntu_install after do_install before do_package
