@@ -23,7 +23,7 @@ do_install[noexec] = "1"
 do_populate_lic[noexec] = "1"
 do_package_qa[noexec] = "1"
 do_ubuntu_install[dirs] += "${TMP_WKDIR} ${DEB_CACHE_DIR}"
-do_ubuntu_install[postfuncs] = "fix_symlink ubuntu_post_install"
+do_ubuntu_install[postfuncs] = "restore_sourcelist fix_symlink ubuntu_post_install"
 
 ## In chroot environment, when creates a link pointing to a absolute path, the chroot
 ## directory is prepended to it.
@@ -67,6 +67,11 @@ ubuntu_post_install() {
 	popd
 	mkdir -p ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done
 	cp ${TMP_WKDIR}/ubuntu-base-18.04.2-base-arm64.tar.gz ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/
+}
+
+restore_sourcelist() {
+	mv ${TMP_WKDIR}/etc/apt/sources.list_backup ${TMP_WKDIR}/etc/apt/sources.list
+	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
 }
 
 get_rootfs_packages () {
@@ -124,10 +129,10 @@ humanity_theme_install() {
 
 apt_update() {
 	echo "QCOM_TARGET_SOURCELIST: ${QCOM_TARGET_SOURCELIST}"
+	cp ${TMP_WKDIR}/etc/apt/sources.list ${TMP_WKDIR}/etc/apt/sources.list_backup
 	# If QCOM_TARGET_SOURCELIST is set, we prefer to use it as sourcelist
 	if [ -n "${QCOM_TARGET_SOURCELIST}" ]; then
 		echo "use QCOM_TARGET_SOURCELIST as sourcelist"
-		cp ${TMP_WKDIR}/etc/apt/sources.list ${TMP_WKDIR}/etc/apt/sources.list_backup
 		sed -i "1i${QCOM_TARGET_SOURCELIST}" ${TMP_WKDIR}/etc/apt/sources.list
 		set +e
 		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
