@@ -191,6 +191,26 @@ ALLOW_EMPTY_libopencv-imgcodecs-dev = "1"
 ALLOW_EMPTY_libopencv-imgcodecs3.2 = "1"
 ALLOW_EMPTY_libopencv-imgproc-dev = "1"
 ALLOW_EMPTY_libopencv-imgproc3.2 = "1"
+ALLOW_EMPTY_libopencv-calib3d-dev = "1"
+ALLOW_EMPTY_libopencv-calib3d3.2 = "1"
+ALLOW_EMPTY_libopencv-features2d-dev = "1"
+ALLOW_EMPTY_libopencv-features2d3.2 = "1"
+ALLOW_EMPTY_libopencv-flann-dev = "1"
+ALLOW_EMPTY_libopencv-highgui-dev = "1"
+ALLOW_EMPTY_libopencv-highgui3.2 = "1"
+ALLOW_EMPTY_libopencv-ml-dev = "1"
+ALLOW_EMPTY_libopencv-objdetect-dev = "1"
+ALLOW_EMPTY_libopencv-photo-dev = "1"
+ALLOW_EMPTY_libopencv-shape-dev = "1"
+ALLOW_EMPTY_libopencv-stitching-dev = "1"
+ALLOW_EMPTY_libopencv-superres-dev = "1"
+ALLOW_EMPTY_libopencv-ts-dev = "1"
+ALLOW_EMPTY_libopencv-video-dev = "1"
+ALLOW_EMPTY_libopencv-videoio-dev = "1"
+ALLOW_EMPTY_libopencv-videoio3.2 = "1"
+ALLOW_EMPTY_libopencv-videostab-dev = "1"
+ALLOW_EMPTY_libopencv-viz-dev = "1"
+ALLOW_EMPTY_libopencv3.2-java = "1"
 
 PV = "0"
 BINV = "0"
@@ -439,6 +459,95 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgproc.hpp ${D}/usr/include/opencv2
     ln -sf ./libopencv_imgproc.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2
     ln -sf ./libopencv_imgproc.so.3.2 ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgproc.so
+
+
+    # libopencv-calib3d3.2 & libopencv-calib3d-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_calib3d.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/calib3d ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    ln -sf ./libopencv_calib3d.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2
+    ln -sf ./libopencv_calib3d.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_calib3d.so
+
+    # libopencv-features2d-dev & libopencv-features2d3.2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_features2d.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/features2d ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/features2d.hpp ${D}/usr/include/opencv2
+    ln -sf ./libopencv_features2d.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2
+    ln -sf ./libopencv_features2d.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_features2d.so
+
+    # libopencv-flann-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_flann.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/flann ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/flann.hpp ${D}/usr/include/opencv2/
+
+
+    # libopencv-highgui-dev & libopencv-highgui3.2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_highgui.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/highgui ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/highgui.hpp ${D}/usr/include/opencv2
+    ln -sf ./libopencv_highgui.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2
+    ln -sf ./libopencv_highgui.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_highgui.so
+
+
+    # libopencv-objdetect-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_objdetect.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/objdetect ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/objdetect.hpp ${D}/usr/include/opencv2
+
+    # libopencv-ml-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ml.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ml ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ml.hpp ${D}/usr/include/opencv2
+
+
+    # libopencv-photo-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_photo.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/photo ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/photo.hpp ${D}/usr/include/opencv2
+
+    # libopencv-shape-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_shape.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/shape ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/shape.hpp ${D}/usr/include/opencv2
+
+
+    # libopencv-superres-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_superres.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/superres ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/superres.hpp ${D}/usr/include/opencv2
+
+    # libopencv-ts-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ts.a ${D}/usr/lib/aarch64-linux-gnu/
+
+    # libopencv-video-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_video.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/video ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/video.hpp ${D}/usr/include/opencv2
+
+    # libopencv-videoio-dev & libopencv-videoio3.2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_videoio.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videoio ${D}/usr/include/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videoio.hpp ${D}/usr/include/opencv2
+    ln -sf ./libopencv_videoio.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2
+    ln -sf ./libopencv_videoio.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_videoio.so
+
+    # libopencv-videostab-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_videostab.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videostab ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videostab.hpp ${D}/usr/include/opencv2
+
+    # libopencv-viz-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_viz.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/viz ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/viz.hpp ${D}/usr/include/opencv2
+
+    # libopencv-stitching-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_stitching.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stitching ${D}/usr/include/opencv2/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stitching.hpp ${D}/usr/include/opencv2
 
     # libwrap0 & libwrap0-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwrap.* ${D}${libdir}/${UBUN_TARGET_SYS}/
