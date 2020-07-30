@@ -212,6 +212,9 @@ ALLOW_EMPTY_libopencv-videostab-dev = "1"
 ALLOW_EMPTY_libopencv-viz-dev = "1"
 ALLOW_EMPTY_libopencv3.2-java = "1"
 
+ALLOW_EMPTY_libopencv-contrib3.2 = "1"
+ALLOW_EMPTY_libopencv-contrib-dev = "1"
+
 PV = "0"
 BINV = "0"
 TARGET_SYS = "${UBUN_TARGET_SYS}"
@@ -467,6 +470,146 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
     ln -sf ./libopencv_calib3d.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2
     ln -sf ./libopencv_calib3d.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_calib3d.so
+
+# libopencv-contrib3.2 & libopencv-contrib-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_aruco.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bgsegm.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bioinspired.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ccalib.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_datasets.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_dpm.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_face.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_freetype.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_fuzzy.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_hdf.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_optflow.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_plot.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_reg.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_rgbd.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_saliency.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_stereo.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_structured_light.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_surface_matching.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_text.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ximgproc.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xphoto.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_aruco.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bgsegm.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bioinspired.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ccalib.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_datasets.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_dpm.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_face.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_freetype.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_fuzzy.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_hdf.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_optflow.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_plot.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_reg.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_rgbd.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_saliency.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_stereo.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_structured_light.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_surface_matching.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_text.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ximgproc.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xphoto.a ${D}/usr/lib/aarch64-linux-gnu/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/aruco ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/aruco.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/bgsegm.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/bioinspired ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/bioinspired.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ccalib ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ccalib.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/datasets ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/dpm.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/face ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/face.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/freetype.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/fuzzy ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/fuzzy.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/hdf ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/hdf.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/line_descriptor ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/line_descriptor.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/optflow ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/optflow.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/phase_unwrapping ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/phase_unwrapping.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/plot.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/reg ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/rgbd ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/rgbd.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/saliency ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/saliency.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stereo ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stereo.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/structured_light ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/structured_light.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/surface_matching ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/surface_matching.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/text ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/text.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ximgproc ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ximgproc.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/xobjdetect.hpp ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/xphoto ${D}/usr/include/opencv2
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/xphoto.hpp ${D}/usr/include/opencv2
+
+    ln -sf ./libopencv_aruco.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_aruco.so.3.2
+    ln -sf ./libopencv_bgsegm.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bgsegm.so.3.2
+    ln -sf ./libopencv_bioinspired.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bioinspired.so.3.2
+    ln -sf ./libopencv_ccalib.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ccalib.so.3.2
+    ln -sf ./libopencv_datasets.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_datasets.so.3.2
+    ln -sf ./libopencv_dpm.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_dpm.so.3.2
+    ln -sf ./libopencv_face.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_face.so.3.2
+    ln -sf ./libopencv_freetype.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_freetype.so.3.2
+    ln -sf ./libopencv_fuzzy.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_fuzzy.so.3.2
+    ln -sf ./libopencv_hdf.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_hdf.so.3.2
+    ln -sf ./libopencv_line_descriptor.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.so.3.2
+    ln -sf ./libopencv_optflow.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_optflow.so.3.2
+    ln -sf ./libopencv_phase_unwrapping.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.so.3.2
+    ln -sf ./libopencv_plot.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_plot.so.3.2
+    ln -sf ./libopencv_reg.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_reg.so.3.2
+    ln -sf ./libopencv_rgbd.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_rgbd.so.3.2
+    ln -sf ./libopencv_saliency.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_saliency.so.3.2
+    ln -sf ./libopencv_stereo.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_stereo.so.3.2
+    ln -sf ./libopencv_structured_light.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_structured_light.so.3.2
+    ln -sf ./libopencv_surface_matching.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_surface_matching.so.3.2
+    ln -sf ./libopencv_text.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_text.so.3.2
+    ln -sf ./libopencv_ximgproc.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ximgproc.so.3.2
+    ln -sf ./libopencv_xobjdetect.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.so.3.2
+    ln -sf ./libopencv_xphoto.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xphoto.so.3.2
+    ln -sf ./libopencv_aruco.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_aruco.so
+    ln -sf ./libopencv_bgsegm.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bgsegm.so
+    ln -sf ./libopencv_bioinspired.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bioinspired.so
+    ln -sf ./libopencv_ccalib.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ccalib.so
+    ln -sf ./libopencv_datasets.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_datasets.so
+    ln -sf ./libopencv_dpm.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_dpm.so
+    ln -sf ./libopencv_face.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_face.so
+    ln -sf ./libopencv_freetype.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_freetype.so
+    ln -sf ./libopencv_fuzzy.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_fuzzy.so
+    ln -sf ./libopencv_hdf.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_hdf.so
+    ln -sf ./libopencv_line_descriptor.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.so
+    ln -sf ./libopencv_optflow.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_optflow.so
+    ln -sf ./libopencv_phase_unwrapping.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.so
+    ln -sf ./libopencv_plot.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_plot.so
+    ln -sf ./libopencv_reg.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_reg.so
+    ln -sf ./libopencv_rgbd.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_rgbd.so
+    ln -sf ./libopencv_saliency.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_saliency.so
+    ln -sf ./libopencv_stereo.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_stereo.so
+    ln -sf ./libopencv_structured_light.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_structured_light.so
+    ln -sf ./libopencv_surface_matching.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_surface_matching.so
+    ln -sf ./libopencv_text.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_text.so
+    ln -sf ./libopencv_ximgproc.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ximgproc.so
+    ln -sf ./libopencv_xobjdetect.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.so
+    ln -sf ./libopencv_xphoto.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xphoto.so
 
     # libopencv-features2d-dev & libopencv-features2d3.2
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
