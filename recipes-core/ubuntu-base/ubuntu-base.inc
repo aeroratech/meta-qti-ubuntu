@@ -54,6 +54,9 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libjsoncpp-dev \
                                  libltdl7 \
                                  libltdl-dev \
+                                 linux-tools-common \
+                                 slang-histogram \
+                                 elfutils \
                                 "
 
 UBUN_DEBUG_PACKAGES = " gdb \
