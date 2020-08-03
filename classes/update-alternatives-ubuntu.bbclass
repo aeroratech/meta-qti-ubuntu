@@ -91,7 +91,7 @@ PACKAGE_WRITE_DEPS += "virtual/update-alternatives-native"
 
 do_package_qa[noexec] = "1"
 
-RDEPENDS_${PN} += "update-alternatives-recovery"
+#RDEPENDS_${PN} += "update-alternatives-recovery"
 
 def gen_updatealternativesvardeps(d):
     pkgs = (d.getVar("PACKAGES") or "").split()
