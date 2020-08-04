@@ -56,7 +56,6 @@ do_deb[cleandirs] += "${QTI_DEB}/QTI"
 do_deb[cleandirs] += "${QTI_DEB}/MODULE"
 
 do_deb() {
-
    #Copy the OSS package
    rm ${DEPLOY_DIR_IMAGE}/OSS/archives/lock -rf
    rm ${DEPLOY_DIR_IMAGE}/OSS/archives/partial -rf
@@ -116,21 +115,21 @@ do_recovery_ext4() {
 
     # copy the boot\recovery images
     cp ${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET} ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/BOOTABLE_IMAGES/boot.img
-    cp ${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET} ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/BOOTABLE_IMAGES/recovery.img
+    #cp ${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET} ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/BOOTABLE_IMAGES/recovery.img
     cp ${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET}   ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/boot.img
-    cp ${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET}   ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/recovery.img
+    #cp ${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET}   ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/recovery.img
 
-    cp ${DEPLOY_DIR_IMAGE}/${SYSTEMIMAGE_TARGET} ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/system.img
+    #cp ${DEPLOY_DIR_IMAGE}/${SYSTEMIMAGE_TARGET} ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/system.img
     cp ${DEPLOY_DIR_IMAGE}/system.map ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/system.map
 
     #cp ${DEPLOY_DIR_IMAGE}/${OVERLAYIMAGE_TARGET} ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/userdata.img
     #cp ${DEPLOY_DIR_IMAGE}/${OVERLAYIMAGE_MAP_TARGET} ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES/userdata.map
 
     # copy the contents of system rootfs
-    cp -r ${IMAGE_ROOTFS}/. ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/SYSTEM/.
-    cd  ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/SYSTEM
-    rm -rf var/run
-    ln -snf ../run var/run
+    #cp -r ${IMAGE_ROOTFS}/. ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/SYSTEM/.
+    #cd  ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/SYSTEM
+    #rm -rf var/run
+    #ln -snf ../run var/run
 
     # copy the contents of system overlayfs
     # cp -r ${IMAGE_ROOTFS}/overlay/. ${OTA_TARGET_IMAGE_ROOTFS_EXT4}/DATA/.
