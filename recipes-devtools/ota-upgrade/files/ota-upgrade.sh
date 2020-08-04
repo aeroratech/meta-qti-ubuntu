@@ -51,26 +51,6 @@ function font_color() {
 
 function fix_dependence_link() {
 
-	font_color Y
-	echo -e "\n"
-	echo -e "#######################################################################"
-	echo -e "# Fix Steps:                                                          #"
-	echo -e "# 1.Run command: apt --fix-broken install to fix broken dependence    #"
-	echo -e "# 2.Run command: apt install /data/QTI/*  to install missing packages #"
-	echo -e "#######################################################################"
-	echo -e "\n"
-	font_color
-
-	font_color Y
-	echo -e "\n"
-	echo -e "#######################################################################"
-	echo -e "# Check:                                                              #"
-	echo -e "# If the missing packages are installed , type <exit> quit            #"
-	echo -e "# Don't do anything else except for handling the dependence issue.    #"
-	echo -e "#######################################################################"
-	echo -e "\n"
-	font_color
-
 	# create tmp rc file
 	RC_FILE=$(mktemp)
 	cat > ${RC_FILE} << EOF
@@ -88,6 +68,7 @@ EOF
 	[ -f "${RC_FILE}" ] && rm ${RC_FILE}
 
 }
+
 #Start OTA upgrade
 echo '############################################'
 echo '#                                          #'
@@ -99,31 +80,88 @@ timer_start=`date +'%Y-%m-%d %H:%M:%S'`
 echo "Start time is : $timer_start"
 echo ''
 
-#un-zip and install teh QTI debs
-echo '############################################'
-echo '#                                          #'
-echo '#            Upgrade the QTI debs          #'
-echo '#                                          #'
-echo '############################################'
-echo ''
 
+##un-zip  the QTI debs
 if [[ -e /data/QTI ]]; then
  rm -rf /data/QTI/
  mkdir /data/QTI
 else
  mkdir /data/QTI
 fi
-
 unzip -j /data/update_ext4.zip QTI/* -d /data/QTI
 if [[ $? = 0 ]]; then
- echo "unzip update_ext4.zip successfully"
+ echo "unzip QTI packages successfully"
  echo ''
 else
- echo "unzip update_ext4.zip failed"
+ echo "unzip QTI packages failed"
  echo ''
 fi
 
+##un-zip the OSS debs
+if [[ -e /data/OSS ]]; then
+ rm -rf /data/OSS/
+ mkdir /data/OSS
+else
+ mkdir /data/OSS
+fi
+unzip -j /data/update_ext4.zip OSS/* -d /data/OSS
+if [[ $? = 0 ]]; then
+ echo "unzip OSS packages successfully"
+ echo ''
+else
+ echo "unzip OSS packages failed"
+ echo ''
+fi
+
+##Use apt install command to install the OSS packages
+echo '############################################'
+echo '#                                          #'
+echo '#            Upgrade the OSS debs          #'
+echo '#                                          #'
+echo '############################################'
+echo ''
+apt install /data/OSS/*
+if [[ $? = 0 ]]; then
+	echo "APT OSS install successfully"
+	echo ''
+else
+	echo "APT OSS install FAILED"
+	echo ''
+fi
+
+
+##Remove some packages if they don't exist in the new version
+echo '############################################'
+echo '#                                          #'
+echo '#        Remove the useless debs           #'
+echo '#                                          #'
+echo '############################################'
+echo ''
+for name in `cat /var/lib/dpkg/qti_deb_list_device`
+do
+	grep "${name}" /data/QTI/qti_deb_list
+	if [[ $? = 0 ]]; then
+		echo -e "${name} exist"
+	else
+		echo -e "\n"
+		echo -e "${name} doesn't exist in the last version. Need remove it "
+		echo -e "#######################################################################"
+		echo -e "# Using the apt remove to remove the pachages                         #"
+		echo -e "#######################################################################"
+		apt remove ${name}
+	fi
+done
+##Update the QTI pacakges list in the device and remove it from /data/QTI
+cp /data/QTI/qti_deb_list /var/lib/dpkg/qti_deb_list_device -rf
+rm /data/QTI/qti_deb_list
+
 ##Use apt install command to install the QTI packages
+echo '############################################'
+echo '#                                          #'
+echo '#            Upgrade the QTI debs          #'
+echo '#                                          #'
+echo '############################################'
+echo ''
 apt install /data/QTI/*
 if [[ $? = 0 ]]; then
 	echo "APT install successfully"
@@ -131,11 +169,27 @@ if [[ $? = 0 ]]; then
 else
 	font_color Y
 	echo -e "\n"
-	echo -e "#######################################################################"
-	echo -e "# Sometime the dependence link will broken                            #"
-	echo -e "# You might want to run 'apt --fix-broken install' to correct.        #"
-	echo -e "# Check the error messages to find out the missing packages.          #"
-	echo -e "#######################################################################"
+	echo -e "################################################################################"
+	echo -e "# Sometime packages will updated failed.                                       #"
+	echo -e "# There will be two most likely scenarios, please check the log:               #"
+	echo -e "#                                                                              #"
+	echo -e "# 1.Packages Overwrite issue                                                   #"
+	echo -e "# Reason: Some OSS and Updated packages can not co-exit on system of LU.       #"
+	echo -e "# They maybe provide same files or package name, but only one file             #"
+	echo -e "# can present on system at the same time, then another package will be broken. #"
+	echo -e "# Fixed way: Using the update-alternative mechanism and build again to fix     #"
+	echo -e "# the updated package.                                                         #"
+	echo -e "#                                                                              #"
+	echo -e "# 2.Dependence link broken issue                                               #"
+	echo -e "# Reason: The dependence link of the packages are broken.                      #"
+	echo -e "# Fixed way:                                                                   #"
+	echo -e "# Run command: apt --fix-broken install to fix broken dependence               #"
+	echo -e "# Run command: apt install /data/QTI/*  to install missing packages            #"
+	echo -e "#                                                                              #"
+	echo -e "# Check:                                                                       #"
+	echo -e "# If the missing packages are installed in second case, type <exit> quit       #"
+	echo -e "# Don't do anything else except for handling the dependence issue.             #"
+	echo -e "################################################################################"
 	echo -e "\n"
 	font_color
 	fix_dependence_link
@@ -144,7 +198,9 @@ fi
 #fix adbd launch command
 sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/etc/launch_adbd
 
-rm -rf /data/QTI/*
+
+rm -rf /data/QTI/
+rm -rf /data/OSS/
 
 #un-zip and install the MODULE debs
 #For now we don't install this debs since the QTI debs have covered it
@@ -187,7 +243,7 @@ rm -rf /data/QTI/*
 
 #rm -rf /data/MODULE/*
 
-#upgrade the NON-HLOS and boot.img
+##upgrade the NON-HLOS and boot.img
 echo ''
 echo '############################################'
 echo '#                                          #'

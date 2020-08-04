@@ -57,6 +57,10 @@ do_deb[cleandirs] += "${QTI_DEB}/MODULE"
 
 do_deb() {
 
+   #Copy the OSS package
+   rm ${DEPLOY_DIR_IMAGE}/OSS/archives/lock -rf
+   rm ${DEPLOY_DIR_IMAGE}/OSS/archives/partial -rf
+
    #Copy the ko module
    cd ${IMAGE_ROOTFS}/ 
    cp --parents -av lib/modules/4.19*/extra ${MODULE_DEB}/
@@ -87,14 +91,17 @@ do_deb() {
    cat qti_deb | grep -B1 "Maintainer: OE-Core" | grep "Package:" > qti_deb_list
    sed -i 's/Package: //g' qti_deb_list
 
+   cp qti_deb_list ${QTI_DEB}/QTI
+   cp qti_deb_list ${IMAGE_ROOTFS}/var/lib/dpkg/qti_deb_list_device
+
    #copy the QTI debs list according to the qti_deb_list
    for name in `cat qti_deb_list`
    do
     find ${ALL_DEB} -type f -name ${name}_* | xargs cp -t ${QTI_DEB}/QTI
+    rm -rf ${QTI_DEB}/QTI/${name}-dbg_*.deb
+    rm -rf ${QTI_DEB}/QTI/${name}-dev_*.deb
    done
 
-   rm -rf ${QTI_DEB}/QTI/*dbg_*.deb
-   rm -rf ${QTI_DEB}/QTI/*dev_*.deb
 
 }
 
