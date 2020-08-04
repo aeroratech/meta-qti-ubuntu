@@ -185,6 +185,7 @@ ALLOW_EMPTY_gdk-pixbuf = "1"
 ALLOW_EMPTY_iso-codes = "1"
 
 # add opencv
+ALLOW_EMPTY_libopencv-dev = "1"
 ALLOW_EMPTY_libopencv-core-dev = "1"
 ALLOW_EMPTY_libopencv-core3.2 = "1"
 ALLOW_EMPTY_libopencv-imgcodecs-dev = "1"
@@ -439,6 +440,27 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mtdev-plumbing.h  ${D}${includedir}/
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mtdev.h  ${D}${includedir}/
     ln -sf ./libmtdev.so.1.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libmtdev.so
+
+    # libopencv-dev
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_annotation ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_createsamples ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_interactive-calibration ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_traincascade ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_version ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_visualisation ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_waldboost_detector ${D}/usr/bin/
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cv.h ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cv.hpp ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cvaux.h ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cvaux.hpp ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cvwimage.h ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxcore.h ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxcore.hpp ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxeigen.hpp ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxmisc.h ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/highgui.h ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/ml.h ${D}/usr/include/opencv
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/opencv.pc  ${D}//usr/lib/aarch64-linux-gnu/pkgconfig/
 
     # libopencv-core3.2 & libopencv-core-dev
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
