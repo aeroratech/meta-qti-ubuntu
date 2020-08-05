@@ -129,25 +129,25 @@ humanity_theme_install() {
 }
 
 apt_update() {
-	echo "QCOM_TARGET_SOURCELIST: ${QCOM_TARGET_SOURCELIST}"
+	echo "QTI_TARGET_SOURCELIST: ${QTI_TARGET_SOURCELIST}"
 	cp ${TMP_WKDIR}/etc/apt/sources.list ${TMP_WKDIR}/etc/apt/sources.list_backup
-	# If QCOM_TARGET_SOURCELIST is set, we prefer to use it as sourcelist
-	if [ -n "${QCOM_TARGET_SOURCELIST}" ]; then
-		echo "use QCOM_TARGET_SOURCELIST as sourcelist"
-		sed -i "1i${QCOM_TARGET_SOURCELIST}" ${TMP_WKDIR}/etc/apt/sources.list
+	# If QTI_TARGET_SOURCELIST is set, we prefer to use it as sourcelist
+	if [ -n "${QTI_TARGET_SOURCELIST}" ]; then
+		echo "use QTI_TARGET_SOURCELIST as sourcelist"
+		sed -i "1i${QTI_TARGET_SOURCELIST}" ${TMP_WKDIR}/etc/apt/sources.list
 		set +e
 		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
 		exitcode=$?
 		if [ "$exitcode" != "0" ]; then
-			echo "QCOM_TARGET_SOURCELIST is invalid"
+			echo "QTI_TARGET_SOURCELIST is invalid"
 			rm -rf ${TMP_WKDIR}/etc/apt/sources.list
 			mv ${TMP_WKDIR}/etc/apt/sources.list_backup ${TMP_WKDIR}/etc/apt/sources.list
 			fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
 		fi
 		set -e
-	# If QCOM_TARGET_SOURCELIS not set. we use default sourcelist
+	# If QTI_TARGET_SOURCELIS not set. we use default sourcelist
 	else
-		echo "QCOM_TARGET_SOURCELIST not set"
+		echo "QTI_TARGET_SOURCELIST not set"
 		fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
 	fi
 }
