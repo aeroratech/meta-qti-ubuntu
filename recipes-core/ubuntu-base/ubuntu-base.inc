@@ -76,6 +76,11 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libdrm2 \
                                    libgdk-pixbuf2.0-0 \
                                    libdrm-tests \
+                                   libxau6-dbg \
+                                   libxdmcp6-dbg \
+                                   libxext6-dbg \
+                                   python3-dbg \
+                                   python-dbg \
                                  "
 
 #video, camera packages
