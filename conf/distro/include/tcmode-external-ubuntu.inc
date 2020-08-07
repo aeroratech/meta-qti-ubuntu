@@ -22,7 +22,7 @@ require recipes-pn-block.inc
 
 EXTERNAL_TOOLCHAIN ?= "${DL_DIR}"
 
-TOOLCHAIN_PATH_ADD = "/usr/bin:"
+TOOLCHAIN_PATH_ADD = "/usr/bin:/usr/local/go/bin/:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
 
 # MACROS below are for self-contained toolchain
@@ -66,6 +66,22 @@ PREFERRED_PROVIDER_libqhull-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcryptopp = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcrypto++ = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libcrypto++-dev = "ubuntu-toolchain"
+
+# Go
+PNBLACKLIST[go-runtime] = "Using ubuntu toolchain"
+PNBLACKLIST[go-cross] = "Using ubuntu toolchain"
+PNBLACKLIST[go] = "Using ubuntu toolchain"
+PNBLACKLIST[go-native] = "Using ubuntu toolchain"
+PNBLACKLIST[go-crosssdk] = "Using ubuntu toolchain"
+PNBLACKLIST[go-cross-aarch64] = "Using ubuntu toolchain"
+
+PREFERRED_PROVIDER_go-runtime = "ubuntu-toolchain"
+PREFERRED_PROVIDER_go-cross-${TARGET_ARCH} = "ubuntu-toolchain"
+PREFERRED_PROVIDER_go = "ubuntu-toolchain"
+PREFERRED_PROVIDER_go-native = "ubuntu-toolchain"
+PREFERRED_PROVIDER_go-crosssdk = "ubuntu-toolchain"
+PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}go-runtime = "ubuntu-toolchain"
+PREFERRED_PROVIDER_virtual/${TUNE_PKGARCH}go = "ubuntu-toolchain"
 
 PREFERRED_PROVIDER_libcap = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libatomic-ops = "ubuntu-toolchain"

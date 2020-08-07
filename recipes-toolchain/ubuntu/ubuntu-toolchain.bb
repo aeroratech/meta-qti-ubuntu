@@ -281,6 +281,13 @@ PROVIDES += "\
             gstreamer1.0-plugins-ugly \
             gstreamer1.0-rtsp-server \
             gstreamer1.0-libav \
+            go \
+            go-cross-${TARGET_ARCH} \
+            go-runtime \
+            go-native \
+            go-crosssdk \
+            virtual/${TUNE_PKGARCH}-go \
+            virtual/${TARGET_PREFIX}go-runtime \
 "
 
 
