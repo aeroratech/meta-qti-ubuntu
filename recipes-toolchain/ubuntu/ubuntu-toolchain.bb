@@ -117,6 +117,10 @@ ALLOW_EMPTY_systemd-kernel-install = "1"
 ALLOW_EMPTY_systemd-zsh-completion = "1"
 ALLOW_EMPTY_systemd-gui = "1"
 ALLOW_EMPTY_systemd-binfmt = "1"
+ALLOW_EMPTY_libcap-ng = "1"
+ALLOW_EMPTY_libcap-ng-dev = "1"
+ALLOW_EMPTY_linux-libc-headers = "1"
+ALLOW_EMPTY_linux-libc-headers-dev = "1"
 ALLOW_EMPTY_libcap = "1"
 ALLOW_EMPTY_libcap-dev = "1"
 ALLOW_EMPTY_libatomic-ops = "1"
@@ -311,7 +315,7 @@ do_install (){
     install -d ${D}/usr/include/gdk-pixbuf-2.0/
     install -d ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig/
     install -d ${D}/usr/share/thumbnailers/
-
+    install -d ${D}/usr/include/aarch64-linux-gnu/
 
 #    usr/${UBUN_TARGET_SYS}/lib cannot be created
 #    install -d ${D}/usr/${UBUN_TARGET_SYS}/lib/
@@ -366,6 +370,26 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/bzlib.h ${D}${includedir}
     ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
+
+    #libcap-ng & libcap-ng-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcap-ng*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libcap-ng*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/cap-ng.h ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libcap-ng.pc ${D}/usr/share/pkgconfig/
+    ln -sf ./libcap-ng.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcap-ng.so
+
+    #linux-libc-dev
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/aarch64-linux-gnu/asm ${D}/usr/include/aarch64-linux-gnu/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/asm-generic ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/drm ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/misc ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/mtd ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/rdma ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/scsi ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/sound ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/video ${D}/usr/include/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/xen ${D}/usr/include/
 
     #libcap & libcap-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcap*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -1271,6 +1295,44 @@ FILES_jsoncpp += " \
          ${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.so.* \
          ${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.a \
 "
+#  libcap-ng
+PACKAGES += "\
+            libcap-ng \
+            libcap-ng-dev \
+"
+FILES_libcap-ng += " \
+         ${libdir}/${UBUN_TARGET_SYS}/libcap-ng.so.*  \
+         ${libdir}/${UBUN_TARGET_SYS}/libcap-ng.a  \
+"
+PROVIDES += "libcap-ng libcap-ng-dev"
+RPROVIDES_libcap-ng = "libcap-ng libcap-ng-dev"
+PKG_libcap-ng = "libcap-ng0"
+PKGR_libcap-ng = "0"
+PKGV_libcap-ng = "0"
+#  linux-libc-headers-dev
+PACKAGES += "\
+            linux-libc-headers-dev \
+            linux-libc-headers \
+"
+FILES_libcap-ng += " \
+         ${includedir}/aarch64-linux-gnu/asm \
+		 ${includedir}/asm-generic \
+		 ${includedir}/drm \
+		 ${includedir}/linux \
+		 ${includedir}/misc \
+		 ${includedir}/mtd \
+		 ${includedir}/rdma \
+		 ${includedir}/scsi \
+		 ${includedir}/sound \
+		 ${includedir}/video \
+		 ${includedir}/xen \
+"
+PROVIDES += "linux-libc-headers-dev linux-libc-headers"
+RPROVIDES_linux-libc-headers = "linux-libc-headers linux-libc-headers-dev"
+PKG_linux-libc-headers = "linux-libc-dev"
+PKGR_linux-libc-headers = "0"
+PKGV_linux-libc-headers = "0"
+
 #  libcap
 PACKAGES += "\
             libcap \
