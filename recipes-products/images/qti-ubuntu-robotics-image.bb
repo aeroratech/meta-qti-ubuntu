@@ -73,6 +73,12 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-sensors-see', '', d)} \
 "
 
+#Install packages for vslam
+CORE_IMAGE_BASE_INSTALL += " \
+            librealsense2 \
+            vslam \
+            "
+
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
 do_ubuntu_rootfs(){
