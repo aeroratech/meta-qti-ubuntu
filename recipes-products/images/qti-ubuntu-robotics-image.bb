@@ -130,7 +130,7 @@ do_fix_oe_depends() {
 
 do_fs_post() {
     #fix adbd launch command
-    sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/etc/launch_adbd
+    sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/sbin/launch_adbd
 
     #fix apt status of OE package Depends
     do_fix_oe_depends
