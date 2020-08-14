@@ -55,7 +55,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libltdl7 \
                                  libltdl-dev \
                                  linux-tools-common \
-                                 slang-histogram \
+                                 slsh \
                                  elfutils \
                                 "
 
