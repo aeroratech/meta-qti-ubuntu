@@ -47,7 +47,7 @@ GROUPADD_PARAM_${PN} += " \
                         "
 USERADD_PARAM_${PN}_append =  " -g diag -G root diag "
 # Sizes for EXT4 (in bytes)
-SYSTEM_SIZE_EXT4 = "33554432000"
+SYSTEM_SIZE_EXT4 = "107374182400"
 KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 
 ##################################################################
