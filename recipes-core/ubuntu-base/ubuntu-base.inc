@@ -57,6 +57,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  linux-tools-common \
                                  slang-histogram \
                                  elfutils \
+                                 comerr-dev \
                                 "
 
 UBUN_DEBUG_PACKAGES = " gdb \
