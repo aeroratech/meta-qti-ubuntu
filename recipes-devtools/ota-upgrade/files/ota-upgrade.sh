@@ -80,7 +80,6 @@ timer_start=`date +'%Y-%m-%d %H:%M:%S'`
 echo "Start time is : $timer_start"
 echo ''
 
-
 ##un-zip  the QTI debs
 if [[ -e /data/QTI ]]; then
  rm -rf /data/QTI/
@@ -113,23 +112,6 @@ else
  echo ''
 fi
 
-##Use apt install command to install the OSS packages
-echo '############################################'
-echo '#                                          #'
-echo '#            Upgrade the OSS debs          #'
-echo '#                                          #'
-echo '############################################'
-echo ''
-apt install /data/OSS/*
-if [[ $? = 0 ]]; then
-	echo "APT OSS install successfully"
-	echo ''
-else
-	echo "APT OSS install FAILED"
-	echo ''
-fi
-
-
 ##Remove some packages if they don't exist in the new version
 echo '############################################'
 echo '#                                          #'
@@ -139,7 +121,7 @@ echo '############################################'
 echo ''
 for name in `cat /var/lib/dpkg/qti_deb_list_device`
 do
-	grep "${name}" /data/QTI/qti_deb_list
+	grep -Fx "${name}" /data/QTI/qti_deb_list
 	if [[ $? = 0 ]]; then
 		echo -e "${name} exist"
 	else
@@ -155,6 +137,35 @@ done
 cp /data/QTI/qti_deb_list /var/lib/dpkg/qti_deb_list_device -rf
 rm /data/QTI/qti_deb_list
 
+##Use apt install command to install the OSS packages
+echo '############################################'
+echo '#                                          #'
+echo '#            Upgrade the OSS debs          #'
+echo '#                                          #'
+echo '############################################'
+echo ''
+
+echo '###############apt update###################'
+apt update
+
+for oss in `cat /data/OSS/oss_deb_list`
+do
+	grep -Fx "${oss}" /var/lib/dpkg/oss_deb_list_device
+	if [[ $? = 0 ]]; then
+		echo -e "${oss} exist"
+	else
+		echo -e "\n"
+		echo -e "${oss} doesn't exist in the device. Need apt install it "
+		echo -e "#######################################################################"
+		echo -e "# Using the apt install to the pachages                               #"
+		echo -e "#######################################################################"
+		apt install ${oss}
+	fi
+done
+##Update the OSS pacakges list in the device and remove it from /data/QTI
+cp /data/OSS/oss_deb_list /var/lib/dpkg/oss_deb_list_device -rf
+rm /data/OSS/oss_deb_list
+
 ##Use apt install command to install the QTI packages
 echo '############################################'
 echo '#                                          #'
@@ -162,6 +173,10 @@ echo '#            Upgrade the QTI debs          #'
 echo '#                                          #'
 echo '############################################'
 echo ''
+
+echo '###############apt update###################'
+apt update
+
 apt install /data/QTI/*
 if [[ $? = 0 ]]; then
 	echo "APT install successfully"
@@ -171,7 +186,7 @@ else
 	echo -e "\n"
 	echo -e "################################################################################"
 	echo -e "# Sometime packages will updated failed.                                       #"
-	echo -e "# There will be two most likely scenarios, please check the log:               #"
+	echo -e "# There will be below most likely scenarios, please check the log:             #"
 	echo -e "#                                                                              #"
 	echo -e "# 1.Packages Overwrite issue                                                   #"
 	echo -e "# Reason: Some OSS and Updated packages can not co-exit on system of LU.       #"
@@ -186,6 +201,12 @@ else
 	echo -e "# Run command: apt --fix-broken install to fix broken dependence               #"
 	echo -e "# Run command: apt install /data/QTI/*  to install missing packages            #"
 	echo -e "#                                                                              #"
+	echo -e "# 3.Network issue                                                              #"
+	echo -e "# Reason: The Network is weak link of the packages are broken.                 #"
+	echo -e "# Fixed way:                                                                   #"
+	echo -e "# Run command: apt update                                                      #"
+	echo -e "# Run command: apt install /data/QTI/*  to install packages again              #"
+	echo -e "#                                                                              #"
 	echo -e "# Check:                                                                       #"
 	echo -e "# If the missing packages are installed in second case, type <exit> quit       #"
 	echo -e "# Don't do anything else except for handling the dependence issue.             #"
@@ -196,7 +217,16 @@ else
 fi
 
 #fix adbd launch command
-sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/etc/launch_adbd
+if [[ -e /sbin/launch_adbd ]]; then
+ sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" /sbin/launch_adbd
+else
+ mv /etc/launch_adbd /sbin/launch_adbd
+ sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" /sbin/launch_adbd
+fi
+
+#fix udev link issue
+sed -i 's/LABEL="persistent_storage_end"/# block\/bootdevice\/by-name links'"\n"'LABEL="persistent_storage_end"/g' /lib/udev/rules.d/60-persistent-storage.rules
+sed -i 's/LABEL="persistent_storage_end"/ENV{ID_PART_ENTRY_SCHEME}=="gpt", ENV{ID_PART_ENTRY_NAME}=="?*", SYMLINK+="block\/bootdevice\/by-name\/$env{ID_PART_ENTRY_NAME}"'"\n\n"'LABEL="persistent_storage_end"/g' /lib/udev/rules.d/60-persistent-storage.rules
 
 
 rm -rf /data/QTI/

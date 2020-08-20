@@ -36,6 +36,7 @@ python __anonymous () {
 OTA_TARGET_IMAGE_ROOTFS_EXT4 = "${IMAGE_ROOTFS}/../${MACHINE}-ota-target-image-ext4"
 MODULE_DEB = "${DEPLOY_DIR_IMAGE}/${MACHINE}-module-deb"
 QTI_DEB = "${DEPLOY_DIR_IMAGE}/${MACHINE}-qti-deb"
+OSS_DEB = "${DEPLOY_DIR_IMAGE}/OSS"
 ALL_DEB = "${DEPLOY_DIR_IMAGE}/../../deb"
 
 #Create directory structure for targetfiles.zip
@@ -52,13 +53,11 @@ do_recovery_ext4[cleandirs] += "${OTA_TARGET_IMAGE_ROOTFS_EXT4}/IMAGES"
 do_deb[cleandirs] += "${MODULE_DEB}"
 do_deb[cleandirs] += "${MODULE_DEB}/DEBIAN"
 do_deb[cleandirs] += "${QTI_DEB}"
+do_deb[cleandirs] += "${OSS_DEB}"
 do_deb[cleandirs] += "${QTI_DEB}/QTI"
 do_deb[cleandirs] += "${QTI_DEB}/MODULE"
 
 do_deb() {
-   #Copy the OSS package
-   rm ${DEPLOY_DIR_IMAGE}/OSS/archives/lock -rf
-   rm ${DEPLOY_DIR_IMAGE}/OSS/archives/partial -rf
 
    #Copy the ko module
    cd ${IMAGE_ROOTFS}/ 
@@ -93,15 +92,21 @@ do_deb() {
    cp qti_deb_list ${QTI_DEB}/QTI
    cp qti_deb_list ${IMAGE_ROOTFS}/var/lib/dpkg/qti_deb_list_device
 
+   #Gain the OSS debs list
+   cat qti_deb | grep "Package:" > all_deb_list
+   sed -i 's/Package: //g' all_deb_list
+   grep -wvf qti_deb_list all_deb_list > oss_deb_list
+
+   cp oss_deb_list ${OSS_DEB}/
+   cp oss_deb_list ${IMAGE_ROOTFS}/var/lib/dpkg/oss_deb_list_device
+
    #copy the QTI debs list according to the qti_deb_list
    for name in `cat qti_deb_list`
    do
     find ${ALL_DEB} -type f -name ${name}_* | xargs cp -t ${QTI_DEB}/QTI
-    rm -rf ${QTI_DEB}/QTI/${name}-dbg_*.deb
-    rm -rf ${QTI_DEB}/QTI/${name}-dev_*.deb
    done
 
-
+   rm -rf ${QTI_DEB}/QTI/*-dbg_*.deb
 }
 
 # Create this folder just for saving file_contexts(SElinux security context file),
