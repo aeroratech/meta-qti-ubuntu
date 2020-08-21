@@ -42,5 +42,5 @@ do_install() {
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/fontconfig.pc  ${D}/usr/lib/aarch64-linux-gnu/pkgconfig/
    
 }
-
+FILES_${PN} += " ${libdir}/${UBUN_TARGET_SYS}/libcairo* "
 do_package_qa[noexec] = "1"
