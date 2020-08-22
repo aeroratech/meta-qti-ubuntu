@@ -169,6 +169,7 @@ ALLOW_EMPTY_libgudev = "1"
 ALLOW_EMPTY_libid3tag = "1"
 ALLOW_EMPTY_librsvg = "1"
 ALLOW_EMPTY_libsoup-2.4 = "1"
+ALLOW_EMPTY_attr = "1"
 
 
 ALLOW_EMPTY_libtheora = "1"
@@ -292,6 +293,7 @@ PROVIDES += "\
             go-crosssdk \
             virtual/${TUNE_PKGARCH}-go \
             virtual/${TARGET_PREFIX}go-runtime \
+            attr \
 "
 
 
