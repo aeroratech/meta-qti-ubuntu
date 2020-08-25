@@ -25,7 +25,10 @@
 #OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 #IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-inherit core-image
+# Use the following to extend qimage with custom functions like signing
+QIMGEXTENSION ?= ""
+
+inherit core-image ${QIMGEXTENSION}
 
 # Only when verity feature is enabled, start including related tasks.
 VERITY_PROVIDER ?= "${@bb.utils.contains('DISTRO_FEATURES', 'dm-verity', 'dm-verity', '', d)}"
