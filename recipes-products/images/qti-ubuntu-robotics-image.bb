@@ -18,6 +18,7 @@ DEPENDS += "ubuntu-base"
 
 CORE_IMAGE_BASE_INSTALL = " \
             kernel-modules \
+            msm-header \
             systemd-machine-units \
             update-alternatives-recovery \
             yavta \
