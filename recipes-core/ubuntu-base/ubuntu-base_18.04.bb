@@ -17,7 +17,6 @@ PACKAGES = "${PN}"
 
 TMP_WKDIR = "${WORKDIR}/ubuntu_base_tmp"
 DEB_CACHE_DIR  = "${WORKDIR}/deb_cache"
-OTA_OSS  = "${DEPLOY_DIR_IMAGE}/OSS"
 
 do_unpack[noexec] = "1"
 do_install[noexec] = "1"
@@ -217,8 +216,6 @@ do_ubuntu_install() {
 	#Allow tty connect when agetty start
 	sed -i "s/TTYVHangup=yes'/TTYVHangup=no'/" ${TMP_WKDIR}/lib/systemd/system/serial-getty@.service
 
-	#Copy the OSS package for installing when OTA
-	cp ${TMP_WKDIR}/var/cache/apt/archives ${OTA_OSS}/ -rf
 }
 
 addtask do_ubuntu_install after do_install before do_package
