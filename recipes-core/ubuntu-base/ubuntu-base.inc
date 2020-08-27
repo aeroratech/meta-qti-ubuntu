@@ -57,7 +57,6 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  linux-tools-common \
                                  slsh \
                                  elfutils \
-                                 comerr-dev \
                                 "
 
 UBUN_DEBUG_PACKAGES = " gdb \
