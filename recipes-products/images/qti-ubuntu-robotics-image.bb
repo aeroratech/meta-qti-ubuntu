@@ -21,6 +21,10 @@ CORE_IMAGE_BASE_INSTALL = " \
             msm-header \
             systemd-machine-units \
             update-alternatives-recovery \
+            qti-ubuntu-udev \
+            qti-ubuntu-systemd \
+            qti-ubuntu-sysv \
+            qti-ubuntu-login \
             yavta \
             depends-update \
             ota-upgrade \
