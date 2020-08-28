@@ -86,6 +86,12 @@ CORE_IMAGE_BASE_INSTALL += " \
             vslam \
             "
 
+#Install packages for imu-ros2node
+CORE_IMAGE_BASE_INSTALL += " \
+            imud \
+            imu-ros2node \
+"
+
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-18.04.2-base-arm64.tar.gz"
 
 do_ubuntu_rootfs(){
