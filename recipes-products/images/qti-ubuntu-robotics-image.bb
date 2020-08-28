@@ -28,6 +28,8 @@ CORE_IMAGE_BASE_INSTALL = " \
             yavta \
             depends-update \
             ota-upgrade \
+            e2fsprogs \
+            e2fsprogs-dev \
             packagegroup-startup-scripts \
             packagegroup-android-utils \
             packagegroup-qti-core-prop \
