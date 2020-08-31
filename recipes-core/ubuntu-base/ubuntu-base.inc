@@ -60,6 +60,7 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libext2fs-dev \
                                  comerr-dev \
                                  ss-dev \
+                                 fscrypt \
                                 "
 
 UBUN_DEBUG_PACKAGES = " gdb \
