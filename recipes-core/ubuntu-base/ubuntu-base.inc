@@ -240,6 +240,14 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              iso-codes \
                              linux-libc-dev \
                              "
+UBUN_MULTIMEDIA_PACKAFES += " \
+                            libx11-6 \
+                            libx11-dev \
+                            libxfont2 \
+                            libxfont-dev \
+                            libxcb1 \
+                            libxcb1-dev \
+"
 
 
 UBUN_BASIC_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"

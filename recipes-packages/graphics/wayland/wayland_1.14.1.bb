@@ -7,6 +7,7 @@ DEPENDS += " \
     libwayland-client0 \
     libwayland-server0 \
     libwayland-cursor0 \
+    libwayland-egl-backend-dev \
     "
 
 do_install() {

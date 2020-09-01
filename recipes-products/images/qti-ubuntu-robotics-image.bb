@@ -224,6 +224,11 @@ CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-pulseaudio \
 "
 
+CORE_IMAGE_BASE_INSTALL += " \
+    mesa \
+    xserver-xorg \
+"
+
 #Install packages for securemsm
 CORE_IMAGE_BASE_INSTALL += " \
 	${@bb.utils.contains('COMBINED_FEATURES', 'qti-security', 'packagegroup-qti-securemsm', '', d)} \
