@@ -126,6 +126,39 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
 			     libegl1-mesa-dev \
                              locales \
                              curl \
+                             libcurl4 \
+                             libcurl4-openssl-dev \
+                             libidn2-0 \
+                             libidn2-dev \
+                             libunistring2 \
+                             libunistring-dev \
+                             libnghttp2-14 \
+                             libpsl5 \
+                             libgssapi-krb5-2 \
+                             libldap-2.4-2 \
+                             librtmp1 \
+                             libkrb5-3 \
+                             libk5crypto3 \
+                             libcom-err2 \
+                             libkrb5support0 \
+                             libsasl2-2 \
+                             libgssapi3-heimdal \
+                             libgnutls30 \
+                             libhogweed4 \
+                             libnettle6 \
+                             libgmp10 \
+                             libp11-kit0 \
+                             libtasn1-6 \
+                             libkeyutils1 \
+                             libheimntlm0-heimdal \
+                             libkrb5-26-heimdal \
+                             libasn1-8-heimdal \
+                             libhcrypto4-heimdal \
+                             libroken18-heimdal \
+                             libwind0-heimdal \
+                             libheimbase1-heimdal \
+                             libhx509-5-heimdal \
+                             libsqlite3-0 \
 			     cplay \
                              lsb-release \
                              python3-argcomplete \

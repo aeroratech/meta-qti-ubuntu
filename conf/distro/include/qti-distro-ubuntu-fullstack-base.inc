@@ -59,6 +59,7 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # tensorflow-lite: Include the tensorflow lite inference engine.
 # wayland:         Include the Wayland display server protocol
 # drm:             Use DRM display drivers, provided machine supports it
+# qwes             Enable qwes feature support
 
 DISTRO_FEATURES_append = " \
     opencl \
@@ -66,6 +67,7 @@ DISTRO_FEATURES_append = " \
     tensorflow-lite \
     wayland \
     drm \
+    qwesd \
     "
 
 ## QTI defined distro features ##

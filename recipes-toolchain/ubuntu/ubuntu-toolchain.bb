@@ -812,6 +812,137 @@ do_install (){
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libsoup-2.4  ${D}${includedir}/
     ln -sf ./libsoup-2.4.so.1.8.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libsoup-2.4.so
 
+    #libcurl4-openssl-dev & libcurl4 & curl
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/curl*  ${D}/usr/bin/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/curl ${D}${includedir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libcurl.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libcurl.pc  ${D}${libdir}/pkgconfig/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/aclocal/libcurl.m4  ${D}/usr/share/aclocal/
+    ln -sf ./libcurl.so.4.5.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcurl.so.4
+    ln -sf ./libcurl.so.4.5.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcurl.so
+
+    #libidn2
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/ ${D}${includedir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libidn2.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libidn2.pc  ${D}${libdir}/pkgconfig/
+    ln -sf ./libidn2.so.0.3.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libidn2.so.0
+    ln -sf ./libidn2.so.0.3.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libidn2.so
+
+    #libunistring
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/ ${D}${includedir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libunistring.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libunistring.so.2.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libunistring.so.2
+    ln -sf ./libunistring.so.2.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libunistring.so
+
+    #libnghttp2-14
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libnghttp2.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libnghttp2.so.14.15.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libnghttp2.so.14
+
+    #libpsl5
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpsl.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libpsl.so.5.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libpsl.so.5
+
+    #libgssapi-krb5-2
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgssapi_krb5.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libgssapi_krb5.so.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libgssapi_krb5.so.2
+
+    #libldap-2.4-2
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libldap_r-2.4.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liblber-2.4.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libldap_r-2.4.so.2.10.8 ${D}${libdir}/${UBUN_TARGET_SYS}/libldap_r-2.4.so.2
+    ln -sf ./liblber-2.4.so.2.10.8 ${D}${libdir}/${UBUN_TARGET_SYS}/liblber-2.4.so.2
+
+    #librtmp1
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/librtmp.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+
+    #libkrb5-3
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libkrb5.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libkrb5.so.3.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libkrb5.so.3
+
+    #libk5crypto3
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libk5crypto.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libk5crypto.so.3.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libk5crypto.so.3
+
+    #libcom_err2
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcom_err.*  ${D}/lib/${UBUN_TARGET_SYS}/
+    ln -sf ./libcom_err.so.2.1 ${D}/lib/${UBUN_TARGET_SYS}/libcom_err.so.2
+
+    #libkrb5support0
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libkrb5support.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libkrb5support.so.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libkrb5support.so.0
+
+    #libsasl2-2
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsasl2.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libsasl2.so.2.0.25 ${D}${libdir}/${UBUN_TARGET_SYS}/libsasl2.so.2
+
+    #libgssapi3-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgssapi.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libgssapi.so.3.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgssapi.so.3
+
+    #libgnutls30
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgnutls.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libgnutls.so.30.14.10 ${D}${libdir}/${UBUN_TARGET_SYS}/libgnutls.so.30
+
+    #libhogweed4
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libhogweed.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libhogweed.so.4.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libhogweed.so.4
+
+    #libnettle6
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libnettle.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libnettle.so.6.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libnettle.so.6
+
+    #libgmp10
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgmp.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libgmp.so.10.3.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libgmp.so.10
+
+    #libp11-kit0
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libp11-kit.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libp11-kit.so.0.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libp11-kit.so.0
+
+    #libtasn1-6
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtasn1.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libtasn1.so.6.5.5 ${D}${libdir}/${UBUN_TARGET_SYS}/libtasn1.so.6
+
+    #libkeyutils1
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libkeyutils.*  ${D}/lib/${UBUN_TARGET_SYS}/
+    ln -sf ./libkeyutils.so.1.5 ${D}/lib/${UBUN_TARGET_SYS}/libkeyutils.so.1
+
+    #libheimntlm0-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libheimntlm.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libheimntlm.so.0.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libheimntlm.so.0
+
+    #libkrb5-26-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libkrb5.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libkrb5.so.26.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libkrb5.so.26
+
+    #libasn1-8-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libasn1.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libasn1.so.8.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libasn1.so.8
+
+    #libhcrypto4-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libhcrypto.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libhcrypto.so.4.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libhcrypto.so.4
+
+    #libroken18-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libroken.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libroken.so.18.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libroken.so.18
+
+    #libwind0-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwind.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libwind.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libwind.so.0
+
+    #libheimbase1-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libheimbase.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libheimbase.so.1.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libheimbase.so.1
+
+    #libhx509-5-heimdal
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libhx509.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libhx509.so.5.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libhx509.so.5
+
+    #libsqlite3-0
+    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsqlite3.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
+    ln -sf ./libsqlite3.so.0.8.6 ${D}${libdir}/${UBUN_TARGET_SYS}/libsqlite3.so.0
+
     cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libdrm/ ${D}/usr/include/
     cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/freedreno/ ${D}/usr/include/
     cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libsync.h ${D}/usr/include/libsync.h
@@ -1810,6 +1941,62 @@ FILES_libsoup-2.4 += " \
 PKG_libsoup-2.4 ="libsoup2.4-1"
 PKGV_libsoup-2.4 = "0"
 PKGR_libsoup-2.4 = "0"
+
+#curl & libcurl4
+PACKAGES += "curl"
+PROVIDES += "curl libcurl curl-dev"
+RPROVIDES_curl += " \
+                libcurl \
+                curl \
+                curl-dev \
+                "
+FILES_curl += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libcurl.* \
+"
+PKG_curl ="libcurl4"
+PKGV_curl = "0"
+PKGR_curl = "0"
+
+#libunistring2
+PACKAGES += "libunistring libunistring-dev"
+PROVIDES += "libunistring libunistring-dev"
+RPROVIDES_libunistring += " \
+                libunistring \
+                libunistring-dev \
+                "
+FILES_libunistring += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libunistring.* \
+"
+PKG_libunistring ="libunistring2"
+PKGV_libunistring = "0"
+PKGR_libunistring = "0"
+
+#libidn2
+PACKAGES += "libidn2 libidn2-dev"
+PROVIDES += "libidn2 libidn2-dev"
+RPROVIDES_libidn2 += " \
+                libidn2 \
+                libidn2-dev \
+                "
+FILES_libidn2 += " \
+    ${libdir}/${UBUN_TARGET_SYS}/libidn2.* \
+"
+PKG_libidn2 ="libidn2-0"
+PKGV_libidn2 = "0"
+PKGR_libidn2 = "0"
+
+# #libcurl4-openssl-dev
+# PACKAGES += "libcurl4-openssl-dev"
+# PROVIDES += "libcurl4-openssl-dev"
+# RPROVIDES_libcurl4-openssl-dev += " \
+#                 libcurl4-openssl-dev \
+#                 "
+# FILES_libcurl4-openssl-dev += " \
+#     ${libdir}/${UBUN_TARGET_SYS}/libcurl.* \
+# "
+# PKG_libcurl4-openssl-dev ="libcurl4-openssl-dev"
+# PKGV_libcurl4-openssl-dev = "0"
+# PKGR_libcurl4-openssl-dev = "0"
 
 ##libssl & openssl & libssl-dev
 
