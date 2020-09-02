@@ -2,6 +2,8 @@ LICENSE = "BSD-3-clause"
 
 inherit pkgconfig
 
+export base_optdir = "${base_prefix}/opt"
+
 DEPENDS += "ubuntu-toolchain"
 
 create_the_links() {
