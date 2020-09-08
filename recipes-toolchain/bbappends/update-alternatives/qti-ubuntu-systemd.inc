@@ -5,10 +5,7 @@ inherit update-alternatives-ubuntu
 ALTERNATIVE_PRIORITY_qti-ubuntu-systemd = "100"
 
 # set update-alternatives register name for qti-ubuntu-systemd package
-ALTERNATIVE_qti-ubuntu-systemd = "logind.conf serial-getty@.service"
+ALTERNATIVE_qti-ubuntu-systemd = "logind.conf"
 
 # set update-alternatives symbolic link path and real target path for qti-ubuntu-systemd package
 ALTERNATIVE_LINK_NAME[logind.conf] = "/etc/systemd/logind.conf"
-
-ALTERNATIVE_LINK_NAME[serial-getty.service] = "/lib/systemd/system/serial-getty@.service"
-
