@@ -27,8 +27,8 @@ install -d ${IMAGE_DIR}/lib/aarch64-linux-gnu/
 # e2initrd_helper and the pkgconfig files belong in libdir
     if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
         install -d ${D}${libdir}/aarch64-linux-gnu/
-        cp -rf ${D}${libdir}/e2initrd_helper ${D}${libdir}/aarch64-linux-gnu/e2initrd_helper
-        cp -rf ${D}${libdir}/pkgconfig ${D}${libdir}/aarch64-linux-gnu/pkgconfig
+        mv ${D}${libdir}/e2initrd_helper ${D}${libdir}/aarch64-linux-gnu/e2initrd_helper
+        mv ${D}${libdir}/pkgconfig ${D}${libdir}/aarch64-linux-gnu/pkgconfig
     fi
 
     mv ${D}${base_bindir}/chattr.e2fsprogs ${D}${bindir}/chattr
@@ -57,3 +57,7 @@ FILES_libe2p = "${base_libdir}/aarch64-linux-gnu/libe2p.so.* \
 FILES_libext2fs = "${base_libdir}/aarch64-linux-gnu/libext2fs.so.* \
                    ${libdir}/aarch64-linux-gnu/pkgconfig/ext2fs.pc"
 
+FILES_${PN}-dev += "${base_libdir}/libcom_err.so.2 ${base_libdir}/libss.so.2 \
+                    ${base_libdir}/libe2p.so.2 ${base_libdir}/libext2fs.so.2"
+FILES_${PN} += "${base_libdir}/libe2p.so.2.3 ${base_libdir}/libext2fs.so.2.4 \
+                ${base_libdir}/libss.so.2.0 ${base_libdir}/libcom_err.so.2.1"

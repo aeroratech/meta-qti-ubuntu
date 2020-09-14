@@ -31,7 +31,7 @@ ALTERNATIVE_LINK_NAME[ss.pc] = "/usr/lib/aarch64-linux-gnu/pkgconfig/ss.pc"
 ALTERNATIVE_PRIORITY_e2fsprogs-dev = "100"
 
 # set update-alternatives register name for e2fsprogs-dev package
-ALTERNATIVE_e2fsprogs-dev = "compile_et mk_cmds com_err.h e2p.h com_err.h bitops.h ext2_err.h ext2_ext_attr.h ext2_fs.h ext2_io.h ext2_types.h ext2fs.h ext3_extents.h qcow2.h tdb.h ss.h ss_err.h et_c.awk et_h.awk ct_c.awk ct_c.sed libcom_err.so libe2p.so libext2fs.so libss.so com_err.pc e2p.pc ext2fs.pc ss.pc"
+ALTERNATIVE_e2fsprogs-dev = "compile_et mk_cmds libcom_err.h e2p.h com_err.h bitops.h ext2_err.h ext2_ext_attr.h ext2_fs.h ext2_io.h ext2_types.h ext2fs.h ext3_extents.h qcow2.h tdb.h ss.h ss_err.h et_c.awk et_h.awk ct_c.awk ct_c.sed libcom_err.so libe2p.so libext2fs.so libss.so"
 
 # set update-alternatives symbolic link path and real target path for e2fsprogs-dev package
 ALTERNATIVE_LINK_NAME[compile_et] = "/usr/bin/compile_et"
@@ -42,7 +42,7 @@ ALTERNATIVE_LINK_NAME[com_err.h] = "/usr/include/com_err.h"
 
 ALTERNATIVE_LINK_NAME[e2p.h] = "/usr/include/e2p/e2p.h"
 
-ALTERNATIVE_LINK_NAME[com_err.h] = "/usr/include/et/com_err.h"
+ALTERNATIVE_LINK_NAME[libcom_err.h] = "/usr/include/et/com_err.h"
 
 ALTERNATIVE_LINK_NAME[bitops.h] = "/usr/include/ext2fs/bitops.h"
 
@@ -87,18 +87,6 @@ ALTERNATIVE_TARGET_e2fsprogs-dev[libext2fs.so] = "/lib/libext2fs.so"
 
 ALTERNATIVE_LINK_NAME[libss.so] = "/usr/lib/aarch64-linux-gnu/libss.so"
 ALTERNATIVE_TARGET_e2fsprogs-dev[libss.so] = "/lib/libss.so"
-
-ALTERNATIVE_LINK_NAME[com_err.pc] = "/usr/lib/aarch64-linux-gnu/pkgconfig/com_err.pc"
-ALTERNATIVE_TARGET_e2fsprogs-dev[com_err.pc] = "/usr/lib/pkgconfig/com_err.pc"
-
-ALTERNATIVE_LINK_NAME[e2p.pc] = "/usr/lib/aarch64-linux-gnu/pkgconfig/e2p.pc"
-ALTERNATIVE_TARGET_e2fsprogs-dev[e2p.pc] = "/usr/lib/pkgconfig/e2p.pc"
-
-ALTERNATIVE_LINK_NAME[ext2fs.pc] = "/usr/lib/aarch64-linux-gnu/pkgconfig/ext2fs.pc"
-ALTERNATIVE_TARGET_e2fsprogs-dev[ext2fs.pc] = "/usr/lib/pkgconfig/ext2fs.pc"
-
-ALTERNATIVE_LINK_NAME[ss.pc] = "/usr/lib/aarch64-linux-gnu/pkgconfig/ss.pc"
-ALTERNATIVE_TARGET_e2fsprogs-dev[ss.pc] = "/usr/lib/pkgconfig/ss.pc"
 
 # set update-alternatives priority for libcomerr package
 ALTERNATIVE_PRIORITY_libcomerr = "100"
