@@ -212,10 +212,6 @@ do_ubuntu_install() {
 
 	# Go to persistent-storage.rules and create bootdevice/by-name symlinks
 	do_create_the_links
-
-	#Allow tty connect when agetty start
-	sed -i "s/TTYVHangup=yes'/TTYVHangup=no'/" ${TMP_WKDIR}/lib/systemd/system/serial-getty@.service
-
 }
 
 addtask do_ubuntu_install after do_install before do_package
