@@ -35,6 +35,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-core-prop \
             packagegroup-qti-dsp \
             packagegroup-qti-fastcv \
+            packagegroup-qti-cvp \
             packagegroup-qti-ss-mgr \
             packagegroup-qti-qmmf \
             "
