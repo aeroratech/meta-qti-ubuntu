@@ -19,6 +19,7 @@ XORG_PN = "xorg-server"
 FILESPATH =+ "${WORKSPACE}:"
 SRC_URI  = "git://source.codeaurora.org/quic/le/platform/external/freedesktop/xorg-xserver/;protocol=http;tag=xorg-server-1.19.6;nobranch=1"
 SRC_URI += "file://0001-xserver-xorg-force-MONOTONIC_CLOCK-yes.patch"
+SRC_URI += "file://0001-xserver-xorg-support-KDE-desktop.patch"
 
 S = "${WORKDIR}/git"
 
