@@ -29,9 +29,9 @@ do_install() {
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/Poco ${D}/usr/include
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/libPocoFoundation.so ${D}/usr/lib
 
-    # python3-catkin-pkg-modules_0.4.22-1_all install lib
+    # python3-catkin-pkg-modules_0.4.23-1_all install lib
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/python3/dist-packages/catkin_pkg ${D}${PYTHON_SITEPACKAGES_DIR}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/python3/dist-packages/catkin_pkg_modules-0.4.22.egg-info ${D}${PYTHON_SITEPACKAGES_DIR}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/python3/dist-packages/catkin_pkg_modules-0.4.23.egg-info ${D}${PYTHON_SITEPACKAGES_DIR}
 
     # python3-pkg-resources_39.0.1-2_all install lib
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb${libdir}/python3/dist-packages/pkg_resources ${D}${PYTHON_SITEPACKAGES_DIR}
