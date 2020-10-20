@@ -91,6 +91,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             imud \
             imu-ros2node \
+            sensors-client \
 "
 
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-18.04.2-base-arm64.tar.gz"
@@ -100,7 +101,7 @@ do_ubuntu_rootfs(){
     install -m 0751 -d ${IMAGE_ROOTFS}/dev
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
     chown -R root:root ${IMAGE_ROOTFS}/bin/su 
-    chmod a+s ${IMAGE_ROOTFS}/bin/su 
+    chmod a+s ${IMAGE_ROOTFS}/bin/su
     #add firmware & dsp & bt_firmware
     mkdir -p ${IMAGE_ROOTFS}/firmware
     mkdir -p ${IMAGE_ROOTFS}/lib/firmware
@@ -111,7 +112,7 @@ do_ubuntu_rootfs(){
 #   replace the cpufreq governor ondemand with schedutil
     rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
 #   ---- design to avoid do_rootfs status error ----
-#    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu 
+#    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
 #
 #   ---- fix error : unknown group 'messagebus' in statoverride file ----
@@ -119,7 +120,7 @@ do_ubuntu_rootfs(){
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
 #   ----------------------------------------------------------------------
 #   ---- fix user conflicts ----
-# 
+#
 #   ----------------------------------------------------------------------
 }
 
