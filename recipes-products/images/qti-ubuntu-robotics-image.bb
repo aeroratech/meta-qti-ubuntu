@@ -182,7 +182,7 @@ do_post_install() {
 do_enable_coredump() {
     sed -i -e 's/#DefaultLimitCORE=/DefaultLimitCORE=infinity/' ${IMAGE_ROOTFS}/etc/systemd/system.conf
     echo "#Coredump configurations" > ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
-    echo "kernel.core_pattern = /data/coredump/core.%e.%p" >> ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
+    echo "kernel.core_pattern = /data/coredump/core.%e.%p.%t" >> ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
     echo "fs.suid_dumpable = 2" >>  ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
     mkdir -p ${IMAGE_ROOTFS}/data/coredump
 }
