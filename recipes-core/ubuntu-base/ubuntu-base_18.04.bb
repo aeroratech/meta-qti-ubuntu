@@ -3,9 +3,9 @@ LICENSE = "BSD-3-clause"
 
 include ubuntu-base.inc
 
-SRC_URI += "http://cdimage.ubuntu.com/ubuntu-base/releases/18.04/release/${UBUNTU_BASE_TAR}"
-SRC_URI[md5sum] = "5daeef877b716438584db842e49ff1e9"
-SRC_URI[sha256sum] = "9327cf905e818c38ba04605e40fbe11ac6548537786dc12936ca5819f8a563ad"
+SRC_URI += "http://cdimage.ubuntu.com/ubuntu-base/releases/18.04/release/ubuntu-base-18.04.2-base-arm64.tar.gz"
+SRC_URI[md5sum] = "fce1e4f9b98c85436f06aa27013279a5"
+SRC_URI[sha256sum] = "62bd3b6df4340aa8e90d08229ced4f40aa8cbe84ed43f9f71791a46df5159f81"
 
 INSANE_SKIP_${PN} += "already-stripped"
 INSANE_SKIP_${PN} += "installed-vs-shipped"
@@ -62,11 +62,11 @@ python fix_symlink() {
 
 ubuntu_post_install() {
 	pushd ${TMP_WKDIR}
-	fakeroot touch ./${UBUNTU_BASE_TAR}
-	fakeroot tar -cpzf ${UBUNTU_BASE_TAR} --exclude=./${UBUNTU_BASE_TAR} --one-file-system ./
+	fakeroot touch ./ubuntu-base-18.04.2-base-arm64.tar.gz
+	fakeroot tar -cpzf ubuntu-base-18.04.2-base-arm64.tar.gz --exclude=./ubuntu-base-18.04.2-base-arm64.tar.gz --one-file-system ./
 	popd
 	mkdir -p ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done
-	cp ${TMP_WKDIR}/${UBUNTU_BASE_TAR} ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/
+	cp ${TMP_WKDIR}/ubuntu-base-18.04.2-base-arm64.tar.gz ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/
 }
 
 restore_sourcelist() {
@@ -160,7 +160,7 @@ do_ubuntu_install() {
 	fi
 	rm -rf ${TMP_WKDIR}/*
 
-	fakeroot tar xz --no-same-owner -f ${DL_DIR}/${UBUNTU_BASE_TAR} -C ${TMP_WKDIR}
+	fakeroot tar xz --no-same-owner -f ${DL_DIR}/ubuntu-base-18.04.2-base-arm64.tar.gz -C ${TMP_WKDIR}
 	if [ ${cache_avaliable} -eq 1 ]; then
 		find ${DEB_CACHE_DIR} -maxdepth 1 -name "*.deb" | xargs -n10 -i cp {} ${TMP_WKDIR}/var/cache/apt/archives/
 	fi
