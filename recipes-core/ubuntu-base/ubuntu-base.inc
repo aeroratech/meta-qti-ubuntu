@@ -1,4 +1,5 @@
 PATH =. "/usr/bin:/usr/sbin:/usr/local/sbin:/usr/sbin:/sbin:/bin:"
+UBUNTU_BASE_TAR="ubuntu-base-18.04.5-base-arm64.tar.gz"
 
 #Packages to ensure boot up and WLAN function
 UBUN_BASIC_PACKAGES = " systemd \
