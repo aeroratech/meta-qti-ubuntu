@@ -28,5 +28,22 @@
 ## Script to do pre-configurations specific to current layer
 ## before calling oe-init-build-env
 
-export GO111MODULE=on
-export GOPROXY=https://goproxy.io,direct
+GO_PATH=/usr/local/go/bin
+
+if [ -x "/usr/bin/go" ];then
+	echo -e "\033[31m #######################NOTE!!!########################\n \033[0m"
+	echo -e "\033[31m Plase do not use apt install golang. Remove it. \033[0m" 
+	echo -e "\033[31m 'sudo apt remove golang'\n 'sudo apt autoremove' \n\033[0m"
+	echo -e "\033[31m #######################NOTE!!!######################## \033[0m"
+	return -1
+fi
+
+if [ ! -x "$GO_PATH/go" ];then
+	echo -e "\033[31m #######################NOTE!!!########################\n \033[0m"
+	echo -e "\033[34m Please install go1.14.4 by: \033[0m"
+	echo -e "\033[34m wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz \033[0m"
+	echo -e "\033[34m sudo tar -C /usr/local -xzf go1.14.4.linux-amd64.tar.gz\n \033[0m"
+	echo -e "\033[31m #######################NOTE!!!######################## \033[0m"
+	return -1
+fi
+
