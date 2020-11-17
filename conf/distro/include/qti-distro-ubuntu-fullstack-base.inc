@@ -20,6 +20,7 @@ PACKAGE_CLASSES = 'qpackage_deb'
 #SECURITY_PIE_CFLAGS = "-fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wa,--noexecstack ${SECURITY_STRINGFORMAT}"
 
 #SECURITY_CFLAGS_pn-edk2 = "-Wa,--noexecstack"
+SECURITY_CFLAGS_pn-mesa = "${SECURITY_PIC_CFLAGS}"
 
 BUILD_IMAGES_FROM_FEEDS = "1"
 
@@ -63,11 +64,14 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 
 DISTRO_FEATURES_append = " \
     opencl \
+    opengl \
+    vulkan \
     pulseaudio \
     tensorflow-lite \
     wayland \
     drm \
     qwesd \
+    x11 \
     "
 
 ## QTI defined distro features ##

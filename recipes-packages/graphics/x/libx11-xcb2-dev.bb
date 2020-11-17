@@ -6,7 +6,6 @@ LIC_FILES_CHKSUM = "\
     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420 \
 "
 
-
 FULL_LINK = 'http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libx11/libx11-xcb-dev_1.6.4-3_arm64.deb'
 DEB_NAME = 'libx11-xcb-dev_1.6.4-3_arm64.deb'
 

@@ -18,8 +18,24 @@ DEPENDS += " \
     libxcb1-dev \
     libxcb-render0-0 \
     libxcb-render0-dev \
+    libxcb-randr0-0 \
+    libxcb-randr0-dev \
     libxcb-shm0-0 \
     libxcb-shm0-dev \
+    libxcb-glx0-dev \
+    libxcb-glx0 \
+    libxcb-dri2-0 \
+    libxcb-dri2-dev \
+    libxcb-dri3-0 \
+    libxcb-dri3-dev \
+    libxcb-present0 \
+    libxcb-present-dev \
+    libxcb-sync1 \
+    libxcb-sync-dev \
+    libxcb-xfixes0-0 \
+    libxcb-xfixes0-dev \
+    libxcb-shape0-0 \
+    libxcb-shape0-dev \
     "
 
 do_install() {
@@ -32,6 +48,9 @@ do_install() {
 
    install -d ${D}/usr/include/xcb
    install -d ${D}/usr/include/X11
+   install -d ${D}/usr/include/GL
+   install -d ${D}/usr/include/X11/dri
+   install -d ${D}/usr/include/X11/fonts
 
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libbsd*   ${D}/lib/aarch64-linux-gnu/
 
@@ -58,6 +77,20 @@ do_install() {
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xextproto.pc  ${D}/usr/share/pkgconfig
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xineramaproto.pc  ${D}/usr/share/pkgconfig
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xproto.pc  ${D}/usr/share/pkgconfig
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/glproto.pc  ${D}/usr/share/pkgconfig
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xf86bigfontproto.pc ${D}/usr/share/pkgconfig
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xf86dgaproto.pc ${D}/usr/share/pkgconfig
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xf86driproto.pc ${D}/usr/share/pkgconfig
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xf86vidmodeproto.pc ${D}/usr/share/pkgconfig
+
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/GL/glx*.h ${D}/usr/include/GL/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/X11/dri/*.h ${D}/usr/include/X11/dri/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/X11/fonts/FS.h ${D}/usr/include/X11/fonts/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/X11/fonts/FSproto.h ${D}/usr/include/X11/fonts/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/X11/fonts/font.h ${D}/usr/include/X11/fonts/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/X11/fonts/fontproto.h ${D}/usr/include/X11/fonts/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/X11/fonts/fontstruct.h ${D}/usr/include/X11/fonts/
+   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/X11/fonts/fsmasks.h ${D}/usr/include/X11/fonts/
 
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libXdmcp*  ${D}/usr/lib/aarch64-linux-gnu/
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/xdmcp.pc  ${D}/usr/lib/aarch64-linux-gnu/pkgconfig/

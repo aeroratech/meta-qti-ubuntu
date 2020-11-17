@@ -10,11 +10,7 @@ LIC_FILES_CHKSUM = "\
 
 DEPENDS += " \
     libx11 \
-    libfreetype6-0 \
-    libfreetype6-dev \
     expat \
-    libfontconfig1-0 \
-    libfontconfig1-dev \
     libcairo2-0 \
     libcairo-gobject2 \
     libcairo-script-interpreter2 \
@@ -32,7 +28,6 @@ do_install() {
    #dependencies
    install -d ${D}/lib/aarch64-linux-gnu/
    install -d ${D}/usr/include/fontconfig/
-   install -d ${D}/usr/include/freetype2/
 
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libcairo*  ${D}/usr/lib/aarch64-linux-gnu/
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/cairo/* ${D}/usr/include/cairo/
@@ -41,10 +36,6 @@ do_install() {
    #dependencies
    #cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libexpat*  ${D}/lib/aarch64-linux-gnu/
    #cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libexpatw*  ${D}/usr/lib/aarch64-linux-gnu/
-   
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libfreetype*   ${D}/usr/lib/aarch64-linux-gnu/
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/freetype2/* ${D}/usr/include/freetype2/
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/freetype2.pc  ${D}/usr/lib/aarch64-linux-gnu/pkgconfig/
 
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libfontconfig* ${D}/usr/lib/aarch64-linux-gnu/
    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/fontconfig/* ${D}/usr/include/fontconfig/

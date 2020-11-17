@@ -372,6 +372,8 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/bzlib.h ${D}${includedir}
     ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
+    ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so.1
+    ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so.1.0
 
     #libcap-ng & libcap-ng-dev
     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcap-ng*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -1017,6 +1019,8 @@ do_install (){
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libiberty.a ${D}${libdir}/${UBUN_TARGET_SYS}
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpam.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpam_misc.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpamc.so* ${D}${libdir}/${UBUN_TARGET_SYS}
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libaudit.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
 
@@ -1313,6 +1317,8 @@ do_install (){
     ln -s ${UBUN_TARGET_SYS}/libthread_db.so.1  ${D}${libdir}/libthread_db.so.1 
     ln -s ${UBUN_TARGET_SYS}/libutil-${UBUN_VER_LIBC}.so ${D}${libdir}/libutil.so  
     ln -s ${UBUN_TARGET_SYS}/libpam.so.0.83.1 ${D}${libdir}/libpam.so
+    ln -s ${UBUN_TARGET_SYS}/libpam_misc.so.0.82.0 ${D}${libdir}/libpam_misc.so
+    ln -s ${UBUN_TARGET_SYS}/libpamc.so.0.82.1 ${D}${libdir}/libpamc.so
     ln -s ${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/libselinux.so
     ln -s ${UBUN_TARGET_SYS}/libsepol.so.1 ${D}${libdir}/libsepol.so
 }
@@ -1618,7 +1624,7 @@ PKGV = "0"
 
 #  libpam
 PACKAGES += "libpam"
-FILES_libpam += "${libdir}/dummy"
+FILES_libpam += "${base_libdir}/${UBUN_TARGET_SYS}/libpam*.so.*"
 RPROVIDES_libpam = " \
                     libpam \
                     pam-plugin-group pam-plugin-motd pam-plugin-mail pam-plugin-shells pam-plugin-nologin pam-plugin-rootok pam-plugin-env \
@@ -2785,6 +2791,63 @@ RPROVIDES_gdk-pixbuf += " \
 PKGV_gdk-pixbuf = "2.36.11"
 PKGR_gdk-pixbuf = "2"
 PKG_gdk-pixbuf ="libgdk-pixbuf2.0-0"
+
+PROVIDES += "xorgproto"
+PROVIDES += "libxkbfile"
+
+PACKAGES += "libxdmcp"
+FILES_libxdmcp = "${libdir}/${UBUN_TARGET_SYS}/libXdmcp.so.6*"
+PKG_libxdmcp = "libxdmcp6"
+PKGV_libxdmcp = "1:1.1.2"
+PKGR_libxdmcp = "3"
+PROVIDES += "libxdmcp"
+
+PACKAGES += "libxshmfence"
+FILES_libxshmfence = "${libdir}/${UBUN_TARGET_SYS}/libxshmfence.so.1*"
+PKG_libxshmfence = "libxshmfence1"
+PKGV_libxshmfence = "1.3"
+PKGR_libxshmfence = "1"
+PROVIDES += "libxshmfence"
+
+PACKAGES += "libxfont2"
+FILES_libxfont2 = "${libdir}/${UBUN_TARGET_SYS}/libXfont2.so.2*"
+PKG_libxfont2 = "libxfont2"
+PKGV_libxfont2 = "1:2.0.3"
+PKGR_libxfont2 = "1"
+PROVIDES += "libxfont2"
+
+PROVIDES += "xtrans"
+
+PACKAGES += "libepoxy"
+FILES_libepoxy = "${libdir}/${UBUN_TARGET_SYS}/libepoxy.so.0*"
+PKG_libepoxy = "libepoxy0"
+PKGV_libepoxy = "1.4.3"
+PKGR_libepoxy = "1"
+PROVIDES += "libepoxy"
+
+PACKAGES += "libxau"
+FILES_libxau = "${libdir}/${UBUN_TARGET_SYS}/libXau.so.6*"
+PKG_libxau = "libxau6"
+PKGV_libxau = "1:1.0.8"
+PKGR_libxau = "1"
+PROVIDES += "libxau"
+
+PROVIDES += "font-util"
+PROVIDES += "libxext"
+PROVIDES += "xkeyboard-config"
+PROVIDES += "util-macros"
+PROVIDES += "libxdamage"
+PROVIDES += "libxfixes"
+PROVIDES += "xrandr"
+PROVIDES += "libxxf86vm"
+PROVIDES += "libsm"
+PROVIDES += "libice"
+PROVIDES += "libxtst"
+PROVIDES += "libxi"
+PROVIDES += "dbus-glib"
+
+PACKAGES += "xkeyboard-config"
+RPROVIDES_xkeyboard-config = "xkeyboard-config"
 
 UBUN_VER_MAIN ??= ""
 
