@@ -1,0 +1,1 @@
+PKG_libsm6-dbg = "qti-libsm6-dbg"

@@ -90,6 +90,13 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libxext6-dbg \
                                    python3-dbg \
                                    python-dbg \
+                                   libxxf86vm1-dbg \
+                                   libfontenc1-dbg \
+                                   libice6-dbg \
+                                   libsm6-dbg \
+                                   xserver-xorg-core \
+                                   xserver-common \
+                                   libxkbfile1-dbg \
                                  "
 
 #video, camera packages

@@ -111,7 +111,7 @@ ALTERNATIVE_TARGET_pulseaudio-module-alsa-card[module-alsa-card.so] = "/usr/lib/
 ALTERNATIVE_PRIORITY_pulseaudio-misc = "100"
 
 # set update-alternatives register name for pulseaudio-misc package
-ALTERNATIVE_pulseaudio-misc = " esdcompat pacat pacmd padsp pamon paplay parec parecord pasuspender "
+ALTERNATIVE_pulseaudio-misc = " esdcompat pacat pacmd padsp pamon paplay parec parecord pasuspender pax11publish"
 
 # set update-alternatives symbolic link path and real target path for pulseaudio-misc package
 ALTERNATIVE_LINK_NAME[esdcompat] = "/usr/bin/esdcompat"
@@ -132,6 +132,8 @@ ALTERNATIVE_LINK_NAME[parecord] = "/usr/bin/parecord"
 
 ALTERNATIVE_LINK_NAME[pasuspender] = "/usr/bin/pasuspender"
 
+ALTERNATIVE_LINK_NAME[pax11publish] = "/usr/bin/pax11publish"
+
 # set update-alternatives priority for libpulse package
 ALTERNATIVE_PRIORITY_libpulse = "100"
 
@@ -148,7 +150,7 @@ ALTERNATIVE_TARGET_libpulse[libpulse.so.0] = "/usr/lib/libpulse.so.0"
 ALTERNATIVE_PRIORITY_pulseaudio-server = "100"
 
 # set update-alternatives register name for pulseaudio-server package
-ALTERNATIVE_pulseaudio-server = " pulseaudio-system.conf daemon.conf default.pa system.pa 90-pulseaudio.rules pulseaudio user-pulseaudio.service pulseaudio.socket pactl "
+ALTERNATIVE_pulseaudio-server = " pulseaudio-system.conf daemon.conf default.pa system.pa 90-pulseaudio.rules pulseaudio user-pulseaudio.service pulseaudio.socket pactl pulseaudio.desktop start-pulseaudio-x11 pulseaudio.service "
 
 # set update-alternatives symbolic link path and real target path for pulseaudio-server package
 ALTERNATIVE_LINK_NAME[pulseaudio-system.conf] = "/etc/dbus-1/system.d/pulseaudio-system.conf"
@@ -168,6 +170,13 @@ ALTERNATIVE_LINK_NAME[user-pulseaudio.service] = "/usr/lib/systemd/user/pulseaud
 ALTERNATIVE_LINK_NAME[pulseaudio.socket] = "/usr/lib/systemd/user/pulseaudio.socket"
 
 ALTERNATIVE_LINK_NAME[pactl] = "/usr/bin/pactl"
+
+ALTERNATIVE_LINK_NAME[pulseaudio.desktop] = "/etc/xdg/autostart/pulseaudio.desktop"
+
+ALTERNATIVE_LINK_NAME[start-pulseaudio-x11] = "/usr/bin/start-pulseaudio-x11"
+
+ALTERNATIVE_LINK_NAME[pulseaudio.service] = "/usr/lib/systemd/user/pulseaudio.service"
+ALTERNATIVE_TARGET_pulseaudio-server[pulseaudio.service] = "/lib/systemd/system/pulseaudio.service"
 
 # set update-alternatives priority for pulseaudio-module-role-ducking package
 ALTERNATIVE_PRIORITY_pulseaudio-module-role-ducking = "100"
