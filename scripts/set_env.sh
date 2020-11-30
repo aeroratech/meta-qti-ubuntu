@@ -32,7 +32,7 @@ GO_PATH=/usr/local/go/bin
 
 if [ -x "/usr/bin/go" ];then
 	echo -e "\033[31m #######################NOTE!!!########################\n \033[0m"
-	echo -e "\033[31m Plase do not use apt install golang. Remove it. \033[0m" 
+	echo -e "\033[31m Please do not use apt install golang. Remove it. \033[0m"
 	echo -e "\033[31m 'sudo apt remove golang'\n 'sudo apt autoremove' \n\033[0m"
 	echo -e "\033[31m #######################NOTE!!!######################## \033[0m"
 	return -1
