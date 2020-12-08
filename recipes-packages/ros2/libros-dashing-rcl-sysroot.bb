@@ -1,7 +1,5 @@
-inherit native deb-dl
-
 LICENSE = "Apache-2.0"
-SRC_URI[md5sum] = "756ec6050a0a298eb9c2581fc466652d"
+SRC_URI[md5sum] = "7c9c4ef63cb400ba1abb5ea5f3f2d303"
 
-FULL_LINK = 'http://packages.ros.org/ros2/ubuntu/pool/main/r/ros-dashing-rcl/ros-dashing-rcl_0.7.9-1bionic.20201024.001536_arm64.deb'
-DEB_NAME = 'ros-dashing-rcl_0.7.9-1bionic.20201024.001536_arm64.deb'
+FULL_LINK = 'http://packages.ros.org/ros2/ubuntu/pool/main/r/ros-dashing-rcl/ros-dashing-rcl_0.7.9-1bionic.20201125.080508_arm64.deb'
+DEB_NAME = 'ros-dashing-rcl_0.7.9-1bionic.20201125.080508_arm64.deb'
