@@ -89,9 +89,9 @@ CORE_IMAGE_BASE_INSTALL += " \
 
 #Install packages for imu-ros2node
 CORE_IMAGE_BASE_INSTALL += " \
-            imud \
-            imu-ros2node \
-            sensors-client \
+            ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'imud', '', d)} \
+            ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'imu-ros2node', '', d)} \
+            ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'sensors-client', '', d)} \
 "
 
 UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-18.04.5-base-arm64.tar.gz"
