@@ -1,0 +1,1813 @@
+commit 4d41e60ff371df02510f1d99d977c1ef4ef28b58
+Author: vishnu <vishsain@codeaurora.org>
+Date:   Wed Dec 2 15:35:05 2020 +0530
+
+    [PATCH] mesa: support KDE desktop
+    
+    ---
+     src/egl/Makefile.sources            |   2 +
+     src/egl/main/adrenoeglwrapper.c     | 207 ++++++++++
+     src/egl/main/adrenoeglwrapper.h     | 108 +++++
+     src/egl/main/eglapi.c               | 614 ++++++++++++++++++++++++++++
+     src/egl/meson.build                 |   2 +
+    			 src/mapi/Makefile.sources           |   3 +-
+     src/mapi/adrenogleswrapper.h        |  91 +++++
+     src/mapi/new/gen_gldispatch_mapi.py |  17 +-
+     8 files changed, 1040 insertions(+), 4 deletions(-)
+     create mode 100755 src/egl/main/adrenoeglwrapper.c
+     create mode 100755 src/egl/main/adrenoeglwrapper.h
+     create mode 100755 src/mapi/adrenogleswrapper.h
+     mode change 100755 => 100644 src/mapi/new/gen_gldispatch_mapi.py
+    
+     Signed-off-by: Vishnu Saini vishsain@codeaurora.org
+
+diff --git a/src/egl/Makefile.sources b/src/egl/Makefile.sources
+index 0cc5f1b..795b9b4 100644
+--- a/src/egl/Makefile.sources
++++ b/src/egl/Makefile.sources
+@@ -1,4 +1,6 @@
+ LIBEGL_C_FILES := \
++    main/adrenoeglwrapper.c \
++    main/adrenoeglwrapper.h \
+ 	main/eglapi.c \
+ 	main/eglapi.h \
+ 	main/eglarray.c \
+diff --git a/src/egl/main/adrenoeglwrapper.c b/src/egl/main/adrenoeglwrapper.c
+new file mode 100644
+index 0000000..5374130
+--- /dev/null
++++ b/src/egl/main/adrenoeglwrapper.c
+@@ -0,0 +1,236 @@
++/* Copyright (c) 2020, The Linux Foundation. All rights reserved.
++*
++* Redistribution and use in source and binary forms, with or without
++* modification, are permitted provided that the following conditions are
++* met:
++*    * Redistributions of source code must retain the above copyright
++*      notice, this list of conditions and the following disclaimer.
++*    * Redistributions in binary form must reproduce the above
++*      copyright notice, this list of conditions and the following
++*      disclaimer in the documentation and/or other materials provided
++*      with the distribution.
++*    * Neither the name of The Linux Foundation nor the names of its
++*      contributors may be used to endorse or promote products derived
++*      from this software without specific prior written permission.
++*
++* THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
++* WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
++* ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
++* BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
++* BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
++* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
++* OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
++* IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++*
++*/
++
++#include "adrenoeglwrapper.h"
++#include <stdio.h>
++#include <dlfcn.h>
++#include <string.h>
++
++void *libEGL_adreno_;
++
++EGLDisplay (*_aeglGetDisplay)(EGLNativeDisplayType nativeDisplay);
++EGLDisplay (*_aeglGetPlatformDisplay)(EGLenum platform, void *native_display, const EGLAttrib *attrib_list);
++EGLDisplay (*_aeglGetPlatformDisplayEXT)(EGLenum platform, void *native_display, const EGLint *int_attribs);
++__eglMustCastToProperFunctionPointerType (*_aeglGetProcAddress)(const char *procname);
++const char* (*_aeglQueryString)(EGLDisplay dpy, EGLint name);
++EGLint (*_aeglGetError)(void);
++EGLBoolean (*_aeglBindAPI)(EGLenum api);
++EGLBoolean (*_aeglInitialize)(EGLDisplay dpy, EGLint *major, EGLint *minor);
++EGLBoolean (*_aeglChooseConfig)(EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
++EGLBoolean (*_aeglGetConfigAttrib)(EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value);
++EGLBoolean (*_aeglGetConfigs)(EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config);
++EGLSurface (*_aeglCreatePbufferSurface)(EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list);
++EGLContext (*_aeglCreateContext)(EGLDisplay dpy, EGLConfig config, EGLContext share_list, const EGLint *attrib_list);
++EGLBoolean (*_aeglMakeCurrent)(EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
++EGLBoolean (*_aeglDestroySurface)(EGLDisplay dpy, EGLSurface surface);
++EGLBoolean (*_aeglTerminate)(EGLDisplay dpy);
++EGLSurface (*_aeglGetCurrentSurface)(EGLint readdraw);
++EGLBoolean (*_aeglQuerySurface)(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value);
++EGLSurface (*_aeglCreatePixmapSurface)(EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint *attrib_list);
++EGLSurface (*_aeglCreatePlatformPixmapSurface)(EGLDisplay dpy, EGLConfig config, void *native_pixmap, const EGLAttrib *attrib_list);
++EGLSurface (*_aeglCreatePlatformPixmapSurfaceEXT)(EGLDisplay dpy, EGLConfig config, void *native_pixmap, const EGLint *attrib_list);
++EGLBoolean (*_aeglCopyBuffers)(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
++EGLSurface (*_aeglCreatePbufferFromClientBuffer)(EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list);
++EGLDisplay (*_aeglGetCurrentDisplay)(void);
++EGLContext (*_aeglGetCurrentContext)(void);
++EGLBoolean (*_aeglQueryContext)(EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
++EGLenum (*_aeglQueryAPI)(void);
++EGLSurface (*_aeglCreateWindowSurface)(EGLDisplay dpy, EGLConfig config, EGLNativeWindowType window, const EGLint *attrib_list);
++EGLSurface (*_aeglCreatePlatformWindowSurface)(EGLDisplay dpy, EGLConfig config, void *native_window, const EGLAttrib *attrib_list);
++EGLSurface (*_aeglCreatePlatformWindowSurfaceEXT)(EGLDisplay dpy, EGLConfig config, void *native_window, const EGLint *attrib_list);
++EGLBoolean (*_aeglSurfaceAttrib)(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
++EGLBoolean (*_aeglSwapInterval)(EGLDisplay dpy, EGLint interval);
++EGLBoolean (*_aeglSwapBuffers)(EGLDisplay dpy, EGLSurface surface);
++EGLBoolean (*_aeglDestroyContext)(EGLDisplay dpy, EGLContext ctx);
++EGLBoolean (*_aeglReleaseTexImage)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);
++EGLBoolean (*_aeglSwapBuffersWithDamageEXT)(EGLDisplay dpy, EGLSurface surface, EGLint *rects, EGLint n_rects);
++EGLBoolean (*_aeglSwapBuffersWithDamageKHR)(EGLDisplay dpy, EGLSurface surface, EGLint *rects, EGLint n_rects);
++EGLBoolean (*_aeglSetDamageRegionKHR)(EGLDisplay dpy, EGLSurface surface, EGLint *rects, EGLint n_rects);
++EGLBoolean (*_aeglWaitClient)(void);
++EGLBoolean (*_aeglWaitGL)(void);
++EGLBoolean (*_aeglWaitNative)(EGLint engine);
++EGLBoolean (*_aeglReleaseThread)(void);
++EGLImage (*_aeglCreateImageKHR)(EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLint *attr_list);
++EGLImage (*_aeglCreateImage)(EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLAttrib *attr_list);
++EGLBoolean (*_aeglDestroyImage)(EGLDisplay dpy, EGLImage image);
++EGLBoolean (*_aeglDestroyImageKHR)(EGLDisplay dpy, EGLImage image);
++EGLSync (*_aeglCreateSyncKHR)(EGLDisplay dpy, EGLenum type, const EGLint *int_list);
++EGLSync (*_aeglCreateSync64KHR)(EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list);
++EGLSync (*_aeglCreateSync)(EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list);
++EGLBoolean (*_aeglDestroySync)(EGLDisplay dpy, EGLSync sync);
++EGLBoolean (*_aeglDestroySyncKHR)(EGLDisplay dpy, EGLSync sync);
++EGLint (*_aeglClientWaitSync)(EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);
++EGLint (*_aeglClientWaitSyncKHR)(EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);
++EGLint (*_aeglWaitSyncKHR)(EGLDisplay dpy, EGLSync sync, EGLint flags);
++EGLBoolean (*_aeglWaitSync)(EGLDisplay dpy, EGLSync sync, EGLint flags);
++EGLBoolean (*_aeglSignalSyncKHR)(EGLDisplay dpy, EGLSync sync, EGLenum mode);
++EGLBoolean (*_aeglGetSyncAttrib)(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *value);
++EGLBoolean (*_aeglGetSyncAttribKHR)(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLint *value);
++EGLint (*_aeglDupNativeFenceFDANDROID)(EGLDisplay dpy, EGLSync sync);
++EGLBoolean (*_aeglSwapBuffersRegionNOK)(EGLDisplay dpy, EGLSurface surface, EGLint numRects, const EGLint *rects);
++EGLImage (*_aeglCreateDRMImageMESA)(EGLDisplay dpy, const EGLint *attr_list);
++EGLBoolean (*_aeglExportDRMImageMESA)(EGLDisplay dpy, EGLImage image, EGLint *name, EGLint *handle, EGLint *stride);
++EGLBoolean (*_aeglBindWaylandDisplayWL)(EGLDisplay dpy, struct wl_display *display);
++EGLBoolean (*_aeglUnbindWaylandDisplayWL)(EGLDisplay dpy, struct wl_display *display);
++EGLBoolean (*_aeglQueryWaylandBufferWL)(EGLDisplay dpy, struct wl_resource *buffer, EGLint attribute, EGLint *value);
++struct wl_buffer* (*_aeglCreateWaylandBufferFromImageWL)(EGLDisplay dpy, EGLImage image);
++EGLBoolean (*_aeglPostSubBufferNV)(EGLDisplay dpy, EGLSurface surface, EGLint x, EGLint y, EGLint width, EGLint height);
++EGLBoolean (*_aeglExportDMABUFImageQueryMESA)(EGLDisplay dpy, EGLImage image, EGLint *fourcc, EGLint *nplanes, EGLuint64KHR *modifiers);
++EGLBoolean (*_aeglExportDMABUFImageMESA)(EGLDisplay dpy, EGLImage image, int *fds, EGLint *strides, EGLint *offsets);
++EGLint (*_aeglLabelObjectKHR)(EGLDisplay dpy, EGLenum objectType, EGLObjectKHR object, EGLLabelKHR label);
++EGLint (*_aeglDebugMessageControlKHR)(EGLDEBUGPROCKHR callback, const EGLAttrib *attrib_list);
++EGLBoolean (*_aeglQueryDebugKHR)(EGLint attribute, EGLAttrib *value);
++EGLBoolean (*_aeglQueryDmaBufFormatsEXT)(EGLDisplay dpy, EGLint max_formats, EGLint *formats, EGLint *num_formats);
++EGLBoolean (*_aeglQueryDmaBufModifiersEXT)(EGLDisplay dpy, EGLint format, EGLint max_modifiers, EGLuint64KHR *modifiers, EGLBoolean *external_only, EGLint *num_modifiers);
++void (*_aeglSetBlobCacheFuncsANDROID)(EGLDisplay *dpy, EGLSetBlobFuncANDROID set, EGLGetBlobFuncANDROID get);
++EGLBoolean (*_aeglQueryDeviceAttribEXT)(EGLDeviceEXT device, EGLint attribute, EGLAttrib *value);
++const char * (*_aeglQueryDeviceStringEXT)(EGLDeviceEXT device, EGLint name);
++EGLBoolean (*_aeglQueryDevicesEXT)(EGLint max_devices, EGLDeviceEXT *devices, EGLint *num_devices);
++EGLBoolean (*_aeglQueryDisplayAttribEXT)(EGLDisplay dpy, EGLint attribute, EGLAttrib *value);
++char* (*_aeglGetDisplayDriverConfig)(EGLDisplay dpy);
++const char * (*_aeglGetDisplayDriverName)(EGLDisplay dpy);
++EGLBoolean (*_aeglBindTexImage)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);
++EGLBoolean (*_aeglGetSyncValuesCHROMIUM)(EGLDisplay dpy, EGLSurface surface, EGLuint64KHR *ust, EGLuint64KHR *msc, EGLuint64KHR *sbc);
++
++
++EGLBoolean IsUseAdreno()
++{
++   EGLBoolean USE_ADRENO  = EGL_TRUE;
++
++   if ((0 == strcmp(__progname, "X")) || (0 == strcmp(__progname, "Xorg")))
++   {
++      USE_ADRENO = EGL_FALSE;
++   }
++   else
++   {
++       USE_ADRENO = EGL_TRUE;
++   }
++   return USE_ADRENO;
++}
++
++
++void init_egl_adreno()
++{	
++
++    libEGL_adreno_ = dlopen("libEGL_adreno.so", RTLD_NOW);
++    if (libEGL_adreno_)
++	{
++		isEglAdrneoInitialized = EGL_TRUE;
++
++        *(void **)(&_aeglGetDisplay)            = dlsym(libEGL_adreno_, "eglGetDisplay");
++        *(void **)(&_aeglGetPlatformDisplay)    = dlsym(libEGL_adreno_, "eglGetPlatformDisplay");
++        *(void **)(&_aeglGetPlatformDisplayEXT) = dlsym(libEGL_adreno_, "eglGetPlatformDisplayEXT");
++        *(void **)(&_aeglGetProcAddress)        = dlsym(libEGL_adreno_, "eglGetProcAddress");
++        *(void **)(&_aeglQueryString)           = dlsym(libEGL_adreno_, "eglQueryString");
++        *(void **)(&_aeglGetError)              = dlsym(libEGL_adreno_, "eglGetError");
++        *(void **)(&_aeglBindAPI)               = dlsym(libEGL_adreno_, "eglBindAPI");
++        *(void **)(&_aeglInitialize)            = dlsym(libEGL_adreno_, "eglInitialize");
++        *(void **)(&_aeglChooseConfig)          = dlsym(libEGL_adreno_, "eglChooseConfig");
++        *(void **)(&_aeglGetConfigAttrib)       = dlsym(libEGL_adreno_, "eglGetConfigAttrib");
++        *(void **)(&_aeglGetConfigs)            = dlsym(libEGL_adreno_, "eglGetConfigs");
++        *(void **)(&_aeglCreatePbufferSurface)  = dlsym(libEGL_adreno_, "eglCreatePbufferSurface");
++        *(void **)(&_aeglCreateContext)         = dlsym(libEGL_adreno_, "eglCreateContext");
++        *(void **)(&_aeglMakeCurrent)           = dlsym(libEGL_adreno_, "eglMakeCurrent");
++        *(void **)(&_aeglDestroySurface)        = dlsym(libEGL_adreno_, "eglDestroySurface");
++        *(void **)(&_aeglTerminate)             = dlsym(libEGL_adreno_, "eglTerminate");
++        *(void **)(&_aeglGetCurrentSurface)     = dlsym(libEGL_adreno_, "eglGetCurrentSurface");
++        *(void **)(&_aeglQuerySurface)          = dlsym(libEGL_adreno_, "eglQuerySurface");
++        *(void **)(&_aeglCreatePixmapSurface)   = dlsym(libEGL_adreno_, "eglCreatePixmapSurface");
++        *(void **)(&_aeglCreatePlatformPixmapSurface)   = dlsym(libEGL_adreno_, "eglCreatePlatformPixmapSurface");
++        *(void **)(&_aeglCreatePlatformPixmapSurfaceEXT)   = dlsym(libEGL_adreno_, "eglCreatePlatformPixmapSurfaceEXT");
++        *(void **)(&_aeglCopyBuffers)   = dlsym(libEGL_adreno_, "eglCopyBuffers");
++        *(void **)(&_aeglCreatePbufferFromClientBuffer)   = dlsym(libEGL_adreno_, "eglCreatePbufferFromClientBuffer");
++        *(void **)(&_aeglGetCurrentDisplay)   = dlsym(libEGL_adreno_, "eglGetCurrentDisplay");
++        *(void **)(&_aeglGetCurrentContext)   = dlsym(libEGL_adreno_, "eglGetCurrentContext");
++        *(void **)(&_aeglQueryContext)   = dlsym(libEGL_adreno_, "eglQueryContext");
++        *(void **)(&_aeglQueryAPI)   = dlsym(libEGL_adreno_, "eglQueryAPI");
++        *(void **)(&_aeglCreateWindowSurface)   = dlsym(libEGL_adreno_, "eglCreateWindowSurface");
++        *(void **)(&_aeglCreatePlatformWindowSurface)   = dlsym(libEGL_adreno_, "eglCreatePlatformWindowSurface");
++        *(void **)(&_aeglCreatePlatformWindowSurfaceEXT)   = dlsym(libEGL_adreno_, "eglCreatePlatformWindowSurfaceEXT");
++        *(void **)(&_aeglSurfaceAttrib)   = dlsym(libEGL_adreno_, "eglSurfaceAttrib");
++        *(void **)(&_aeglSwapInterval)   = dlsym(libEGL_adreno_, "eglSwapInterval");
++        *(void **)(&_aeglSwapBuffers)   = dlsym(libEGL_adreno_, "eglSwapBuffers");
++        *(void **)(&_aeglDestroyContext)   = dlsym(libEGL_adreno_, "eglDestroyContext");
++        *(void **)(&_aeglReleaseTexImage)   = dlsym(libEGL_adreno_, "eglReleaseTexImage");
++        *(void **)(&_aeglSwapBuffersWithDamageEXT)   = dlsym(libEGL_adreno_, "eglSwapBuffersWithDamageEXT");
++        *(void **)(&_aeglSwapBuffersWithDamageKHR)   = dlsym(libEGL_adreno_, "eglSwapBuffersWithDamageKHR");
++        *(void **)(&_aeglSetDamageRegionKHR)   = dlsym(libEGL_adreno_, "eglSetDamageRegionKHR");
++        *(void **)(&_aeglWaitClient)   = dlsym(libEGL_adreno_, "eglWaitClient");
++        *(void **)(&_aeglWaitGL)   = dlsym(libEGL_adreno_, "eglWaitGL");
++        *(void **)(&_aeglWaitNative)   = dlsym(libEGL_adreno_, "eglWaitNative");
++        *(void **)(&_aeglReleaseThread)   = dlsym(libEGL_adreno_, "eglReleaseThread");
++        *(void **)(&_aeglCreateImageKHR)   = dlsym(libEGL_adreno_, "eglCreateImageKHR");
++        *(void **)(&_aeglCreateImage)   = dlsym(libEGL_adreno_, "eglCreateImage");
++        *(void **)(&_aeglDestroyImage)   = dlsym(libEGL_adreno_, "eglDestroyImage");
++        *(void **)(&_aeglDestroyImageKHR)   = dlsym(libEGL_adreno_, "eglDestroyImageKHR");
++        *(void **)(&_aeglCreateSyncKHR)   = dlsym(libEGL_adreno_, "eglCreateSyncKHR");
++        *(void **)(&_aeglCreateSync64KHR)   = dlsym(libEGL_adreno_, "eglCreateSync64KHR");
++        *(void **)(&_aeglCreateSync)   = dlsym(libEGL_adreno_, "eglCreateSync");
++        *(void **)(&_aeglDestroySync)   = dlsym(libEGL_adreno_, "eglDestroySync");
++        *(void **)(&_aeglDestroySyncKHR)   = dlsym(libEGL_adreno_, "eglDestroySyncKHR");
++        *(void **)(&_aeglClientWaitSync)   = dlsym(libEGL_adreno_, "eglClientWaitSync");
++        *(void **)(&_aeglClientWaitSyncKHR)   = dlsym(libEGL_adreno_, "eglClientWaitSyncKHR");
++        *(void **)(&_aeglWaitSyncKHR)   = dlsym(libEGL_adreno_, "eglWaitSyncKHR");
++        *(void **)(&_aeglWaitSync)   = dlsym(libEGL_adreno_, "eglWaitSync");
++        *(void **)(&_aeglSignalSyncKHR)   = dlsym(libEGL_adreno_, "eglSignalSyncKHR");
++        *(void **)(&_aeglGetSyncAttrib)   = dlsym(libEGL_adreno_, "eglGetSyncAttrib");
++        *(void **)(&_aeglGetSyncAttribKHR)   = dlsym(libEGL_adreno_, "eglGetSyncAttribKHR");
++        *(void **)(&_aeglDupNativeFenceFDANDROID)   = dlsym(libEGL_adreno_, "eglDupNativeFenceFDANDROID");
++        *(void **)(&_aeglSwapBuffersRegionNOK)   = dlsym(libEGL_adreno_, "eglSwapBuffersRegionNOK");
++        *(void **)(&_aeglCreateDRMImageMESA)   = dlsym(libEGL_adreno_, "eglCreateDRMImageMESA");
++        *(void **)(&_aeglExportDRMImageMESA)   = dlsym(libEGL_adreno_, "eglExportDRMImageMESA");
++        *(void **)(&_aeglBindWaylandDisplayWL)   = dlsym(libEGL_adreno_, "eglBindWaylandDisplayWL");
++        *(void **)(&_aeglUnbindWaylandDisplayWL)   = dlsym(libEGL_adreno_, "eglUnbindWaylandDisplayWL");
++        *(void **)(&_aeglQueryWaylandBufferWL)   = dlsym(libEGL_adreno_, "eglQueryWaylandBufferWL");
++        *(void **)(&_aeglCreateWaylandBufferFromImageWL)   = dlsym(libEGL_adreno_, "eglCreateWaylandBufferFromImageWL");
++        *(void **)(&_aeglPostSubBufferNV)   = dlsym(libEGL_adreno_, "eglPostSubBufferNV");
++        *(void **)(&_aeglExportDMABUFImageQueryMESA)   = dlsym(libEGL_adreno_, "eglExportDMABUFImageQueryMESA");
++        *(void **)(&_aeglExportDMABUFImageMESA)   = dlsym(libEGL_adreno_, "eglExportDMABUFImageMESA");
++        *(void **)(&_aeglLabelObjectKHR)   = dlsym(libEGL_adreno_, "eglLabelObjectKHR");
++        *(void **)(&_aeglDebugMessageControlKHR)   = dlsym(libEGL_adreno_, "eglDebugMessageControlKHR");
++        *(void **)(&_aeglQueryDebugKHR)   = dlsym(libEGL_adreno_, "eglQueryDebugKHR");
++        *(void **)(&_aeglQueryDmaBufFormatsEXT)   = dlsym(libEGL_adreno_, "eglQueryDmaBufFormatsEXT");
++        *(void **)(&_aeglQueryDmaBufModifiersEXT)   = dlsym(libEGL_adreno_, "eglQueryDmaBufModifiersEXT");
++        *(void **)(&_aeglSetBlobCacheFuncsANDROID)   = dlsym(libEGL_adreno_, "eglSetBlobCacheFuncsANDROID");
++        *(void **)(&_aeglQueryDeviceAttribEXT)   = dlsym(libEGL_adreno_, "eglQueryDeviceAttribEXT");
++        *(void **)(&_aeglQueryDeviceStringEXT)   = dlsym(libEGL_adreno_, "eglQueryDeviceStringEXT");
++        *(void **)(&_aeglQueryDevicesEXT)   = dlsym(libEGL_adreno_, "eglQueryDevicesEXT");
++        *(void **)(&_aeglQueryDisplayAttribEXT)   = dlsym(libEGL_adreno_, "eglQueryDisplayAttribEXT");
++        *(void **)(&_aeglGetDisplayDriverConfig)   = dlsym(libEGL_adreno_, "eglGetDisplayDriverConfig");
++        *(void **)(&_aeglGetDisplayDriverName)   = dlsym(libEGL_adreno_, "eglGetDisplayDriverName");
++        *(void **)(&_aeglBindTexImage)   = dlsym(libEGL_adreno_, "eglBindTexImage");
++        *(void **)(&_aeglGetSyncValuesCHROMIUM)   = dlsym(libEGL_adreno_, "eglGetSyncValuesCHROMIUM");
++
++	}
++	else
++	{
++		isEglAdrneoInitialized = EGL_FALSE;
++		//fprintf(stderr, "Error: Mesa Failed to load libEGL_adreno.so dlerror = %s \n", dlerror());
++	}
++}
+diff --git a/src/egl/main/adrenoeglwrapper.h b/src/egl/main/adrenoeglwrapper.h
+new file mode 100644
+index 0000000..a99f710
+--- /dev/null
++++ b/src/egl/main/adrenoeglwrapper.h
+@@ -0,0 +1,136 @@
++/* Copyright (c) 2020, The Linux Foundation. All rights reserved.
++*
++* Redistribution and use in source and binary forms, with or without
++* modification, are permitted provided that the following conditions are
++* met:
++*    * Redistributions of source code must retain the above copyright
++*      notice, this list of conditions and the following disclaimer.
++*    * Redistributions in binary form must reproduce the above
++*      copyright notice, this list of conditions and the following
++*      disclaimer in the documentation and/or other materials provided
++*      with the distribution.
++*    * Neither the name of The Linux Foundation nor the names of its
++*      contributors may be used to endorse or promote products derived
++*      from this software without specific prior written permission.
++*
++* THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
++* WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
++* ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
++* BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
++* BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
++* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
++* OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
++* IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++*/
++
++/*************************************************
++* Adreno EGLAPI WRAPPER
++**************************************************/
++#ifndef ADRENOEGLWRAPPER_H
++#define ADRENOEGLWRAPPER_H
++
++#include "egltypedefs.h"
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++static EGLBoolean isEglAdrneoInitialized = EGL_FALSE;
++
++EGLBoolean IsUseAdreno(void);
++void init_egl_adreno(void);
++extern void *libEGL_adreno_;
++extern char *__progname;
++
++extern EGLDisplay (*_aeglGetDisplay)(EGLNativeDisplayType nativeDisplay);
++extern EGLDisplay (*_aeglGetPlatformDisplay)(EGLenum platform, void *native_display, const EGLAttrib *attrib_list);
++extern EGLDisplay (*_aeglGetPlatformDisplayEXT)(EGLenum platform, void *native_display, const EGLint *int_attribs);
++extern __eglMustCastToProperFunctionPointerType (*_aeglGetProcAddress)(const char *procname);
++extern const char* (*_aeglQueryString)(EGLDisplay dpy, EGLint name);
++extern EGLint (*_aeglGetError)(void);
++extern EGLBoolean (*_aeglBindAPI)(EGLenum api);
++extern EGLBoolean (*_aeglInitialize)(EGLDisplay dpy, EGLint *major, EGLint *minor);
++extern EGLBoolean (*_aeglChooseConfig)(EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
++extern EGLBoolean (*_aeglGetConfigAttrib)(EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value);
++extern EGLBoolean (*_aeglGetConfigs)(EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config);
++extern EGLSurface (*_aeglCreatePbufferSurface)(EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list);
++extern EGLContext (*_aeglCreateContext)(EGLDisplay dpy, EGLConfig config, EGLContext share_list, const EGLint *attrib_list);
++extern EGLBoolean (*_aeglMakeCurrent)(EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
++extern EGLBoolean (*_aeglDestroySurface)(EGLDisplay dpy, EGLSurface surface);
++extern EGLBoolean (*_aeglTerminate)(EGLDisplay dpy);
++extern EGLSurface (*_aeglGetCurrentSurface)(EGLint readdraw);
++extern EGLBoolean (*_aeglQuerySurface)(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value);
++extern EGLSurface (*_aeglCreatePixmapSurface)(EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint *attrib_list);
++extern EGLSurface (*_aeglCreatePlatformPixmapSurface)(EGLDisplay dpy, EGLConfig config, void *native_pixmap, const EGLAttrib *attrib_list);
++extern EGLSurface (*_aeglCreatePlatformPixmapSurfaceEXT)(EGLDisplay dpy, EGLConfig config, void *native_pixmap, const EGLint *attrib_list);
++extern EGLBoolean (*_aeglCopyBuffers)(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
++extern EGLSurface (*_aeglCreatePbufferFromClientBuffer)(EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list);
++extern EGLDisplay (*_aeglGetCurrentDisplay)(void);
++extern EGLContext (*_aeglGetCurrentContext)(void);
++extern EGLBoolean (*_aeglQueryContext)(EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
++extern EGLenum (*_aeglQueryAPI)(void);
++extern EGLSurface (*_aeglCreateWindowSurface)(EGLDisplay dpy, EGLConfig config, EGLNativeWindowType window, const EGLint *attrib_list);
++extern EGLSurface (*_aeglCreatePlatformWindowSurface)(EGLDisplay dpy, EGLConfig config, void *native_window, const EGLAttrib *attrib_list);
++extern EGLSurface (*_aeglCreatePlatformWindowSurfaceEXT)(EGLDisplay dpy, EGLConfig config, void *native_window, const EGLint *attrib_list);
++extern EGLBoolean (*_aeglSurfaceAttrib)(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
++extern EGLBoolean (*_aeglSwapInterval)(EGLDisplay dpy, EGLint interval);
++extern EGLBoolean (*_aeglSwapBuffers)(EGLDisplay dpy, EGLSurface surface);
++extern EGLBoolean (*_aeglDestroyContext)(EGLDisplay dpy, EGLContext ctx);
++extern EGLBoolean (*_aeglReleaseTexImage)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);
++extern EGLBoolean (*_aeglSwapBuffersWithDamageEXT)(EGLDisplay dpy, EGLSurface surface, EGLint *rects, EGLint n_rects);
++extern EGLBoolean (*_aeglSwapBuffersWithDamageKHR)(EGLDisplay dpy, EGLSurface surface, EGLint *rects, EGLint n_rects);
++extern EGLBoolean (*_aeglSetDamageRegionKHR)(EGLDisplay dpy, EGLSurface surface, EGLint *rects, EGLint n_rects);
++extern EGLBoolean (*_aeglWaitClient)(void);
++extern EGLBoolean (*_aeglWaitGL)(void);
++extern EGLBoolean (*_aeglWaitNative)(EGLint engine);
++extern EGLBoolean (*_aeglReleaseThread)(void);
++extern EGLImage (*_aeglCreateImageKHR)(EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLint *attr_list);
++extern EGLImage (*_aeglCreateImage)(EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLAttrib *attr_list);
++extern EGLBoolean (*_aeglDestroyImage)(EGLDisplay dpy, EGLImage image);
++extern EGLBoolean (*_aeglDestroyImageKHR)(EGLDisplay dpy, EGLImage image);
++extern EGLSync (*_aeglCreateSyncKHR)(EGLDisplay dpy, EGLenum type, const EGLint *int_list);
++extern EGLSync (*_aeglCreateSync64KHR)(EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list);
++extern EGLSync (*_aeglCreateSync)(EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list);
++extern EGLBoolean (*_aeglDestroySync)(EGLDisplay dpy, EGLSync sync);
++extern EGLBoolean (*_aeglDestroySyncKHR)(EGLDisplay dpy, EGLSync sync);
++extern EGLint (*_aeglClientWaitSync)(EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);
++extern EGLint (*_aeglClientWaitSyncKHR)(EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);
++extern EGLint (*_aeglWaitSyncKHR)(EGLDisplay dpy, EGLSync sync, EGLint flags);
++extern EGLBoolean (*_aeglWaitSync)(EGLDisplay dpy, EGLSync sync, EGLint flags);
++extern EGLBoolean (*_aeglSignalSyncKHR)(EGLDisplay dpy, EGLSync sync, EGLenum mode);
++extern EGLBoolean (*_aeglGetSyncAttrib)(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *value);
++extern EGLBoolean (*_aeglGetSyncAttribKHR)(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLint *value);
++extern EGLint (*_aeglDupNativeFenceFDANDROID)(EGLDisplay dpy, EGLSync sync);
++extern EGLBoolean (*_aeglSwapBuffersRegionNOK)(EGLDisplay dpy, EGLSurface surface, EGLint numRects, const EGLint *rects);
++extern EGLImage (*_aeglCreateDRMImageMESA)(EGLDisplay dpy, const EGLint *attr_list);
++extern EGLBoolean (*_aeglExportDRMImageMESA)(EGLDisplay dpy, EGLImage image, EGLint *name, EGLint *handle, EGLint *stride);
++extern EGLBoolean (*_aeglBindWaylandDisplayWL)(EGLDisplay dpy, struct wl_display *display);
++extern EGLBoolean (*_aeglUnbindWaylandDisplayWL)(EGLDisplay dpy, struct wl_display *display);
++extern EGLBoolean (*_aeglQueryWaylandBufferWL)(EGLDisplay dpy, struct wl_resource *buffer, EGLint attribute, EGLint *value);
++extern struct wl_buffer* (*_aeglCreateWaylandBufferFromImageWL)(EGLDisplay dpy, EGLImage image);
++extern EGLBoolean (*_aeglPostSubBufferNV)(EGLDisplay dpy, EGLSurface surface, EGLint x, EGLint y, EGLint width, EGLint height);
++extern EGLBoolean (*_aeglExportDMABUFImageQueryMESA)(EGLDisplay dpy, EGLImage image, EGLint *fourcc, EGLint *nplanes, EGLuint64KHR *modifiers);
++extern EGLBoolean (*_aeglExportDMABUFImageMESA)(EGLDisplay dpy, EGLImage image, int *fds, EGLint *strides, EGLint *offsets);
++extern EGLint (*_aeglLabelObjectKHR)(EGLDisplay dpy, EGLenum objectType, EGLObjectKHR object, EGLLabelKHR label);
++extern EGLint (*_aeglDebugMessageControlKHR)(EGLDEBUGPROCKHR callback, const EGLAttrib *attrib_list);
++extern EGLBoolean (*_aeglQueryDebugKHR)(EGLint attribute, EGLAttrib *value);
++extern EGLBoolean (*_aeglQueryDmaBufFormatsEXT)(EGLDisplay dpy, EGLint max_formats, EGLint *formats, EGLint *num_formats);
++extern EGLBoolean (*_aeglQueryDmaBufModifiersEXT)(EGLDisplay dpy, EGLint format, EGLint max_modifiers, EGLuint64KHR *modifiers, EGLBoolean *external_only, EGLint *num_modifiers);
++extern void (*_aeglSetBlobCacheFuncsANDROID)(EGLDisplay *dpy, EGLSetBlobFuncANDROID set, EGLGetBlobFuncANDROID get);
++extern EGLBoolean (*_aeglQueryDeviceAttribEXT)(EGLDeviceEXT device, EGLint attribute, EGLAttrib *value);
++extern const char * (*_aeglQueryDeviceStringEXT)(EGLDeviceEXT device, EGLint name);
++extern EGLBoolean (*_aeglQueryDevicesEXT)(EGLint max_devices, EGLDeviceEXT *devices, EGLint *num_devices);
++extern EGLBoolean (*_aeglQueryDisplayAttribEXT)(EGLDisplay dpy, EGLint attribute, EGLAttrib *value);
++extern char* (*_aeglGetDisplayDriverConfig)(EGLDisplay dpy);
++extern const char * (*_aeglGetDisplayDriverName)(EGLDisplay dpy);
++extern EGLBoolean (*_aeglBindTexImage)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);
++extern EGLBoolean (*_aeglGetSyncValuesCHROMIUM)(EGLDisplay dpy, EGLSurface surface, EGLuint64KHR *ust, EGLuint64KHR *msc, EGLuint64KHR *sbc);
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif /* ADRENOEGLWRAPPER_H*/
+diff --git a/src/egl/main/eglapi.c b/src/egl/main/eglapi.c
+index a540bff..c19a49e 100644
+--- a/src/egl/main/eglapi.c
++++ b/src/egl/main/eglapi.c
+@@ -112,6 +112,8 @@
+ 
+ #include "GL/mesa_glinterop.h"
+ 
++#include "adrenoeglwrapper.h"
++
+ /**
+  * Macros to help return an API entrypoint.
+  *
+@@ -369,6 +371,18 @@ _eglConvertAttribsToInt(const EGLAttrib *attr_list)
+ EGLDisplay EGLAPIENTRY
+ eglGetDisplay(EGLNativeDisplayType nativeDisplay)
+ {
++
++if (IsUseAdreno()) {
++	if (!isEglAdrneoInitialized)
++	{
++		init_egl_adreno();
++	}
++	if (_aeglGetDisplay){
++		return _aeglGetDisplay(nativeDisplay);
++	}
++}
++
++
+    _EGLPlatformType plat;
+    _EGLDisplay *disp;
+    void *native_display_ptr;
+@@ -423,6 +437,17 @@ static EGLDisplay EGLAPIENTRY
+ eglGetPlatformDisplayEXT(EGLenum platform, void *native_display,
+                          const EGLint *int_attribs)
+ {
++
++if (IsUseAdreno()) {
++	if (!isEglAdrneoInitialized)
++	{
++		init_egl_adreno();
++	}
++	if (_aeglGetPlatformDisplayEXT){
++		return _aeglGetPlatformDisplayEXT(platform, native_display, int_attribs);
++	}
++}
++
+    EGLAttrib *attrib_list;
+    EGLDisplay disp;
+ 
+@@ -440,6 +465,17 @@ EGLDisplay EGLAPIENTRY
+ eglGetPlatformDisplay(EGLenum platform, void *native_display,
+                       const EGLAttrib *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (!isEglAdrneoInitialized)
++	{
++		init_egl_adreno();
++	}
++	if (_aeglGetPlatformDisplay){
++		return _aeglGetPlatformDisplay(platform, native_display, attrib_list);
++	}
++}
++
+    _EGL_FUNC_START(NULL, EGL_OBJECT_THREAD_KHR, NULL, EGL_NO_DISPLAY);
+    return _eglGetPlatformDisplayCommon(platform, native_display, attrib_list);
+ }
+@@ -604,6 +640,13 @@ _eglComputeVersion(_EGLDisplay *disp)
+ EGLBoolean EGLAPIENTRY
+ eglInitialize(EGLDisplay dpy, EGLint *major, EGLint *minor)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglInitialize){
++		return _aeglInitialize(dpy, major, minor);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+ 
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_FALSE);
+@@ -660,6 +703,14 @@ eglInitialize(EGLDisplay dpy, EGLint *major, EGLint *minor)
+ EGLBoolean EGLAPIENTRY
+ eglTerminate(EGLDisplay dpy)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglTerminate){
++		return _aeglTerminate(dpy);
++	}
++}
++
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+ 
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_FALSE);
+@@ -687,6 +738,17 @@ eglTerminate(EGLDisplay dpy)
+ const char * EGLAPIENTRY
+ eglQueryString(EGLDisplay dpy, EGLint name)
+ {
++
++if (IsUseAdreno()) {
++	if (!isEglAdrneoInitialized)
++	{
++		init_egl_adreno();
++	}
++	if (_aeglQueryString){
++		return _aeglQueryString(dpy, name);
++	}
++}
++
+    _EGLDisplay *disp;
+    _EGLDriver *drv;
+ 
+@@ -721,6 +783,13 @@ EGLBoolean EGLAPIENTRY
+ eglGetConfigs(EGLDisplay dpy, EGLConfig *configs,
+               EGLint config_size, EGLint *num_config)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetConfigs){
++		return _aeglGetConfigs(dpy, configs, config_size, num_config);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    EGLBoolean ret;
+@@ -738,6 +807,13 @@ EGLBoolean EGLAPIENTRY
+ eglChooseConfig(EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs,
+                 EGLint config_size, EGLint *num_config)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglChooseConfig){
++		return _aeglChooseConfig(dpy, attrib_list, configs, config_size, num_config);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    EGLBoolean ret;
+@@ -756,6 +832,13 @@ EGLBoolean EGLAPIENTRY
+ eglGetConfigAttrib(EGLDisplay dpy, EGLConfig config,
+                    EGLint attribute, EGLint *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetConfigAttrib){
++		return _aeglGetConfigAttrib(dpy, config, attribute, value);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLConfig *conf = _eglLookupConfig(config, disp);
+    _EGLDriver *drv;
+@@ -774,6 +857,13 @@ EGLContext EGLAPIENTRY
+ eglCreateContext(EGLDisplay dpy, EGLConfig config, EGLContext share_list,
+                  const EGLint *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateContext){
++		return _aeglCreateContext(dpy, config, share_list, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLConfig *conf = _eglLookupConfig(config, disp);
+    _EGLContext *share = _eglLookupContext(share_list, disp);
+@@ -803,6 +893,13 @@ eglCreateContext(EGLDisplay dpy, EGLConfig config, EGLContext share_list,
+ EGLBoolean EGLAPIENTRY
+ eglDestroyContext(EGLDisplay dpy, EGLContext ctx)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDestroyContext){
++		return _aeglDestroyContext(dpy, ctx);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLContext *context = _eglLookupContext(ctx, disp);
+    _EGLDriver *drv;
+@@ -822,6 +919,13 @@ EGLBoolean EGLAPIENTRY
+ eglMakeCurrent(EGLDisplay dpy, EGLSurface draw, EGLSurface read,
+                EGLContext ctx)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglMakeCurrent){
++		return _aeglMakeCurrent(dpy, draw, read, ctx);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLContext *context = _eglLookupContext(ctx, disp);
+    _EGLSurface *draw_surf = _eglLookupSurface(draw, disp);
+@@ -880,6 +984,14 @@ EGLBoolean EGLAPIENTRY
+ eglQueryContext(EGLDisplay dpy, EGLContext ctx,
+                 EGLint attribute, EGLint *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryContext){
++		return _aeglQueryContext(dpy, ctx, attribute, value);
++	}
++}
++
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLContext *context = _eglLookupContext(ctx, disp);
+    _EGLDriver *drv;
+@@ -942,6 +1054,13 @@ EGLSurface EGLAPIENTRY
+ eglCreateWindowSurface(EGLDisplay dpy, EGLConfig config,
+                        EGLNativeWindowType window, const EGLint *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateWindowSurface){
++		return _aeglCreateWindowSurface(dpy, config, window, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+ 
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_NO_SURFACE);
+@@ -973,6 +1092,14 @@ eglCreatePlatformWindowSurfaceEXT(EGLDisplay dpy, EGLConfig config,
+                                   void *native_window,
+                                   const EGLint *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreatePlatformWindowSurfaceEXT){
++		return _aeglCreatePlatformWindowSurfaceEXT(dpy, config, native_window, attrib_list);
++	}
++}
++
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+ 
+    native_window = _fixupNativeWindow(disp, native_window);
+@@ -988,6 +1115,13 @@ eglCreatePlatformWindowSurface(EGLDisplay dpy, EGLConfig config,
+                                void *native_window,
+                                const EGLAttrib *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreatePlatformWindowSurface){
++		return _aeglCreatePlatformWindowSurface(dpy, config, native_window, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    EGLSurface surface;
+    EGLint *int_attribs;
+@@ -1067,6 +1201,13 @@ EGLSurface EGLAPIENTRY
+ eglCreatePixmapSurface(EGLDisplay dpy, EGLConfig config,
+                        EGLNativePixmapType pixmap, const EGLint *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreatePixmapSurface){
++		return _aeglCreatePixmapSurface(dpy, config, pixmap, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+ 
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_NO_SURFACE);
+@@ -1080,6 +1221,13 @@ eglCreatePlatformPixmapSurfaceEXT(EGLDisplay dpy, EGLConfig config,
+                                   void *native_pixmap,
+                                   const EGLint *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreatePlatformPixmapSurfaceEXT){
++		return _aeglCreatePlatformPixmapSurfaceEXT(dpy, config, native_pixmap, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+ 
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_NO_SURFACE);
+@@ -1094,6 +1242,13 @@ eglCreatePlatformPixmapSurface(EGLDisplay dpy, EGLConfig config,
+                                void *native_pixmap,
+                                const EGLAttrib *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreatePlatformPixmapSurface){
++		return _aeglCreatePlatformPixmapSurface(dpy, config, native_pixmap, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    EGLSurface surface;
+    EGLint *int_attribs;
+@@ -1116,6 +1271,13 @@ EGLSurface EGLAPIENTRY
+ eglCreatePbufferSurface(EGLDisplay dpy, EGLConfig config,
+                         const EGLint *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreatePbufferSurface){
++		return _aeglCreatePbufferSurface(dpy, config, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLConfig *conf = _eglLookupConfig(config, disp);
+    _EGLDriver *drv;
+@@ -1138,6 +1300,13 @@ eglCreatePbufferSurface(EGLDisplay dpy, EGLConfig config,
+ EGLBoolean EGLAPIENTRY
+ eglDestroySurface(EGLDisplay dpy, EGLSurface surface)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDestroySurface){
++		return _aeglDestroySurface(dpy, surface);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -1155,6 +1324,13 @@ EGLBoolean EGLAPIENTRY
+ eglQuerySurface(EGLDisplay dpy, EGLSurface surface,
+                 EGLint attribute, EGLint *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQuerySurface){
++		return _aeglQuerySurface(dpy, surface, attribute, value);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -1171,6 +1347,13 @@ EGLBoolean EGLAPIENTRY
+ eglSurfaceAttrib(EGLDisplay dpy, EGLSurface surface,
+                  EGLint attribute, EGLint value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSurfaceAttrib){
++		return _aeglSurfaceAttrib(dpy, surface, attribute, value);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -1187,6 +1370,12 @@ eglSurfaceAttrib(EGLDisplay dpy, EGLSurface surface,
+ EGLBoolean EGLAPIENTRY
+ eglBindTexImage(EGLDisplay dpy, EGLSurface surface, EGLint buffer)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglBindTexImage){
++		return _aeglBindTexImage(dpy, surface, buffer);
++	}
++}
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -1203,6 +1392,13 @@ eglBindTexImage(EGLDisplay dpy, EGLSurface surface, EGLint buffer)
+ EGLBoolean EGLAPIENTRY
+ eglReleaseTexImage(EGLDisplay dpy, EGLSurface surface, EGLint buffer)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglReleaseTexImage){
++		return _aeglReleaseTexImage(dpy, surface, buffer);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -1219,6 +1415,13 @@ eglReleaseTexImage(EGLDisplay dpy, EGLSurface surface, EGLint buffer)
+ EGLBoolean EGLAPIENTRY
+ eglSwapInterval(EGLDisplay dpy, EGLint interval)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSwapInterval){
++		return _aeglSwapInterval(dpy, interval);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLContext *ctx = _eglGetCurrentContext();
+    _EGLSurface *surf = ctx ? ctx->DrawSurface : NULL;
+@@ -1257,6 +1460,13 @@ eglSwapInterval(EGLDisplay dpy, EGLint interval)
+ EGLBoolean EGLAPIENTRY
+ eglSwapBuffers(EGLDisplay dpy, EGLSurface surface)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSwapBuffers){
++		return _aeglSwapBuffers(dpy, surface);
++	}
++}
++
+    _EGLContext *ctx = _eglGetCurrentContext();
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+@@ -1339,6 +1549,13 @@ static EGLBoolean EGLAPIENTRY
+ eglSwapBuffersWithDamageEXT(EGLDisplay dpy, EGLSurface surface,
+                             EGLint *rects, EGLint n_rects)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSwapBuffersWithDamageEXT){
++		return _aeglSwapBuffersWithDamageEXT(dpy, surface, rects, n_rects);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SURFACE_KHR, surf, EGL_FALSE);
+@@ -1349,6 +1566,13 @@ static EGLBoolean EGLAPIENTRY
+ eglSwapBuffersWithDamageKHR(EGLDisplay dpy, EGLSurface surface,
+                             EGLint *rects, EGLint n_rects)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSwapBuffersWithDamageKHR){
++		return _aeglSwapBuffersWithDamageKHR(dpy, surface, rects, n_rects);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SURFACE_KHR, surf, EGL_FALSE);
+@@ -1385,6 +1609,13 @@ static EGLBoolean EGLAPIENTRY
+ eglSetDamageRegionKHR(EGLDisplay dpy, EGLSurface surface,
+                       EGLint *rects, EGLint n_rects)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSetDamageRegionKHR){
++		return _aeglSetDamageRegionKHR(dpy, surface, rects, n_rects);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SURFACE_KHR, surf, EGL_FALSE);
+@@ -1419,6 +1650,13 @@ eglSetDamageRegionKHR(EGLDisplay dpy, EGLSurface surface,
+ EGLBoolean EGLAPIENTRY
+ eglCopyBuffers(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCopyBuffers){
++		return _aeglCopyBuffers(dpy, surface, target);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -1466,6 +1704,13 @@ _eglWaitClientCommon(void)
+ EGLBoolean EGLAPIENTRY
+ eglWaitClient(void)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglWaitClient){
++		return _aeglWaitClient();
++	}
++}
++
+    _EGL_FUNC_START(NULL, EGL_OBJECT_CONTEXT_KHR, _eglGetCurrentContext(), EGL_FALSE);
+    return _eglWaitClientCommon();
+ }
+@@ -1473,6 +1718,13 @@ eglWaitClient(void)
+ EGLBoolean EGLAPIENTRY
+ eglWaitGL(void)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglWaitGL){
++		return _aeglWaitGL();
++	}
++}
++
+    /* Since we only support OpenGL and GLES, eglWaitGL is equivalent to eglWaitClient. */
+    _EGL_FUNC_START(NULL, EGL_OBJECT_CONTEXT_KHR, _eglGetCurrentContext(), EGL_FALSE);
+    return _eglWaitClientCommon();
+@@ -1482,6 +1734,13 @@ eglWaitGL(void)
+ EGLBoolean EGLAPIENTRY
+ eglWaitNative(EGLint engine)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglWaitNative){
++		return _aeglWaitNative(engine);
++	}
++}
++
+    _EGLContext *ctx = _eglGetCurrentContext();
+    _EGLDisplay *disp;
+    _EGLDriver *drv;
+@@ -1512,6 +1771,13 @@ eglWaitNative(EGLint engine)
+ EGLDisplay EGLAPIENTRY
+ eglGetCurrentDisplay(void)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetCurrentDisplay){
++		return _aeglGetCurrentDisplay();
++	}
++}
++
+    _EGLContext *ctx = _eglGetCurrentContext();
+    EGLDisplay ret;
+ 
+@@ -1524,6 +1790,13 @@ eglGetCurrentDisplay(void)
+ EGLContext EGLAPIENTRY
+ eglGetCurrentContext(void)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetCurrentContext){
++		return _aeglGetCurrentContext();
++	}
++}
++
+    _EGLContext *ctx = _eglGetCurrentContext();
+    EGLContext ret;
+ 
+@@ -1536,6 +1809,13 @@ eglGetCurrentContext(void)
+ EGLSurface EGLAPIENTRY
+ eglGetCurrentSurface(EGLint readdraw)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetCurrentSurface){
++		return _aeglGetCurrentSurface(readdraw);
++	}
++}
++
+    _EGLContext *ctx = _eglGetCurrentContext();
+    EGLint err = EGL_SUCCESS;
+    _EGLSurface *surf;
+@@ -1568,6 +1848,17 @@ eglGetCurrentSurface(EGLint readdraw)
+ EGLint EGLAPIENTRY
+ eglGetError(void)
+ {
++
++if (IsUseAdreno()) {
++	if (!isEglAdrneoInitialized)
++	{
++		init_egl_adreno();
++	}
++	if (_aeglGetError){
++		return _aeglGetError();
++	}
++}
++
+    _EGLThreadInfo *t = _eglGetCurrentThread();
+    EGLint e = t->LastError;
+    if (!_eglIsCurrentThreadDummy())
+@@ -1594,6 +1885,13 @@ eglGetError(void)
+ EGLBoolean EGLAPIENTRY
+ eglBindAPI(EGLenum api)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglBindAPI){
++		return _aeglBindAPI(api);
++	}
++}
++
+    _EGLThreadInfo *t;
+ 
+    _EGL_FUNC_START(NULL, EGL_OBJECT_THREAD_KHR, NULL, EGL_FALSE);
+@@ -1617,6 +1915,13 @@ eglBindAPI(EGLenum api)
+ EGLenum EGLAPIENTRY
+ eglQueryAPI(void)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryAPI){
++		return _aeglQueryAPI();
++	}
++}
++
+    _EGLThreadInfo *t = _eglGetCurrentThread();
+    EGLenum ret;
+ 
+@@ -1632,6 +1937,13 @@ eglCreatePbufferFromClientBuffer(EGLDisplay dpy, EGLenum buftype,
+                                  EGLClientBuffer buffer, EGLConfig config,
+                                  const EGLint *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreatePbufferFromClientBuffer){
++		return _aeglCreatePbufferFromClientBuffer(dpy, buftype, buffer, config, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLConfig *conf = _eglLookupConfig(config, disp);
+    _EGLDriver *drv;
+@@ -1653,6 +1965,13 @@ eglCreatePbufferFromClientBuffer(EGLDisplay dpy, EGLenum buftype,
+ EGLBoolean EGLAPIENTRY
+ eglReleaseThread(void)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglReleaseThread){
++		return _aeglReleaseThread();
++	}
++}
++
+    /* unbind current contexts */
+    if (!_eglIsCurrentThreadDummy()) {
+       _EGLThreadInfo *t = _eglGetCurrentThread();
+@@ -1708,6 +2027,13 @@ static EGLImage EGLAPIENTRY
+ eglCreateImageKHR(EGLDisplay dpy, EGLContext ctx, EGLenum target,
+                   EGLClientBuffer buffer, const EGLint *attr_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateImageKHR){
++		return _aeglCreateImageKHR(dpy, ctx, target, buffer, attr_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_NO_IMAGE_KHR);
+    return _eglCreateImageCommon(disp, ctx, target, buffer, attr_list);
+@@ -1718,6 +2044,13 @@ EGLImage EGLAPIENTRY
+ eglCreateImage(EGLDisplay dpy, EGLContext ctx, EGLenum target,
+                EGLClientBuffer buffer, const EGLAttrib *attr_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateImage){
++		return _aeglCreateImage(dpy, ctx, target, buffer, attr_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    EGLImage image;
+    EGLint *int_attribs;
+@@ -1755,6 +2088,13 @@ _eglDestroyImageCommon(_EGLDisplay *disp, _EGLImage *img)
+ EGLBoolean EGLAPIENTRY
+ eglDestroyImage(EGLDisplay dpy, EGLImage image)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDestroyImage){
++		return _aeglDestroyImage(dpy, image);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLImage *img = _eglLookupImage(image, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_IMAGE_KHR, img, EGL_FALSE);
+@@ -1764,6 +2104,13 @@ eglDestroyImage(EGLDisplay dpy, EGLImage image)
+ static EGLBoolean EGLAPIENTRY
+ eglDestroyImageKHR(EGLDisplay dpy, EGLImage image)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDestroyImageKHR){
++		return _aeglDestroyImageKHR(dpy, image);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLImage *img = _eglLookupImage(image, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_IMAGE_KHR, img, EGL_FALSE);
+@@ -1840,6 +2187,13 @@ _eglCreateSync(_EGLDisplay *disp, EGLenum type, const EGLAttrib *attrib_list,
+ static EGLSync EGLAPIENTRY
+ eglCreateSyncKHR(EGLDisplay dpy, EGLenum type, const EGLint *int_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateSyncKHR){
++		return _aeglCreateSyncKHR(dpy, type, int_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_FALSE);
+ 
+@@ -1869,6 +2223,13 @@ eglCreateSyncKHR(EGLDisplay dpy, EGLenum type, const EGLint *int_list)
+ static EGLSync EGLAPIENTRY
+ eglCreateSync64KHR(EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateSync64KHR){
++		return _aeglCreateSync64KHR(dpy, type, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_FALSE);
+    return _eglCreateSync(disp, type, attrib_list, EGL_TRUE,
+@@ -1879,6 +2240,13 @@ eglCreateSync64KHR(EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list)
+ EGLSync EGLAPIENTRY
+ eglCreateSync(EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateSync){
++		return _aeglCreateSync(dpy, type, attrib_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGL_FUNC_START(disp, EGL_OBJECT_DISPLAY_KHR, NULL, EGL_FALSE);
+    return _eglCreateSync(disp, type, attrib_list, EGL_TRUE,
+@@ -1906,6 +2274,13 @@ _eglDestroySync(_EGLDisplay *disp, _EGLSync *s)
+ EGLBoolean EGLAPIENTRY
+ eglDestroySync(EGLDisplay dpy, EGLSync sync)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDestroySync){
++		return _aeglDestroySync(dpy, sync);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SYNC_KHR, s, EGL_FALSE);
+@@ -1915,6 +2290,13 @@ eglDestroySync(EGLDisplay dpy, EGLSync sync)
+ static EGLBoolean EGLAPIENTRY
+ eglDestroySyncKHR(EGLDisplay dpy, EGLSync sync)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDestroySyncKHR){
++		return _aeglDestroySyncKHR(dpy, sync);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SYNC_KHR, s, EGL_FALSE);
+@@ -1961,6 +2343,14 @@ EGLint EGLAPIENTRY
+ eglClientWaitSync(EGLDisplay dpy, EGLSync sync,
+                   EGLint flags, EGLTime timeout)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglClientWaitSync){
++		return _aeglClientWaitSync(dpy, sync, flags, timeout);
++	}
++}
++
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SYNC_KHR, s, EGL_FALSE);
+@@ -1971,6 +2361,13 @@ static EGLint EGLAPIENTRY
+ eglClientWaitSyncKHR(EGLDisplay dpy, EGLSync sync,
+                      EGLint flags, EGLTime timeout)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglClientWaitSyncKHR){
++		return _aeglClientWaitSyncKHR(dpy, sync, flags, timeout);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SYNC_KHR, s, EGL_FALSE);
+@@ -2004,6 +2401,13 @@ _eglWaitSyncCommon(_EGLDisplay *disp, _EGLSync *s, EGLint flags)
+ static EGLint EGLAPIENTRY
+ eglWaitSyncKHR(EGLDisplay dpy, EGLSync sync, EGLint flags)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglWaitSyncKHR){
++		return _aeglWaitSyncKHR(dpy, sync, flags);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SYNC_KHR, s, EGL_FALSE);
+@@ -2014,6 +2418,13 @@ eglWaitSyncKHR(EGLDisplay dpy, EGLSync sync, EGLint flags)
+ EGLBoolean EGLAPIENTRY
+ eglWaitSync(EGLDisplay dpy, EGLSync sync, EGLint flags)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglWaitSync){
++		return _aeglWaitSync(dpy, sync, flags);
++	}
++}
++
+    /* The KHR version returns EGLint, while the core version returns
+     * EGLBoolean. In both cases, the return values can only be EGL_FALSE and
+     * EGL_TRUE.
+@@ -2028,6 +2439,13 @@ eglWaitSync(EGLDisplay dpy, EGLSync sync, EGLint flags)
+ static EGLBoolean EGLAPIENTRY
+ eglSignalSyncKHR(EGLDisplay dpy, EGLSync sync, EGLenum mode)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSignalSyncKHR){
++		return _aeglSignalSyncKHR(dpy, sync, mode);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGLDriver *drv;
+@@ -2061,6 +2479,13 @@ _eglGetSyncAttribCommon(_EGLDisplay *disp, _EGLSync *s, EGLint attribute, EGLAtt
+ EGLBoolean EGLAPIENTRY
+ eglGetSyncAttrib(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetSyncAttrib){
++		return _aeglGetSyncAttrib(dpy, sync, attribute, value);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGL_FUNC_START(disp, EGL_OBJECT_SYNC_KHR, s, EGL_FALSE);
+@@ -2075,6 +2500,13 @@ eglGetSyncAttrib(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLAttrib *valu
+ static EGLBoolean EGLAPIENTRY
+ eglGetSyncAttribKHR(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLint *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetSyncAttribKHR){
++		return _aeglGetSyncAttribKHR(dpy, sync, attribute, value);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    EGLAttrib attrib;
+@@ -2102,6 +2534,13 @@ eglGetSyncAttribKHR(EGLDisplay dpy, EGLSync sync, EGLint attribute, EGLint *valu
+ static EGLint EGLAPIENTRY
+ eglDupNativeFenceFDANDROID(EGLDisplay dpy, EGLSync sync)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDupNativeFenceFDANDROID){
++		return _aeglDupNativeFenceFDANDROID(dpy, sync);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSync *s = _eglLookupSync(sync, disp);
+    _EGLDriver *drv;
+@@ -2127,6 +2566,13 @@ static EGLBoolean EGLAPIENTRY
+ eglSwapBuffersRegionNOK(EGLDisplay dpy, EGLSurface surface,
+                         EGLint numRects, const EGLint *rects)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSwapBuffersRegionNOK){
++		return _aeglSwapBuffersRegionNOK(dpy, surface, numRects, rects);
++	}
++}
++
+    _EGLContext *ctx = _eglGetCurrentContext();
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+@@ -2154,6 +2600,13 @@ eglSwapBuffersRegionNOK(EGLDisplay dpy, EGLSurface surface,
+ static EGLImage EGLAPIENTRY
+ eglCreateDRMImageMESA(EGLDisplay dpy, const EGLint *attr_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateDRMImageMESA){
++		return _aeglCreateDRMImageMESA(dpy, attr_list);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    _EGLImage *img;
+@@ -2175,6 +2628,14 @@ static EGLBoolean EGLAPIENTRY
+ eglExportDRMImageMESA(EGLDisplay dpy, EGLImage image,
+                       EGLint *name, EGLint *handle, EGLint *stride)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglExportDRMImageMESA){
++		return _aeglExportDRMImageMESA(dpy, image, name, handle, stride);
++	}
++}
++
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLImage *img = _eglLookupImage(image, disp);
+    _EGLDriver *drv;
+@@ -2199,6 +2660,13 @@ struct wl_display;
+ static EGLBoolean EGLAPIENTRY
+ eglBindWaylandDisplayWL(EGLDisplay dpy, struct wl_display *display)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglBindWaylandDisplayWL){
++		return _aeglBindWaylandDisplayWL(dpy, display);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    EGLBoolean ret;
+@@ -2219,6 +2687,13 @@ eglBindWaylandDisplayWL(EGLDisplay dpy, struct wl_display *display)
+ static EGLBoolean EGLAPIENTRY
+ eglUnbindWaylandDisplayWL(EGLDisplay dpy, struct wl_display *display)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglUnbindWaylandDisplayWL){
++		return _aeglUnbindWaylandDisplayWL(dpy, display);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    EGLBoolean ret;
+@@ -2240,6 +2715,13 @@ static EGLBoolean EGLAPIENTRY
+ eglQueryWaylandBufferWL(EGLDisplay dpy, struct wl_resource *buffer,
+                         EGLint attribute, EGLint *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryWaylandBufferWL){
++		return _aeglQueryWaylandBufferWL(dpy, buffer, attribute, value);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    EGLBoolean ret;
+@@ -2261,6 +2743,13 @@ eglQueryWaylandBufferWL(EGLDisplay dpy, struct wl_resource *buffer,
+ static struct wl_buffer * EGLAPIENTRY
+ eglCreateWaylandBufferFromImageWL(EGLDisplay dpy, EGLImage image)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglCreateWaylandBufferFromImageWL){
++		return _aeglCreateWaylandBufferFromImageWL(dpy, image);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLImage *img;
+    _EGLDriver *drv;
+@@ -2286,6 +2775,13 @@ static EGLBoolean EGLAPIENTRY
+ eglPostSubBufferNV(EGLDisplay dpy, EGLSurface surface,
+                    EGLint x, EGLint y, EGLint width, EGLint height)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglPostSubBufferNV){
++		return _aeglPostSubBufferNV(dpy, surface, x, y, width, height);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -2308,6 +2804,13 @@ eglGetSyncValuesCHROMIUM(EGLDisplay dpy, EGLSurface surface,
+                          EGLuint64KHR *ust, EGLuint64KHR *msc,
+                          EGLuint64KHR *sbc)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetSyncValuesCHROMIUM){
++		return _aeglGetSyncValuesCHROMIUM(dpy, surface, ust, msc, sbc);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLSurface *surf = _eglLookupSurface(surface, disp);
+    _EGLDriver *drv;
+@@ -2332,6 +2835,13 @@ eglExportDMABUFImageQueryMESA(EGLDisplay dpy, EGLImage image,
+                               EGLint *fourcc, EGLint *nplanes,
+                               EGLuint64KHR *modifiers)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglExportDMABUFImageQueryMESA){
++		return _aeglExportDMABUFImageQueryMESA(dpy, image, fourcc, nplanes, modifiers);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLImage *img = _eglLookupImage(image, disp);
+    _EGLDriver *drv;
+@@ -2355,6 +2865,13 @@ static EGLBoolean EGLAPIENTRY
+ eglExportDMABUFImageMESA(EGLDisplay dpy, EGLImage image,
+                          int *fds, EGLint *strides, EGLint *offsets)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglExportDMABUFImageMESA){
++		return _aeglExportDMABUFImageMESA(dpy, image, fds, strides, offsets);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLImage *img = _eglLookupImage(image, disp);
+    _EGLDriver *drv;
+@@ -2377,6 +2894,13 @@ static EGLint EGLAPIENTRY
+ eglLabelObjectKHR(EGLDisplay dpy, EGLenum objectType, EGLObjectKHR object,
+                   EGLLabelKHR label)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglLabelObjectKHR){
++		return _aeglLabelObjectKHR(dpy, objectType, object, label);
++	}
++}
++
+    _EGLDisplay *disp = NULL;
+    _EGLResourceType type;
+ 
+@@ -2437,6 +2961,13 @@ static EGLint EGLAPIENTRY
+ eglDebugMessageControlKHR(EGLDEBUGPROCKHR callback,
+                           const EGLAttrib *attrib_list)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglDebugMessageControlKHR){
++		return _aeglDebugMessageControlKHR(callback, attrib_list);
++	}
++}
++
+    unsigned int newEnabled;
+ 
+    _EGL_FUNC_START(NULL, EGL_NONE, NULL, EGL_BAD_ALLOC);
+@@ -2484,6 +3015,13 @@ eglDebugMessageControlKHR(EGLDEBUGPROCKHR callback,
+ static EGLBoolean EGLAPIENTRY
+ eglQueryDebugKHR(EGLint attribute, EGLAttrib *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryDebugKHR){
++		return _aeglQueryDebugKHR(attribute, value);
++	}
++}
++
+    _EGL_FUNC_START(NULL, EGL_NONE, NULL, EGL_BAD_ALLOC);
+ 
+    mtx_lock(_eglGlobal.Mutex);
+@@ -2524,6 +3062,13 @@ static EGLBoolean EGLAPIENTRY
+ eglQueryDmaBufFormatsEXT(EGLDisplay dpy, EGLint max_formats,
+                          EGLint *formats, EGLint *num_formats)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryDmaBufFormatsEXT){
++		return _aeglQueryDmaBufFormatsEXT(dpy, max_formats, formats, num_formats);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    EGLBoolean ret;
+@@ -2543,6 +3088,13 @@ eglQueryDmaBufModifiersEXT(EGLDisplay dpy, EGLint format, EGLint max_modifiers,
+                            EGLuint64KHR *modifiers, EGLBoolean *external_only,
+                            EGLint *num_modifiers)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryDmaBufModifiersEXT){
++		return _aeglQueryDmaBufModifiersEXT(dpy, format, max_modifiers, modifiers, external_only, num_modifiers);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+    EGLBoolean ret;
+@@ -2562,6 +3114,14 @@ static void EGLAPIENTRY
+ eglSetBlobCacheFuncsANDROID(EGLDisplay *dpy, EGLSetBlobFuncANDROID set,
+                             EGLGetBlobFuncANDROID get)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglSetBlobCacheFuncsANDROID){
++		return _aeglSetBlobCacheFuncsANDROID(dpy, set, get);
++	}
++}
++
++
+    /* This function does not return anything so we cannot
+     * utilize the helper macros _EGL_FUNC_START or _EGL_CHECK_DISPLAY.
+     */
+@@ -2606,6 +3166,13 @@ eglQueryDeviceAttribEXT(EGLDeviceEXT device,
+                         EGLint attribute,
+                         EGLAttrib *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryDeviceAttribEXT){
++		return _aeglQueryDeviceAttribEXT(device, attribute, value);
++	}
++}
++
+    _EGLDevice *dev = _eglLookupDevice(device);
+    EGLBoolean ret;
+ 
+@@ -2621,6 +3188,13 @@ static const char * EGLAPIENTRY
+ eglQueryDeviceStringEXT(EGLDeviceEXT device,
+                         EGLint name)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryDeviceStringEXT){
++		return _aeglQueryDeviceStringEXT(device, name);
++	}
++}
++
+    _EGLDevice *dev = _eglLookupDevice(device);
+ 
+    _EGL_FUNC_START(NULL, EGL_NONE, NULL, NULL);
+@@ -2635,6 +3209,13 @@ eglQueryDevicesEXT(EGLint max_devices,
+                    EGLDeviceEXT *devices,
+                    EGLint *num_devices)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryDevicesEXT){
++		return _aeglQueryDevicesEXT(max_devices, devices, num_devices);
++	}
++}
++
+    EGLBoolean ret;
+ 
+    _EGL_FUNC_START(NULL, EGL_NONE, NULL, EGL_FALSE);
+@@ -2648,6 +3229,13 @@ eglQueryDisplayAttribEXT(EGLDisplay dpy,
+                          EGLint attribute,
+                          EGLAttrib *value)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglQueryDisplayAttribEXT){
++		return _aeglQueryDisplayAttribEXT(dpy, attribute, value);
++	}
++}
++
+    _EGLDisplay *disp = _eglLockDisplay(dpy);
+    _EGLDriver *drv;
+ 
+@@ -2667,6 +3255,14 @@ eglQueryDisplayAttribEXT(EGLDisplay dpy,
+ static char * EGLAPIENTRY
+ eglGetDisplayDriverConfig(EGLDisplay dpy)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetDisplayDriverConfig){
++		return _aeglGetDisplayDriverConfig(dpy);
++	}
++}
++
++
+     _EGLDisplay *disp = _eglLockDisplay(dpy);
+     _EGLDriver *drv;
+     char *ret;
+@@ -2683,6 +3279,13 @@ eglGetDisplayDriverConfig(EGLDisplay dpy)
+ static const char * EGLAPIENTRY
+ eglGetDisplayDriverName(EGLDisplay dpy)
+ {
++
++if (IsUseAdreno()) {
++	if (_aeglGetDisplayDriverName){
++		return _aeglGetDisplayDriverName(dpy);
++	}
++}
++
+     _EGLDisplay *disp = _eglLockDisplay(dpy);
+     _EGLDriver *drv;
+     const char *ret;
+@@ -2699,6 +3302,17 @@ eglGetDisplayDriverName(EGLDisplay dpy)
+ __eglMustCastToProperFunctionPointerType EGLAPIENTRY
+ eglGetProcAddress(const char *procname)
+ {
++
++if (IsUseAdreno()) {
++	if (!isEglAdrneoInitialized)
++	{
++		init_egl_adreno();
++	}
++	if (_aeglGetProcAddress){
++		return _aeglGetProcAddress(procname);
++	}
++}
++
+    static const struct _egl_entrypoint egl_functions[] = {
+ #define EGL_ENTRYPOINT(f) { .name = #f, .function = (_EGLProc) f },
+ #include "eglentrypoint.h"
+diff --git a/src/egl/meson.build b/src/egl/meson.build
+index 555f097..61c68b7 100644
+--- a/src/egl/meson.build
++++ b/src/egl/meson.build
+@@ -27,6 +27,8 @@ deps_for_egl = []
+ incs_for_egl = [inc_include, inc_src, inc_egl]
+ 
+ files_egl = files(
++  'main/adrenoeglwrapper.c',
++  'main/adrenoeglwrapper.h',
+   'main/eglapi.c',
+   'main/eglapi.h',
+   'main/eglarray.c',
+diff --git a/src/mapi/Makefile.sources b/src/mapi/Makefile.sources
+index 4b83caa..0e0ae69 100644
+--- a/src/mapi/Makefile.sources
++++ b/src/mapi/Makefile.sources
+@@ -25,7 +25,8 @@ MAPI_BRIDGE_FILES = \
+ 	entry_x86_tsd.h \
+ 	entry_ppc64le_tls.h \
+ 	entry_ppc64le_tsd.h \
+-	mapi_tmp.h
++	mapi_tmp.h \
++	adrenogleswrapper.h
+ 
+ MAPI_GLAPI_FILES = \
+ 	entry.c \
+diff --git a/src/mapi/adrenogleswrapper.h b/src/mapi/adrenogleswrapper.h
+new file mode 100644
+index 0000000..15f4e80
+--- /dev/null
++++ b/src/mapi/adrenogleswrapper.h
+@@ -0,0 +1,119 @@
++/* Copyright (c) 2020, The Linux Foundation. All rights reserved.
++*
++* Redistribution and use in source and binary forms, with or without
++* modification, are permitted provided that the following conditions are
++* met:
++*    * Redistributions of source code must retain the above copyright
++*      notice, this list of conditions and the following disclaimer.
++*    * Redistributions in binary form must reproduce the above
++*      copyright notice, this list of conditions and the following
++*      disclaimer in the documentation and/or other materials provided
++*      with the distribution.
++*    * Neither the name of The Linux Foundation nor the names of its
++*      contributors may be used to endorse or promote products derived
++*      from this software without specific prior written permission.
++*
++* THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
++* WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
++* ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
++* BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
++* BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
++* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
++* OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
++* IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++*/
++
++/*************************************************
++* Adreno GLESAPI WRAPPER
++**************************************************/
++#ifndef ADRENOGLESWRAPPER_H
++#define ADRENOGLESWRAPPER_H
++
++#include <dlfcn.h>
++//#include <stdio.h>
++#include <string.h>
++#include <stdbool.h>
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++typedef void (*_glapi_proc)(void);
++
++extern char *__progname;
++
++void *libGLESv2_adreno_;
++void *libGLESv1_CM_adreno_;
++
++bool IsUseAdreno(void);
++_glapi_proc GetAdrenoProcAddr(char* funcName);
++
++bool IsUseAdreno()
++{
++   bool USE_ADRENO  = true;
++   if ((0 == strcmp(__progname, "X")) || (0 == strcmp(__progname, "Xorg")))
++   {
++      USE_ADRENO = false;
++   }
++   else
++   {
++       USE_ADRENO = true;
++   }
++   return USE_ADRENO;
++}
++
++_glapi_proc GetAdrenoProcAddr(char* funcName)
++{
++    if (IsUseAdreno())
++    {
++		_glapi_proc _glAdrenoAPI;
++        if (!libGLESv2_adreno_)
++	    {
++            libGLESv2_adreno_ = dlopen("libGLESv2_adreno.so", RTLD_NOW);
++        }
++        if (libGLESv2_adreno_)
++	    {
++			_glAdrenoAPI = dlsym(libGLESv2_adreno_, funcName);
++            if(_glAdrenoAPI)
++		    {
++		        return _glAdrenoAPI;
++		    }
++            //libGLESv1_CM_adreno.so
++		    else
++		    {
++                if(!libGLESv1_CM_adreno_)
++			    {
++		            libGLESv1_CM_adreno_ = dlopen("libGLESv1_CM_adreno.so", RTLD_NOW);
++			    }
++                if (libGLESv1_CM_adreno_)
++                {
++					_glAdrenoAPI = dlsym(libGLESv1_CM_adreno_, funcName);
++					if (_glAdrenoAPI)
++					{
++						return _glAdrenoAPI;
++					}
++					else 
++					{
++						//fprintf(stderr, "failed to go to adreno for fun = %s", funcName);
++						return NULL;
++					}
++				}
++			}
++		}
++		else
++		{
++			//fprintf(stderr, "failed to open libGLESv2_adreno");
++			return NULL;
++		}
++	}
++	
++	return NULL;
++}
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif /* ADRENOGLESWRAPPER_H*/
+diff --git a/src/mapi/new/gen_gldispatch_mapi.py b/src/mapi/new/gen_gldispatch_mapi.py
+old mode 100755
+new mode 100644
+index 86958de..6e0bd35
+--- a/src/mapi/new/gen_gldispatch_mapi.py
++++ b/src/mapi/new/gen_gldispatch_mapi.py
+@@ -78,6 +78,9 @@ def generate_defines(functions):
+ #define GL_GLEXT_PROTOTYPES
+ #include "GL/gl.h"
+ #include "GL/glext.h"
++#include "adrenogleswrapper.h"
++//#include <stdio.h>
++
+ 
+ """.lstrip("\n")
+     for func in functions:
+@@ -149,9 +152,17 @@ def generate_public_entries(functions):
+         text += r"""
+ GLAPI {f.rt} APIENTRY {f.name}({f.decArgs})
+ {{
+-   const struct _glapi_table *_tbl = entry_current_get();
+-   mapi_func _func = ((const mapi_func *) _tbl)[{f.slot}];
+-   {retStr}(({f.rt} (APIENTRY *)({f.decArgs})) _func)({f.callArgs});
++    mapi_func _func;
++    if (IsUseAdreno())
++    {{
++        _func = GetAdrenoProcAddr("{f.name}");
++    }}
++    else
++    {{
++        const struct _glapi_table *_tbl = entry_current_get();
++        _func = ((const mapi_func *) _tbl)[{f.slot}];
++    }}
++    {retStr}(({f.rt} (APIENTRY *)({f.decArgs})) _func)({f.callArgs});
+ }}
+ 
+ """.lstrip("\n").format(f=func, retStr=retStr)

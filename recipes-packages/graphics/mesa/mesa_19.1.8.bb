@@ -1,6 +1,8 @@
 require ${BPN}.inc
 
-SRC_URI = "git://source.codeaurora.org/quic/le/external/mesa3d/mesa/;protocol=http;branch=mesa3d/19.1"
+FILESPATH =+ "${WORKSPACE}:"
+SRC_URI  = "git://source.codeaurora.org/quic/le/external/mesa3d/mesa/;protocol=http;branch=mesa3d/19.1"
+SRC_URI += "file://0001-mesa-support-KDE-desktop.patch"
 
 SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
 SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
