@@ -38,6 +38,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-cvp \
             packagegroup-qti-ss-mgr \
             packagegroup-qti-qmmf \
+            packagegroup-qti-mmframeworks \
             "
 
 #Install packages for debug
