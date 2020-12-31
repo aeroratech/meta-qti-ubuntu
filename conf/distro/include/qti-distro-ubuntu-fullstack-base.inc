@@ -89,6 +89,7 @@ DISTRO_FEATURES_append = " \
 # qti-qmmf:          Support QMMF
 # qti-security:      Support QTI security solution
 # qti-gst-ros2:      Support QTI gst ros2
+# qti-mmframeworks:  Support QTI mmframeworks (synx) driver
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -106,6 +107,7 @@ DISTRO_FEATURES_append = " \
     qti-security \
     qti-gst-ros2 \
     qti-sensors \
+    qti-mmframeworks \
     "
 
 ## bootfs parameter ##
