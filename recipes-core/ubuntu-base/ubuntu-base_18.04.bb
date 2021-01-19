@@ -195,6 +195,8 @@ do_ubuntu_install() {
 	# Create socket directory for logd.service
 	touch ${TMP_WKDIR}/usr/lib/tmpfiles.d/platform.conf
 	echo 'd /dev/socket 0777 - - - -' >> ${TMP_WKDIR}/usr/lib/tmpfiles.d/platform.conf
+	echo 'z /sys/power/wake_lock 0664 - - - -' >> ${TMP_WKDIR}/usr/lib/tmpfiles.d/platform.conf
+	echo 'z /sys/power/wake_unlock 0664 - - - -' >> ${TMP_WKDIR}/usr/lib/tmpfiles.d/platform.conf
 	rm ${TMP_WKDIR}/lib/udev/rules.d/60-persistent-v4l.rules
 	rm ${TMP_WKDIR}/lib/udev/v4l_id
 

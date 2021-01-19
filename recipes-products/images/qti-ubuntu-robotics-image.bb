@@ -145,6 +145,10 @@ do_fix_oe_depends() {
 }
 
 do_fs_post() {
+    #fix issue that sscrpcd can't get wake_lock permission
+    sed -i '/start-stop-daemon/i/sbin/setcap cap_block_suspend+ep /usr/bin/sscrpcd' ${IMAGE_ROOTFS}/sbin/launch_adbd
+    sed -i '/After/iBefore=sscrpcd.service' ${IMAGE_ROOTFS}/lib/systemd/system/adbd.service
+
     #fix adbd launch command
     sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/sbin/launch_adbd
 
