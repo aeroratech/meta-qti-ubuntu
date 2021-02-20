@@ -39,6 +39,9 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-ss-mgr \
             packagegroup-qti-qmmf \
             packagegroup-qti-mmframeworks \
+            tdk-chx01-get-data-app \
+            tdk-hvc4223f-scripts \
+            tdk-thermistor-app \
             "
 
 #Install packages for debug
