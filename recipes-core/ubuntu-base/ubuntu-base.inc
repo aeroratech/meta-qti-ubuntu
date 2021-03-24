@@ -72,6 +72,7 @@ UBUN_DEBUG_PACKAGES = " gdb \
 
 #Packages to enasure display and audio function
 UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
+                                   dbus-x11 \
                                    xkb-data \
                                    libcairo2 \
                                    libpng16-16 \
