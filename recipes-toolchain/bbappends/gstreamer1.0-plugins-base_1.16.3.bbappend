@@ -1,7 +1,7 @@
 ALLOW_EMPTY_gstreamer1.0-plugins-base-audio = "1"
 PACKAGES = "gstreamer1.0-plugins-base-audio"
 PROVIDES = "gstreamer1.0-plugins-base-audio"
-DEPENDS += "libxcb"
+DEPENDS += "libxcb glib-2.0"
 RPROVIDES_gstreamer1.0-plugins-base-audio = "gstreamer1.0-plugins-base-audio"
 FILES_gstreamer1.0-plugins-base-audio = " ${libdir}/libgstaudio* "
 PKG_gstreamer1.0-plugins-base-audio = "gstreamer1.0-plugins-base-audio"

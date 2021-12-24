@@ -25,6 +25,7 @@ PROVIDES_prepend = "${UPN} "
 PACKAGE_BEFORE_PN ?= ""
 PACKAGES = "${UPN}-src ${UPN}-staticdev ${UPN}-dev ${UPN}-doc ${UPN}-locale ${PACKAGE_BEFORE_PN} ${UPN}"
 PACKAGES_DYNAMIC = "^${UPN}-locale-.*"
+SYSROOT_DIRS += "${exec_prefix}/${UBUNTU_TARGET_ARCH}"
 FILES = ""
 
 FILES_${UPN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS} \
