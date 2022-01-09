@@ -1,3 +1,3 @@
 # config update-alternatives for elfutils
-require update-alternatives/elfutils.inc
+#require update-alternatives/elfutils.inc
 

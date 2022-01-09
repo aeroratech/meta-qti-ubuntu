@@ -1,1 +1,1 @@
-PACKAGES_remove = "libltdl"
+PACKAGES_remove = "libltdl ${PN}-dbg"

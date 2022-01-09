@@ -1,5 +1,5 @@
 # config update-alternatives for recovery-ab
-require update-alternatives/recovery-ab.inc
+#require update-alternatives/recovery-ab.inc
 
 do_install_append() {
         install -d ${D}/res/
@@ -8,4 +8,6 @@ do_install_append() {
 	mkdir ${D}/usr/bin/tmp
         cp -rf ${D}/usr/bin/applypatch ${D}/usr/bin/tmp/
 }
+#DEPENDS_remove += "zib"
+#RDEPENDS_remove += "zlib"
 

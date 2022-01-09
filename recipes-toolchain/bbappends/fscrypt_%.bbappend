@@ -1,3 +1,3 @@
 # config update-alternatives for fscrypt
-require update-alternatives/fscrypt.inc
+#require update-alternatives/fscrypt.inc
 
