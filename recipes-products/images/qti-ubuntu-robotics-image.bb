@@ -1,8 +1,5 @@
 inherit uimage extrausers
 
-#require ${META_QTI_BSP_IMAGE_PATH}/include/mdm-bootimg.inc
-#DEPENDS += " mkbootimg-native "
-
 #require include/mdm-ota-target-image-ubi.inc
 require include/ubuntu-ota-target-image-ext4.inc
 
@@ -19,26 +16,24 @@ DEPENDS += "ubuntu-base"
 CORE_IMAGE_BASE_INSTALL = " \
             kernel-modules \
             msm-header \
-            systemd-machine-units \
+            systemd-machine-units-ext4 \
             update-alternatives-recovery \
-            qti-ubuntu-udev \
-            qti-ubuntu-systemd \
-            qti-ubuntu-sysv \
-            qti-ubuntu-login \
             yavta \
             depends-update \
             ota-upgrade \
             e2fsprogs \
-            e2fsprogs-dev \
+	    packagegroup-startup-scripts-base \
             packagegroup-startup-scripts \
+	    packagegroup-android-utils-base \
             packagegroup-android-utils \
-            packagegroup-qti-core-prop \
-            packagegroup-qti-dsp \
+	    packagegroup-qti-dsp \
             packagegroup-qti-fastcv \
             packagegroup-qti-cvp \
             packagegroup-qti-ss-mgr \
             packagegroup-qti-qmmf \
+            packagegroup-qti-qmmf-sdk \
             packagegroup-qti-mmframeworks \
+            packagegroup-qti-core-prop \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
@@ -50,9 +45,9 @@ CORE_IMAGE_BASE_INSTALL += " \
 "
 
 #Install packages for wlan
-CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-wifi \
-            "
+#CORE_IMAGE_BASE_INSTALL += " \
+#            packagegroup-qti-wifi \
+#            "
 #install drm
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
@@ -61,7 +56,7 @@ CORE_IMAGE_BASE_INSTALL += " \
             "
 #Install packages for video
 CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-video \
+	    packagegroup-qti-video \	
             ${@bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf",  "packagegroup-qti-gst", "", d)} \
 	    "
 #Install packages for OTA
@@ -79,7 +74,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for gst-ros2
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-gst-ros2 \
-            "
+"
 #Install packages for sensors
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-sensors-see', '', d)} \
@@ -98,10 +93,21 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'sensors-client', '', d)} \
 "
 
-UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-18.04.5-base-arm64.tar.gz"
+UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-20.04.3-base-arm64.tar.gz"
+
+#fix for fakeroot do_rootfs chmod the dir permission to 700
+do_unpack_ubuntu_base(){
+    if [ ! -d "${APTCONF_TARGET}/rootfs_base" ];then
+        mkdir ${APTCONF_TARGET}/rootfs_base
+        tar -xf ${UBUNTU_TAR_FILE} --exclude=dev -C ${APTCONF_TARGET}/rootfs_base
+    fi
+}
+addtask do_unpack_ubuntu_base after do_prepare_recipe_sysroot before do_rootfs
 
 do_ubuntu_rootfs(){
-    tar -xf ${UBUNTU_TAR_FILE} --exclude=dev -C ${IMAGE_ROOTFS}
+    bbwarn "*****************do_ubuntu_rootfs****************************"
+    rm ${IMAGE_ROOTFS} -rf
+    cp -r ${APTCONF_TARGET}/rootfs_base ${APTCONF_TARGET}/rootfs
     install -m 0751 -d ${IMAGE_ROOTFS}/dev
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
     chown -R root:root ${IMAGE_ROOTFS}/bin/su 
@@ -115,17 +121,116 @@ do_ubuntu_rootfs(){
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
 #   replace the cpufreq governor ondemand with schedutil
     rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
+
+    install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
+    ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
+    ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
+
 #   ---- design to avoid do_rootfs status error ----
 #    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
-#
+
 #   ---- fix error : unknown group 'messagebus' in statoverride file ----
 #    rm ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
 #    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
-#   ----------------------------------------------------------------------
-#   ---- fix user conflicts ----
+}
+
+def runtime_mapping_rename (varname, pkg, d):
+    bb.note("%s before: %s" % (varname, d.getVar(varname)))
+
+    new_depends = {}
+    deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
+    for depend, depversions in deps.items():
+        new_depend = get_package_mapping(depend, pkg, d, depversions)
+        if depend != new_depend:
+            bb.note("package name mapping done: %s -> %s" % (depend, new_depend))
+        new_depends[new_depend] = deps[depend]
+
+    d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
+
+    bb.note("%s after: %s" % (varname, d.getVar(varname)))
+
 #
-#   ----------------------------------------------------------------------
+# Used by do_packagedata (and possibly other routines post do_package)
+#
+
+def get_package_mapping (pkg, basepkg, d, depversions=None):
+    import oe.packagedata
+
+    data = oe.packagedata.read_subpkgdata(pkg, d)
+    key = "PKG_%s" % pkg
+    if key in data:
+        # Have to avoid undoing the write_extra_pkgs(global_variants...)
+        if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
+            and data[key] == basepkg:
+            return pkg
+        # Do map to rewritten package name
+        return data[key]
+
+    return pkg
+
+fakeroot python do_rootfs(){
+    from oe.rootfs import create_rootfs
+    from oe.manifest import create_manifest
+    import logging
+
+    logger = d.getVar('BB_TASK_LOGGER', False)
+    if logger:
+        logcatcher = bb.utils.LogCatcher()
+        logger.addHandler(logcatcher)
+    else:
+        logcatcher = None
+
+    # NOTE: if you add, remove or significantly refactor the stages of this
+    # process then you should recalculate the weightings here. This is quite
+    # easy to do - just change the MultiStageProgressReporter line temporarily
+    # to pass debug=True as the last parameter and you'll get a printout of
+    # the weightings as well as a map to the lines where next_stage() was
+    # called. Of course this isn't critical, but it helps to keep the progress
+    # reporting accurate.
+    stage_weights = [1, 203, 354, 186, 65, 4228, 1, 353, 49, 330, 382, 23, 1]
+    progress_reporter = bb.progress.MultiStageProgressReporter(d, stage_weights)
+    progress_reporter.next_stage()
+
+    # Handle package exclusions
+    excl_pkgs = d.getVar("PACKAGE_EXCLUDE").split()
+    inst_pkgs = d.getVar("PACKAGE_INSTALL").split()
+    inst_attempt_pkgs = d.getVar("PACKAGE_INSTALL_ATTEMPTONLY").split()
+
+    d.setVar('PACKAGE_INSTALL_ORIG', ' '.join(inst_pkgs))
+    d.setVar('PACKAGE_INSTALL_ATTEMPTONLY', ' '.join(inst_attempt_pkgs))
+
+    for pkg in excl_pkgs:
+        if pkg in inst_pkgs:
+            bb.warn("Package %s, set to be excluded, is in %s PACKAGE_INSTALL (%s).  It will be removed from the list." % (pkg, d.getVar('PN'), inst_pkgs))
+            inst_pkgs.remove(pkg)
+
+        if pkg in inst_attempt_pkgs:
+            bb.warn("Package %s, set to be excluded, is in %s PACKAGE_INSTALL_ATTEMPTONLY (%s).  It will be removed from the list." % (pkg, d.getVar('PN'), inst_pkgs))
+            inst_attempt_pkgs.remove(pkg)
+
+    d.setVar("PACKAGE_INSTALL", ' '.join(inst_pkgs))
+    d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", ' '.join(inst_attempt_pkgs))
+
+    # Ensure we handle package name remapping
+    # We have to delay the runtime_mapping_rename until just before rootfs runs
+    # otherwise, the multilib renaming could step in and squash any fixups that
+    # may have occurred.
+    pn = d.getVar('PN')
+    runtime_mapping_rename("PACKAGE_INSTALL", pn, d)
+    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, d)
+    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, d)
+
+    # Generate the initial manifest
+    create_manifest(d)
+
+    progress_reporter.next_stage()
+
+    # generate rootfs
+    d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', '1')
+    create_rootfs(d, progress_reporter=progress_reporter, logcatcher=logcatcher)
+
+    progress_reporter.finish()
 }
 
 do_deb_pre() {
@@ -148,10 +253,6 @@ do_fix_oe_depends() {
 }
 
 do_fs_post() {
-    #fix issue that sscrpcd can't get wake_lock permission
-    sed -i '/start-stop-daemon/i/sbin/setcap cap_block_suspend+ep /usr/bin/sscrpcd' ${IMAGE_ROOTFS}/sbin/launch_adbd
-    sed -i '/After/iBefore=sscrpcd.service' ${IMAGE_ROOTFS}/lib/systemd/system/adbd.service
-
     #fix adbd launch command
     sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" ${IMAGE_ROOTFS}/sbin/launch_adbd
 
@@ -191,7 +292,7 @@ do_post_install() {
 do_enable_coredump() {
     sed -i -e 's/#DefaultLimitCORE=/DefaultLimitCORE=infinity/' ${IMAGE_ROOTFS}/etc/systemd/system.conf
     echo "#Coredump configurations" > ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
-    echo "kernel.core_pattern = /data/coredump/core.%e.%p.%t" >> ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
+    echo "kernel.core_pattern = /data/coredump/core.%e.%p" >> ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
     echo "fs.suid_dumpable = 2" >>  ${IMAGE_ROOTFS}/etc/sysctl.d/sysctl-coredump.conf
     mkdir -p ${IMAGE_ROOTFS}/data/coredump
 }
@@ -218,6 +319,8 @@ ROOTFS_POSTPROCESS_COMMAND += "\
 
 #Install packages for audio
 CORE_IMAGE_BASE_INSTALL += " \
+	    media \
+	    encoders \
             packagegroup-qti-audio \
             omx \
             soundtrigger \
@@ -231,11 +334,6 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for pulseaudio
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-pulseaudio \
-"
-
-CORE_IMAGE_BASE_INSTALL += " \
-    mesa \
-    xserver-xorg \
 "
 
 #Install packages for securemsm
@@ -431,3 +529,26 @@ python do_check_packages () {
     check_packages(d)
 }
 addtask do_check_packages after do_rootfs before do_makesystem
+
+## Functions to handle boot.img signing ##
+sign_bootimg () {
+    imgname="${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET}"
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'dm-verity', 'true', 'false', d)}; then
+        imgname="${BOOTIMAGE_TARGET}".noverity
+    fi
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'avble', 'true', 'false', d)}; then
+        avbsign_boot_image ${imgname}
+    else
+        sign_boot_image ${imgname}
+    fi
+}
+
+sign_veritybootimg () {
+    imgname="${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET}"
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'avble', 'true', 'false', d)}; then
+        avbsign_boot_image ${imgname}
+    else
+        sign_boot_image ${imgname}
+    fi
+}
+
