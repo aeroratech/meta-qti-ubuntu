@@ -2,8 +2,8 @@
 # This configuration defines an linux for Ubuntu distribution required
 # for running the system on qti chipsets
 #######################################################################
-require ${COREBASE}/meta-qti-bsp/conf/distro/include/qti-distro-base.inc
-
+#require ${COREBASE}/meta-qti-bsp/conf/distro/include/qti-distro-base.inc
+require ${COREBASE}/meta-qti-distro/conf/distro/include/qti-distro-base.inc
 DISTRO_NAME = "ubuntu"
 DISTROOVERRIDES =. "ubuntu:"
 DISTRO_FEATURES_remove = "dm-verity"
@@ -20,7 +20,6 @@ PACKAGE_CLASSES = 'qpackage_deb'
 #SECURITY_PIE_CFLAGS = "-fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wa,--noexecstack ${SECURITY_STRINGFORMAT}"
 
 #SECURITY_CFLAGS_pn-edk2 = "-Wa,--noexecstack"
-SECURITY_CFLAGS_pn-mesa = "${SECURITY_PIC_CFLAGS}"
 
 BUILD_IMAGES_FROM_FEEDS = "1"
 
@@ -63,15 +62,13 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # qwes             Enable qwes feature support
 
 DISTRO_FEATURES_append = " \
-    opencl \
     opengl \
-    vulkan \
+    opencl \
     pulseaudio \
     tensorflow-lite \
     wayland \
     drm \
     qwesd \
-    x11 \
     "
 
 ## QTI defined distro features ##

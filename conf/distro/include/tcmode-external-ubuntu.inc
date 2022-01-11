@@ -22,10 +22,10 @@ require recipes-pn-block.inc
 
 EXTERNAL_TOOLCHAIN ?= "${DL_DIR}"
 
-TOOLCHAIN_PATH_ADD = "/usr/bin:/usr/local/go/bin/:"
+#TOOLCHAIN_PATH_ADD = "/usr/bin:/usr/local/go/bin/:"
+TOOLCHAIN_PATH_ADD = "/usr/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
-PKG_CONFIG_DIR .= ":${STAGING_DIR_HOST}${libdir}/${UBUN_TARGET_SYS}/pkgconfig"
-
+LICENSE_FLAGS_WHITELIST = "commercial license"
 # MACROS below are for self-contained toolchain
 #CFLAGS += " --sysroot=${STAGING_DIR_HOST}  -L/local/mnt/workspace/tq/src/ubuntu-toolchain/deb/usr/lib/gcc-cross/aarch64-linux-gnu/7   "
 #TARGET_CPPFLAGS += " -I${STAGING_DIR_TARGET}${includedir}/c++ "
@@ -34,7 +34,7 @@ PKG_CONFIG_DIR .= ":${STAGING_DIR_HOST}${libdir}/${UBUN_TARGET_SYS}/pkgconfig"
 #export CXX = "aarch64-linux-gnu-wrapper ${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
 #export CPP = "aarch64-linux-gnu-wrapper ${HOST_PREFIX}gcc -E${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
 #export REAL_LD_FILE_NAME="${STAGING_BINDIR_NATIVE}/aarch64-linux-gnu-ld.bfd-real"
-
+PKG_CONFIG_PATH_append = ":${STAGING_DIR_TARGET}/${libdir}/${UBUN_TARGET_SYS}/pkgconfig"
 UBUN_TARGET_SYS_arm ?= "arm-linux-gnueabihf"
 UBUN_TARGET_SYS_aarch64 ?= "aarch64-linux-gnu"
 UBUN_TARGET_SYS = "${TARGET_SYS}"
@@ -104,19 +104,19 @@ PREFERRED_PROVIDER_libsqlite3-0 = "ubuntu-toolchain"
 
 # Go
 PNBLACKLIST[go-runtime] = "Using ubuntu toolchain"
-PNBLACKLIST[go-cross] = "Using ubuntu toolchain"
+#PNBLACKLIST[go-cross] = "Using ubuntu toolchain"
 PNBLACKLIST[go] = "Using ubuntu toolchain"
-PNBLACKLIST[go-native] = "Using ubuntu toolchain"
-PNBLACKLIST[go-crosssdk] = "Using ubuntu toolchain"
-PNBLACKLIST[go-cross-aarch64] = "Using ubuntu toolchain"
+#PNBLACKLIST[go-native] = "Using ubuntu toolchain"
+#PNBLACKLIST[go-crosssdk] = "Using ubuntu toolchain"
+#PNBLACKLIST[go-cross-aarch64] = "Using ubuntu toolchain"
 
 PREFERRED_PROVIDER_go-runtime = "ubuntu-toolchain"
-PREFERRED_PROVIDER_go-cross-${TARGET_ARCH} = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_go-cross-${TARGET_ARCH} = "ubuntu-toolchain"
 PREFERRED_PROVIDER_go = "ubuntu-toolchain"
-PREFERRED_PROVIDER_go-native = "ubuntu-toolchain"
-PREFERRED_PROVIDER_go-crosssdk = "ubuntu-toolchain"
-PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}go-runtime = "ubuntu-toolchain"
-PREFERRED_PROVIDER_virtual/${TUNE_PKGARCH}go = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_go-native = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_go-crosssdk = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}go-runtime = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_virtual/${TUNE_PKGARCH}go = "ubuntu-toolchain"
 
 PREFERRED_PROVIDER_libcap = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libatomic-ops = "ubuntu-toolchain"
@@ -185,10 +185,10 @@ PREFERRED_PROVIDER_systemd-vconsole-setup = "ubuntu-toolchain"
 PREFERRED_PROVIDER_systemd-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_udev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_jpeg = "ubuntu-toolchain"
-PREFERRED_PROVIDER_libdrm = "ubuntu-toolchain"
-PREFERRED_PROVIDER_libdrm2 = "ubuntu-toolchain"
-PREFERRED_PROVIDER_libdrm-dev = "ubuntu-toolchain"
-PREFERRED_PROVIDER_libdrm-freedreno = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_libdrm = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_libdrm2 = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_libdrm-dev = "ubuntu-toolchain"
+#PREFERRED_PROVIDER_libdrm-freedreno = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libpng = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libxkbcommon = "ubuntu-toolchain"
 PREFERRED_PROVIDER_gstreamer1.0 = "ubuntu-toolchain"
@@ -227,19 +227,13 @@ PREFERRED_PROVIDER_libssl1.0.0-dev = "ubuntu-toolchain"
 PREFERRED_PROVIDER_gdk-pixbuf = "ubuntu-toolchain"
 PREFERRED_PROVIDER_jsoncpp = "ubuntu-toolchain"
 PREFERRED_PROVIDER_libltdl = "ubuntu-toolchain"
-PREFERRED_PROVIDER_xorgproto = "ubuntu-toolchain"
-PREFERRED_PROVIDER_libxkbfile = "ubuntu-toolchain"
-PREFERRED_PROVIDER_xkeyboard-config = "ubuntu-toolchain"
 
 PREFERRED_VERSION_cairo = "1.15.10"
 PREFERRED_VERSION_gdk-pixbuf = "2.36.12"
 PREFERRED_VERSION_harfbuzz = "1.7.2"
 PREFERRED_VERSION_pango = "1.40.14"
-PREFERRED_VERSION_mesa = "19.1.8"
-PREFERRED_VERSION_xserver-xorg = "1.19.6"
 PREFERRED_VERSION_libx11 = "1.6.4"
 PREFERRED_VERSION_libxcb = "1.14"
-PREFERRED_VERSION_libx11-xcb = "1.6.4"
 PREFERRED_VERSION_gobject-introspection = "1.56.1"
 PREFERRED_VERSION_dbus = "1.12.2"
 PREFERRED_VERSION_dbus-native = "1.12.2"
@@ -291,7 +285,7 @@ python toolchain_metadata_setup () {
 }
 addhandler toolchain_metadata_setup
 
-UBUN_VER_MAIN = '7.4.0'
-UBUN_VER_GCC = '7.4.0'
-UBUN_VER_LIBC = '2.27'
+UBUN_VER_MAIN = '9.3.0'
+UBUN_VER_GCC = '9.3.0'
+UBUN_VER_LIBC = '2.31'
 UBUN_VER_KERNEL = '4.19'
