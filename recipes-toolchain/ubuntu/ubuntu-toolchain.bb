@@ -24,7 +24,8 @@ LICENSE = "BSD-3-Clause & MIT"
 
 
 DEPENDS += "download-manager-native"
-
+require base-files-blacklist.inc
+require ubuntu-base-file-blacklist-alternative.inc
 INHIBIT_SYSROOT_STRIP = "1"
 INHIBIT_DEFAULT_DEPS = "1"
 INHIBIT_PACKAGE_STRIP = "1"
@@ -254,7 +255,7 @@ PROVIDES += "\
             libffi \
             mtd-utils-native \
             libpam \
-            shadow \
+            ldconfig \
             libxml2 \
             libunistring2 \
             libc-mtrace \
@@ -282,989 +283,141 @@ PROVIDES += "\
             sqlite3 \
             bzip2 \
             ncurses \
-            gstreamer1.0 \
-            gstreamer1.0-plugins-ugly \
-            gstreamer1.0-rtsp-server \
-            gstreamer1.0-libav \
             go \
-            go-cross-${TARGET_ARCH} \
             go-runtime \
-            go-native \
-            go-crosssdk \
             virtual/${TUNE_PKGARCH}-go \
             virtual/${TARGET_PREFIX}go-runtime \
             attr \
 "
 
 
-do_install (){
-    install -d ${D}${base_libdir}
-    install -d ${D}${base_libdir}/${UBUN_TARGET_SYS}
-    install -d ${D}${bindir}
-    install -d ${D}${sbindir}
-    install -d ${D}${libexecdir}
-    install -d ${D}${datadir}
-    install -d ${D}${includedir}
-    install -d ${D}${includedir}/${UBUN_TARGET_SYS}
-    install -d ${D}/DEBIAN
-    install -d ${D}${libdir}
-    install -d ${D}${libdir}/pkgconfig
-    install -d ${D}${libdir}/gcc/${HOST_ARCH}/7
-    install -d ${D}${libdir}/${UBUN_TARGET_SYS}
-    install -d ${D}/usr/share/pkgconfig/
-    install -d ${D}/usr/share/aclocal/
-    install -d ${D}/usr/lib/aarch64-linux-gnu/gdk-pixbuf-2.0/
-    install -d ${D}/usr/include/gdk-pixbuf-2.0/
-    install -d ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig/
-    install -d ${D}/usr/share/thumbnailers/
-    install -d ${D}/usr/include/aarch64-linux-gnu/
 
-#    usr/${UBUN_TARGET_SYS}/lib cannot be created
-#    install -d ${D}/usr/${UBUN_TARGET_SYS}/lib/
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/* ${D}${libdir}/${UBUN_TARGET_SYS}
-
-    sed -i "s@/usr/aarch64-linux-gnu/lib/@./@g" ${D}${libdir}/${UBUN_TARGET_SYS}/libpthread.so
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/gcc-cross/${UBUN_TARGET_SYS}/7/*.o ${D}${base_libdir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/*.o ${D}${base_libdir}
-    cp ${CP_ARGS} -H ${D}${libdir}/${UBUN_TARGET_SYS}/*.o ${D}${base_libdir}
-
-    sed -i "s@/usr/aarch64-linux-gnu/lib@./@g" ${D}/usr/lib/${UBUN_TARGET_SYS}/libc.so
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/glib-2.0 ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
-    rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/sys ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/gnu ${D}${includedir}
-    mv ${D}${includedir}/c++/7/* ${D}${includedir}/c++
-    mv ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/7/libgcc*.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    ln -sf ./libgcc_s.so.1 ${D}/${libdir}/aarch64-linux-gnu/libgcc_s.so
-    ln -sf ./libstdc++.so.6.0.25 ${D}/${libdir}/aarch64-linux-gnu/libstdc++.so
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/7/libatomic.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libselinux.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libselinux.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
-    ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libsepol.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libsepol.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libsepol.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
-    ln -sf ./libsepol.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libsepol.so
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libpcre.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libpcre.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpcre.so.3 ${D}${libdir}/${UBUN_TARGET_SYS}
-    ln -sf ./libpcre.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libpcre.so
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libtermcap.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libtermcap.so ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libtinfo.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/tinfo.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libtinfo.so.5 ${D}${libdir}/${UBUN_TARGET_SYS}
-    ln -sf ./libtinfo.so.5 ${D}${libdir}/${UBUN_TARGET_SYS}/libtinfo.so
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libbz2.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/bzlib.h ${D}${includedir}
-    ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
-    ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so.1
-    ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so.1.0
-
-    #libcap-ng & libcap-ng-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcap-ng*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libcap-ng*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/cap-ng.h ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libcap-ng.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libcap-ng.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcap-ng.so
-
-    #linux-libc-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/aarch64-linux-gnu/asm ${D}/usr/include/aarch64-linux-gnu/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/asm-generic ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/drm ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/misc ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/mtd ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/rdma ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/scsi ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/sound ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/video ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/xen ${D}/usr/include/
-
-    #libcap & libcap-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcap*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libcap* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/sys/capability.h ${D}/usr/include/sys/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libcap.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libcap.so.2.25 ${D}${libdir}/${UBUN_TARGET_SYS}/libcap.so
-
-    #libsndfile1 & libsndfile1-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libsndfile.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/sndfile.* ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/sndfile.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libsndfile.so.1.0.28 ${D}${libdir}/${UBUN_TARGET_SYS}/libsndfile.so
-
-    #libogg & libogg-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libogg.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/ogg ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/ogg.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libogg.so.0.8.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libogg.so
-
-    #libflac8 & libflac-dev & libflac++6v5 & libflac++-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libFLAC*.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libFLAC*.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/FLAC ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/flac.pc ${D}/usr/share/pkgconfig/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/flac++.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libFLAC.so.8.3.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libFLAC.so
-    ln -sf ./libFLAC++.so.6.3.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libFLAC++.so
-
-    #libvorbis & libvorbis-dev & libvorbisenc2 & libvorbisfile3
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libvorbis*.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/vorbis ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/vorbis*.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libvorbis.so.0.4.8  ${D}${libdir}/${UBUN_TARGET_SYS}/libvorbis.so
-    ln -sf ./libvorbisenc.so.2.0.11  ${D}${libdir}/${UBUN_TARGET_SYS}/libvorbisenc.so
-    ln -sf ./libvorbisfile.so.3.3.7  ${D}${libdir}/${UBUN_TARGET_SYS}/libvorbisfile.so
-
-    #libatomic1 & libatomic1-ops-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libatomic*.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/atomic_ops*.h ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/atomic_ops ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/atomic_ops.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libatomic.so.1.2.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so.1
-
-    #libsamplerate0  & libsamplerate0-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libsamplerate*.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/samplerate*.h ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/samplerate.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libsamplerate.so.0.1.8  ${D}${libdir}/${UBUN_TARGET_SYS}/libsamplerate.so
-
-    #speexdsp  & speexdsp-dev & libspeex1  &libspeex-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libspeexdsp*.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libspeex.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/include/speex ${D}/usr/include/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/speexdsp.pc ${D}/usr/share/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/speex.pc ${D}/usr/share/pkgconfig/
-    ln -sf ./libspeexdsp.so.1.5.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libspeexdsp.so
-    ln -sf ./libspeex.so.1.5.0  ${D}${libdir}/${UBUN_TARGET_SYS}/libspeex.so
-
-    #alsa-plugins->libasound2-plugins
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/alsa-lib ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_best.so
-    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_linear.so
-    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_medium.so
-    ln -sf ./libasound_module_rate_samplerate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_samplerate_order.so
-    ln -sf ./libasound_module_rate_speexrate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_speexrate_best.so
-    ln -sf ./libasound_module_rate_speexrate.so  ${D}${libdir}/${UBUN_TARGET_SYS}/alsa-lib/libasound_module_rate_speexrate_medium.so
-
-    # libinput10 & libinput-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libinput.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libinput.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libinput.h  ${D}${includedir}/
-    ln -sf ./libinput.so.10.13.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libinput.so
-
-    # libmtdev1 & libmtdev-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libmtdev.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/mtdev.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mtdev-mapping.h  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mtdev-plumbing.h  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mtdev.h  ${D}${includedir}/
-    ln -sf ./libmtdev.so.1.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libmtdev.so
-
-    # libopencv-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_annotation ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_createsamples ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_interactive-calibration ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_traincascade ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_version ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_visualisation ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/opencv_waldboost_detector ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cv.h ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cv.hpp ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cvaux.h ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cvaux.hpp ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cvwimage.h ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxcore.h ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxcore.hpp ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxeigen.hpp ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/cxmisc.h ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/highgui.h ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv/ml.h ${D}/usr/include/opencv
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/opencv.pc  ${D}//usr/lib/aarch64-linux-gnu/pkgconfig/
-
-    # libopencv-core3.2 & libopencv-core-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_core.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2 ${D}/usr/include/
-    ln -sf ./libopencv_core.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2
-    ln -sf ./libopencv_core.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_core.so
-
-    # libopencv-imgcodecs3.2 & libopencv-imgcodecs-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgcodecs ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgcodecs.hpp ${D}/usr/include/opencv2
-    ln -sf ./libopencv_imgcodecs.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2
-    ln -sf ./libopencv_imgcodecs.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so
-
-    # libopencv-imgproc3.2 & libopencv-imgproc-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_imgproc.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgproc ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/imgproc.hpp ${D}/usr/include/opencv2
-    ln -sf ./libopencv_imgproc.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2
-    ln -sf ./libopencv_imgproc.so.3.2 ${D}$usr/lib/aarch64-linux-gnu/libopencv_imgproc.so
-
-
-    # libopencv-calib3d3.2 & libopencv-calib3d-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_calib3d.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/calib3d ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    ln -sf ./libopencv_calib3d.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2
-    ln -sf ./libopencv_calib3d.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_calib3d.so
-
-# libopencv-contrib3.2 & libopencv-contrib-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_aruco.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bgsegm.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bioinspired.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ccalib.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_datasets.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_dpm.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_face.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_freetype.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_fuzzy.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_hdf.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_optflow.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_plot.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_reg.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_rgbd.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_saliency.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_stereo.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_structured_light.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_surface_matching.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_text.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ximgproc.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xphoto.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_aruco.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bgsegm.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_bioinspired.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ccalib.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_datasets.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_dpm.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_face.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_freetype.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_fuzzy.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_hdf.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_optflow.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_plot.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_reg.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_rgbd.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_saliency.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_stereo.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_structured_light.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_surface_matching.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_text.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ximgproc.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_xphoto.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/aruco ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/aruco.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/bgsegm.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/bioinspired ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/bioinspired.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ccalib ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ccalib.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/datasets ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/dpm.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/face ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/face.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/freetype.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/fuzzy ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/fuzzy.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/hdf ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/hdf.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/line_descriptor ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/line_descriptor.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/optflow ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/optflow.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/phase_unwrapping ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/phase_unwrapping.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/plot.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/reg ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/rgbd ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/rgbd.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/saliency ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/saliency.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stereo ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stereo.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/structured_light ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/structured_light.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/surface_matching ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/surface_matching.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/text ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/text.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ximgproc ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ximgproc.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/xobjdetect.hpp ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/xphoto ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/xphoto.hpp ${D}/usr/include/opencv2
-
-    ln -sf ./libopencv_aruco.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_aruco.so.3.2
-    ln -sf ./libopencv_bgsegm.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bgsegm.so.3.2
-    ln -sf ./libopencv_bioinspired.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bioinspired.so.3.2
-    ln -sf ./libopencv_ccalib.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ccalib.so.3.2
-    ln -sf ./libopencv_datasets.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_datasets.so.3.2
-    ln -sf ./libopencv_dpm.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_dpm.so.3.2
-    ln -sf ./libopencv_face.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_face.so.3.2
-    ln -sf ./libopencv_freetype.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_freetype.so.3.2
-    ln -sf ./libopencv_fuzzy.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_fuzzy.so.3.2
-    ln -sf ./libopencv_hdf.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_hdf.so.3.2
-    ln -sf ./libopencv_line_descriptor.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.so.3.2
-    ln -sf ./libopencv_optflow.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_optflow.so.3.2
-    ln -sf ./libopencv_phase_unwrapping.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.so.3.2
-    ln -sf ./libopencv_plot.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_plot.so.3.2
-    ln -sf ./libopencv_reg.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_reg.so.3.2
-    ln -sf ./libopencv_rgbd.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_rgbd.so.3.2
-    ln -sf ./libopencv_saliency.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_saliency.so.3.2
-    ln -sf ./libopencv_stereo.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_stereo.so.3.2
-    ln -sf ./libopencv_structured_light.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_structured_light.so.3.2
-    ln -sf ./libopencv_surface_matching.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_surface_matching.so.3.2
-    ln -sf ./libopencv_text.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_text.so.3.2
-    ln -sf ./libopencv_ximgproc.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ximgproc.so.3.2
-    ln -sf ./libopencv_xobjdetect.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.so.3.2
-    ln -sf ./libopencv_xphoto.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xphoto.so.3.2
-    ln -sf ./libopencv_aruco.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_aruco.so
-    ln -sf ./libopencv_bgsegm.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bgsegm.so
-    ln -sf ./libopencv_bioinspired.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_bioinspired.so
-    ln -sf ./libopencv_ccalib.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ccalib.so
-    ln -sf ./libopencv_datasets.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_datasets.so
-    ln -sf ./libopencv_dpm.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_dpm.so
-    ln -sf ./libopencv_face.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_face.so
-    ln -sf ./libopencv_freetype.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_freetype.so
-    ln -sf ./libopencv_fuzzy.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_fuzzy.so
-    ln -sf ./libopencv_hdf.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_hdf.so
-    ln -sf ./libopencv_line_descriptor.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_line_descriptor.so
-    ln -sf ./libopencv_optflow.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_optflow.so
-    ln -sf ./libopencv_phase_unwrapping.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_phase_unwrapping.so
-    ln -sf ./libopencv_plot.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_plot.so
-    ln -sf ./libopencv_reg.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_reg.so
-    ln -sf ./libopencv_rgbd.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_rgbd.so
-    ln -sf ./libopencv_saliency.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_saliency.so
-    ln -sf ./libopencv_stereo.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_stereo.so
-    ln -sf ./libopencv_structured_light.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_structured_light.so
-    ln -sf ./libopencv_surface_matching.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_surface_matching.so
-    ln -sf ./libopencv_text.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_text.so
-    ln -sf ./libopencv_ximgproc.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_ximgproc.so
-    ln -sf ./libopencv_xobjdetect.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.so
-    ln -sf ./libopencv_xphoto.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_xphoto.so
-
-    # libopencv-features2d-dev & libopencv-features2d3.2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_features2d.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/features2d ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/features2d.hpp ${D}/usr/include/opencv2
-    ln -sf ./libopencv_features2d.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2
-    ln -sf ./libopencv_features2d.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_features2d.so
-
-    # libopencv-flann-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_flann.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/flann ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/flann.hpp ${D}/usr/include/opencv2/
-
-
-    # libopencv-highgui-dev & libopencv-highgui3.2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_highgui.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/highgui ${D}/usr/include/opencv2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/highgui.hpp ${D}/usr/include/opencv2
-    ln -sf ./libopencv_highgui.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2
-    ln -sf ./libopencv_highgui.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_highgui.so
-
-
-    # libopencv-objdetect-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_objdetect.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/objdetect ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/objdetect.hpp ${D}/usr/include/opencv2
-
-    # libopencv-ml-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ml.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ml ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/ml.hpp ${D}/usr/include/opencv2
-
-
-    # libopencv-photo-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_photo.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/photo ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/photo.hpp ${D}/usr/include/opencv2
-
-    # libopencv-shape-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_shape.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/shape ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/shape.hpp ${D}/usr/include/opencv2
-
-
-    # libopencv-superres-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_superres.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/superres ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/superres.hpp ${D}/usr/include/opencv2
-
-    # libopencv-ts-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_ts.a ${D}/usr/lib/aarch64-linux-gnu/
-
-    # libopencv-video-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_video.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/video ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/video.hpp ${D}/usr/include/opencv2
-
-    # libopencv-videoio-dev & libopencv-videoio3.2
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2.0 ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_videoio.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videoio ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videoio.hpp ${D}/usr/include/opencv2
-    ln -sf ./libopencv_videoio.so.3.2.0  ${D}$usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2
-    ln -sf ./libopencv_videoio.so.3.2  ${D}$usr/lib/aarch64-linux-gnu/libopencv_videoio.so
-
-    # libopencv-videostab-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_videostab.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videostab ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/videostab.hpp ${D}/usr/include/opencv2
-
-    # libopencv-viz-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_viz.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/viz ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/viz.hpp ${D}/usr/include/opencv2
-
-    # libopencv-stitching-dev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libopencv_stitching.a ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stitching ${D}/usr/include/opencv2/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/opencv2/stitching.hpp ${D}/usr/include/opencv2
-
-    # libwrap0 & libwrap0-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwrap.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/tcpd.h  ${D}${includedir}/
-    ln -sf ./libwrap.so.0.7.6 ${D}${libdir}/${UBUN_TARGET_SYS}/libwrap.so
-
-    # liba52 & liba52-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liba52*.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/a52dec ${D}${includedir}/
-    ln -sf ./liba52-0.7.4.so ${D}${libdir}/${UBUN_TARGET_SYS}/liba52.so
-
-    # libqhull7 & libqhull-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libqhull*.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libqhull  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libqhullcpp  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/qhull  ${D}${includedir}/
-    ln -sf ./libqhull.so.7.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libqhull.so
-
-    # libcrypto++ & libcrypto++-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libcryptopp.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libcrypto++.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libcrypto++.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/crypto++  ${D}${includedir}/
-    #cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/cryptopp  ${D}${includedir}/
-    ln -sf ./libcrypto++.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcrypto++.so
-    ln -sf ./libcrypto++.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcrypto++.so.6
-    ln -sf ./libcrypto++.a ${D}${libdir}/${UBUN_TARGET_SYS}/libcryptopp.a
-    ln -sf ./libcrypto++.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcryptopp.so
-    ln -sf ./libcrypto++.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcrypto++.so
-
-    # libwacom2 & libwacom-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwacom.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libwacom.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libwacom-1.0  ${D}${includedir}/
-    ln -sf ./libwacom.so.2.6.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libwacom.so
-
-    # libcroco3 & libcroco3-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libcroco-0.6.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libcroco-0.6.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libcroco-0.6  ${D}${includedir}/
-    ln -sf ./libcroco-0.6.so.3.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libcroco-0.6.so
-
-    # libgudev-1.0-0 & libgudev-1.0-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgudev-1.0.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/gudev-1.0.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/gudev-1.0  ${D}${includedir}/
-    ln -sf ./libgudev-1.0.so.0.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgudev-1.0.so
-
-    # libid3tag0 & libid3tag0-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libid3tag.so* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/id3tag.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/id3tag.h  ${D}${includedir}/
-    ln -sf ./libid3tag.so.0.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libid3tag.so
-
-    # librsvg2-2 & librsvg2-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/librsvg-2.so* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/librsvg-2.0.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/librsvg-2.0  ${D}${includedir}/
-    ln -sf ./librsvg-2.so.2.40.20 ${D}${libdir}/${UBUN_TARGET_SYS}/librsvg-2.so
-
-    # libsoup2.4-1 & libsoup2.4-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsoup-2.4.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libsoup-2.4.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libsoup-2.4  ${D}${includedir}/
-    ln -sf ./libsoup-2.4.so.1.8.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libsoup-2.4.so
-
-    #libcurl4-openssl-dev & libcurl4 & curl
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/curl*  ${D}/usr/bin/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/curl ${D}${includedir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libcurl.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libcurl.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/aclocal/libcurl.m4  ${D}/usr/share/aclocal/
-    ln -sf ./libcurl.so.4.5.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcurl.so.4
-    ln -sf ./libcurl.so.4.5.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libcurl.so
-
-    #libidn2
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/ ${D}${includedir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libidn2.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libidn2.pc  ${D}${libdir}/pkgconfig/
-    ln -sf ./libidn2.so.0.3.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libidn2.so.0
-    ln -sf ./libidn2.so.0.3.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libidn2.so
-
-    #libunistring
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/ ${D}${includedir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libunistring.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libunistring.so.2.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libunistring.so.2
-    ln -sf ./libunistring.so.2.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libunistring.so
-
-    #libnghttp2-14
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libnghttp2.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libnghttp2.so.14.15.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libnghttp2.so.14
-
-    #libpsl5
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpsl.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libpsl.so.5.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libpsl.so.5
-
-    #libgssapi-krb5-2
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgssapi_krb5.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libgssapi_krb5.so.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libgssapi_krb5.so.2
-
-    #libldap-2.4-2
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libldap_r-2.4.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liblber-2.4.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libldap_r-2.4.so.2.10.8 ${D}${libdir}/${UBUN_TARGET_SYS}/libldap_r-2.4.so.2
-    ln -sf ./liblber-2.4.so.2.10.8 ${D}${libdir}/${UBUN_TARGET_SYS}/liblber-2.4.so.2
-
-    #librtmp1
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/librtmp.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-
-    #libkrb5-3
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libkrb5.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libkrb5.so.3.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libkrb5.so.3
-
-    #libk5crypto3
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libk5crypto.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libk5crypto.so.3.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libk5crypto.so.3
-
-    #libcom_err2
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcom_err.*  ${D}/lib/${UBUN_TARGET_SYS}/
-    ln -sf ./libcom_err.so.2.1 ${D}/lib/${UBUN_TARGET_SYS}/libcom_err.so.2
-
-    #libkrb5support0
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libkrb5support.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libkrb5support.so.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libkrb5support.so.0
-
-    #libsasl2-2
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsasl2.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libsasl2.so.2.0.25 ${D}${libdir}/${UBUN_TARGET_SYS}/libsasl2.so.2
-
-    #libgssapi3-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgssapi.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libgssapi.so.3.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgssapi.so.3
-
-    #libgnutls30
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgnutls.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libgnutls.so.30.14.10 ${D}${libdir}/${UBUN_TARGET_SYS}/libgnutls.so.30
-
-    #libhogweed4
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libhogweed.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libhogweed.so.4.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libhogweed.so.4
-
-    #libnettle6
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libnettle.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libnettle.so.6.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libnettle.so.6
-
-    #libgmp10
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libgmp.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libgmp.so.10.3.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libgmp.so.10
-
-    #libp11-kit0
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libp11-kit.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libp11-kit.so.0.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libp11-kit.so.0
-
-    #libtasn1-6
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtasn1.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libtasn1.so.6.5.5 ${D}${libdir}/${UBUN_TARGET_SYS}/libtasn1.so.6
-
-    #libkeyutils1
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libkeyutils.*  ${D}/lib/${UBUN_TARGET_SYS}/
-    ln -sf ./libkeyutils.so.1.5 ${D}/lib/${UBUN_TARGET_SYS}/libkeyutils.so.1
-
-    #libheimntlm0-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libheimntlm.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libheimntlm.so.0.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libheimntlm.so.0
-
-    #libkrb5-26-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libkrb5.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libkrb5.so.26.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libkrb5.so.26
-
-    #libasn1-8-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libasn1.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libasn1.so.8.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libasn1.so.8
-
-    #libhcrypto4-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libhcrypto.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libhcrypto.so.4.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libhcrypto.so.4
-
-    #libroken18-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libroken.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libroken.so.18.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libroken.so.18
-
-    #libwind0-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwind.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libwind.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libwind.so.0
-
-    #libheimbase1-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libheimbase.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libheimbase.so.1.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libheimbase.so.1
-
-    #libhx509-5-heimdal
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libhx509.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libhx509.so.5.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libhx509.so.5
-
-    #libsqlite3-0
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsqlite3.*  ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libsqlite3.so.0.8.6 ${D}${libdir}/${UBUN_TARGET_SYS}/libsqlite3.so.0
-
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libdrm/ ${D}/usr/include/
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/freedreno/ ${D}/usr/include/
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libsync.h ${D}/usr/include/libsync.h
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/xf86drm.h ${D}/usr/include/xf86drm.h
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/include/xf86drmMode.h ${D}/usr/include/xf86drmMode.h
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libdrm.so*   ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libdrm_free*   ${D}/usr/lib/aarch64-linux-gnu/
-    cp ${CP_ARGS}  ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm* ${D}${libdir}/pkgconfig
-    ln -sf ./libdrm.so.2.4.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libdrm.so
-
-    # liborc-0.4-0 & liborc-0.4-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liborc-0.4.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liborc-test-0.4.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/orc-0.4.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/orc-0.4  ${D}${includedir}/
-    ln -sf ./liborc-0.4.so.0.25.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liborc-0.4.so
-    ln -sf ./liborc-test-0.4.so.0.25.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liborc-test-0.4.so
-
-    # iso-codes
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/iso-codes ${D}/usr/share/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/locale ${D}/usr/share/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/xml  ${D}/usr/share/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/iso-codes.pc  ${D}/usr/share/pkgconfig/
-
-    #udev
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so.*  ${D}/${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/aarch64-linux-gnu/libudev.so  ${D}/${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libudev.h  ${D}/usr/include/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/libudev.pc  ${D}/${libdir}/pkgconfig/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/udev.pc ${D}/usr/share/pkgconfig/
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/xml2-config  ${D}/usr/bin/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libxml2/*  ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libxml-2.0.pc ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxml2.so ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxml2.so.2 ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxml2.so.2.9.4 ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/xml2Conf.sh  ${D}${libdir}/${UBUN_TARGET_SYS}
-
-    #FIX mount/blkid/uuid pkgconfig scripts links
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/drm  ${D}${includedir}
-    rm -rf ${D}${includedir}/rpcsvc
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libmount  ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/mount.pc ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libmount.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libmount.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libmount.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libmount.so
-    ln -sf ./libmount.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libmount.so.1
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/blkid  ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/blkid.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libblkid.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libblkid.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libblkid.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libblkid.so
-    ln -sf ./libblkid.so.1.1.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libblkid.so.1
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/uuid  ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/uuid.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libuuid.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libuuid.so.1.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libuuid.so.1.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libuuid.so
-    ln -sf ./libuuid.so.1.3.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libuuid.so.1
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/unicode  ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/layout  ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libicu* ${D}${libdir}/${UBUN_TARGET_SYS}/
-
-    #copied all pkgconfig files here
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/* ${D}${libdir}/pkgconfig/
-    #clean wayland pkgconfig files here
-    rm -rf ${D}${libdir}/pkgconfig/wayland-*.pc
-    rm -rf ${D}${libdir}/pkgconfig/libelf.pc
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libiberty.a ${D}${libdir}/${UBUN_TARGET_SYS}
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpam.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpam_misc.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libpamc.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libaudit.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libcap-ng.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
-
-    #FIX glib-2.0 pkgconfig/lib symbols
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.so.*.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/glib-2.0/include/*.h ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/g*.pc ${D}${libdir}/pkgconfig
-    #copy libffi libraries
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libffi.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libffi*.a ${D}${libdir}/${UBUN_TARGET_SYS}
-    #copy gstreamer libraries
-    cp ${CP_ARGS}    ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libg*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstwayland*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/libgstwaylandsink*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstaudio*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/libgstpulseaudio*
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/gstreamer*.pc ${D}${libdir}/pkgconfig/
-
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/libnl*.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libnl* ${D}${base_libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libnl* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/libnl3 ${D}${includedir}/
-
-    ## gdk-pixbuf
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/gdk-pixbuf-2.0/* ${D}${libdir}/${UBUN_TARGET_SYS}/gdk-pixbuf-2.0
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libgdk_pixbuf-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/bin/gdk-pixbuf* ${D}/usr/bin/
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gdk-pixbuf-2.0/*  ${D}/usr/include/gdk-pixbuf-2.0/
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/libgdk_pixbuf_xlib-2.0.so.0.3611.0  ${D}${libdir}/${UBUN_TARGET_SYS}/
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/aarch64-linux-gnu/pkgconfig/gdk-pixbuf*.pc  ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig/
-   cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/share/thumbnailers/* ${D}/usr/share/thumbnailers/
-   ln -sf ./libgdk_pixbuf-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf-2.0.so
-   ln -sf ./libgdk_pixbuf-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf-2.0.so.0
-   ln -sf ./libgdk_pixbuf_xlib-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf_xlib-2.0.so
-   ln -sf ./libgdk_pixbuf_xlib-2.0.so.0.3611.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf_xlib-2.0.so.0
-
-    ## libexpat & libexpat-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libexpat*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so* ${D}${base_libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/expat*.h ${D}${includedir}${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/expat*.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/expat*.pc ${D}${libdir}/pkgconfig
-    ln -sf ../../..${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so.1.6.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libexpat.so
-
-    #libjpeg jpeg
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libjpeg.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/j*.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/j*.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libjpeg.pc ${D}${libdir}/pkgconfig
-    ln -s ./libjpeg-turbo.so.0.0.0 ${D}/lib/aarch64-linux-gnu/libjpeg.so.8.1.2
-
-    ## libpng
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpng* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libpng ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libpng16 ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/png.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pngconf.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pnglibconf.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libpng*.pc ${D}${libdir}/pkgconfig
-
-    ## libxkbcommon
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/pkgconfig/xkbcommon.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/xkbcommon ${D}${includedir}
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.a ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so
-    ln -sf ./libxkbcommon.so.0.0.0 ${D}/usr/lib/${UBUN_TARGET_SYS}/libxkbcommon.so.0
-
-    # libdbus-1 & libdbus-1-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libdbus*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    install -d ${D}${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/dbus-arch-deps.h ${D}${libdir}/${UBUN_TARGET_SYS}/dbus-1.0/include/dbus/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libdbus*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/dbus-1.0 ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/dbus*.pc ${D}${libdir}/pkgconfig
-    ln -sf ./libdbus-1.so.3.19.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libdbus-1.so
-
-    ## xz & liblzma & liblzma-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lzma.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lzma ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/liblzma*.pc ${D}${libdir}/pkgconfig
-    ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
-
-    ## zlib1g & zlib1g-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libz.* ${D}${base_libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libz.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/zlib.pc ${D}${libdir}/pkgconfig
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zlib.h ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/zconf.h ${D}${includedir}
-    ln -sf ./../../../${base_libdir}/${UBUN_TARGET_SYS}/libz.so.1.2.11 ${D}${libdir}/${UBUN_TARGET_SYS}/libz.so
-    ln -sf ./libz.so.1.2.11 ${D}${base_libdir}/${UBUN_TARGET_SYS}/libz.so.1
-
-    ## libsystemd & libsystemd-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libsystemd*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/systemd ${D}${includedir}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libsystemd*.pc ${D}${libdir}/pkgconfig
-    ln -sf ./libsystemd.so.0.21.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libsystemd.so
-
-    ## ligcrypt & libgcrypt-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libgcrypt*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/gcrypt.h ${D}${includedir}
-    ln -sf ./libgcrypt.so.20.2.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libgcrypt.so
-
-    ## liglz4 & liblz4-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liblz4*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/lz4*.h ${D}${includedir}
-    ln -sf ./liblz4.so.1.7.1 ${D}${libdir}/${UBUN_TARGET_SYS}/liblz4.so
-
-    ## libgpg-error & libgpg-error-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libgpg-error*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/gpg*.h ${D}${includedir}/${UBUN_TARGET_SYS}
-    ln -sf ./libgpg-error.so.0.20.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libgpg-error.so
-
-    ## libasound2
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libasound.so* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/alsa.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/alsa  ${D}${includedir}/
-
-    ## libssl &libssl-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/openssl/  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/openssl/  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libssl* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libcrypto* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libssl.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig//libcrypto.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/openssl.pc  ${D}${libdir}/pkgconfig/
-
-    ## libevdev2 & libevdev-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libevdev.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/libevdev-1.0/libevdev  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libevdev.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/alsa  ${D}${includedir}/
-    ln -sf ./libevdev.so.2.1.20 ${D}${libdir}/${UBUN_TARGET_SYS}/libevdev.so.2
-    ln -sf ./libevdev.so.2.1.20 ${D}${libdir}/${UBUN_TARGET_SYS}/libevdev.so
-
-    ## libpciaccess & libpciaccess-dev & xorg-macros
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpciaccess.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pciaccess.h  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/pciaccess.pc  ${D}${libdir}/pkgconfig/
-    ln -sf ./libpciaccess.so.0.11.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so.0
-    ln -sf ./libpciaccess.so.0.11.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/pkgconfig/xorg-macros.pc  ${D}/usr/share/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/share/aclocal/xorg-macros.m4  ${D}/usr/share/aclocal/
-
-    ## libbsd0 & libbsd-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/libbsd.so.* ${D}${libdir}/${UBUN_TARGET_SYS}
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libbsd*.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/bsd  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libbsd*.pc  ${D}${libdir}/pkgconfig/
-    ln -sf ./libbsd.so.0.8.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0
-    ln -sf ./libbsd.so.0.8.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libbsd.so
-
-    ##  libpthread-stubs0-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/pthread-stubs.pc  ${D}${libdir}/pkgconfig/
-
-    # libpixman-1-0 & libpixman-1-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libpixman-1.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/pixman-1.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/pixman-1  ${D}${includedir}/
-    ln -sf ./libpixman-1.so.0.34.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libpixman-1.so
-
-    ## libjsoncpp1 & libjsoncpp-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/jsoncpp/json/  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/jsoncpp.pc  ${D}${libdir}/pkgconfig/
-    ln -sf ./libjsoncpp.so.1.7.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.so
-    ln -sf ./libjsoncpp.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.so
-
-    # libtheora0 & libtheora-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtheora.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtheoradec.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/theoradec.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/theoraenc.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/theora  ${D}${includedir}/
-    ln -sf ./libtheora.so.0.3.10 ${D}${libdir}/${UBUN_TARGET_SYS}/libtheora.so
-    ln -sf ./libtheoraenc.so.1.1.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libtheoraenc.so
-    ln -sf ./libtheoradec.so.1.1.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libtheoradec.so
-
-    # liburcu6 & liburcu-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/liburcu*.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/liburcu*.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/urcu  ${D}${includedir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/urcu.h  ${D}${includedir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/${UBUN_TARGET_SYS}/urcu-*.h  ${D}${includedir}/${UBUN_TARGET_SYS}/
-    ln -sf ./liburcu-bp.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-bp.so
-    ln -sf ./liburcu-cds.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-cds.so
-    ln -sf ./liburcu-common.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-common.so
-    ln -sf ./liburcu-mb.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-mb.so
-    ln -sf ./liburcu-qsbr.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-qsbr.so
-    ln -sf ./liburcu-signal.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu-signal.so
-    ln -sf ./liburcu.so.6.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/liburcu.so2
-
-    # libwebp6 & libwebpdemux2 & libwebpmux3 & libwebp-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwebp.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwebpdemux.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libwebpmux.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libwebp.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libwebpdemux.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libwebpmux.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/webp  ${D}${includedir}/
-    ln -sf ./libwebp.so.6.0.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libwebp.so
-    ln -sf ./libwebpmux.so.3.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libwebpmux.so
-    ln -sf ./libwebpdemux.so.2.0.3 ${D}${libdir}/${UBUN_TARGET_SYS}/libwebpdemux.so
-
-    # libmpg123-0 & libout123-0 & libmpg123-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libmpg123.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libout123.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libmpg123.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/libout123.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/fmt123.h  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/mpg123.h  ${D}${includedir}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/out123.h  ${D}${includedir}/
-    ln -sf ./libmpg123.so.0.44.8 ${D}${libdir}/${UBUN_TARGET_SYS}/libmpg123.so
-    ln -sf ./libout123.so.0.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/libout123.so
-
-    # libtag1v5-vanilla & libtagc0 & libtagc0-dev & libtag1-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtag.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libtag_c.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/taglib.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/taglib_c.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/taglib  ${D}${includedir}/
-    ln -sf ./libtag.so.1.17.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libtag.so
-    ln -sf ./libtag_c.so.0.0.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libtag_c.so
-
-    # libjson-c3 & libjson-c-dev
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libjson-c.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/pkgconfig/json-c.pc  ${D}${libdir}/pkgconfig/
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${includedir}/json-c  ${D}${includedir}/
-    ln -sf ./libjson-c.so.3.0.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libjson-c.so
-
-    ## libltdl
-    cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libltdl.* ${D}${libdir}/${UBUN_TARGET_SYS}/
-    ln -sf ./libltdl.so.7.3.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libltdl.so
-    ln -sf ./libltdl.so.7 ${D}${libdir}/${UBUN_TARGET_SYS}/libltdl.so
-
-    #FIX symbol
-    if [ -f ${D}${base_libdir}/libncursesw.so.5 ];then
-        rm -rf ${D}${base_libdir}/libncurses*
-        rm -rf ${D}${base_libdir}/libtinfo*
+python do_fix_symlink(){
+    ## Trick: change absolute path to relative path for all symlinks ##
+    search_path = d.getVar('EXTERNAL_TOOLCHAIN')+"/deb"
+    bb.warn(" search_path : %s " %search_path)
+    for root,dirs,files in os.walk(search_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+
+            if not os.path.islink(file_path) or \
+               not os.readlink(file_path).startswith(os.sep):
+                continue
+
+            # set to relative position
+            src_abs_path = file_path
+            abs_symlink = os.readlink(src_abs_path)
+            dst_abs_path = os.path.join(search_path, abs_symlink.lstrip(os.sep))
+            rel_symlink = os.path.relpath(dst_abs_path, os.path.dirname(src_abs_path))
+
+            #bb.warn("create new symlink for file: " + src_abs_path + " -> " + rel_symlink)
+            os.remove(src_abs_path)
+            os.symlink(rel_symlink, src_abs_path)
+
+        for dir in dirs:
+            file_path = os.path.join(root, dir)
+
+            if not os.path.islink(file_path) or \
+               not os.readlink(file_path).startswith(os.sep):
+                continue
+
+            # set to relative position
+            src_abs_path = file_path
+            abs_symlink = os.readlink(src_abs_path)
+            dst_abs_path = os.path.join(search_path, abs_symlink.lstrip(os.sep))
+            rel_symlink = os.path.relpath(dst_abs_path, os.path.dirname(src_abs_path))
+
+            bb.warn("create new symlink for dir: " + src_abs_path + " -> " + rel_symlink)
+            os.remove(src_abs_path)
+            os.symlink(rel_symlink, src_abs_path)
+}
+addtask fix_symlink after do_compile before do_install 
+
+do_test(){
+
+bbwarn "do_test"
+
+}
+
+do_test_append(){
+bbwarn "do_test_append"
+}
+
+do_test_append(){
+bbwarn "do_test_append1"
+}
+addtask do_test
+do_install(){
+     install -d ${D}
+     install -d ${D}${base_libdir}
+     install -d ${D}${base_libdir}/${UBUN_TARGET_SYS}
+     install -d ${D}${bindir}
+     install -d ${D}${sbindir}
+     install -d ${D}${libexecdir}
+     install -d ${D}${datadir}
+     install -d ${D}${includedir}
+     install -d ${D}${includedir}/${UBUN_TARGET_SYS}
+     install -d ${D}/DEBIAN
+     install -d ${D}${libdir}
+     install -d ${D}${libdir}/pkgconfig
+     install -d ${D}${libdir}/gcc/${HOST_ARCH}/7
+     install -d ${D}${libdir}/${UBUN_TARGET_SYS}
+     install -d ${D}/usr/share/pkgconfig/
+     install -d ${D}/usr/share/aclocal/
+     install -d ${D}/usr/lib/aarch64-linux-gnu/gdk-pixbuf-2.0/
+     install -d ${D}/usr/include/gdk-pixbuf-2.0/
+     install -d ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig/
+     install -d ${D}/usr/share/thumbnailers/
+     install -d ${D}/usr/include/aarch64-linux-gnu/
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/* ${D}
+
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/* ${D}${libdir}/${UBUN_TARGET_SYS}
+
+     sed -i "s@/usr/aarch64-linux-gnu/lib/@./@g" ${D}${libdir}/${UBUN_TARGET_SYS}/libpthread.so
+
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/gcc-cross/${UBUN_TARGET_SYS}/10/*.o ${D}${base_libdir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/*.o ${D}${base_libdir}
+     cp ${CP_ARGS} -H ${D}${libdir}/${UBUN_TARGET_SYS}/*.o ${D}${base_libdir}
+
+     sed -i "s@/usr/aarch64-linux-gnu/lib@./@g" ${D}/usr/lib/${UBUN_TARGET_SYS}/libc.so
+
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/glib-2.0 ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
+     rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/sys ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/gnu ${D}${includedir}
+     cp ${CP_ARGS} -H ${D}${includedir}/c++/10/* ${D}${includedir}/c++/
+     cp ${CP_ARGS} -H ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
+     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/10/libgcc*.a ${D}${libdir}/${UBUN_TARGET_SYS}
+     ln -sf ./libgcc_s.so.1 ${D}/${libdir}/aarch64-linux-gnu/libgcc_s.so
+     ln -sf ./libstdc++.so.6.0.28 ${D}/${libdir}/aarch64-linux-gnu/libstdc++.so
+     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/10/libatomic.* ${D}${libdir}/${UBUN_TARGET_SYS}
+     ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
+     ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libtinfo.so.6* ${D}${libdir}/${UBUN_TARGET_SYS}
+     ln -sf ./libtinfo.so.6 ${D}${libdir}/${UBUN_TARGET_SYS}/libtinfo.so
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libncurses.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
+     ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
+
+     #libsqlite3-0
+     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsqlite3.*  ${D}${libdir}/
+     ln -sf ./libsqlite3.so.0.8.6 ${D}${libdir}/libsqlite3.so.0
+
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/glib-2.0/include/*.h ${D}${includedir}
+     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
+     ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
+
+
+    if [ -f ${D}${libdir}/libanl.so ];then
+        rm -rf ${D}${libdir}/libanl.so
     fi
     if [ -f ${D}${base_libdir}/libsepol.so.1 ];then
         rm -rf ${D}${base_libdir}/libsepol.so.1
@@ -1301,33 +454,15 @@ do_install (){
     #FIX SYMBOL LINK
     ln -sf ld-${UBUN_VER_LIBC}.so ${D}${base_libdir}/${UBUN_TARGET_SYS}/ld-linux-aarch64.so.1
     ln -s ${UBUN_TARGET_SYS}/libanl-${UBUN_VER_LIBC}.so ${D}${libdir}/libanl.so 
-    ln -s ${UBUN_TARGET_SYS}/libBrokenLocale-${UBUN_VER_LIBC}.so ${D}${libdir}/libBrokenLocale.so
-    ln -s ${UBUN_TARGET_SYS}/libcidn-${UBUN_VER_LIBC}.so ${D}${libdir}/libcidn.so 
-    ln -s ${UBUN_TARGET_SYS}/libcrypt.so.1 ${D}${libdir}/libcrypt.so 
-    ln -s ${UBUN_TARGET_SYS}/libdl-${UBUN_VER_LIBC}.so ${D}${libdir}/libdl.so 
-    ln -s ${UBUN_TARGET_SYS}/libm-${UBUN_VER_LIBC}.so ${D}${libdir}/libm.so 
-    ln -s ${UBUN_TARGET_SYS}/libnss_compat-${UBUN_VER_LIBC}.so ${D}${libdir}/libnss_compat.so 
-    ln -s ${UBUN_TARGET_SYS}/libnss_dns-${UBUN_VER_LIBC}.so ${D}${libdir}/libnss_dns.so 
-    ln -s ${UBUN_TARGET_SYS}/libnss_files-${UBUN_VER_LIBC}.so ${D}${libdir}/libnss_files.so 
-    ln -s ${UBUN_TARGET_SYS}/libnss_hesiod-${UBUN_VER_LIBC}.so ${D}${libdir}/libnss_hesiod.so 
-    ln -s ${UBUN_TARGET_SYS}/libnss_nisplus-${UBUN_VER_LIBC}.so ${D}${libdir}/libnss_nisplus.so 
-    ln -s ${UBUN_TARGET_SYS}/libnss_nis-${UBUN_VER_LIBC}.so ${D}${libdir}/libnss_nis.so 
-    ln -s ${UBUN_TARGET_SYS}/libpng12.so.0 ${D}${libdir}/libpng12.so.0 
-    ln -s ${UBUN_TARGET_SYS}/librt-${UBUN_VER_LIBC}.so ${D}${libdir}/librt.so 
-    ln -s ${UBUN_TARGET_SYS}/libthread_db.so.1  ${D}${libdir}/libthread_db.so.1 
-    ln -s ${UBUN_TARGET_SYS}/libutil-${UBUN_VER_LIBC}.so ${D}${libdir}/libutil.so  
-    ln -s ${UBUN_TARGET_SYS}/libpam.so.0.83.1 ${D}${libdir}/libpam.so
-    ln -s ${UBUN_TARGET_SYS}/libpam_misc.so.0.82.0 ${D}${libdir}/libpam_misc.so
-    ln -s ${UBUN_TARGET_SYS}/libpamc.so.0.82.1 ${D}${libdir}/libpamc.so
-    ln -s ${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/libselinux.so
-    ln -s ${UBUN_TARGET_SYS}/libsepol.so.1 ${D}${libdir}/libsepol.so
 }
 
 PACKAGES += " \ 
 			binutils-native \
+			binutils \
 			"
 PROVIDES += " \ 
 			binutils-native \
+			binutils \
 			"
 RPROVIDES_cross-localedef-native = " cross-localedef-native "
 RPROVIDES_binutils-native = " binutils-native "
@@ -1610,6 +745,8 @@ PACKAGES += "\
 PROVIDES += " \
             libgcc \
             "
+RPROVIDES_libgcc = "libgcc1"
+
 FILES_libgcc = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgcc_s.so.1 \
     ${libdir}/${UBUN_TARGET_SYS}/libgcc_s.so \
@@ -1624,7 +761,7 @@ PKGV = "0"
 
 #  libpam
 PACKAGES += "libpam"
-FILES_libpam += "${base_libdir}/${UBUN_TARGET_SYS}/libpam*.so.*"
+FILES_libpam += "${libdir}/dummy"
 RPROVIDES_libpam = " \
                     libpam \
                     pam-plugin-group pam-plugin-motd pam-plugin-mail pam-plugin-shells pam-plugin-nologin pam-plugin-rootok pam-plugin-env \
@@ -1633,6 +770,7 @@ RPROVIDES_libpam = " \
 
 PACKAGES += "shadow"
 FILES_shadow += "${libdir}/dummy"
+PROVIDES += "shadow"
 RPROVIDES_shadow = " \
                     shadow \
                     shadow-dbg \
@@ -1791,6 +929,19 @@ FILES_libatomic-ops += " \
 PKG_libatomic-ops ="libatomic1"
 PKGV_libatomic-ops = "0"
 PKGR_libatomic-ops = "0"
+#  speex
+PACKAGES += "speex"
+PROVIDES += "speex"
+RPROVIDES_speex += "speex"
+FILES_speex += "\
+/usr/lib/aarch64-linux-gnu/libspeex.a \
+/usr/lib/aarch64-linux-gnu/libspeex.so \
+/usr/lib/aarch64-linux-gnu/libspeex.so.1 \
+/usr/lib/aarch64-linux-gnu/libspeex.so.1.5.0 \
+"
+PKG_speex = "libspeex-dev"
+PKGV_speex = "0"
+PKGR_speex = "0"
 
 #  speexdsp
 PACKAGES += "speexdsp"
@@ -2008,7 +1159,7 @@ PKGR_libidn2 = "0"
 
 PACKAGES += "openssl"
 PROVIDES += "openssl"
-RPROVIDES_openssl = "openssl"
+RPROVIDES_openssl = "openssl openssl-bin liberation-fonts kbd"
 PKG_openssl = "openssl"
 PKGR_openssl = "0"
 PKGV_openssl = "0"
@@ -2084,15 +1235,17 @@ PROVIDES += "\
                    
 
 #  libc6
-PROVIDES += " libc6 "
+PROVIDES += " libc6 libnsl2 "
 RPROVIDES_libc6 = " \
                     eglibc rtld(GNU_HASH) libc6 virtual-libc apt libc-bin \
                     mtd-utils-native \
                     shared-mime-info shared-mime-info-native \
                     e2fsprogs-e2fsck\
+		    libnsl2 \
+		    ldconfig \
                     lsbinitscripts lsbinitscripts-dev \
                     util-linux \
-                    util-linux-sulogin  util-linux-agetty util-linux-mount util-linux-fsck \
+                    util-linux-sulogin  util-linux-agetty util-linux-mount util-linux-umount util-linux-fsck \
                   "
 
 libc_baselibs = " \
@@ -2113,6 +1266,11 @@ libc_baselibs = " \
                 ${libdir}/${UBUN_TARGET_SYS}/libanl*.so.* ${libdir}/${UBUN_TARGET_SYS}/libanl-*.so \
                 ${libdir}/${UBUN_TARGET_SYS}/libBrokenLocale*.so.* ${libdir}/${UBUN_TARGET_SYS}/libBrokenLocale-*.so\
                 ${libdir}/${UBUN_TARGET_SYS}/libtinfo.so.* \
+		${libdir}/${UBUN_TARGET_SYS}/libpanel.so* \
+		${libdir}/${UBUN_TARGET_SYS}/libncurses.so* \
+                ${base_libdir}/${UBUN_TARGET_SYS}/libuuid.so.* \
+                ${base_libdir}/${UBUN_TARGET_SYS}/libblkid.so.* \
+		${base_libdir}/${UBUN_TARGET_SYS}/libz.so.* \
 				${libdir}/${UBUN_TARGET_SYS}/libbz2.so.* \
 				${libdir}/${UBUN_TARGET_SYS}/libcrypt-*.so ${libdir}/${UBUN_TARGET_SYS}/libcrypt*.so.* \
                 "
@@ -2305,6 +1463,58 @@ PKG_libgudev ="liburcu6"
 PKGV_libgudev = "0"
 PKGR_libgudev = "0"
 
+#libudev1
+PACKAGES += "libudev"
+PROVIDES += "libudev"
+RPROVIDES_libudev += "libudev"
+FILES_libudev += " \
+     /lib/${UBUN_TARGET_SYS}/libudev* \
+"
+PKG_libudev = "libudev1"
+PKGR_libudev = "0"
+PKGV_libudev = "0"
+
+#libudev1
+PACKAGES += "alsa-utils"
+PROVIDES += " \
+alsa-utils-alsabat    \
+alsa-utils-alsatplg   \
+alsa-utils-aplay      \
+alsa-utils-amixer     \
+alsa-utils-alsamixer  \
+alsa-utils-speakertest\
+alsa-utils-midi       \
+alsa-utils-aconnect   \
+alsa-utils-aseqnet    \
+alsa-utils-iecset     \
+alsa-utils-alsactl    \
+alsa-utils-aseqdump   \
+alsa-utils-alsaloop   \
+alsa-utils-alsaucm    \
+"
+RPROVIDES_alsa-utils += " \
+alsa-utils-alsabat    \
+alsa-utils-alsatplg   \
+alsa-utils-aplay      \
+alsa-utils-amixer     \
+alsa-utils-alsamixer  \
+alsa-utils-speakertest\
+alsa-utils-midi       \
+alsa-utils-aconnect   \
+alsa-utils-aseqnet    \
+alsa-utils-iecset     \
+alsa-utils-alsactl    \
+alsa-utils-aseqdump   \
+alsa-utils-alsaloop   \
+alsa-utils-alsaucm    \
+alsa-utils-scripts \
+"
+FILES_alsa-utils += " "
+PKG_alsa-utils = "alsa-utils"
+PKGR_alsa-utils = "0"
+PKGV_alsa-utils = "0"
+
+
 #libwebp
 PACKAGES += "libwebp libwebp-dev"
 PROVIDES += "libwebp libwebp-dev "
@@ -2350,18 +1560,50 @@ FILES_taglib += " \
 PKG_taglib ="libtag1v5-vanilla"
 PKGV_taglib = "0"
 PKGR_taglib = "0"
+#sbc
+PACKAGES += "libsbc1 libsbc-dev sbc"
+PROVIDES += "libsbc1 libsbc-dev sbc"
+RPROVIDES_sbc += " \
+                libsbc1 \
+		libsbc-dev \
+"
+FILES_sbc += "\
+/usr/include/sbc/sbc.h \
+/usr/lib/aarch64-linux-gnu/libsbc.a \
+/usr/lib/aarch64-linux-gnu/libsbc.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/sbc.pc \
+/usr/lib/aarch64-linux-gnu/libsbc.so.1 \
+/usr/lib/aarch64-linux-gnu/libsbc.so.1.2.2 \
+"
+PKG_sbc = "libsbc-dev"
+PKGR_sbc = "0"
+PKGV_sbc = "0"
 
+#nettle
+PACKAGES += "libnettle7 nettle"
+PROVIDES += "libnettle7 nettle"
+RPROVIDES_nettle += " \
+		libnettle7 \
+		nettle \
+"
+FILES_nettle += "\
+/usr/lib/aarch64-linux-gnu/libnettle.so.7 \
+/usr/lib/aarch64-linux-gnu/libnettle.so.7.0 \
+"
+PKG_nettle = "libnettle7"
+PKGR_nettle = "0"
+PKGV_nettle = "0"
 #json-c
 PACKAGES += "json-c json-c-dev"
 PROVIDES += "json-c json-c-dev "
-RPROVIDES_sbc += " \
+RPROVIDES_json-c += " \
                 json-c \
                 json-c-dev \
                 "
 FILES_json-c += " \
     ${libdir}/${UBUN_TARGET_SYS}/libjson-c.* \
 "
-PKG_json-c ="libjson-c3"
+PKG_json-c ="libjson-c4"
 PKGV_json-c = "0"
 PKGR_json-c = "0"
 
@@ -2642,10 +1884,20 @@ FILES_gstreamer1.0 = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstreamer-1.0.so.0* \
 "
 SUMMARY_gstreamer1.0 = "Core GStreamer libraries and elements"
-RPROVIDES_gstreamer1.0 = "gstreamer1.0"
+PROVIDES += "gstreamer1.0"
+RPROVIDES_gstreamer1.0 = "libgstreamer1.0-0"
 PKG_gstreamer1.0 = "libgstreamer1.0-0"
-PKGV_gstreamer1.0 = "1.14.4"
+PKGV_gstreamer1.0 = "1.16.2"
 PKGR_gstreamer1.0 = "0"
+ALLOW_EMPTY_gstreamer1.0 = "1"
+
+PACKAGES += "libconsole-bridge libconsole-bridge-dev"
+PROVIDES += "libconsole-bridge libconsole-bridge-dev"
+
+PKG_libconsole-bridge = "libconsole-bridge0.4"
+PKGR_libconsole-bridge = "0.4.4"
+PKGV_libconsole-bridge = "0"
+ALLOW_EMPTY_libconsole-bridge = "1"
 
 PACKAGES += "gstreamer1.0-plugins-base"
 FILES_gstreamer1.0-plugins-base = "\
@@ -2661,11 +1913,11 @@ FILES_gstreamer1.0-plugins-base = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstriff-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstgl-1.0.so.0* \
 "
-SUMMARY_gstreamer1.0 = "Plugins base for the GStreamer multimedia framework 1.x"
-RPROVIDES_gstreamer1.0 = "gstreamer1.0-plugins-base"
-PKG_gstreamer1.0 = "libgstreamer-plugins-base1.0-0"
-PKGV_gstreamer1.0 = "1.14.4"
-PKGR_gstreamer1.0 = "0"
+SUMMARY_gstreamer1.0-plugins-base = "Plugins base for the GStreamer multimedia framework 1.x"
+RPROVIDES_gstreamer1.0-plugins-base = "gstreamer1.0-plugins-base"
+PKG_gstreamer1.0-plugins-base = "libgstreamer-plugins-base1.0-0"
+PKGV_gstreamer1.0-plugins-base = "1.16.2"
+PKGR_gstreamer1.0-plugins-base = "0"
 
 #libopencv-core3.2
 PACKAGES += "\
@@ -2704,59 +1956,156 @@ FILES_gstreamer1.0-plugins-bad = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgsturidownloader-1.0.so.0* \
     ${libdir}/${UBUN_TARGET_SYS}/libgstwebrtc-1.0.so.0* \
 "
-SUMMARY_gstreamer1.0 = "Plugins bad for the GStreamer multimedia framework 1.x"
-RPROVIDES_gstreamer1.0 = "gstreamer1.0-plugins-bad"
-PKG_gstreamer1.0 = "libgstreamer-plugins-bad1.0-0"
-PKGV_gstreamer1.0 = "1.14.4"
-PKGR_gstreamer1.0 = "0"
+SUMMARY_gstreamer1.0-plugins-bad = "Plugins bad for the GStreamer multimedia framework 1.x"
+RPROVIDES_gstreamer1.0-plugins-bad = "gstreamer1.0-plugins-bad"
+PKG_gstreamer1.0-plugins-bad = "libgstreamer-plugins-bad1.0-0"
+PKGV_gstreamer1.0-plugins-bad = "1.16.2"
+PKGR_gstreamer1.0-plugins-bad = "0"
 
 PACKAGES += "gstreamer1.0-plugins-good"
 RPROVIDES_gstreamer1.0-plugins-good = "gstreamer1.0-plugins-good gstreamer1.0-plugins-good-apps gstreamer1.0-plugins-good-doc gstreamer1.0-plugins-good-dbg gstreamer1.0-plugins-good-locale gstreamer1.0-plugins-good-staticdev gstreamer1.0-plugins-good-meta gstreamer1.0-plugins-good-glib gstreamer1.0-plugins-good-dev"
 PKG_gstreamer1.0-plugins-good = "libgstreamer-plugins-good1.0-0"
-PKGV_gstreamer1.0-plugins-good = "1.14.4"
+PKGV_gstreamer1.0-plugins-good = "1.16.2"
 PKGR_gstreamer1.0-plugins-good = "0"
 
 PACKAGES += "gstreamer1.0-plugins-ugly"
+PROVIDES += "gstreamer1.0-plugins-ugly"
 RPROVIDES_gstreamer1.0-plugins-ugly = "gstreamer1.0-plugins-ugly gstreamer1.0-plugins-ugly-apps gstreamer1.0-plugins-ugly-glib gstreamer1.0-plugins-ugly-doc gstreamer1.0-plugins-ugly-dbg gstreamer1.0-plugins-ugly-locale gstreamer1.0-plugins-ugly-meta gstreamer1.0-plugins-ugly-dev gstreamer1.0-plugins-ugly-staticdev"
 
 PACKAGES += "gstreamer1.0-rtsp-server"
-RPROVIDES_gstreamer1.0-rtsp-server = "gstreamer1.0-rtsp-server-glib gstreamer1.0-rtsp-server-staticdev gstreamer1.0-rtsp-server-locale gstreamer1.0-rtsp-server-meta gstreamer1.0-rtsp-server-dev gstreamer1.0-rtsp-server-dbg gstreamer1.0-rtsp-server gstreamer1.0-rtsp-server-doc gstreamer1.0-rtsp-server-apps"
+PROVIDES += "gstreamer1.0-rtsp-server"
+RPROVIDES_gstreamer1.0-rtsp-server = "gstreamer1.0-rtsp-server-glib gstreamer1.0-rtsp-server-staticdev gstreamer1.0-rtsp-server-locale gstreamer1.0-rtsp-server-meta gstreamer1.0-rtsp-server-dev gstreamer1.0-rtsp-server-dbg gstreamer1.0-rtsp-server-doc gstreamer1.0-rtsp-server-apps"
 PKG_gstreamer1.0-rtsp-server = "libgstrtspserver-1.0-0"
 PKGV_gstreamer1.0-rtsp-server = "0"
 PKGR_gstreamer1.0-rtsp-server = "0"
+ALLOW_EMPTY_gstreamer1.0-rtsp-server = "1"
 FILES_gstreamer1.0-rtsp-server += "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstrtspserver* \
 "
 
 PACKAGES += "gstreamer1.0-libav"
+PROVIDES += "gstreamer1.0-libav"
 RPROVIDES_gstreamer1.0-libav = "gstreamer1.0-libav-locale gstreamer1.0-libav-dbg gstreamer1.0-libav-dev gstreamer1.0-libav-doc gstreamer1.0-libav-staticdev gstreamer1.0-libav"
 PKGV_gstreamer1.0-libav = "0"
 PKGR_gstreamer1.0-libav = "0"
 
 PACKAGES += "libffi"
-RPROVIDES_libffi = "libffi-staticdev libffi-doc libffi-dbg libffi-dev libffi-locale"
-FILES_libffi = "${libdir}/${UBUN_TARGET_SYS}/libffi.so"
-PKG_libffi = "libffi6"
-PKGV_libffi = "3.2.1"
-PKGR_libffi = "8"
+RPROVIDES_libffi += "libffi-staticdev libffi-doc libffi-dbg libffi-dev libffi-locale"
+FILES_libffi = "${libdir}/${UBUN_TARGET_SYS}/libffi.so*"
+PKG_libffi = "libffi7"
+PKGV_libffi = "3.3-4"
+PKGR_libffi = "0"
 
 #libdrm
-PACKAGES += "libdrm libdrm2 libdrm-dev libdrm-freedreno"
-PROVIDES += "libdrm libdrm2 libdrm-dev libdrm-freedreno drm"
-FILES_libdrm += " \
-${libdir}/${UBUN_TARGET_SYS}/libdrm* \
-             "
-PKG_libdrm = "libdrm2"
-PKGV_libdrm = "0"
-PKGR_libdrm = "0"
+#PACKAGES += "libdrm libdrm2 libdrm-dev libdrm-freedreno"
+#PROVIDES += "libdrm libdrm2 libdrm-dev libdrm-freedreno drm"
+#FILES_libdrm += " \
+#${libdir}/${UBUN_TARGET_SYS}/libdrm* \
+#             "
+#PKG_libdrm = "libdrm2"
+#PKGV_libdrm = "0"
+#PKGR_libdrm = "0"
 
-DEPENDS_libdrm += " \
-libdrm2 \
-libdrm-dev \
-libdrm-freedreno \
-libpthread-stubs \
-libpciaccess \
+#DEPENDS_libdrm += " \
+#libdrm2 \
+#libdrm-dev \
+#libdrm-freedreno \
+#libpthread-stubs \
+#libpciaccess \
+#"
+#cursew
+
+PACKAGES += "curses libncursesw6 libncurses-dev libncurses6"
+PROVIDES += "curses libncursesw6 libncurses-dev libncurses6"
+RPROVIDES_curses += "curses libncursesw6 libncurses-dev libncurses6 nativesdk-curses"
+FILES_curses += " \
+/usr/lib/aarch64-linux-gnu/libcurses* \
+/usr/lib/aarch64-linux-gnu/libform* \
+/usr/lib/aarch64-linux-gnu/libpanel* \
+/usr/lib/aarch64-linux-gnu/libtermcap* \
+/lib/aarch64-linux-gnu/libncursesw.so* \
 "
+
+#libtirpc
+PACKAGES += "libtirpc libtirpc-dev libtirpc3"
+PROVIDES += "libtirpc libtirpc-dev libtirpc3"
+RPROVIDES_libtirpc += "libtirpc libtirpc-dev libtirpc3"
+FILES_libtirpc += " \
+/usr/lib/aarch64-linux-gnu/libtirpc.so* \
+/lib/aarch64-linux-gnu/libtirpc.so* \
+" 
+
+PKG_libtirpc = "libtirpc3"
+PKGR_libtirpc = "0"
+PKGV_libtirpc = "0"
+
+#libsqlite sqlite 
+PACKAGES += "sqlite libsqlite3 libsqlite-dev"
+PROVIDES += "sqlite libsqlite3 libsqlite-dev"
+RPROVIDES_sqlite += "sqlite libsqlite3 libsqlite-dev"
+FILES_sqlite += " \
+/usr/lib/aarch64-linux-gnu/libsqlite3.so* \
+"
+PKG_sqlite = "libsqlite-dev"
+PKGR_sqlite = "0"
+PKGV_sqlite = "0"
+
+#libssh-4
+PACKAGES += "libssh-4"
+PROVIDES += "libssh-4"
+RPROVIDES_libssh-4 += "libssh-4"
+FILES_libssh-4 += " \
+/usr/lib/aarch64-linux-gnu/libssh.so* \
+"
+PKG_libssh-4 = "libssh-4"
+PKGR_libssh-4 = "0"
+PKGV_libssh-4 = "0"
+
+#libbrotli1
+PACKAGES += "libbrotli1"
+PROVIDES += "libbrotli1"
+RPROVIDES_libbrotli1 += "libbrotli1"
+FILES_libbrotli1 += " \
+/usr/lib/aarch64-linux-gnu/libbrotl*.so* \
+"
+PKG_libbrotli1 = "libbrotli1"
+PKGR_libbrotli1 = "0"
+PKGV_libbrotli1 = "0"
+
+#libcrypt1
+PACKAGES += "libcrypt1"
+PROVIDES += "libcrypt1"
+RPROVIDES_libcrypt1 += "libcrypt1"
+FILES_libcrypt1 += " \
+/usr/lib/aarch64-linux-gnu/libcrypt.so* \
+"
+PKG_libcrypt1 = "libcrypt1"
+PKGR_libcrypt1 = "0"
+PKGV_libcrypt1 = "0"
+
+#update-rc.d
+PACKAGES += "update-rc.d"
+PROVIDES += "update-rc.d"
+RPROVIDES_update-rc.d += "iupdate-rc.d"
+FILES_update-rc.d += " \
+/usr/sbin/update-rc.d \
+"
+PKG_update-rc.d = "init-system-helpers"
+PKGR_update-rc.d = "0"
+PKGV_update-rc.d = "0"
+
+#kmod
+PACKAGES += "kmod"
+PROVIDES += "kmod"
+RPROVIDES_kmod += " \
+          kmod \
+         " 
+FILES_kmod += " \
+        ${libdir}/${UBUN_TARGET_SYS}/libkmod* \
+        "
+PKG_kmod = "libkmod-dev"
+PKGR_kmod = "0"
+PKGV_kmod = "0"
 
 #gdk-pixbuf
 ALLOW_EMPTY_gdk-pixbuf-bin = "1"
@@ -2791,63 +2140,6 @@ RPROVIDES_gdk-pixbuf += " \
 PKGV_gdk-pixbuf = "2.36.11"
 PKGR_gdk-pixbuf = "2"
 PKG_gdk-pixbuf ="libgdk-pixbuf2.0-0"
-
-PROVIDES += "xorgproto"
-PROVIDES += "libxkbfile"
-
-PACKAGES += "libxdmcp"
-FILES_libxdmcp = "${libdir}/${UBUN_TARGET_SYS}/libXdmcp.so.6*"
-PKG_libxdmcp = "libxdmcp6"
-PKGV_libxdmcp = "1:1.1.2"
-PKGR_libxdmcp = "3"
-PROVIDES += "libxdmcp"
-
-PACKAGES += "libxshmfence"
-FILES_libxshmfence = "${libdir}/${UBUN_TARGET_SYS}/libxshmfence.so.1*"
-PKG_libxshmfence = "libxshmfence1"
-PKGV_libxshmfence = "1.3"
-PKGR_libxshmfence = "1"
-PROVIDES += "libxshmfence"
-
-PACKAGES += "libxfont2"
-FILES_libxfont2 = "${libdir}/${UBUN_TARGET_SYS}/libXfont2.so.2*"
-PKG_libxfont2 = "libxfont2"
-PKGV_libxfont2 = "1:2.0.3"
-PKGR_libxfont2 = "1"
-PROVIDES += "libxfont2"
-
-PROVIDES += "xtrans"
-
-PACKAGES += "libepoxy"
-FILES_libepoxy = "${libdir}/${UBUN_TARGET_SYS}/libepoxy.so.0*"
-PKG_libepoxy = "libepoxy0"
-PKGV_libepoxy = "1.4.3"
-PKGR_libepoxy = "1"
-PROVIDES += "libepoxy"
-
-PACKAGES += "libxau"
-FILES_libxau = "${libdir}/${UBUN_TARGET_SYS}/libXau.so.6*"
-PKG_libxau = "libxau6"
-PKGV_libxau = "1:1.0.8"
-PKGR_libxau = "1"
-PROVIDES += "libxau"
-
-PROVIDES += "font-util"
-PROVIDES += "libxext"
-PROVIDES += "xkeyboard-config"
-PROVIDES += "util-macros"
-PROVIDES += "libxdamage"
-PROVIDES += "libxfixes"
-PROVIDES += "xrandr"
-PROVIDES += "libxxf86vm"
-PROVIDES += "libsm"
-PROVIDES += "libice"
-PROVIDES += "libxtst"
-PROVIDES += "libxi"
-PROVIDES += "dbus-glib"
-
-PACKAGES += "xkeyboard-config"
-RPROVIDES_xkeyboard-config = "xkeyboard-config"
 
 UBUN_VER_MAIN ??= ""
 

@@ -1,0 +1,960 @@
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/sbin/update-passwd \
+/usr/share/base-passwd \
+/usr/share/base-passwd/group.master \
+/usr/share/base-passwd/passwd.master \
+/usr/share/doc/base-passwd \
+/usr/share/doc/base-passwd/README \
+/usr/share/doc/base-passwd/changelog.gz \
+/usr/share/doc/base-passwd/copyright \
+/usr/share/doc/base-passwd/users-and-groups.html \
+/usr/share/doc/base-passwd/users-and-groups.txt.gz \
+/usr/share/doc-base/users-and-groups \
+/usr/share/lintian \
+/usr/share/lintian/overrides \
+/usr/share/lintian/overrides/base-passwd \
+/etc/init.d/logd \
+/etc/logd.cf \
+/lib/systemd/system/logd.service \
+/usr/lib/aarch64-linux-gnu/libm.a \
+"
+#libltdl-dev and libltdl and libpulse0
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/include/libltdl/lt_dlloader.h \
+/usr/include/libltdl/lt_error.h \
+/usr/include/libltdl/lt_system.h \
+/usr/include/ltdl.h \
+/usr/lib/aarch64-linux-gnu/libltdl.a \
+/usr/lib/aarch64-linux-gnu/libltdl.la \
+/usr/lib/aarch64-linux-gnu/libltdl.so \
+/usr/share/aclocal/ltdl.m4 \
+/usr/share/libtool/ \
+/usr/lib/aarch64-linux-gnu/libpulse-simple.so.0.1.1 \
+/usr/lib/aarch64-linux-gnu/libpulse-simple.so.0 \
+"
+#libegl1-mesa-dev to fix adreno conflict with ubuntu-base
+SYSROOT_DIRS_BLACKLIST +=" \
+/usr/include/EGL/egl.h \
+/usr/include/EGL/eglext.h \
+/usr/include/EGL/eglextchromium.h \
+/usr/include/EGL/eglmesaext.h \
+/usr/include/EGL/eglplatform.h \
+/usr/include/KHR/khrplatform.h \
+/usr/lib/aarch64-linux-gnu/libwayland-egl.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/egl.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/wayland-egl.pc \
+"
+
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/include/CL/ \
+/usr/include/GLES2/ \
+/usr/include/EGL/ \
+/usr/include/GLES3/ \
+/usr/include/KHR/ \
+"
+
+SYSROOT_DIRS_BLACKLIST +=" \
+/usr/include/gstreamer-1.0/gst/audio \
+"
+
+SYSROOT_DIRS_BLACKLIST += "\
+/usr/lib/python2.7 \
+/usr/lib/python3.6 \
+"
+#weston and libweston
+SYSROOT_DIRS_BLACKLIST += " \
+usr/bin/wcap-decode \
+/usr/bin/weston \
+/usr/bin/weston-info \
+/usr/bin/weston-launch \
+/usr/bin/weston-terminal \
+/usr/include/weston/ivi-layout-export.h \
+/usr/include/weston/weston.h \
+/usr/lib/aarch64-linux-gnu/pkgconfig/weston.pc \
+/usr/lib/aarch64-linux-gnu/weston/cms-colord.so \
+/usr/lib/aarch64-linux-gnu/weston/cms-static.so \
+/usr/lib/aarch64-linux-gnu/weston/desktop-shell.so \
+/usr/lib/aarch64-linux-gnu/weston/fullscreen-shell.so \
+/usr/lib/aarch64-linux-gnu/weston/hmi-controller.so \
+/usr/lib/aarch64-linux-gnu/weston/ivi-shell.so \
+/usr/lib/aarch64-linux-gnu/weston/screen-share.so \
+/usr/lib/weston/weston-calibrator \
+/usr/lib/weston/weston-clickdot \
+/usr/lib/weston/weston-cliptest \
+/usr/lib/weston/weston-desktop-shell \
+/usr/lib/weston/weston-dnd \
+/usr/lib/weston/weston-editor \
+/usr/lib/weston/weston-eventdemo \
+/usr/lib/weston/weston-flower \
+/usr/lib/weston/weston-fullscreen \
+/usr/lib/weston/weston-image \
+/usr/lib/weston/weston-info \
+/usr/lib/weston/weston-ivi-shell-user-interface \
+/usr/lib/weston/weston-keyboard \
+/usr/lib/weston/weston-multi-resource \
+/usr/lib/weston/weston-resizor \
+/usr/lib/weston/weston-scaler \
+/usr/lib/weston/weston-screenshooter \
+/usr/lib/weston/weston-simple-egl \
+/usr/lib/weston/weston-simple-im \
+/usr/lib/weston/weston-simple-shm \
+/usr/lib/weston/weston-simple-touch \
+/usr/lib/weston/weston-smoke \
+/usr/lib/weston/weston-stacking \
+/usr/lib/weston/weston-terminal \
+/usr/lib/weston/weston-transformed \
+/usr/share/doc/weston/README.Debian \
+/usr/share/doc/weston/changelog.Debian.gz \
+/usr/share/doc/weston/copyright \
+/usr/share/doc/weston/examples/weston.ini \
+/usr/share/lintian/overrides/weston \
+/usr/share/man/man1/weston.1.gz \
+/usr/share/man/man5/weston.ini.5.gz \
+/usr/share/man/man7/weston-drm.7.gz \
+/usr/share/wayland-sessions/weston.desktop \
+/usr/share/weston/background.png \
+/usr/share/weston/border.png \
+/usr/share/weston/fullscreen.png \
+/usr/share/weston/home.png \
+/usr/share/weston/icon_editor.png \
+/usr/share/weston/icon_flower.png \
+/usr/share/weston/icon_ivi_clickdot.png \
+/usr/share/weston/icon_ivi_flower.png \
+/usr/share/weston/icon_ivi_simple-egl.png \
+/usr/share/weston/icon_ivi_simple-shm.png \
+/usr/share/weston/icon_ivi_smoke.png \
+/usr/share/weston/icon_terminal.png \
+/usr/share/weston/icon_window.png \
+/usr/share/weston/panel.png \
+/usr/share/weston/pattern.png \
+/usr/share/weston/random.png \
+/usr/share/weston/sidebyside.png \
+/usr/share/weston/sign_close.png \
+/usr/share/weston/sign_maximize.png \
+/usr/share/weston/sign_minimize.png \
+/usr/share/weston/terminal.png \
+/usr/share/weston/tiling.png \
+/usr/share/weston/wayland.png \
+/usr/share/weston/wayland.svg \
+/usr/lib/aarch64-linux-gnu/libweston-3.so.0 \
+/usr/lib/aarch64-linux-gnu/libweston-3.so.0.0.0 \
+/usr/lib/aarch64-linux-gnu/libweston-3/drm-backend.so \
+/usr/lib/aarch64-linux-gnu/libweston-3/fbdev-backend.so \
+/usr/lib/aarch64-linux-gnu/libweston-3/gl-renderer.so \
+/usr/lib/aarch64-linux-gnu/libweston-3/headless-backend.so \
+/usr/lib/aarch64-linux-gnu/libweston-3/wayland-backend.so \
+/usr/lib/aarch64-linux-gnu/libweston-3/x11-backend.so \
+/usr/lib/aarch64-linux-gnu/libweston-3/xwayland.so \
+/usr/lib/aarch64-linux-gnu/libweston-desktop-3.so.0 \
+/usr/lib/aarch64-linux-gnu/libweston-desktop-3.so.0.0.0 \
+/usr/share/doc/libweston-3-0/changelog.Debian.gz \
+/usr/share/doc/libweston-3-0/copyright \
+"
+#gobject-introspection
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/lib/aarch64-linux-gnu/gobject-introspection/giscanner/introspectablepass.py \
+/usr/lib/aarch64-linux-gnu/gobject-introspection \
+/usr/share/aclocal/introspection.m4 \
+"
+
+#libwayland
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/lib/aarch64-linux-gnu/libwayland-server.so.0 \
+/usr/lib/aarch64-linux-gnu/libwayland-server.so.0.1.0 \
+/usr/lib/aarch64-linux-gnu/libwayland-client.so.0 \
+/usr/lib/aarch64-linux-gnu/libwayland-client.so.0.3.0 \
+/usr/bin/wayland-scanner \
+/usr/share/aclocal/wayland-scanner.m4 \
+/usr/lib/aarch64-linux-gnu/libwayland-cursor.so.0 \
+/usr/lib/aarch64-linux-gnu/libwayland-cursor.so.0.0.0 \
+/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1 \
+/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1.0.0 \
+/usr/include/wayland-client-core.h \
+/usr/include/wayland-client-protocol.h \
+/usr/include/wayland-client.h \
+/usr/include/wayland-cursor.h \
+/usr/include/wayland-egl-core.h \
+/usr/include/wayland-egl.h \
+/usr/include/wayland-server-core.h \
+/usr/include/wayland-server-protocol.h \
+/usr/include/wayland-server.h \
+/usr/include/wayland-util.h \
+/usr/include/wayland-version.h \
+/usr/lib/aarch64-linux-gnu/libwayland-client.so \
+/usr/lib/aarch64-linux-gnu/libwayland-cursor.so \
+/usr/lib/aarch64-linux-gnu/libwayland-egl.so \
+/usr/lib/aarch64-linux-gnu/libwayland-server.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/wayland-client.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/wayland-cursor.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/wayland-egl.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/wayland-scanner.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/wayland-server.pc \
+/usr/lib/pkgconfig/wayland-client.pc \
+/usr/lib/pkgconfig/wayland-cursor.pc \
+/usr/lib/pkgconfig/wayland-egl.pc \
+/usr/lib/pkgconfig/wayland-scanner.pc \
+/usr/lib/pkgconfig/wayland-server.pc \
+"
+
+#harfbuzz
+#SYSROOT_DIRS_BLACKLIST += " \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz.so.0 \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz.so.0.20600.4 \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-icu.so.0 \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-icu.so.0.20600.4 \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-gobject.so.0 \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-gobject.so.0.20600.4 \
+#/usr/include/harfbuzz/hb-aat-layout.h \
+#/usr/include/harfbuzz/hb-aat.h \
+#/usr/include/harfbuzz/hb-blob.h \
+#/usr/include/harfbuzz/hb-buffer.h \
+#/usr/include/harfbuzz/hb-common.h \
+#/usr/include/harfbuzz/hb-deprecated.h \
+#/usr/include/harfbuzz/hb-face.h \
+#/usr/include/harfbuzz/hb-font.h \
+#/usr/include/harfbuzz/hb-ft.h \
+#/usr/include/harfbuzz/hb-glib.h \
+#/usr/include/harfbuzz/hb-gobject-enums.h \
+#/usr/include/harfbuzz/hb-gobject-structs.h \
+#/usr/include/harfbuzz/hb-gobject.h \
+#/usr/include/harfbuzz/hb-graphite2.h \
+#/usr/include/harfbuzz/hb-icu.h \
+#/usr/include/harfbuzz/hb-map.h \
+#/usr/include/harfbuzz/hb-ot-color.h \
+#/usr/include/harfbuzz/hb-ot-deprecated.h \
+#/usr/include/harfbuzz/hb-ot-font.h \
+#/usr/include/harfbuzz/hb-ot-layout.h \
+#/usr/include/harfbuzz/hb-ot-math.h \
+#/usr/include/harfbuzz/hb-ot-meta.h \
+#/usr/include/harfbuzz/hb-ot-metrics.h \
+#/usr/include/harfbuzz/hb-ot-name.h \
+#/usr/include/harfbuzz/hb-ot-shape.h \
+#/usr/include/harfbuzz/hb-ot-var.h \
+#/usr/include/harfbuzz/hb-ot.h \
+#/usr/include/harfbuzz/hb-set.h \
+#/usr/include/harfbuzz/hb-shape-plan.h \
+#/usr/include/harfbuzz/hb-shape.h \
+#/usr/include/harfbuzz/hb-unicode.h \
+#/usr/include/harfbuzz/hb-version.h \
+#/usr/include/harfbuzz/hb.h \
+#/usr/lib/aarch64-linux-gnu/cmake/harfbuzz/harfbuzz-config.cmake \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-gobject.a \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-gobject.so \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-icu.a \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz-icu.so \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz.a \
+#/usr/lib/aarch64-linux-gnu/libharfbuzz.so \
+#/usr/lib/aarch64-linux-gnu/pkgconfig/harfbuzz-gobject.pc \
+#/usr/lib/aarch64-linux-gnu/pkgconfig/harfbuzz-icu.pc \
+#/usr/lib/aarch64-linux-gnu/pkgconfig/harfbuzz.pc \
+#"
+#pango
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/lib/aarch64-linux-gnu/girepository-1.0/Pango-1.0.typelib \
+/usr/lib/aarch64-linux-gnu/girepository-1.0/PangoCairo-1.0.typelib \
+/usr/lib/aarch64-linux-gnu/girepository-1.0/PangoFT2-1.0.typelib \
+/usr/lib/aarch64-linux-gnu/girepository-1.0/PangoFc-1.0.typelib \
+/usr/lib/aarch64-linux-gnu/girepository-1.0/PangoOT-1.0.typelib \
+/usr/lib/aarch64-linux-gnu/girepository-1.0/PangoXft-1.0.typelib \
+/usr/lib/aarch64-linux-gnu/libpango-1.0.so.0 \
+/usr/lib/aarch64-linux-gnu/libpango-1.0.so.0.4400.7 \
+/usr/lib/aarch64-linux-gnu/libpangocairo-1.0.so.0 \
+/usr/lib/aarch64-linux-gnu/libpangocairo-1.0.so.0.4400.7 \
+/usr/lib/aarch64-linux-gnu/libpangoft2-1.0.so.0 \
+/usr/lib/aarch64-linux-gnu/libpangoft2-1.0.so.0.4400.7 \
+/usr/lib/aarch64-linux-gnu/libpangoxft-1.0.so.0 \
+/usr/lib/aarch64-linux-gnu/libpangoxft-1.0.so.0.4400.7 \
+/usr/include/pango-1.0/pango/pango-attributes.h \
+/usr/include/pango-1.0/pango/pango-bidi-type.h \
+/usr/include/pango-1.0/pango/pango-break.h \
+/usr/include/pango-1.0/pango/pango-context.h \
+/usr/include/pango-1.0/pango/pango-coverage.h \
+/usr/include/pango-1.0/pango/pango-direction.h \
+/usr/include/pango-1.0/pango/pango-engine.h \
+/usr/include/pango-1.0/pango/pango-enum-types.h \
+/usr/include/pango-1.0/pango/pango-features.h \
+/usr/include/pango-1.0/pango/pango-font.h \
+/usr/include/pango-1.0/pango/pango-fontmap.h \
+/usr/include/pango-1.0/pango/pango-fontset.h \
+/usr/include/pango-1.0/pango/pango-glyph-item.h \
+/usr/include/pango-1.0/pango/pango-glyph.h \
+/usr/include/pango-1.0/pango/pango-gravity.h \
+/usr/include/pango-1.0/pango/pango-item.h \
+/usr/include/pango-1.0/pango/pango-language.h \
+/usr/include/pango-1.0/pango/pango-layout.h \
+/usr/include/pango-1.0/pango/pango-matrix.h \
+/usr/include/pango-1.0/pango/pango-modules.h \
+/usr/include/pango-1.0/pango/pango-ot.h \
+/usr/include/pango-1.0/pango/pango-renderer.h \
+/usr/include/pango-1.0/pango/pango-script.h \
+/usr/include/pango-1.0/pango/pango-tabs.h \
+/usr/include/pango-1.0/pango/pango-types.h \
+/usr/include/pango-1.0/pango/pango-utils.h \
+/usr/include/pango-1.0/pango/pango-version-macros.h \
+/usr/include/pango-1.0/pango/pango.h \
+/usr/include/pango-1.0/pango/pangocairo.h \
+/usr/include/pango-1.0/pango/pangofc-decoder.h \
+/usr/include/pango-1.0/pango/pangofc-font.h \
+/usr/include/pango-1.0/pango/pangofc-fontmap.h \
+/usr/include/pango-1.0/pango/pangoft2.h \
+/usr/include/pango-1.0/pango/pangoxft-render.h \
+/usr/include/pango-1.0/pango/pangoxft.h \
+/usr/lib/aarch64-linux-gnu/libpango-1.0.so \
+/usr/lib/aarch64-linux-gnu/libpangocairo-1.0.so \
+/usr/lib/aarch64-linux-gnu/libpangoft2-1.0.so \
+/usr/lib/aarch64-linux-gnu/libpangoxft-1.0.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/pango.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/pangocairo.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/pangoft2.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/pangoxft.pc \
+/usr/lib/pkgconfig/pango.pc \
+/usr/lib/pkgconfig/pangocairo.pc \
+/usr/lib/pkgconfig/pangoft2.pc \
+/usr/lib/pkgconfig/pangoxft.pc \
+"
+
+#pulseaudio
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/lib/systemd/user/pulseaudio.service \
+/usr/lib/systemd/user/pulseaudio.socket \
+/usr/share/alsa/alsa.conf.d/pulse.conf \
+/usr/share/alsa/pulse-alsa.conf \
+/usr/share/apport/package-hooks/source_pulseaudio.py \
+/usr/share/bash-completion/completions/pacat \
+/usr/share/bash-completion/completions/pacmd \
+/usr/share/bash-completion/completions/pactl \
+/usr/share/bash-completion/completions/padsp \
+/usr/share/bash-completion/completions/paplay \
+/usr/share/bash-completion/completions/parec \
+/usr/share/bash-completion/completions/parecord \
+/usr/share/bash-completion/completions/pasuspender \
+/usr/share/bash-completion/completions/pulseaudio \
+/usr/share/bug/pulseaudio \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/doc/pulseaudio/ \
+/usr/share/lintian/overrides/pulseaudio \
+/usr/share/man/man1/pulseaudio.1.gz \
+/usr/share/man/man1/start-pulseaudio-x11.1.gz \
+/usr/share/man/man5/default.pa.5.gz \
+/usr/share/man/man5/pulse-cli-syntax.5.gz \
+/usr/share/man/man5/pulse-client.conf.5.gz \
+/usr/share/man/man5/pulse-daemon.conf.5.gz \
+/usr/share/pulseaudio/ \
+/usr/share/zsh/vendor-completions/_pulseaudio \
+"
+#libX11
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/lib/aarch64-linux-gnu/libX11.so.6 \
+/usr/lib/aarch64-linux-gnu/libX11.so.6.3.0 \
+/usr/lib/aarch64-linux-gnu/libxcb.so.1 \
+/usr/lib/aarch64-linux-gnu/libxcb.so.1.1.0 \
+/usr/include/X11 \
+/usr/lib/aarch64-linux-gnu/libX11.a \
+/usr/lib/aarch64-linux-gnu/libX11.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/x11.pc \
+/usr/lib/aarch64-linux-gnu/libXext.so.6 \
+/usr/lib/aarch64-linux-gnu/libXext.so.6.4.0 \
+/usr/lib/aarch64-linux-gnu/libXext.a \
+/usr/lib/aarch64-linux-gnu/libXext.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/xext.pc \
+/usr/lib/aarch64-linux-gnu/libXrender.so.1 \
+/usr/lib/aarch64-linux-gnu/libXrender.so.1.3.0 \
+/usr/lib/aarch64-linux-gnu/libXrender.a \
+/usr/lib/aarch64-linux-gnu/libXrender.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/xrender.pc \
+/usr/lib/aarch64-linux-gnu/libX11-xcb.so.1 \
+/usr/lib/aarch64-linux-gnu/libX11-xcb.so.1.0.0 \
+/usr/lib/aarch64-linux-gnu/libX11* \
+"
+#libxcb
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/include/xcb/bigreq.h \
+/usr/include/xcb/xc_misc.h \
+/usr/include/xcb/xcb.h \
+/usr/include/xcb/xcbext.h \
+/usr/include/xcb/xproto.h \
+/usr/lib/aarch64-linux-gnu/libxcb.a \
+/usr/lib/aarch64-linux-gnu/libxcb.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/xcb.pc \
+/usr/lib/aarch64-linux-gnu/libxcb* \
+/usr/include/xcb/ \
+/usr/lib/aarch64-linux-gnu/libbsd.so.0 \
+/usr/lib/aarch64-linux-gnu/libbsd.so.0.10.0 \
+/usr/share/pkgconfig/applewmproto.pc \
+/usr/share/pkgconfig/bigreqsproto.pc \
+/usr/share/pkgconfig/compositeproto.pc \
+/usr/share/pkgconfig/damageproto.pc \
+/usr/share/pkgconfig/dmxproto.pc \
+/usr/share/pkgconfig/dri2proto.pc \
+/usr/share/pkgconfig/dri3proto.pc \
+/usr/share/pkgconfig/fixesproto.pc \
+/usr/share/pkgconfig/fontsproto.pc \
+/usr/share/pkgconfig/glproto.pc \
+/usr/share/pkgconfig/inputproto.pc \
+/usr/share/pkgconfig/kbproto.pc \
+/usr/share/pkgconfig/presentproto.pc \
+/usr/share/pkgconfig/randrproto.pc \
+/usr/share/pkgconfig/recordproto.pc \
+/usr/share/pkgconfig/renderproto.pc \
+/usr/share/pkgconfig/resourceproto.pc \
+/usr/share/pkgconfig/scrnsaverproto.pc \
+/usr/share/pkgconfig/videoproto.pc \
+/usr/share/pkgconfig/xcmiscproto.pc \
+/usr/share/pkgconfig/xextproto.pc \
+/usr/share/pkgconfig/xf86bigfontproto.pc \
+/usr/share/pkgconfig/xf86dgaproto.pc \
+/usr/share/pkgconfig/xf86driproto.pc \
+/usr/share/pkgconfig/xf86vidmodeproto.pc \
+/usr/share/pkgconfig/xineramaproto.pc \
+/usr/share/pkgconfig/xproto.pc \
+/usr/lib/aarch64-linux-gnu/libxcb-shm.so.0 \
+/usr/lib/aarch64-linux-gnu/libxcb-shm.so.0.0.0 \
+/usr/include/xcb/shm.h \
+/usr/lib/aarch64-linux-gnu/libxcb-shm.a \
+/usr/lib/aarch64-linux-gnu/libxcb-shm.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/xcb-shm.pc \
+/usr/include/xcb/bigreq.h \
+/usr/include/xcb/xc_misc.h \
+/usr/include/xcb/xcb.h \
+/usr/include/xcb/xcbext.h \
+/usr/include/xcb/xproto.h \
+/usr/lib/aarch64-linux-gnu/libxcb.a \
+/usr/lib/aarch64-linux-gnu/libxcb.so \
+/usr/lib/aarch64-linux-gnu/libxcb.so.1 \
+/usr/lib/aarch64-linux-gnu/libxcb.so.1.1.0 \
+/usr/include/X11/Xauth.h \
+/usr/lib/aarch64-linux-gnu/libXau.a \
+/usr/lib/aarch64-linux-gnu/libXau.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/xau.pc \
+/usr/lib/aarch64-linux-gnu/libXau.so.6 \
+/usr/lib/aarch64-linux-gnu/libXau.so.6.0.0 \
+/usr/include/X11/Xdmcp.h \
+/usr/lib/aarch64-linux-gnu/libXdmcp.a \
+/usr/lib/aarch64-linux-gnu/libXdmcp.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/xdmcp.pc \
+/usr/lib/aarch64-linux-gnu/libXdmcp.so.6 \
+/usr/lib/aarch64-linux-gnu/libXdmcp.so.6.0.0 \
+/usr/include/xcb/render.h \
+/usr/lib/aarch64-linux-gnu/libxcb-render.a \
+/usr/lib/aarch64-linux-gnu/libxcb-render.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/xcb-render.pc \
+/usr/lib/aarch64-linux-gnu/libxcb-render.so.0 \
+/usr/lib/aarch64-linux-gnu/libxcb-render.so.0.0.0 \
+"
+######################################cairo##################################
+#libcairo2-dev
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/inlcude/cairo \
+/usr/include/cairo/cairo-deprecated.h \
+/usr/include/cairo/cairo-features.h \
+/usr/include/cairo/cairo-ft.h \
+/usr/include/cairo/cairo-gobject.h \
+/usr/include/cairo/cairo-pdf.h \
+/usr/include/cairo/cairo-ps.h \
+/usr/include/cairo/cairo-script-interpreter.h \
+/usr/include/cairo/cairo-script.h \
+/usr/include/cairo/cairo-svg.h \
+/usr/include/cairo/cairo-tee.h \
+/usr/include/cairo/cairo-version.h \
+/usr/include/cairo/cairo-xcb.h \
+/usr/include/cairo/cairo-xlib-xrender.h \
+/usr/include/cairo/cairo-xlib.h \
+/usr/include/cairo/cairo.h \
+/usr/lib/aarch64-linux-gnu/libcairo-gobject.a \
+/usr/lib/aarch64-linux-gnu/libcairo-gobject.so \
+/usr/lib/aarch64-linux-gnu/libcairo-script-interpreter.a \
+/usr/lib/aarch64-linux-gnu/libcairo-script-interpreter.so \
+/usr/lib/aarch64-linux-gnu/libcairo.a \
+/usr/lib/aarch64-linux-gnu/libcairo.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-fc.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-ft.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-gobject.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-pdf.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-png.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-ps.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-script.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-svg.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-tee.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-xcb-shm.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-xcb.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-xlib-xrender.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo-xlib.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/cairo.pc \
+"
+#libcairo2
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/lib/aarch64-linux-gnu/libcairo.so.2 \
+/usr/lib/aarch64-linux-gnu/libcairo.so.2.11600.0 \
+/usr/lib/aarch64-linux-gnu/libcairo-script-interpreter.so.2 \
+/usr/lib/aarch64-linux-gnu/libcairo-script-interpreter.so.2.11600.0 \
+"
+#libcairo-gobject
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/lib/aarch64-linux-gnu/libcairo-gobject.so.2 \
+/usr/lib/aarch64-linux-gnu/libcairo-gobject.so.2.11600.0 \
+"
+#libfreetype and -dev
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/include/freetype2/ \
+/usr/lib/aarch64-linux-gnu/libfreetype.a \
+/usr/lib/aarch64-linux-gnu/libfreetype.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/freetype2.pc \
+/usr/lib/aarch64-linux-gnu/libfreetype.so.6 \
+/usr/lib/aarch64-linux-gnu/libfreetype.so.6.17.1 \
+"
+#libfontconfig and libfontconfig-dev
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/include/fontconfig/fcfreetype.h \
+/usr/include/fontconfig/fcprivate.h \
+/usr/include/fontconfig/fontconfig.h \
+/usr/lib/aarch64-linux-gnu/libfontconfig.a \
+/usr/lib/aarch64-linux-gnu/libfontconfig.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/fontconfig.pc \
+/usr/lib/aarch64-linux-gnu/libfontconfig.so.1 \
+/usr/lib/aarch64-linux-gnu/libfontconfig.so.1.12.0 \
+"
+#libexpat and dev
+#SYSROOT_DIRS_BLACKLIST += " \
+#/usr/include/aarch64-linux-gnu/expat_config.h \
+#/usr/include/expat.h \
+#/usr/include/expat_external.h \
+##/usr/lib/aarch64-linux-gnu/libexpat.a \
+#/usr/lib/aarch64-linux-gnu/libexpat.so \
+#/usr/lib/aarch64-linux-gnu/libexpatw.a \
+#/usr/lib/aarch64-linux-gnu/libexpatw.so \
+##/usr/lib/aarch64-linux-gnu/pkgconfig/expat.pc \
+#/usr/share/aclocal/expat.m4 \
+#/lib/aarch64-linux-gnu/libexpat.so.1 \
+#/lib/aarch64-linux-gnu/libexpat.so.1.6.11 \
+#/usr/lib/aarch64-linux-gnu/libexpatw.so.1 \
+#/usr/lib/aarch64-linux-gnu/libexpatw.so.1.6.11 \
+#"
+#wayland-protocols
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/share/pkgconfig/wayland-protocols.pc \
+/usr/share/wayland-protocols/ \
+"
+#libdrm libdrm-dev
+
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/include/freedreno/freedreno_drmif.h \
+/usr/include/freedreno/freedreno_ringbuffer.h \
+/usr/include/libdrm/amdgpu.h \
+/usr/include/libdrm/amdgpu_drm.h \
+/usr/include/libdrm/drm.h \
+/usr/include/libdrm/drm_fourcc.h \
+/usr/include/libdrm/drm_mode.h \
+/usr/include/libdrm/drm_sarea.h \
+/usr/include/libdrm/etnaviv_drmif.h \
+/usr/include/libdrm/i915_drm.h \
+/usr/include/libdrm/mach64_drm.h \
+/usr/include/libdrm/mga_drm.h \
+/usr/include/libdrm/msm_drm.h \
+/usr/include/libdrm/nouveau/nouveau.h \
+/usr/include/libdrm/nouveau/nvif/cl0080.h \
+/usr/include/libdrm/nouveau/nvif/cl9097.h \
+/usr/include/libdrm/nouveau/nvif/class.h \
+/usr/include/libdrm/nouveau/nvif/if0002.h \
+/usr/include/libdrm/nouveau/nvif/if0003.h \
+/usr/include/libdrm/nouveau/nvif/ioctl.h \
+/usr/include/libdrm/nouveau/nvif/unpack.h \
+/usr/include/libdrm/nouveau_drm.h \
+/usr/include/libdrm/qxl_drm.h \
+/usr/include/libdrm/r128_drm.h \
+/usr/include/libdrm/r600_pci_ids.h \
+/usr/include/libdrm/radeon_bo.h \
+/usr/include/libdrm/radeon_bo_gem.h \
+/usr/include/libdrm/radeon_bo_int.h \
+/usr/include/libdrm/radeon_cs.h \
+/usr/include/libdrm/radeon_cs_gem.h \
+/usr/include/libdrm/radeon_cs_int.h \
+/usr/include/libdrm/radeon_drm.h \
+/usr/include/libdrm/radeon_surface.h \
+/usr/include/libdrm/savage_drm.h \
+/usr/include/libdrm/sis_drm.h \
+/usr/include/libdrm/tegra.h \
+/usr/include/libdrm/tegra_drm.h \
+/usr/include/libdrm/vc4_drm.h \
+/usr/include/libdrm/vc4_packet.h \
+/usr/include/libdrm/vc4_qpu_defines.h \
+/usr/include/libdrm/via_drm.h \
+/usr/include/libdrm/virtgpu_drm.h \
+/usr/include/libdrm/vmwgfx_drm.h \
+/usr/include/libsync.h \
+/usr/include/xf86drm.h \
+/usr/include/xf86drmMode.h \
+/usr/lib/aarch64-linux-gnu/libdrm.so \
+/usr/lib/aarch64-linux-gnu/libdrm_amdgpu.so \
+/usr/lib/aarch64-linux-gnu/libdrm_etnaviv.so \
+/usr/lib/aarch64-linux-gnu/libdrm_freedreno.so \
+/usr/lib/aarch64-linux-gnu/libdrm_nouveau.so \
+/usr/lib/aarch64-linux-gnu/libdrm_radeon.so \
+/usr/lib/aarch64-linux-gnu/libdrm_tegra.so \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm_amdgpu.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm_etnaviv.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm_freedreno.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm_nouveau.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm_radeon.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm_tegra.pc \
+/usr/lib/aarch64-linux-gnu/pkgconfig/libdrm_vc4.pc \
+/usr/lib/aarch64-linux-gnu/libdrm_freedreno.so.1 \
+/usr/lib/aarch64-linux-gnu/libdrm_freedreno.so.1.0.0 \
+/usr/lib/aarch64-linux-gnu/libdrm.so.2 \
+/usr/lib/aarch64-linux-gnu/libdrm.so.2.4.0 \
+"
+#libelf libelf-dev
+
+SYSROOT_DIRS_BLACKLIST += " \
+/usr/include/nlist.h \
+/usr/include/gelf.h \
+/usr/include/libelf.h \
+/usr/include/elfutils \
+"
+SYSROOT_DIRS_BLACKLIST += " \
+ /usr/bin/eu-ar \
+ /usr/bin/eu-elfcmp \
+ /usr/bin/eu-elfcompress \
+ /usr/bin/eu-elflint \
+ /usr/bin/eu-findtextrel \
+ /usr/bin/eu-make-debug-archive \
+ /usr/bin/eu-ranlib \
+ /usr/bin/eu-stack \
+ /usr/bin/eu-strings \
+ /usr/bin/eu-unstrip \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_aarch64.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_alpha.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_arm.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_bpf.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_i386.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_ia64.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_m68k.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_mips.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_parisc.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_ppc.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_ppc64.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_s390.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_sh.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_sparc.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_tilegx.so \
+ /usr/lib/aarch64-linux-gnu/elfutils/libebl_x86_64.so \
+ /usr/lib/aarch64-linux-gnu/libdw.so.1 \
+ /usr/lib/aarch64-linux-gnu/libelf.so.1 \
+ /usr/include/gbm.h \
+ /usr/lib/aarch64-linux-gnu/libgbm.so \
+ /usr/lib/aarch64-linux-gnu/pkgconfig/gbm.pc \
+ /usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstwaylandsink.so \
+ /usr/lib/aarch64-linux-gnu/libgstwayland-1.0.so.0 \
+ /usr/lib/aarch64-linux-gnu/libgstwayland-1.0.so \
+ /usr/lib/aarch64-linux-gnu/libgstaudio-1.0.so \
+ /usr/lib/aarch64-linux-gnu/libgstaudio-1.0.so.0 \
+ /usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstpulseaudio.so \
+ /usr/lib/aarch64-linux-gnu/libwayland-egl.so.1.0.0 \
+ /usr/lib/aarch64-linux-gnu/libwayland-egl.so.1 \
+ /usr/lib/aarch64-linux-gnu/libwayland-egl.so \
+ /usr/lib/aarch64-linux-gnu/pkgconfig/wayland-egl.pc \
+ /usr/sbin/hostapd \
+ /usr/sbin/hostapd_cli \
+ /sbin/iw \
+ /lib/systemd/system/logd.service \
+ /etc/init.d/logd \
+ /usr/bin/perf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-aux.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-dock-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-fm.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-front-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-headphone-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-headset-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-internal-mic-always.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-internal-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-linein.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-mic-line.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-mic.conf.common \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-rear-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-tvtuner.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input-video.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-input.conf.common \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones-2.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output-lineout.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output-mono.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker-always.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-0.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-1.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-2.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-3.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-4.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-5.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-6.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-7.conf \
+ /usr/share/pulseaudio/alsa-mixer/paths/iec958-stereo-output.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/default.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/dell-dock-tb16-usb-audio.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/force-speaker-and-int-mic.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/force-speaker.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/kinect-audio.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/maudio-fasttrack-pro.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-audio4dj.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-audio8dj.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-korecontroller.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio10.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio2.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio6.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktorkontrol-s4.conf \
+ /usr/share/pulseaudio/alsa-mixer/profile-sets/sb-omni-surround-5.1.conf \
+ /usr/lib/pulse-11.1/modules/module-alsa-card.so \
+ /usr/bin/esdcompat \
+ /usr/bin/pacat \
+ /usr/bin/pacmd \
+ /usr/bin/padsp \
+ /usr/bin/pamon \
+ /usr/bin/paplay \
+ /usr/bin/parec \
+ /usr/bin/parecord \
+ /usr/bin/pasuspender \
+ /etc/pulse/client.conf \
+ /usr/lib/aarch64-linux-gnu/libpulse.so.0 \
+ /etc/dbus-1/system.d/pulseaudio-system.conf \
+ /etc/pulse/daemon.conf \
+ /etc/pulse/default.pa \
+ /etc/pulse/system.pa \
+ /lib/udev/rules.d/90-pulseaudio.rules \
+ /usr/bin/pulseaudio \
+ /usr/lib/systemd/user/pulseaudio.service \
+ /usr/lib/systemd/user/pulseaudio.socket \
+ /usr/bin/pactl \
+ /usr/lib/pulse-11.1/modules/module-role-ducking.so \
+ /usr/lib/pulse-11.1/modules/module-detect.so \
+ /usr/lib/pulse-11.1/modules/module-augment-properties.so \
+ /usr/lib/pulse-11.1/modules/module-device-restore.so \
+ /usr/lib/pulse-11.1/modules/module-cli-protocol-unix.so \
+ /usr/lib/pulse-11.1/modules/module-position-event-sounds.so \
+ /usr/lib/pulse-11.1/modules/module-stream-restore.so \
+ /usr/lib/pulse-11.1/modules/module-dbus-protocol.so \
+ /usr/lib/pulse-11.1/modules/module-filter-heuristics.so \
+ /usr/lib/pulse-11.1/modules/module-null-source.so \
+ /usr/lib/pulse-11.1/modules/module-combine-sink.so \
+ /usr/lib/pulse-11.1/modules/module-native-protocol-unix.so \
+ /usr/lib/pulse-11.1/modules/module-switch-on-port-available.so \
+ /usr/lib/pulse-11.1/modules/module-alsa-sink.so \
+ /usr/lib/pulse-11.1/modules/module-loopback.so \
+ /usr/lib/pulse-11.1/modules/module-alsa-source.so \
+ /usr/lib/pulse-11.1/modules/module-role-cork.so \
+ /usr/lib/pulse-11.1/modules/module-card-restore.so \
+ /usr/lib/pulse-11.1/modules/module-filter-apply.so \
+ /usr/lib/pulse-11.1/modules/module-default-device-restore.so \
+ /usr/lib/pulse-11.1/modules/module-udev-detect.so \
+ /usr/lib/pulse-11.1/modules/module-rescue-streams.so \
+ /usr/lib/pulse-11.1/modules/module-null-sink.so \
+ /usr/lib/pulse-11.1/modules/module-intended-roles.so \
+ /usr/lib/pulse-11.1/modules/module-suspend-on-idle.so \
+ /usr/bin/applypatch \
+ /etc/slsh.rc \
+ /usr/bin/slsh \
+ /usr/lib/slang/v2/modules/histogram-module.so \
+ /usr/share/slsh/arrayfuns.sl \
+ /usr/share/slsh/autoload.sl \
+ /usr/share/slsh/base64.sl \
+ /usr/share/slsh/chksum.sl \
+ /usr/share/slsh/cmaps/cool.map \
+ /usr/share/slsh/cmaps/coolwarm.map \
+ /usr/share/slsh/cmaps/copper.map \
+ /usr/share/slsh/cmaps/cubicl.map \
+ /usr/share/slsh/cmaps/cubicyf.map \
+ /usr/share/slsh/cmaps/drywet.map \
+ /usr/share/slsh/cmaps/ds9b.map \
+ /usr/share/slsh/cmaps/ds9sls.map \
+ /usr/share/slsh/cmaps/edge.map \
+ /usr/share/slsh/cmaps/gebco.map \
+ /usr/share/slsh/cmaps/globe.map \
+ /usr/share/slsh/cmaps/gray.map \
+ /usr/share/slsh/cmaps/haxby.map \
+ /usr/share/slsh/cmaps/hot.map \
+ /usr/share/slsh/cmaps/jet.map \
+ /usr/share/slsh/cmaps/no_green.map \
+ /usr/share/slsh/cmaps/ocean.map \
+ /usr/share/slsh/cmaps/polar.map \
+ /usr/share/slsh/cmaps/rainbow.map \
+ /usr/share/slsh/cmaps/red2green.map \
+ /usr/share/slsh/cmaps/relief.map \
+ /usr/share/slsh/cmaps/sealand.map \
+ /usr/share/slsh/cmaps/seis.map \
+ /usr/share/slsh/cmaps/split.map \
+ /usr/share/slsh/cmaps/topo.map \
+ /usr/share/slsh/cmaps/wysiwyg.map \
+ /usr/share/slsh/cmdopt.sl \
+ /usr/share/slsh/csv.sl \
+ /usr/share/slsh/fcntl.sl \
+ /usr/share/slsh/fork.sl \
+ /usr/share/slsh/fswalk.sl \
+ /usr/share/slsh/glob.sl \
+ /usr/share/slsh/help/arrayfuns.hlp \
+ /usr/share/slsh/help/base64funs.hlp \
+ /usr/share/slsh/help/chksumfuns.hlp \
+ /usr/share/slsh/help/cmdopt.hlp \
+ /usr/share/slsh/help/csvfuns.hlp \
+ /usr/share/slsh/help/forkfuns.hlp \
+ /usr/share/slsh/help/fswalk.hlp \
+ /usr/share/slsh/help/glob.hlp \
+ /usr/share/slsh/help/histfuns.hlp \
+ /usr/share/slsh/help/jsonfuns.hlp \
+ /usr/share/slsh/help/listfuns.hlp \
+ /usr/share/slsh/help/onigfuns.hlp \
+ /usr/share/slsh/help/pcrefuns.hlp \
+ /usr/share/slsh/help/pngfuns.hlp \
+ /usr/share/slsh/help/print.hlp \
+ /usr/share/slsh/help/process.hlp \
+ /usr/share/slsh/help/profile.hlp \
+ /usr/share/slsh/help/randfuns.hlp \
+ /usr/share/slsh/help/readascii.hlp \
+ /usr/share/slsh/help/require.hlp \
+ /usr/share/slsh/help/setfuns.hlp \
+ /usr/share/slsh/help/slsmg.hlp \
+ /usr/share/slsh/help/sockfuns.hlp \
+ /usr/share/slsh/help/statsfuns.hlp \
+ /usr/share/slsh/help/structfuns.hlp \
+ /usr/share/slsh/histogram.sl \
+ /usr/share/slsh/iconv.sl \
+ /usr/share/slsh/json.sl \
+ /usr/share/slsh/listfuns.sl \
+ /usr/share/slsh/onig.sl \
+ /usr/share/slsh/pcre.sl \
+ /usr/share/slsh/png.sl \
+ /usr/share/slsh/print.sl \
+ /usr/share/slsh/process.sl \
+ /usr/share/slsh/profile.sl \
+ /usr/share/slsh/rand.sl \
+ /usr/share/slsh/readascii.sl \
+ /usr/share/slsh/require.sl \
+ /usr/share/slsh/rline/complete.sl \
+ /usr/share/slsh/rline/editfuns.sl \
+ /usr/share/slsh/rline/editor.sl \
+ /usr/share/slsh/rline/emacskeys.sl \
+ /usr/share/slsh/rline/history.sl \
+ /usr/share/slsh/rline/histsrch.sl \
+ /usr/share/slsh/rline/slrline.rc \
+ /usr/share/slsh/rline/vikeys.sl \
+ /usr/share/slsh/scripts/jpegsize \
+ /usr/share/slsh/scripts/lsrpm \
+ /usr/share/slsh/scripts/sldb \
+ /usr/share/slsh/scripts/slprof \
+ /usr/share/slsh/scripts/slstkchk \
+ /usr/share/slsh/scripts/svnsh \
+ /usr/share/slsh/select.sl \
+ /usr/share/slsh/setfuns.sl \
+ /usr/share/slsh/sldb.sl \
+ /usr/share/slsh/sldbcore.sl \
+ /usr/share/slsh/sldbsock.sl \
+ /usr/share/slsh/slshhelp.sl \
+ /usr/share/slsh/slshrl.sl \
+ /usr/share/slsh/slsmg.sl \
+ /usr/share/slsh/socket.sl \
+ /usr/share/slsh/stats.sl \
+ /usr/share/slsh/stkcheck.sl \
+ /usr/share/slsh/structfuns.sl \
+ /usr/share/slsh/sysconf.sl \
+ /usr/share/slsh/termios.sl \
+ /usr/share/slsh/varray.sl \
+ /usr/share/slsh/zlib.sl \
+ /usr/bin/cplay \
+ /usr/include/wayland-client-core.h \
+ /usr/include/wayland-client-protocol.h \
+ /usr/include/wayland-client.h \
+ /usr/include/wayland-cursor.h \
+ /usr/include/wayland-egl-core.h \
+ /usr/include/wayland-egl.h \
+ /usr/include/wayland-server-core.h \
+ /usr/include/wayland-server-protocol.h \
+ /usr/include/wayland-server.h \
+ /usr/include/wayland-util.h \
+ /usr/include/wayland-version.h \
+ /usr/lib/aarch64-linux-gnu/libwayland-client.so \
+ /usr/lib/aarch64-linux-gnu/libwayland-cursor.so \
+ /usr/lib/aarch64-linux-gnu/libwayland-server.so \
+ /usr/lib/aarch64-linux-gnu/libweston-3.so.0 \
+ /usr/lib/aarch64-linux-gnu/libweston-3.so.0.0.0 \
+ /usr/lib/aarch64-linux-gnu/libweston-3/drm-backend.so \
+ /usr/lib/aarch64-linux-gnu/libweston-3/gl-renderer.so \
+ /usr/lib/aarch64-linux-gnu/libweston-desktop-3.so.0 \
+ /usr/lib/aarch64-linux-gnu/libweston-desktop-3.so.0.0.0 \
+ /usr/bin/wcap-decode \
+ /usr/bin/weston \
+ /usr/bin/weston-info \
+ /usr/bin/weston-terminal \
+ /usr/share/wayland-sessions/weston.desktop \
+ /usr/share/weston/background.png \
+ /usr/share/weston/border.png \
+ /usr/share/weston/fullscreen.png \
+ /usr/share/weston/home.png \
+ /usr/share/weston/icon_editor.png \
+ /usr/share/weston/icon_flower.png \
+ /usr/share/weston/icon_ivi_clickdot.png \
+ /usr/share/weston/icon_ivi_flower.png \
+ /usr/share/weston/icon_ivi_simple-egl.png \
+ /usr/share/weston/icon_ivi_simple-shm.png \
+ /usr/share/weston/icon_ivi_smoke.png \
+ /usr/share/weston/icon_terminal.png \
+ /usr/share/weston/icon_window.png \
+ /usr/share/weston/panel.png \
+ /usr/share/weston/pattern.png \
+ /usr/share/weston/random.png \
+ /usr/share/weston/sidebyside.png \
+ /usr/share/weston/sign_close.png \
+ /usr/share/weston/sign_maximize.png \
+ /usr/share/weston/sign_minimize.png \
+ /usr/share/weston/terminal.png \
+ /usr/share/weston/tiling.png \
+ /usr/share/weston/wayland.png \
+ /usr/share/weston/wayland.svg \
+ /usr/lib/weston/weston-calibrator \
+ /usr/lib/weston/weston-clickdot \
+ /usr/lib/weston/weston-cliptest \
+ /usr/lib/weston/weston-dnd \
+ /usr/lib/weston/weston-eventdemo \
+ /usr/lib/weston/weston-flower \
+ /usr/lib/weston/weston-fullscreen \
+ /usr/lib/weston/weston-image \
+ /usr/lib/weston/weston-multi-resource \
+ /usr/lib/weston/weston-resizor \
+ /usr/lib/weston/weston-scaler \
+ /usr/lib/weston/weston-simple-egl \
+ /usr/lib/weston/weston-simple-shm \
+ /usr/lib/weston/weston-simple-touch \
+ /usr/lib/weston/weston-smoke \
+ /usr/lib/weston/weston-stacking \
+ /usr/lib/weston/weston-transformed \
+ /usr/lib/aarch64-linux-gnu/weston/desktop-shell.so \
+ /usr/lib/aarch64-linux-gnu/weston/fullscreen-shell.so \
+ /usr/lib/aarch64-linux-gnu/weston/hmi-controller.so \
+ /usr/lib/aarch64-linux-gnu/weston/ivi-shell.so \
+ /usr/lib/weston/weston-desktop-shell \
+ /usr/lib/weston/weston-ivi-shell-user-interface \
+ /usr/lib/weston/weston-keyboard \
+ /usr/lib/weston/weston-screenshooter \
+ /usr/lib/weston/weston-simple-im \
+ /etc/sysctl.conf \
+"
+SYSROOT_DIRS_BLACKLIST += " \
+        /usr/share/aclocal/libtool.m4 \
+        /usr/share/aclocal/ltargz.m4 \
+        /usr/share/aclocal/ltoptions.m4 \
+        /usr/share/aclocal/ltsugar.m4 \
+        /usr/share/aclocal/ltversion.m4 \
+        /usr/share/aclocal/lt~obsolete.m4 \
+        /usr/share/aclocal/ltdl.m4 \
+        /usr/share/libtool/ \
+        /usr/share/aclocal/pkg.m4 \
+"
+

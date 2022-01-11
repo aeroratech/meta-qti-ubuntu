@@ -15,6 +15,29 @@ APTCONF_TARGET = "${WORKDIR}"
 
 APT_ARGS = "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
 
+
+def get_package_mapping (pkg, basepkg, d, depversions=None):
+    import oe.packagedata
+
+    data = oe.packagedata.read_subpkgdata(pkg, d)
+    key = "PKG_%s" % pkg
+
+    if key in data:
+        # Have to avoid undoing the write_extra_pkgs(global_variants...)
+        if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
+            and data[key] == basepkg:
+            return pkg
+        # if depversions == []:
+        #     # Avoid returning a mapping if the renamed package rprovides its original name
+        #     rprovkey = "RPROVIDES_%s" % pkg
+        #     if rprovkey in data:
+        #         if pkg in bb.utils.explode_dep_versions2(data[rprovkey]):
+        #             bb.note("%s rprovides %s, not replacing the latter" % (data[key], pkg))
+        #             return pkg
+        # Do map to rewritten package name
+        return data[key]
+
+    return pkg
 def debian_arch_map(arch, tune):
     tune_features = tune.split()
     if arch == "allarch":
@@ -204,6 +227,7 @@ def deb_write_pkg(pkg, d):
         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
         debian_cmp_remap(rdepends)
         for dep in list(rdepends.keys()):
+                bb.note("%s,%s"%(dep,rdepends[dep]))
                 if dep == pkg:
                         del rdepends[dep]
                         continue
