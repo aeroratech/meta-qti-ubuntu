@@ -29,6 +29,7 @@ PACKAGES = "${UPN}-src ${UPN}-staticdev ${UPN}-dev ${UPN}-doc ${UPN}-locale ${PA
 PACKAGES_DYNAMIC = "^${UPN}-locale-.*"
 FILES = ""
 
+FILES_SOLIBSDEV ?= "${base_libdir}/lib*${SOLIBSDEV} ${libdir}/lib*${SOLIBSDEV}"
 FILES_${UPN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS} \
             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
             ${base_bindir}/* ${base_sbindir}/* \
@@ -41,27 +42,21 @@ FILES_${UPN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
             ${libdir}/bonobo/servers \
             ${libdir}/${UBUNTU_TARGET_ARCH}/* \
             ${exec_prefix}/${UBUNTU_TARGET_ARCH} \
-            ${base_libdir}/${UBUNTU_TARGET_ARCH}/*.so*"
-
-FILES_${UPN}-bin = "${bindir}/* ${sbindir}/*"
+            ${base_libdir}/${UBUNTU_TARGET_ARCH}/*.so* \
+            ${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
+            ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
+            ${datadir}/aclocal ${base_libdir}/*.o \
+            ${libdir}/${BPN}/*.la ${base_libdir}/*.la \
+            ${libdir}/cmake ${datadir}/cmake ${libdir}/* \
+            ${libdir}/*.a ${base_libdir}/*.a ${libdir}/${BPN}/*.a \
+            ${libdir}/${UBUNTU_TARGET_ARCH}/*.a ${base_libdir}/${UBUNTU_TARGET_ARCH}/*.a \
+            ${libdir}/${UBUNTU_TARGET_ARCH}/*.so*"
 
 FILES_${UPN}-doc = "${docdir} ${mandir} ${infodir} ${datadir}/gtk-doc \
             ${datadir}/gnome/help"
 SECTION_${UPN}-doc = "doc"
 
-FILES_SOLIBSDEV ?= "${base_libdir}/lib*${SOLIBSDEV} ${libdir}/lib*${SOLIBSDEV}"
-FILES_${UPN}-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
-                ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
-                ${datadir}/aclocal ${base_libdir}/*.o \
-                ${libdir}/${BPN}/*.la ${base_libdir}/*.la \
-                ${libdir}/cmake ${datadir}/cmake"
-SECTION_${UPN}-dev = "devel"
 ALLOW_EMPTY_${UPN}-dev = "1"
-RDEPENDS_${UPN}-dev = "${UPN} (= ${EXTENDPKGV})"
-
-FILES_${UPN}-staticdev = "${libdir}/*.a ${base_libdir}/*.a ${libdir}/${BPN}/*.a ${libdir}/${UBUNTU_TARGET_ARCH}/*.a ${base_libdir}/${UBUNTU_TARGET_ARCH}/*.a"
-SECTION_${UPN}-staticdev = "devel"
-RDEPENDS_${UPN}-staticdev = "${UPN}-dev (= ${EXTENDPKGV})"
 
 # TASK CONFIG
 do_unpack[dirs] = "${DEBOUT}"

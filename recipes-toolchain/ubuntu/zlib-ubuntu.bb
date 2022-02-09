@@ -13,3 +13,4 @@ SRC_URI[zlib1g.md5sum] = "8b5d376fa23b25fc3b0e95c21695b659"
 
 # other configs to feed compilation
 PKG_${UPN} ="zlib1g"
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "

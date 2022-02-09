@@ -11,4 +11,5 @@ SRC_URI[libdbus-dev.md5sum] = "49d6b7c6c1ee535e6c7ebde6052d1fd2"
 SRC_URI[libdbus.md5sum] = "9fde07fea7ff86f2030641bb69be011c"
 
 # other configs to feed compilation
-PKG_${UPN} = "libdbus"
+PKG_${UPN} = "libdbus-1-3"
+DEPENDS += "libtool-cross virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc expat virtual/libintl base-files shadow-sysroot shadow base-passwd libselinux systemd"

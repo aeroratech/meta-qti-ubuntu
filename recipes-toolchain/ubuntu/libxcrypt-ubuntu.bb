@@ -12,3 +12,5 @@ SRC_URI[libcrypt-dev.md5sum] = "e7b9c19b2315949aa7898e2cab9fd063"
 
 # other configs to feed compilation
 PROVIDES += "virtual/crypt"
+PKG_${UPN} = "libcrypt1"
+DEPENDS += "libtool-cross virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc " 

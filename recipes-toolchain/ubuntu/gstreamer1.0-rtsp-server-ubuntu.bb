@@ -16,3 +16,4 @@ SRC_URI[libgstrtspserver.md5sum] = "8affd1ea1a6e799c43e992138be183fa"
 
 # other configs to feed compilation
 PKG_${UPN} = "libgstrtspserver-1.0-0"
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc gstreamer1.0 iso-codes util-linux zlib gobject-introspection virtual/egl virtual/libgles2 jpeg libogg orc pango libpng libtheora libvorbis wayland wayland-protocols libdrm"

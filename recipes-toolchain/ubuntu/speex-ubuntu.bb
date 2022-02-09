@@ -20,3 +20,4 @@ SRC_URI[libspeexdsp-dev.md5sum] = "076924d87232df28a13ddbbf2c7f37a7"
 # other configs to feed compilation
 PKG_${UPN} = "libspeex1"
 PROVIDES += "speexdsp"
+DEPENDS += "libtool-cross virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc " 
