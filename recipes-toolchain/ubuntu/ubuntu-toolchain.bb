@@ -137,10 +137,6 @@ ALLOW_EMPTY_libffi = "1"
 ALLOW_EMPTY_libbsd = "1"
 ALLOW_EMPTY_libpthread-stubs = "1"
 ALLOW_EMPTY_pixman = "1"
-ALLOW_EMPTY_libinput = "1"
-ALLOW_EMPTY_libinput-dev = "1"
-ALLOW_EMPTY_mtdev = "1"
-ALLOW_EMPTY_mtdev-dev = "1"
 ALLOW_EMPTY_tcp-wrappers = "1"
 ALLOW_EMPTY_libwrap = "1"
 ALLOW_EMPTY_libwrap-dev = "1"
@@ -1039,22 +1035,6 @@ PROVIDES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gat
 PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
 PACKAGES_DYNAMIC += "^systemd-locale-.*"
 
-#libinput
-PACKAGES += "libinput  libinput-dev"
-PROVIDES += " libinput libinput-dev "
-
-RPROVIDES_libinput += " \
-                libinput \
-                libinput-dev \
-    	        libinput-bin \
-                "
-FILES_libinput += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libinput.* \
-"
-PKG_libinput ="libinput10"
-PKGV_libinput = "0"
-PKGR_libinput = "0"
-
 #libwacom
 PACKAGES += "libwacom libwacom-dev"
 PROVIDES += "libwacom libwacom-dev"
@@ -1068,20 +1048,6 @@ FILES_libwacom += " \
 PKG_libwacom ="libwacom2"
 PKGV_libwacom = "0"
 PKGR_libwacom = "0"
-
-#mtdev
-PACKAGES += "mtdev  mtdev-dev"
-PROVIDES += " mtdev mtdev-dev "
-RPROVIDES_mtdev += " \
-                mtdev \
-                mtdev-dev \
-                "
-FILES_mtdev += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libmtdev.* \
-"
-PKG_mtdev ="libmtdev1"
-PKGV_mtdev = "0"
-PKGR_mtdev = "0"
 
 #tcp-wrap
 PACKAGES += "tcp-wrappers libwrap libwrap-dev "

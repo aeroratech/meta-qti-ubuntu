@@ -26,6 +26,10 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libmtdev-dev \
+libmtdev1 \
+libinput10 \
+libinput-dev \
                                  libseccomp2 \
                                  seccomp \
                                  openssh-server \
@@ -181,10 +185,6 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libflac++-dev \
                              libasound2-plugins \
                              libevdev2 \
-                             libinput10 \
-                             libinput-dev \
-                             libmtdev1 \
-                             libmtdev-dev \
                              libwrap0 \
                              libwrap0-dev \
                              liba52-0.7.4 \
