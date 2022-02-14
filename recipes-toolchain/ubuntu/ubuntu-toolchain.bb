@@ -137,11 +137,6 @@ ALLOW_EMPTY_libffi = "1"
 ALLOW_EMPTY_libbsd = "1"
 ALLOW_EMPTY_libpthread-stubs = "1"
 ALLOW_EMPTY_pixman = "1"
-ALLOW_EMPTY_tcp-wrappers = "1"
-ALLOW_EMPTY_libwrap = "1"
-ALLOW_EMPTY_libwrap-dev = "1"
-ALLOW_EMPTY_liba52 = "1"
-ALLOW_EMPTY_liba52-dev = "1"
 ALLOW_EMPTY_libqhull = "1"
 ALLOW_EMPTY_libqhull-dev = "1"
 ALLOW_EMPTY_libcryptopp = "1"
@@ -1048,53 +1043,6 @@ FILES_libwacom += " \
 PKG_libwacom ="libwacom2"
 PKGV_libwacom = "0"
 PKGR_libwacom = "0"
-
-#tcp-wrap
-PACKAGES += "tcp-wrappers libwrap libwrap-dev "
-PROVIDES += "tcp-wrappers libwrap libwrap-dev"
-RPROVIDES_tcp-wrappers += " \
-                tcp-wrappers \
-                libwrap \
-                libwrap-dev \
-                "
-FILES_tcp-wrappers += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libwrap.* \
-"
-PKG_tcp-wrappers ="libwrap0"
-PKGV_tcp-wrappers = "0"
-PKGR_tcp-wrappers = "0"
-
-#libwrap
-#PACKAGES += "libwrap  libwrap-dev"
-#PROVIDES += "libwrap  libwrap-dev "
-#RPROVIDES_libwrap += " \
-#                libwrap \
-#                libwrap-dev \
-#                "
-#FILES_libwrap += " \
-#    ${libdir}/${UBUN_TARGET_SYS}/libwrap.* \
-#"
-#PKG_libwrap ="libwrap0"
-#PKGV_libwrap = "0"
-#PKGR_libwrap = "0"
-
-
-
-
-
-#liba52
-PACKAGES += "liba52 liba52-dev "
-PROVIDES += "liba52 liba52-dev "
-RPROVIDES_liba52 += " \
-                liba52 \
-                liba52-dev \
-                "
-FILES_liba52 += " \
-    ${libdir}/${UBUN_TARGET_SYS}/liba52*.* \
-"
-PKG_liba52 ="liba52-0.7.4"
-PKGV_liba52 = "0"
-PKGR_liba52 = "0"
 
 #libqhull
 PACKAGES += "libqhull libqhull-dev "
