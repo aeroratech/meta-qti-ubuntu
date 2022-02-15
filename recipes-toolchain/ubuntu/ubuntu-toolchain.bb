@@ -62,7 +62,6 @@ ALLOW_EMPTY_libcidn = "1"
 ALLOW_EMPTY_nscd = "1"
 ALLOW_EMPTY_catchsegv = "1"
 ALLOW_EMPTY_sln = "1"
-ALLOW_EMPTY_libunistring2 = "1"
 ALLOW_EMPTY_libitm-staticdev = "1"
 ALLOW_EMPTY_libatomic-staticdev = "1"
 ALLOW_EMPTY_libitm = "1"
@@ -137,11 +136,6 @@ ALLOW_EMPTY_libffi = "1"
 ALLOW_EMPTY_libbsd = "1"
 ALLOW_EMPTY_libpthread-stubs = "1"
 ALLOW_EMPTY_pixman = "1"
-ALLOW_EMPTY_libqhull = "1"
-ALLOW_EMPTY_libqhull-dev = "1"
-ALLOW_EMPTY_libcryptopp = "1"
-ALLOW_EMPTY_libcrypto++ = "1"
-ALLOW_EMPTY_libcrypto++-dev = "1"
 ALLOW_EMPTY_libwacom = "1"
 ALLOW_EMPTY_libwacom-dev = "1"
 ALLOW_EMPTY_libcroco = "1"
@@ -224,7 +218,6 @@ PROVIDES += "\
             mtd-utils-native \
             libpam \
             libxml2 \
-            libunistring2 \
             gcc-runtime \
             libgcov-dev \
             libg2c \
@@ -925,36 +918,7 @@ PKG_libsoup-2.4 ="libsoup2.4-1"
 PKGV_libsoup-2.4 = "0"
 PKGR_libsoup-2.4 = "0"
 
-#libunistring2
-PACKAGES += "libunistring libunistring-dev"
-PROVIDES += "libunistring libunistring-dev"
-RPROVIDES_libunistring += " \
-                libunistring \
-                libunistring-dev \
-                "
-FILES_libunistring += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libunistring.* \
-"
-PKG_libunistring ="libunistring2"
-PKGV_libunistring = "0"
-PKGR_libunistring = "0"
-
-#libidn2
-PACKAGES += "libidn2 libidn2-dev"
-PROVIDES += "libidn2 libidn2-dev"
-RPROVIDES_libidn2 += " \
-                libidn2 \
-                libidn2-dev \
-                "
-FILES_libidn2 += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libidn2.* \
-"
-PKG_libidn2 ="libidn2-0"
-PKGV_libidn2 = "0"
-PKGR_libidn2 = "0"
-
 ##libssl & openssl & libssl-dev
-
 PACKAGES += "openssl"
 PROVIDES += "openssl"
 RPROVIDES_openssl = "openssl openssl-bin liberation-fonts kbd"
@@ -1043,36 +1007,6 @@ FILES_libwacom += " \
 PKG_libwacom ="libwacom2"
 PKGV_libwacom = "0"
 PKGR_libwacom = "0"
-
-#libqhull
-PACKAGES += "libqhull libqhull-dev "
-PROVIDES += "libqhull libqhull-dev "
-RPROVIDES_libqhull += " \
-                libqhull \
-                libqhull-dev \
-                "
-FILES_libqhull += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libqhull*.* \
-"
-PKG_libqhull ="libqhull7"
-PKGV_libqhull = "0"
-PKGR_libqhull = "0"
-
-#libcryptopp
-PACKAGES += "libcryptopp libcrypto++  libcrypto++-dev"
-PROVIDES += "libcryptopp libcrypto++  libcrypto++-dev "
-RPROVIDES_libcryptopp += " \
-                libcrypto++ \
-                libcrypto++-dev \
-                libcryptopp \
-                "
-FILES_libcryptopp += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libcrypto++.* \
-	${libdir}/${UBUN_TARGET_SYS}/libcryptopp.* \
-"
-PKG_libcryptopp ="libcrypto++6"
-PKGV_libcryptopp = "0"
-PKGR_libcryptopp = "0"
 
 # libasound
 PACKAGES += "alsa-lib"
