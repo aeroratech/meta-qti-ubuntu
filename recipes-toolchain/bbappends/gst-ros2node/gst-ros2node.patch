@@ -1,0 +1,30 @@
+From 655d368dc6fdccbbebb84c2b1581b4d1ad854973 Mon Sep 17 00:00:00 2001
+From: chalia <quic_chalia@quicinc.com>
+Date: Tue, 11 Jan 2022 10:22:57 +0800
+Subject: [PATCH] add compilation flag and dependency for ros2-foxy support
+Signed-off-by: chalia <quic_chalia@quicinc.com>
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1178fc922..b5d6ba6f9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -26,6 +26,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-missing-field-initializers")
+ if (NOT GNU)
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c99-designator")
+ endif ()
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c99-designator")
+ 
+ if (ENABLE_LIBLOG)
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_LIBLOG")
+@@ -72,8 +73,11 @@ set(GSTREAMER
+ set(LIBTINYXML2-6 tinyxml2)
+ set(LIBPOCO-DEV PocoFoundation)
+ 
++set (ROS_FOXY 1)
+ if (ROS_FOXY)
+ set(ROS-DASHING
++  rosidl_runtime_c
++  rcpputils
+   rclcpp
+   rcutils
+   yaml
