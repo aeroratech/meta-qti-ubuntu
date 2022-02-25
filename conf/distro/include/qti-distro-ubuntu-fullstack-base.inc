@@ -60,6 +60,7 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # wayland:         Include the Wayland display server protocol
 # drm:             Use DRM display drivers, provided machine supports it
 # qwes             Enable qwes feature support
+# ros2-foxy:       Enable ros2 foxy
 
 DISTRO_FEATURES_append = " \
     opengl \
@@ -69,6 +70,7 @@ DISTRO_FEATURES_append = " \
     wayland \
     drm \
     qwesd \
+    ros2-foxy\
     "
 
 ## QTI defined distro features ##
