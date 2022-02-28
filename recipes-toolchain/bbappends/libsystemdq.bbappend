@@ -1,0 +1,8 @@
+#RDEPENDS_remove += "shadow"
+RDEPENDS_remove += "systemd-conf"
+#RDEPENDS_remove += "update-rc.d"
+RDEPENDS_remove += "util-linux-agetty"
+RDEPENDS_remove += "util-linux-fsck"
+RDEPENDS_remove += "util-linux-mount"
+RDEPENDS_remove += "util-linux-umount"
+do_package_qa[noexec] = "1"
