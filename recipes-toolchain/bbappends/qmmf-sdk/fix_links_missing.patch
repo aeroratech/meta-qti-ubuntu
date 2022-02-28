@@ -1,0 +1,27 @@
+From ce87b43a2c1796b8447c1e21ad3034eeeb70938f Mon Sep 17 00:00:00 2001
+From: chalia <quic_chalia@quicinc.com>
+Date: Mon, 24 Jan 2022 14:47:17 +0800
+Subject: [PATCH] fix_links_missing
+
+Change-Id: Ib77fae2b1ea07e9d34fe443d6d0c679952f32bce
+---
+ recorder/test/gtest/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/recorder/test/gtest/CMakeLists.txt b/recorder/test/gtest/CMakeLists.txt
+index c87502e9..fcc6db9b 100644
+--- a/recorder/test/gtest/CMakeLists.txt
++++ b/recorder/test/gtest/CMakeLists.txt
+@@ -34,7 +34,7 @@ target_include_directories(qmmf_recorder_gtest
+  PRIVATE ${TOP_DIRECTORY}/common/memory)
+ 
+ install(TARGETS qmmf_recorder_gtest DESTINATION bin OPTIONAL)
+-target_link_libraries(qmmf_recorder_gtest log cutils utils gtest gtest_main camera_metadata qmmf_recorder_client)
++target_link_libraries(qmmf_recorder_gtest log cutils utils gtest gtest_main camera_metadata qmmf_recorder_client pthread)
+ if(NOT CAMERA_CLIENT_DISABLED)
+-target_link_libraries(qmmf_recorder_gtest camera_client)
++target_link_libraries(qmmf_recorder_gtest camera_client pthread)
+ endif()
+-- 
+2.25.1
+
