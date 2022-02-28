@@ -1,3 +1,3 @@
 # config update-alternatives for logd
-require update-alternatives/logd.inc
+#require update-alternatives/logd.inc
 
