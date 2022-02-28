@@ -5,10 +5,10 @@ inherit update-alternatives-ubuntu
 ALTERNATIVE_PRIORITY_gbm = "100"
 
 # set update-alternatives register name for gbm package
-ALTERNATIVE_gbm = " gbm.h libgbm.so gbm.pc "
+ALTERNATIVE_gbm = "libgbm.so gbm.pc "
 
 # set update-alternatives symbolic link path and real target path for gbm package
-ALTERNATIVE_LINK_NAME[gbm.h] = "/usr/include/gbm.h"
+#ALTERNATIVE_LINK_NAME[gbm.h] = "/usr/include/gbm.h"
 
 ALTERNATIVE_LINK_NAME[libgbm.so] = "/usr/lib/aarch64-linux-gnu/libgbm.so"
 ALTERNATIVE_TARGET_gbm[libgbm.so] = "/usr/lib/libgbm.so"

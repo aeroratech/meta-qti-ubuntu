@@ -61,8 +61,8 @@ do_deb() {
 
    #Copy the ko module
    cd ${IMAGE_ROOTFS}/ 
-   cp --parents -av lib/modules/4.19*/extra ${MODULE_DEB}/
-   cp --parents -av lib/modules/4.19*/kernel ${MODULE_DEB}/
+   cp --parents -vr lib/modules/4.19*/extra ${MODULE_DEB}/
+   cp --parents -vr lib/modules/4.19*/kernel ${MODULE_DEB}/
 
    #Generate the control file which is used for DEBIAN
    touch ${MODULE_DEB}/DEBIAN/control
