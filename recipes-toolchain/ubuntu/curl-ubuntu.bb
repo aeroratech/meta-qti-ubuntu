@@ -16,3 +16,9 @@ SRC_URI[curl.md5sum] = "bcca1f1ae491a065f6f7b91fb3fd5ea7"
 
 # other configs to feed compilation
 #RPROVIDES_curl += "libcurl"
+PKG_${UPN} = "curl"
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc  gnutls libidn2 zlib"
+PROVIDES += "curl "
+
+#dependency for ubuntu
+DEPENDS += "openldap rtmpdump krb5"
