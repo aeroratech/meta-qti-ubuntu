@@ -24,8 +24,8 @@ LICENSE = "BSD-3-Clause & MIT"
 
 
 DEPENDS += "download-manager-native"
-require base-files-blacklist.inc
-require ubuntu-base-file-blacklist-alternative.inc
+require files-blacklist.inc
+#require ubuntu-base-file-blacklist-alternative.inc
 INHIBIT_SYSROOT_STRIP = "1"
 INHIBIT_DEFAULT_DEPS = "1"
 INHIBIT_PACKAGE_STRIP = "1"
@@ -1307,6 +1307,7 @@ PROVIDES += " libinput libinput-dev "
 RPROVIDES_libinput += " \
                 libinput \
                 libinput-dev \
+    	        libinput-bin \
                 "
 FILES_libinput += " \
     ${libdir}/${UBUN_TARGET_SYS}/libinput.* \

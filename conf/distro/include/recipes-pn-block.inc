@@ -23,7 +23,7 @@ PNBLACKLIST[usbutils] = "Using ubuntu toolchain"
 PNBLACKLIST[v86d] = "Using ubuntu toolchain"
 # recipes-devtools
 PNBLACKLIST[apt] = "Using ubuntu toolchain"
-PNBLACKLIST[autoconf-archive] = "Using ubuntu toolchain"
+#PNBLACKLIST[autoconf-archive] = "Using ubuntu toolchain"
 PNBLACKLIST[autoconf] = "Using ubuntu toolchain"
 PNBLACKLIST[automake] = "Using ubuntu toolchain"
 PNBLACKLIST[binutils-cross-canadian] = "Using ubuntu toolchain"

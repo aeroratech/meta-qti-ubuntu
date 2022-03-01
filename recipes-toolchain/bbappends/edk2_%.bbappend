@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_append := "${THISDIR}:${THISDIR}/edk2:"
   
-SRC_URI += "file://fix_strcnpy_error_with_ubuntu.patch"
+SRC_URI += "file://strcnpy_error_with_ubuntu.patch"
 
 PARALLEL_MAKE += "-j 1"
 
