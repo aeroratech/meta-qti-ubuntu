@@ -83,7 +83,6 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for vslam
 CORE_IMAGE_BASE_INSTALL += " \
             librealsense2 \
-            vslam \
             "
 
 #Install packages for imu-ros2node
