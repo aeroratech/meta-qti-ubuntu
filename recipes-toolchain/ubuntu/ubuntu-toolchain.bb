@@ -70,10 +70,8 @@ ALLOW_EMPTY_libitm-dev = "1"
 ALLOW_EMPTY_libgomp-staticdev = "1"
 ALLOW_EMPTY_libatomic = "1"
 ALLOW_EMPTY_libgomp = "1"
-ALLOW_EMPTY_libxml2 = "1"
 ALLOW_EMPTY_shadow = "1"
 ALLOW_EMPTY_libnl = "1"
-ALLOW_EMPTY_expat = "1"
 ALLOW_EMPTY_liblzma = "1"
 ALLOW_EMPTY_libpam = "1"
 ALLOW_EMPTY_libquadmath-staticdev = "1"
@@ -110,9 +108,6 @@ ALLOW_EMPTY_libasound2-plugins = "1"
 ALLOW_EMPTY_libevdev = "1"
 ALLOW_EMPTY_libpciacess = "1"
 ALLOW_EMPTY_libffi = "1"
-ALLOW_EMPTY_libbsd = "1"
-ALLOW_EMPTY_libpthread-stubs = "1"
-ALLOW_EMPTY_pixman = "1"
 ALLOW_EMPTY_libwacom = "1"
 ALLOW_EMPTY_libwacom-dev = "1"
 ALLOW_EMPTY_libcroco = "1"
@@ -137,7 +132,6 @@ ALLOW_EMPTY_json-c = "1"
 ALLOW_EMPTY_json-c-dev = "1"
 ALLOW_EMPTY_libssl1.0 = "1"
 ALLOW_EMPTY_libssl1.0-dev = "1"
-ALLOW_EMPTY_gdk-pixbuf = "1"
 
 # add opencv
 ALLOW_EMPTY_libopencv-dev = "1"
@@ -193,7 +187,6 @@ PROVIDES += "\
             libffi \
             mtd-utils-native \
             libpam \
-            libxml2 \
             gcc-runtime \
             libgcov-dev \
             libg2c \
@@ -473,60 +466,6 @@ FILES_libcap-ng += " \
 		 ${includedir}/video \
 		 ${includedir}/xen \
 "
-
-
-#libpixman-1
-PACKAGES += "pixman  pixman-dev"
-PROVIDES += "pixman pixman-dev"
-RPROVIDES_pixman += " \
-                pixman \
-                "
-FILES_pixman += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libpixman-1.* \
-"
-PKG_pixman ="libpixman-1-0"
-PKGV_pixman = "0"
-PKGR_pixman = "0"
-
-# libpthread-stubs
-
-PKG_libpthread-stubs = "libpthread-stubs0-dev"
-PKGR_libpthread-stubs = "0"
-PKGV_libpthread-stubs = "0"
-
-PACKAGES += " libpthread-stubs "
-PROVIDES += " libpthread-stubs "
-
-FILES_libpthread-stubs = "${libdir}/dummy"
-
-#libbsd
-
-PKG_libbsd = "libbsd0"
-PKGR_libbsd = "0"
-PKGV_libbsd = "0"
-PACKAGES += "\
-    libbsd \
-    libbsd-dev \
-"
-PROVIDES += "\
-    libbsd \
-    libbsd-dev \
-"
-RPROVIDES_libbsd += " \
-    libbsd \
-    libbsd-dev \
-    "
-
-FILES_libbsd = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0 \
-    ${libdir}/${UBUN_TARGET_SYS}/libbsd.so.0.8.7 \
-"
-FILES_libbsd-dev = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libbsd-ctor.a \
-    ${libdir}/${UBUN_TARGET_SYS}/libbsd.a \
-    ${libdir}/${UBUN_TARGET_SYS}/libbsd.so \
-    ${includedir}/bsd \
-"
 # libpciaccess
 PKG_libpciaccess = "libpciaccess0"
 PKGR_libpciaccess = "0"
@@ -644,22 +583,6 @@ RPROVIDES_libnl = " \
 PKGV_libnl = "3.2.29"
 PKGR_libnl = "0"
 PKG_libnl="libnl-3-dev"
-
-PACKAGES += "expat"
-FILES_expat += " \
-        ${libdir}/${UBUN_TARGET_SYS}/libexpat*.so*  \
-        ${base_libdir}/${UBUN_TARGET_SYS}/libexpat.so* \
-               "
-
-PROVIDES += " \
-            expat \
-            "
-RPROVIDES_expat += " \
-                expat \
-                "
-PKGV_expat = "2.2.5"
-PKGR_expat = "3"
-PKG_expat ="libexpat1"
 
 #  libsndfile1
 PACKAGES += "libsndfile1 libsndfile1-dev"
@@ -854,14 +777,6 @@ PKG_libssl1.1 = "libssl1.1"
 
 PKGR_libssl1.1 = "0"
 PKGV_libssl1.1 = "0"
-                   
-PACKAGES += "libxml2"
-FILES_libxml2 += "${libdir}/${UBUN_TARGET_SYS}/libxml2.so.2*"
-RPROVIDES_libxml2 = " \
-                    libxml2 \
-                   "
-PKGV_libxml2 = "2.8.4+dfsg1"
-PKGR_libxml2 = "6.1ubuntu1.2"          
 
 ALLOW_EMPTY_libselinux1 = "1"
 PACKAGES += "libselinux1"
@@ -1079,12 +994,6 @@ FILES_json-c += " \
 PKG_json-c ="libjson-c4"
 PKGV_json-c = "0"
 PKGR_json-c = "0"
-
-PROVIDES += "libpng"
-RPROVIDES_libpng = "libpng"
-FILES_libpng += "${libdir}/dummy"
-PKGR_libpng = "0"
-PKGV_libpng = "0"
 
 PROVIDES += "libxkbcommon"
 RPROVIDES_libxkbcommon = "libxkbcommon"
@@ -1410,39 +1319,6 @@ PKG_kmod = "libkmod-dev"
 PKGR_kmod = "0"
 PKGV_kmod = "0"
 
-#gdk-pixbuf
-ALLOW_EMPTY_gdk-pixbuf-bin = "1"
-ALLOW_EMPTY_gdk-pixbuf-xlib = "1"
-ALLOW_EMPTY_gdk-pixbuf-dev = "1"
-PACKAGES += "gdk-pixbuf"
-FILES_gdk-pixbuf += " \
-        ${libdir}/${UBUN_TARGET_SYS}/gdk-pixbuf-2.0/* \
-        ${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf* \
-        ${bindir}/gdk-pixbuf* \
-        "
-FILES_gdk-pixbuf-bin += " \
-        ${datadir}/thumbnailers/gdk-pixbuf-thumbnailer.thumbnailer \
-        "
-FILES_gdk-pixbuf-xlib += "${libdir}/${UBUN_TARGET_SYS}/libgdk_pixbuf_xlib*"
-FILES_gdk-pixbuf-dev += "${libdir}/dummy"
-
-PROVIDES += " \
-                gdk-pixbuf \
-            "
-
-RPROVIDES_gdk-pixbuf += " \
-            gdk-pixbuf \
-            gdk-pixbuf-doc \
-            gdk-pixbuf-staticdev \
-            gdk-pixbuf-locale \
-            gdk-pixbuf-dbg \
-            gdk-pixbuf-dev \
-            gdk-pixbuf-bin \
-            gdk-pixbuf-xlib \
-          "
-PKGV_gdk-pixbuf = "2.36.11"
-PKGR_gdk-pixbuf = "2"
-PKG_gdk-pixbuf ="libgdk-pixbuf2.0-0"
 
 UBUN_VER_MAIN ??= ""
 
