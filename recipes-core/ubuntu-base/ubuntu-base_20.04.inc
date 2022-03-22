@@ -18,6 +18,53 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libgfortran5 \
+libgfortran-10-dev \
+libtsan0 \
+libstdc++6 \
+libstdc++-10-dev \
+liblsan0 \
+libitm1 \
+libgomp1 \
+libatomic1 \
+libatomic-ops-dev \
+libtbb2 \
+libtbb-dev \
+libaudit1 \
+libauparse0 \
+libauparse-dev \
+libaudit-dev \
+python3-audit \
+libtirpc3 \
+libtirpc-dev \
+liblz4-1 \
+liblz4-dev \
+libconsole-bridge0.4 \
+libconsole-bridge-dev \
+libssh-4 \
+libssh-dev \
+libbrotli1 \
+python3-brotli \
+libbrotli-dev \
+libkmod2 \
+libkmod-dev \
+liborc-0.4-0 \
+liborc-0.4-dev \
+liborc-0.4-dev-bin \
+libcap-ng0 \
+libcap-ng-dev \
+python3-cap-ng \
+alsa-utils \
+libsbc1 \
+libsbc-dev \
+libasound2-plugins \
+libasound2 \
+libasound2-dev \
+libasound2-plugin-smixer \
+libatopology2 \
+libatopology-dev \
+libsepol1 \
+libsepol1-dev \
 libselinux1 \
 libselinux1-dev \
 python3-selinux \
@@ -101,8 +148,6 @@ iso-codes \
                                  vim \
 				 hostapd \
                                  apparmor \
-                                 libatomic1 \
-                                 libgomp1 \
                                  dnsmasq \
 				 iw \
                                  libion0 \
@@ -176,32 +221,11 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              gnupg2 \
                              weston \
                              libweston-8-0 \
-                             libitm1 \
-                             libtsan0 \
-                             liblsan0 \
                              libcc1-0 \
-                             libcap-ng0 \
-                             libcap-ng-dev \
-                             libatomic1 \
-                             libatomic-ops-dev \
-                             libvorbis0a \
-                             libvorbis-dev \
-                             libvorbisenc2 \
-                             libvorbisfile3 \
                              libspeexdsp1 \
                              libspeexdsp-dev \
                              libspeex1 \
                              libspeex-dev \
-                             libogg0 \
-                             libogg-dev \
-                             libsamplerate0 \
-                             libsamplerate0-dev \
-                             libsndfile1-dev \
-                             libsndfile1 \
-                             libflac8 \
-                             libflac++6v5 \
-                             libflac++-dev \
-                             libasound2-plugins \
                              libmtdev1 \
                              libmtdev-dev \
                              libwrap0 \
@@ -212,8 +236,6 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libqhull7 \
                              libcrypto++6 \
                              libcrypto++-dev \
-                             liborc-0.4-0 \
-                             liborc-0.4-dev \
                              linux-libc-dev \
                              "
 

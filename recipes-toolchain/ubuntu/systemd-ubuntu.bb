@@ -35,7 +35,7 @@ SRC_URI[systemd-sysv.md5sum] = "f99b837a47e6c73a384a2c23ebcdeb98"
 
 # other configs to feed compilation
 DEPENDS += "pkgconfig-native virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc gettext-minimal-native intltool-native gperf-native libcap util-linux perl-native base-files shadow-native shadow-sysroot shadow base-passwd python3-native  meson-native ninja-native bash-completion acl audit kmod libselinux xz virtual/update-alternatives systemd-systemctl-native"
-DEPENDS += "    libtool-cross      gmp"
+DEPENDS += "    libtool-cross      gmp lz4"
 
 #dependency for ubuntu
 DEPENDS += "libgcrypt20 "

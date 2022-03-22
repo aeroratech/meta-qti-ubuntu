@@ -17,5 +17,5 @@ SRC_URI[libselinux1.md5sum] = "27f6b805e67028b00a012663edfa198f"
 
 # other configs to feed compilation
 PKG_${UPN} = "libselinux1"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc  libsepol libpcre "
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc  libsepol libpcre libpcre2"
 PROVIDES += "libselinux "

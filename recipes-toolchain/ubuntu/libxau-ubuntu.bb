@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxau/libxau-de
 SRC_URI[libxau-dev.md5sum] = "289b8a8490eb702dafc76a96fadd0c5d"
 
 # other configs to feed compilation
-PKG_${UPN} = "libxau-dev"
+PKG_${UPN} = "libxau6"
 
 DEPENDS += "xorgproto virtual/libc"

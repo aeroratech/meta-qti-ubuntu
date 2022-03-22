@@ -18,8 +18,8 @@ python __anonymous (){
 # RECIPE CONFIG
 SYSROOT_DIRS += "${exec_prefix}/${UBUNTU_TARGET_ARCH}"
 DEPENDS_remove += "${BASEDEPENDS}"
-#PV = "0"
-#PR = "0"
+PV = "0"
+PR = "0"
 
 # PACKAGE CONFIG
 UBUNTU_TARGET_ARCH = "aarch64-linux-gnu"
@@ -81,14 +81,14 @@ python do_unpack(){
 do_install() {
     cp -r ${DEBOUT}/* ${D}/
     if [ -d ${D}/${exec_prefix}/${UBUN_TARGET_SYS}/include ];then
-        rm -rf ${D}/${exec_prefix}/${UBUN_TARGET_SYS}/include
+        #rm -rf ${D}/${exec_prefix}/${UBUN_TARGET_SYS}/include
         install -d ${D}${includedir}
         cp -r ${DEBOUT}${exec_prefix}/${UBUN_TARGET_SYS}/include/* ${D}${includedir}
     fi
     if [ -d ${D}/${exec_prefix}/${UBUN_TARGET_SYS}/lib ];then
-        rm -rf ${D}/${exec_prefix}/${UBUN_TARGET_SYS}/lib
+        #rm -rf ${D}/${exec_prefix}/${UBUN_TARGET_SYS}/lib
         install -d ${D}${libdir}
-        cp -r ${DEBOUT}${exec_prefix}/${UBUN_TARGET_SYS}/lib/* ${D}${libdir}
+        #cp -r ${DEBOUT}${exec_prefix}/${UBUN_TARGET_SYS}/lib/* ${D}${libdir}
     fi
 }
 
