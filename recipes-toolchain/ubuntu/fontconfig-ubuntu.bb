@@ -19,3 +19,5 @@ SRC_URI[libfontconfig1-dev.md5sum] = "5a34f5c3763d8e04f9737d25794e8872"
 PKG_${UPN} = "libfontconfig1-dev"
 
 DEPENDS += "expat freetype"
+PROVIDES += "fontconfig-utils"
+RPROVIDES_fontconfig += "fontconfig-utils kbd"
