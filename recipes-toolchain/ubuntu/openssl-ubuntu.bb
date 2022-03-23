@@ -17,6 +17,6 @@ SRC_URI[libssl1.1.md5sum] = "a038507108a3e8ee50853fedc2706c89"
 
 # other configs to feed compilation
 PKG_${UPN} = "openssl"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc"
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc"
 PROVIDES += "openssl "
 RPROVIDES_openssl += "openssl-bin"

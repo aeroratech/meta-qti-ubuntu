@@ -21,5 +21,5 @@ SRC_URI[libxkbcommon0.md5sum] = "ee3fb47cda03ac28702d90cdaf78d84d"
 
 # other configs to feed compilation
 PKG_${UPN} = "libxkbcommon0"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc util-macros  wayland wayland-protocols"
 PROVIDES += "libxkbcommon "
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc util-macros  wayland wayland-protocols"

@@ -4,9 +4,6 @@ UBUNTU_BASE_TAR="ubuntu-base-20.04.3-base-arm64.tar.gz"
 #Packages to ensure boot up and WLAN function
 UBUN_BASIC_PACKAGES = " systemd \
                         dhcpcd5 \
-                        libnl-3-dev \
-                        libnl-genl-3-dev \
-                        libnl-route-3-dev \
                         kmod \
                         inetutils-ping \
                         wget \
@@ -21,6 +18,19 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libselinux1 \
+libselinux1-dev \
+python3-selinux \
+libpcre3 \
+libpcre32-3 \
+libpcre16-3 \
+libpcre3-dev \
+libpcre2-8-0 \
+libpcre2-16-0 \
+libpcre2-32-0 \
+libpcre2-dev \
+liblzma5 \
+liblzma-dev \
 libffi-dev \
 libffi7 \
 libpthread-stubs0-dev \
@@ -96,8 +106,6 @@ iso-codes \
                                  dnsmasq \
 				 iw \
                                  libion0 \
-                                 libjsoncpp1 \
-                                 libjsoncpp-dev \
                                  libltdl7 \
                                  libltdl-dev \
                                  libext2fs-dev \
@@ -126,7 +134,6 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
 #video, camera packages
 UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              gstreamer1.0-gl \
-                             gir1.2-gstreamer-1.0 \
                              gstreamer1.0-gtk3 \
                              gstreamer1.0-plugins-bad \
                              gstreamer1.0-plugins-bad-dbg \
@@ -141,21 +148,17 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libgstreamer-plugins-bad1.0-0 \
                              libgstreamer-plugins-base1.0-0 \
                              libgstreamer-plugins-good1.0-0 \
-                             libgstreamer1.0-0 gstreamer1.0-libav \
                              gstreamer1.0-plugins-good \
                              gstreamer1.0-plugins-base \
                              gstreamer1.0-plugins-bad \
                              gstreamer1.0-rtsp \
                              libgstrtspserver-1.0-0 \
                              gstreamer1.0-libav \
-                             gstreamer1.0-tools \
                              libgstreamer-gl1.0-0 \
                              libidn2-0 \
                              libidn2-dev \
                              libunistring2 \
                              libunistring-dev \
-                             libnghttp2-14 \
-                             libpsl5 \
                              libk5crypto3 \
                              libcom-err2 \
                              libgssapi3-heimdal \
@@ -209,35 +212,8 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libqhull7 \
                              libcrypto++6 \
                              libcrypto++-dev \
-                             libcroco3 \
-                             libcroco3-dev \
-                             libgudev-1.0-0 \
-                             libgudev-1.0-dev \
-                             libid3tag0 \
-                             libid3tag0-dev \
-                             librsvg2-2 \
-                             librsvg2-dev \
-                             libsoup2.4-1 \
-                             libsoup2.4-dev \
                              liborc-0.4-0 \
                              liborc-0.4-dev \
-			     libtheora0 \
-                             libtheora-dev \
-                             liburcu6 \
-                             liburcu-dev \
-                             libwebp6 \
-                             libwebpdemux2 \
-                             libwebpmux3 \
-                             libwebp-dev \
-                             libmpg123-0 \
-                             libmpg123-dev \
-                             libout123-0 \
-                             libtag1v5-vanilla \
-                             libtagc0 \
-                             libtagc0-dev \
-                             libtag1-dev \
-                             libjson-c4 \
-                             libjson-c-dev \
                              linux-libc-dev \
                              "
 

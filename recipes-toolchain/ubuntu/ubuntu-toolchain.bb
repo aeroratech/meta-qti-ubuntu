@@ -70,10 +70,6 @@ ALLOW_EMPTY_libitm-dev = "1"
 ALLOW_EMPTY_libgomp-staticdev = "1"
 ALLOW_EMPTY_libatomic = "1"
 ALLOW_EMPTY_libgomp = "1"
-ALLOW_EMPTY_shadow = "1"
-ALLOW_EMPTY_libnl = "1"
-ALLOW_EMPTY_liblzma = "1"
-ALLOW_EMPTY_libpam = "1"
 ALLOW_EMPTY_libquadmath-staticdev = "1"
 ALLOW_EMPTY_libmudflap-dev = "1"
 ALLOW_EMPTY_libquadmath = "1"
@@ -87,7 +83,6 @@ ALLOW_EMPTY_libg2c-dev = "1"
 ALLOW_EMPTY_libssp = "1"
 ALLOW_EMPTY_libstdc++-precompile-dev = "1"
 ALLOW_EMPTY_libstdc++-staticdev = "1"
-ALLOW_EMPTY_udev = "1"
 ALLOW_EMPTY_libcap-ng = "1"
 ALLOW_EMPTY_libcap-ng-dev = "1"
 ALLOW_EMPTY_libogg = "1"
@@ -104,28 +99,8 @@ ALLOW_EMPTY_libflac++-dev = "1"
 ALLOW_EMPTY_liboggflac = "1"
 ALLOW_EMPTY_liboggflac++ = "1"
 ALLOW_EMPTY_libasound2-plugins = "1"
-ALLOW_EMPTY_libwacom = "1"
-ALLOW_EMPTY_libwacom-dev = "1"
-ALLOW_EMPTY_libcroco = "1"
-ALLOW_EMPTY_libgudev = "1"
-ALLOW_EMPTY_libid3tag = "1"
-ALLOW_EMPTY_librsvg = "1"
-ALLOW_EMPTY_libsoup-2.4 = "1"
 ALLOW_EMPTY_attr = "1"
 
-
-ALLOW_EMPTY_libtheora = "1"
-ALLOW_EMPTY_libtheora-dev = "1"
-ALLOW_EMPTY_liburcu = "1"
-ALLOW_EMPTY_liburcu-dev = "1"
-ALLOW_EMPTY_libwebp = "1"
-ALLOW_EMPTY_libwebp-dev = "1"
-ALLOW_EMPTY_mpg123 = "1"
-ALLOW_EMPTY_mpg123-dev = "1"
-ALLOW_EMPTY_taglib = "1"
-ALLOW_EMPTY_taglib-dev = "1"
-ALLOW_EMPTY_json-c = "1"
-ALLOW_EMPTY_json-c-dev = "1"
 
 
 PV = "0"
@@ -148,8 +123,8 @@ PROVIDES += "\
             e2fsprogs-native \
             nativesdk-libarchive \
             mtd-utils-native \
-            libpam \
             gcc-runtime \
+	    libpam \
             libgcov-dev \
             libg2c \
             libg2c-dev \
@@ -245,9 +220,9 @@ do_install(){
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/*.o ${D}${base_libdir}
      cp ${CP_ARGS} -H ${D}${libdir}/${UBUN_TARGET_SYS}/*.o ${D}${base_libdir}
 
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
+     #cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
+     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
      rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
@@ -255,11 +230,9 @@ do_install(){
      cp ${CP_ARGS} -H ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
      ln -sf ./libstdc++.so.6.0.28 ${D}/${libdir}/aarch64-linux-gnu/libstdc++.so
      ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
-     ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
+     #cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
+     #ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
 
-     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-     ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
 
     cp ${WORKSPACE}/OTA/device/qcom/common/releasetools.py ${D}${datadir}/
 
@@ -360,31 +333,6 @@ FILES_orc += " \
 PKG_orc ="liborc-0.4-0"
 PKGV_orc = "0"
 PKGR_orc = "0"
-#  libjsoncpp libjsoncpp-dev
-PKG_jsoncpp = "libjsoncpp1"
-PKGR_jsoncpp = "0"
-PKGV_jsoncpp = "0"
-PACKAGES += "\
-            jsoncpp \
-            jsoncpp-dev \
-            libjsoncpp-dev \
-"
-PROVIDES += "\
-            jsoncpp \
-            jsoncpp-dev \
-            libjsoncpp \
-            libjsoncpp-dev \
-"
-RPROVIDES_jsoncpp += "\
-            jsoncpp \
-            jsoncpp-dev \
-            libjsoncpp \
-            libjsoncpp-dev \
-"
-FILES_jsoncpp += " \
-         ${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.so.* \
-         ${libdir}/${UBUN_TARGET_SYS}/libjsoncpp.a \
-"
 #  libcap-ng
 PACKAGES += "\
             libcap-ng \
@@ -412,76 +360,6 @@ FILES_libcap-ng += " \
 		 ${includedir}/video \
 		 ${includedir}/xen \
 "
-#  libpam
-PACKAGES += "libpam"
-FILES_libpam += "${libdir}/dummy"
-RPROVIDES_libpam = " \
-                    libpam \
-                    pam-plugin-group pam-plugin-motd pam-plugin-mail pam-plugin-shells pam-plugin-nologin pam-plugin-rootok pam-plugin-env \
-                    pam-plugin-limits pam-plugin-faildelay pam-plugin-securetty libpam-runtime pam-plugin-lastlog \
-                   "
-
-PACKAGES += "shadow"
-FILES_shadow += "${libdir}/dummy"
-PROVIDES += "shadow"
-RPROVIDES_shadow = " \
-                    shadow \
-                    shadow-dbg \
-                    shadow-locale \
-                    shadow-staticdev \
-                    shadow-base \
-                    shadow-doc \
-                    shadow-native \
-                   "
-PKG_shadow = "passwd"
-PKGR_shadow = "0"
-PKGV_shadow = "0"
-                   
-PACKAGES += "libnl"
-FILES_libnl += "${base_libdir}/${UBUN_TARGET_SYS}/libnl-*.so.*"
-PROVIDES += " \
-            libnl \
-            libnl-dev \
-            libnl-dbg \
-            libnl-doc \
-            libnl-xfrm \
-            libnl-genl \
-            libnl-nf \
-            libnl-locale \
-            libnl-staticdev \
-            libnl-cli \
-            libnl-route \
-            libnl-idiag \
-            "
-RPROVIDES_libnl = " \
-                  libnl \
-                  libnl-dev \
-                  libnl-dbg \
-                  libnl-doc \
-                  libnl-xfrm \
-                  libnl-genl \
-                  libnl-nf \
-                  libnl-locale \
-                  libnl-staticdev \
-                  libnl-cli \
-                  libnl-route \
-                  libnl-idiag \
-                  "
-PKGV_libnl = "3.2.28"
-PKGR_libnl = "0"
-PKG_libnl="libnl-3-dev"
-
-PACKAGES += "libnl-route"
-FILES_libnl += "${libdir}/${UBUN_TARGET_SYS}/libnl-*.so.*"
-PROVIDES += " \
-            libnl-route \
-            "
-RPROVIDES_libnl = " \
-                  libnl-route \
-                  "
-PKGV_libnl = "3.2.29"
-PKGR_libnl = "0"
-PKG_libnl="libnl-3-dev"
 
 #  libsndfile1
 PACKAGES += "libsndfile1 libsndfile1-dev"
@@ -567,124 +445,6 @@ PKGV_libasound2-plugins = "0"
 PKGR_libasound2-plugins = "0"
 
 
-PACKAGES += "liblzma"
-FILES_liblzma += " \
-        ${libdir}/${UBUN_TARGET_SYS}/liblzma*.so*  \
-               "
-
-PROVIDES += " \
-            liblzma \
-            xz \
-            xz-dev \
-            "
-RPROVIDES_liblzma += " \
-                liblzma \
-                xz \
-                xz-dev \
-                "
-PKGV_liblzma = "5.2.2"
-PKGR_liblzma = "1"
-PKG_liblzma ="liblzma5"
-
-PKGV_xz = "5.2.2"
-PKGR_xz = "1"
-PKG_xz ="xz"
-
-#libcroco
-PACKAGES += "libcroco  libcroco-dev"
-PROVIDES += " libcroco libcroco-dev "
-RPROVIDES_libcroco += " \
-                libcroco \
-                libcroco-dev \
-                "
-FILES_libcroco += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libcroco-0.6.* \
-"
-PKG_libcroco ="libcroco3"
-PKGV_libcroco = "0"
-PKGR_libcroco = "0"
-
-#libgudev
-PACKAGES += "libgudev libgudev-dev"
-PROVIDES += "libgudev libgudev-dev "
-RPROVIDES_libgudev += " \
-                libgudev \
-                libgudev-dev \
-                "
-FILES_libgudev += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libgudev-1.0.* \
-"
-PKG_libgudev ="libgudev-1.0-0"
-PKGV_libgudev = "0"
-PKGR_libgudev = "0"
-
-#libid3tag
-PACKAGES += "libid3tag libid3tag-dev"
-PROVIDES += " libid3tag libid3tag-dev "
-RPROVIDES_libid3tag += " \
-                libid3tag \
-                libid3tag-dev \
-                "
-FILES_libid3tag += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libid3tag.so* \
-"
-PKG_libid3tag ="libid3tag0"
-PKGV_libid3tag = "0"
-PKGR_libid3tag = "0"
-
-#librsvg
-PACKAGES += "librsvg  librsvg-dev"
-PROVIDES += " librsvg librsvg-dev "
-RPROVIDES_librsvg += " \
-                librsvg \
-                librsvg-dev \
-                "
-FILES_librsvg += " \
-    ${libdir}/${UBUN_TARGET_SYS}/librsvg-2.so* \
-"
-PKG_librsvg ="librsvg2-2"
-PKGV_librsvg = "0"
-PKGR_librsvg = "0"
-
-#libsoup-2.4
-PACKAGES += "libsoup-2.4 libsoup-2.4-dev"
-PROVIDES += "libsoup-2.4 libsoup-2.4-dev "
-RPROVIDES_libsoup-2.4 += " \
-                libsoup-2.4 \
-                libsoup-2.4-dev \
-                "
-FILES_libsoup-2.4 += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libsoup-2.4.* \
-"
-PKG_libsoup-2.4 ="libsoup2.4-1"
-PKGV_libsoup-2.4 = "0"
-PKGR_libsoup-2.4 = "0"
-
-ALLOW_EMPTY_libselinux1 = "1"
-PACKAGES += "libselinux1"
-FILES_libselinux1 += "${libdir}/${UBUN_TARGET_SYS}/libselinux.so.* "
-PROVIDES += " \
-        libselinux \
-        libsemanage \
-            "
-RPROVIDES_libselinux1 = " \
-        libselinux \
-        libsemanage \
-                   "
-PKGV_libselinux1 = "2.6.9"
-
-ALLOW_EMPTY_libpcre3 = "1"
-PACKAGES += "libpcre3"
-FILES_libpcre3 += "${libdir}/dummy"
-PROVIDES += " \
-            libpcre \
-            "
-RPROVIDES_libpcre3 = " \
-                   libpcre \
-                   "
-PKGV_libpcre3 = "2:8.38"
-
-
 PROVIDES += "\
             nativesdk-qemu \
             nativesdk-qemu-helper \
@@ -701,20 +461,6 @@ PROVIDES += "\
             qemuwrapper-cross-doc \
             "
 
-#libwacom
-PACKAGES += "libwacom libwacom-dev"
-PROVIDES += "libwacom libwacom-dev"
-RPROVIDES_libwacom += " \
-                libwacom \
-                libwacom-dev \
-                "
-FILES_libwacom += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libwacom.* \
-"
-PKG_libwacom ="libwacom2"
-PKGV_libwacom = "0"
-PKGR_libwacom = "0"
-
 # libasound
 PACKAGES += "alsa-lib"
 PROVIDES += "alsa-lib"
@@ -728,35 +474,6 @@ RPROVIDES_alsa-lib += " \
 PKGV_alsa-lib = "0"
 PKGR_alsa-lib = "0"
 PKG_alsa-lib = "libasound2"
-
-#libtheora
-PACKAGES += "libtheora libtheora-dev"
-PROVIDES += "libtheora libtheora-dev "
-RPROVIDES_libtheora += " \
-                libtheora \
-                libtheora-dev \
-                "
-FILES_libtheora += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libtheora.* \
-    ${libdir}/${UBUN_TARGET_SYS}/libtheoradec.* \
-"
-PKG_libtheora ="libtheora0"
-PKGV_libtheora = "0"
-PKGR_libtheora = "0"
-
-#liburcu
-PACKAGES += "liburcu liburcu-dev"
-PROVIDES += "liburcu liburcu-dev "
-RPROVIDES_liburcu += " \
-                liburcu \
-                liburcu-dev \
-                "
-FILES_liburcu += " \
-    ${libdir}/${UBUN_TARGET_SYS}/liburcu*.* \
-"
-PKG_libgudev ="liburcu6"
-PKGV_libgudev = "0"
-PKGR_libgudev = "0"
 
 #alsa-utils
 PACKAGES += "alsa-utils"
@@ -799,51 +516,6 @@ PKGR_alsa-utils = "0"
 PKGV_alsa-utils = "0"
 
 
-#libwebp
-PACKAGES += "libwebp libwebp-dev"
-PROVIDES += "libwebp libwebp-dev "
-RPROVIDES_libwebp += " \
-                libwebp \
-                libwebp-dev \
-                "
-FILES_libwebp += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libwebp.* \
-    ${libdir}/${UBUN_TARGET_SYS}/libwebpdemux.* \
-    ${libdir}/${UBUN_TARGET_SYS}/libwebpmux.* \
-"
-PKG_libwebp ="libwebp6"
-PKGV_libwebp = "0"
-PKGR_libwebp = "0"
-
-#mpg123
-PACKAGES += "mpg123 mpg123-dev"
-PROVIDES += "mpg123 mpg123-dev "
-RPROVIDES_mpg123 += " \
-                mpg123 \
-                mpg123-dev \
-                "
-FILES_mpg123 += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libmpg123.* \
-    ${libdir}/${UBUN_TARGET_SYS}/libout123.* \
-"
-PKG_mpg123 ="libmpg123-0"
-PKGV_mpg123 = "0"
-PKGR_mpg123 = "0"
-
-#taglib
-PACKAGES += "taglib taglib-dev"
-PROVIDES += "taglib taglib-dev "
-RPROVIDES_taglib += " \
-                taglib \
-                taglib-dev \
-                "
-FILES_taglib += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libtag.* \
-    ${libdir}/${UBUN_TARGET_SYS}/libtag_c.* \
-"
-PKG_taglib ="libtag1v5-vanilla"
-PKGV_taglib = "0"
-PKGR_taglib = "0"
 #sbc
 PACKAGES += "libsbc1 libsbc-dev sbc"
 PROVIDES += "libsbc1 libsbc-dev sbc"
@@ -862,20 +534,6 @@ FILES_sbc += "\
 PKG_sbc = "libsbc-dev"
 PKGR_sbc = "0"
 PKGV_sbc = "0"
-
-#json-c
-PACKAGES += "json-c json-c-dev"
-PROVIDES += "json-c json-c-dev "
-RPROVIDES_json-c += " \
-                json-c \
-                json-c-dev \
-                "
-FILES_json-c += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libjson-c.* \
-"
-PKG_json-c ="libjson-c4"
-PKGV_json-c = "0"
-PKGR_json-c = "0"
 
 #  version control
 PKGV_libasan-dev = "${UBUN_VER_GCC}"
@@ -1014,22 +672,6 @@ FILES_libitm-dev = "\
 SUMMARY_libitm-dev = "GNU transactional memory support library - development files"
 FILES_libitm-staticdev = "${libdir}/libitm.a"
 SUMMARY_libitm-staticdev = "GNU transactional memory support library - static development files"
-
-PACKAGES += "gstreamer1.0"
-FILES_gstreamer1.0 = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libgstbase-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstcheck-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstcontroller-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstnet-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstreamer-1.0.so.0* \
-"
-SUMMARY_gstreamer1.0 = "Core GStreamer libraries and elements"
-PROVIDES += "gstreamer1.0"
-RPROVIDES_gstreamer1.0 = "libgstreamer1.0-0"
-PKG_gstreamer1.0 = "libgstreamer1.0-0"
-PKGV_gstreamer1.0 = "1.16.2"
-PKGR_gstreamer1.0 = "0"
-ALLOW_EMPTY_gstreamer1.0 = "1"
 
 PACKAGES += "libconsole-bridge libconsole-bridge-dev"
 PROVIDES += "libconsole-bridge libconsole-bridge-dev"

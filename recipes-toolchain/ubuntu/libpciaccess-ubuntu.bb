@@ -13,5 +13,5 @@ SRC_URI[libpciaccess0.md5sum] = "04829f610086417a8f80c664d36254db"
 
 # other configs to feed compilation
 PKG_${UPN} = "libpciaccess0"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc util-macros"
 PROVIDES += "libpciaccess "
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc util-macros"

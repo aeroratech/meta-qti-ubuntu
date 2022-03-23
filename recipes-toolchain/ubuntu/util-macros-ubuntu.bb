@@ -9,6 +9,6 @@ SRC_URI[xutils-dev.md5sum] = "bfa738f4cc66fbcf9973816b7699d926"
 
 # other configs to feed compilation
 PKG_${UPN} = "xutils-dev"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc "
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
 PROVIDES += "util-macros "
 #RDEPENDS_${UPN} += "util-macros "

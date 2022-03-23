@@ -17,5 +17,5 @@ SRC_URI[sqlite3.md5sum] = "4562b243380e3aae3eb5df8014f2220f"
 
 # other configs to feed compilation
 #PKG_${UPN} = "sqlite3"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc "
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
 PROVIDES += "sqlite3"
