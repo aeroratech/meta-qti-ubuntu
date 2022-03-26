@@ -1,13 +1,25 @@
 # use update-alternatives mechanism
-inherit update-alternatives-ubuntu
+inherit update-alternatives-ubuntu_v2
 
-# set update-alternatives priority for slang package
+# set update-alternatives priority for "slang" package
 ALTERNATIVE_PRIORITY_slang = "100"
 
-# set update-alternatives register name for slang package
-ALTERNATIVE_slang = "slsh.rc slsh histogram-module.so arrayfuns.sl autoload.sl base64.sl chksum.sl cool.map coolwarm.map copper.map cubicl.map cubicyf.map drywet.map ds9b.map ds9sls.map edge.map gebco.map globe.map gray.map haxby.map hot.map jet.map no_green.map ocean.map polar.map rainbow.map red2green.map relief.map sealand.map seis.map split.map topo.map wysiwyg.map cmdopt.sl csv.sl fcntl.sl fork.sl fswalk.sl glob.sl arrayfuns.hlp base64funs.hlp chksumfuns.hlp cmdopt.hlp csvfuns.hlp forkfuns.hlp fswalk.hlp glob.hlp histfuns.hlp jsonfuns.hlp listfuns.hlp onigfuns.hlp pcrefuns.hlp pngfuns.hlp print.hlp process.hlp profile.hlp randfuns.hlp readascii.hlp require.hlp setfuns.hlp slsmg.hlp sockfuns.hlp statsfuns.hlp structfuns.hlp histogram.sl iconv.sl json.sl listfuns.sl onig.sl pcre.sl png.sl print.sl process.sl profile.sl rand.sl readascii.sl require.sl complete.sl editfuns.sl editor.sl emacskeys.sl history.sl histsrch.sl slrline.rc vikeys.sl jpegsize lsrpm sldb slprof slstkchk svnsh select.sl setfuns.sl sldb.sl sldbcore.sl sldbsock.sl slshhelp.sl slshrl.sl slsmg.sl socket.sl stats.sl stkcheck.sl structfuns.sl sysconf.sl termios.sl varray.sl zlib.sl"
+# set update-alternatives register name for "slang" package
+ALTERNATIVE_slang = " varray-module.so sysconf-module.so fork-module.so csv-module.so slsh.rc slsh histogram-module.so arrayfuns.sl autoload.sl base64.sl chksum.sl cool.map coolwarm.map copper.map cubicl.map cubicyf.map drywet.map ds9b.map ds9sls.map edge.map gebco.map globe.map gray.map haxby.map hot.map jet.map no_green.map ocean.map polar.map rainbow.map red2green.map relief.map sealand.map seis.map split.map topo.map wysiwyg.map cmdopt.sl csv.sl fcntl.sl fork.sl fswalk.sl glob.sl arrayfuns.hlp base64funs.hlp chksumfuns.hlp cmdopt.hlp csvfuns.hlp forkfuns.hlp fswalk.hlp glob.hlp histfuns.hlp jsonfuns.hlp listfuns.hlp onigfuns.hlp pcrefuns.hlp pngfuns.hlp print.hlp process.hlp profile.hlp randfuns.hlp readascii.hlp require.hlp setfuns.hlp slsmg.hlp sockfuns.hlp statsfuns.hlp structfuns.hlp histogram.sl iconv.sl json.sl listfuns.sl onig.sl pcre.sl png.sl print.sl process.sl profile.sl rand.sl readascii.sl require.sl complete.sl editfuns.sl editor.sl emacskeys.sl history.sl histsrch.sl slrline.rc vikeys.sl jpegsize lsrpm sldb slprof slstkchk svnsh select.sl setfuns.sl sldb.sl sldbcore.sl sldbsock.sl slshhelp.sl slshrl.sl slsmg.sl socket.sl stats.sl stkcheck.sl structfuns.sl sysconf.sl termios.sl varray.sl zlib.sl"
 
-# set update-alternatives symbolic link path and real target path for slang package
+# set update-alternatives symbolic link path or real target path for "slang" package
+QTI_SEPECIFIC_LINK[fork-module.so] = "/usr/lib/slang/v2/modules/fork-module.so"
+ALTERNATIVE_LINK_NAME[fork-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/fork-module.so"
+
+QTI_SEPECIFIC_LINK[varray-module.so] = "/usr/lib/slang/v2/modules/varray-module.so"
+ALTERNATIVE_LINK_NAME[varray-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/varray-module.so"
+
+QTI_SEPECIFIC_LINK[sysconf-module.so] = "/usr/lib/slang/v2/modules/sysconf-module.so"
+ALTERNATIVE_LINK_NAME[sysconf-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/sysconf-module.so"
+
+QTI_SEPECIFIC_LINK[csv-module.so] = "/usr/lib/slang/v2/modules/csv-module.so"
+ALTERNATIVE_LINK_NAME[csv-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/csv-module.so"
+
 ALTERNATIVE_LINK_NAME[slsh.rc] = "/etc/slsh.rc"
 
 ALTERNATIVE_LINK_NAME[slsh] = "/usr/bin/slsh"
@@ -221,4 +233,7 @@ ALTERNATIVE_LINK_NAME[termios.sl] = "/usr/share/slsh/termios.sl"
 ALTERNATIVE_LINK_NAME[varray.sl] = "/usr/share/slsh/varray.sl"
 
 ALTERNATIVE_LINK_NAME[zlib.sl] = "/usr/share/slsh/zlib.sl"
+
+# set FILES for "slang" package
+FILES_slang += " /usr/lib/slang/v2/modules/fork-module.so /usr/lib/slang/v2/modules/varray-module.so /usr/lib/slang/v2/modules/sysconf-module.so /usr/lib/slang/v2/modules/csv-module.so"
 
