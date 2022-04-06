@@ -27,9 +27,9 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-ss-mgr \
             "
 #Install packages for wlan
-CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-wifi \
-            "
+#CORE_IMAGE_BASE_INSTALL += " \
+#            packagegroup-qti-wifi \
+#            "
 #Install packages for OTA
 CORE_IMAGE_BASE_INSTALL += " \
             recovery-ab \
