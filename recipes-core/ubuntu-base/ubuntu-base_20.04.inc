@@ -18,6 +18,13 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libdrm2 \
+libdrm-freedreno1 \
+libdrm-dev \
+gobject-introspection \
+gir1.2-glib-2.0 \
+libgirepository-1.0-1 \
+libgirepository1.0-dev \
 libgfortran5 \
 libgfortran-10-dev \
 libtsan0 \

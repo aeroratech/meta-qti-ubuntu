@@ -11,6 +11,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/a/acl/libacl1-dev_2.2
 SRC_URI[libacl1-dev.md5sum] = "b19d520d78eee168092795fd64fbfc4d"
 
 # other configs to feed compilation
-PKG_${UPN} = "libacl1-dev"
+PKG_${UPN} = "libacl1"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc attr"
 PROVIDES += "acl "

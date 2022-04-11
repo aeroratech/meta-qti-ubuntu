@@ -196,6 +196,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxcb/libxcb-xk
 SRC_URI[libxcb-xkb-dev.md5sum] = "65db77613180f75031165f35f4080347"
 
 # other configs to feed compilation
-PKG_${UPN} = "libxcb1-dev"
+PKG_${UPN} = "libxcb1"
 
 DEPENDS += "libpthread-stubs libxau libxdmcp"

@@ -9,5 +9,6 @@ SRC_URI[libatomic-ops-dev.md5sum] = "f3734131dbae295d2bd5258340485763"
 
 # other configs to feed compilation
 PKG_${UPN} = "libatomic-ops-dev"
+PACKAGES_remove = "libatomic-ops-dev"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
-PROVIDES += "libatomic-ops  libatomics-ops"
+PROVIDES += "libatomics-ops"
