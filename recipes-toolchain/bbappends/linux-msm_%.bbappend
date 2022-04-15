@@ -9,6 +9,18 @@ SRC_URI += "file://lunch-make-scripts file://lunch-make-scripts.service"
 CP_ARGS = "-Prfd --preserve=mode,timestamps --no-preserve=ownership"
 H = "${WORKDIR}/header"
 
+DEPENDS_remove = "llvm-arm-toolchain-native clang-native"
+TOOLCHAIN = "gcc"
+RUNTIME = ''
+KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+
+do_generate_defconfig () {
+        ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} REAL_CC="${CCACHE}${HOST_PREFIX}gcc ${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+        LD=${CCACHE}${HOST_PREFIX}ld KERN_OUT=${STAGING_KERNEL_BUILDDIR} \
+        ${STAGING_KERNEL_DIR}/scripts/gki/generate_defconfig.sh ${KERNEL_CONFIG}
+}
+do_configure[prefuncs] += "${@oe.utils.conditional('DYNAMIC_DEFCONFIG', 'True', 'do_generate_defconfig', '', d)}"
+
 do_shared_workdir_append_qrb5165 () {
 	mkdir -p ${H}
 	make_header ${H} ${S} ${B}
