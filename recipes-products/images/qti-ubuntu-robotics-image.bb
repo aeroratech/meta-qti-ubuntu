@@ -54,7 +54,6 @@ CORE_IMAGE_BASE_INSTALL += " \
             "
 #Install packages for video
 CORE_IMAGE_BASE_INSTALL += " \
-	    mm-video-noship \
 	    packagegroup-qti-video \	
             ${@bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf",  "packagegroup-qti-gst", "", d)} \
 	    "

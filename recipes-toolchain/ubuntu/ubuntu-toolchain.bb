@@ -67,7 +67,6 @@ PROVIDES += "\
             virtual/${TARGET_PREFIX}binutils \
             binutils-cross-${TARGET_ARCH} \
             libarchive-native \
-            e2fsprogs-native \
             nativesdk-libarchive \
             mtd-utils-native \
             attr \
@@ -146,10 +145,10 @@ do_install(){
 #     cp ${CP_ARGS} -H ${D}${libdir}/${UBUN_TARGET_SYS}/*.o ${D}${base_libdir}
 
      #cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
+#     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
      #cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
-     rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
+#     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
+#     rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
 #     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
 #     cp ${CP_ARGS} -H ${D}${includedir}/c++/10/* ${D}${includedir}/c++/
 #     cp ${CP_ARGS} -H ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
@@ -230,61 +229,6 @@ PROVIDES += "\
             qemuwrapper-cross-locale \
             qemuwrapper-cross-doc \
             "
-PACKAGES += "gstreamer1.0-plugins-base"
-FILES_gstreamer1.0-plugins-base = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libgstfft-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstrtsp-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstapp-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstvideo-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstpbutils-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstallocators-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstrtp-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstsdp-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgsttag-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstriff-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstgl-1.0.so.0* \
-"
-SUMMARY_gstreamer1.0-plugins-base = "Plugins base for the GStreamer multimedia framework 1.x"
-RPROVIDES_gstreamer1.0-plugins-base = "gstreamer1.0-plugins-base"
-PKG_gstreamer1.0-plugins-base = "libgstreamer-plugins-base1.0-0"
-PKGV_gstreamer1.0-plugins-base = "1.16.2"
-PKGR_gstreamer1.0-plugins-base = "0"
-
-PACKAGES += "gstreamer1.0-plugins-bad"
-FILES_gstreamer1.0-plugins-bad = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libgstadaptivedemux-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstbadaudio-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstbadvideo-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstcodecparsers-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstinsertbin-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstisoff-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstmpegts-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstplayer-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgsturidownloader-1.0.so.0* \
-    ${libdir}/${UBUN_TARGET_SYS}/libgstwebrtc-1.0.so.0* \
-"
-SUMMARY_gstreamer1.0-plugins-bad = "Plugins bad for the GStreamer multimedia framework 1.x"
-RPROVIDES_gstreamer1.0-plugins-bad = "gstreamer1.0-plugins-bad"
-PKG_gstreamer1.0-plugins-bad = "libgstreamer-plugins-bad1.0-0"
-PKGV_gstreamer1.0-plugins-bad = "1.16.2"
-PKGR_gstreamer1.0-plugins-bad = "0"
-
-PACKAGES += "gstreamer1.0-plugins-good"
-RPROVIDES_gstreamer1.0-plugins-good = "gstreamer1.0-plugins-good gstreamer1.0-plugins-good-apps gstreamer1.0-plugins-good-doc gstreamer1.0-plugins-good-dbg gstreamer1.0-plugins-good-locale gstreamer1.0-plugins-good-staticdev gstreamer1.0-plugins-good-meta gstreamer1.0-plugins-good-glib gstreamer1.0-plugins-good-dev"
-PKG_gstreamer1.0-plugins-good = "libgstreamer-plugins-good1.0-0"
-PKGV_gstreamer1.0-plugins-good = "1.16.2"
-PKGR_gstreamer1.0-plugins-good = "0"
-
-PACKAGES += "gstreamer1.0-plugins-ugly"
-PROVIDES += "gstreamer1.0-plugins-ugly"
-RPROVIDES_gstreamer1.0-plugins-ugly = "gstreamer1.0-plugins-ugly gstreamer1.0-plugins-ugly-apps gstreamer1.0-plugins-ugly-glib gstreamer1.0-plugins-ugly-doc gstreamer1.0-plugins-ugly-dbg gstreamer1.0-plugins-ugly-locale gstreamer1.0-plugins-ugly-meta gstreamer1.0-plugins-ugly-dev gstreamer1.0-plugins-ugly-staticdev"
-
-PACKAGES += "gstreamer1.0-libav"
-PROVIDES += "gstreamer1.0-libav"
-RPROVIDES_gstreamer1.0-libav = "gstreamer1.0-libav-locale gstreamer1.0-libav-dbg gstreamer1.0-libav-dev gstreamer1.0-libav-doc gstreamer1.0-libav-staticdev gstreamer1.0-libav"
-PKGV_gstreamer1.0-libav = "0"
-PKGR_gstreamer1.0-libav = "0"
-
 #update-rc.d
 PACKAGES += "update-rc.d"
 PROVIDES += "update-rc.d"

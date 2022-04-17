@@ -1,14 +1,14 @@
 ALLOW_EMPTY_gstreamer1.0-plugins-base-audio = "1"
-PACKAGES = "gstreamer1.0-plugins-base-audio"
-PROVIDES = "gstreamer1.0-plugins-base-audio"
-DEPENDS += "libxcb glib-2.0"
+PACKAGES = "gstreamer1.0-plugins-base-audio gstreamer1.0-plugins-base"
+PROVIDES = "gstreamer1.0-plugins-base-audio gstreamer1.0-plugins-base"
+DEPENDS += "libxcb glib-2.0 gstreamer1.0-plugins-base-oss"
 RPROVIDES_gstreamer1.0-plugins-base-audio = "gstreamer1.0-plugins-base-audio"
 FILES_gstreamer1.0-plugins-base-audio = " ${libdir}/${UBUN_TARGET_SYS}/libgstaudio* "
 PKG_${PN} = "gstreamer1.0-plugins-base-audio"
 PKGV_gstreamer1.0-plugins-base-audio = "1.16.3"
 PKGR_gstreamer1.0-plugins-base-audio = "0"
 
-PROVIDES_remove = "gstreamer1.0-plugins-base"
+#PROVIDES_remove = "gstreamer1.0-plugins-base"
 
 EXTRA_OECONF_append = " --libdir=${libdir}/${UBUN_TARGET_SYS}"
 OECMAKE_C_FLAGS_append = " -I ${includedir}/harfbuzz/"
