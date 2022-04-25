@@ -22,7 +22,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             ota-upgrade \
             packagegroup-startup-scripts \
             packagegroup-android-utils \
-            packagegroup-qti-core-prop \
+            packagegroup-qti-core \
             packagegroup-qti-dsp \
             packagegroup-qti-ss-mgr \
             "
