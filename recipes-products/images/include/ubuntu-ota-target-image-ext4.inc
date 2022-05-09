@@ -60,8 +60,10 @@ do_deb[cleandirs] += "${QTI_DEB}/MODULE"
 do_deb() {
 
    #Copy the ko module
-   cd ${IMAGE_ROOTFS}/ 
-   cp --parents -vr lib/modules/5.4*/extra ${MODULE_DEB}/
+   cd ${IMAGE_ROOTFS}/
+   if [ -d "${IMAGE_ROOTFS}/lib/modules/5.4.161/extra" ];then
+      cp --parents -vr lib/modules/5.4*/extra ${MODULE_DEB}/
+   fi
 
    #Generate the control file which is used for DEBIAN
    touch ${MODULE_DEB}/DEBIAN/control
