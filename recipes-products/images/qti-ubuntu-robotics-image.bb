@@ -44,9 +44,9 @@ CORE_IMAGE_BASE_INSTALL += " \
 "
 
 #Install packages for wlan
-#CORE_IMAGE_BASE_INSTALL += " \
-#            packagegroup-qti-wifi \
-#            "
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-wifi \
+            "
 #install drm
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
