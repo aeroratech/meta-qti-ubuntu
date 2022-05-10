@@ -310,3 +310,12 @@ do_bootimg_deb() {
     cp ${BOOTIMAGE_DEB}.deb ${DEPLOY_DIR_DEB}/all
     rm -rf ${BOOTIMAGE_DEB}
 }
+
+# add a task for populated rootfs as Ubuntu's SDK sysroot
+do_populate_ubuntu_sdk() {
+    if [ ! -s "${WORKDIR}/sdk_sysroot.tar.gz" ];then
+        tar -zcf ${WORKDIR}/sdk_sysroot.tar.gz ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/system.map ${WORKDIR}/rootfs-fsconfig.conf
+    fi
+}
+do_populate_ubuntu_sdk[depends] += "${PN}:do_rootfs"
+addtask do_populate_ubuntu_sdk
