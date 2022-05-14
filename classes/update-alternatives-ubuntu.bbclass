@@ -1,6 +1,6 @@
 #Copyright (c) 2020, The Linux Foundation. All rights reserved.
 #
-#This file is derived from https://source.codeaurora.org/quic/ype/external/yoctoproject.org/poky/tree/meta/classes/update-alternatives.bbclass
+#This file is derived from https://git.codelinaro.org/clo/ype/external/yoctoproject.org/poky/tree/meta/classes/update-alternatives.bbclass
 #
 #Permission is hereby granted, free of charge, to any person obtaining a copy
 #of this software and associated documentation files (the "Software"), to deal

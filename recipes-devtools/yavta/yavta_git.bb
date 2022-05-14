@@ -1,5 +1,5 @@
 #This file is derived from
-#https://source.codeaurora.org/quic/ype/external/yoctoproject.org/meta-openembedded/tree/meta-oe/recipes-multimedia/v4l2apps/yavta_git.bb
+#https://git.codelinaro.org/clo/ype/external/yoctoproject.org/meta-openembedded/tree/meta-oe/recipes-multimedia/v4l2apps/yavta_git.bb
 
 #Permission is hereby granted, free of charge, to any person obtaining a copy
 #of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ HOMEPAGE = "https://github.com/ebe-forks/yavta"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/${LICENSE};md5=801f80980d171dd6425610833a22dbe6"
 
-SRC_URI = "git://source.codeaurora.org/quic/le/external/yavta;branch=obscuritys/master;protocol=git"
+SRC_URI = "git://git.codelinaro.org/clo/le/external/yavta;branch=caf_migration/obscuritys/master;protocol=git"
 SRCREV = "7e9f28bedc1ed3205fb5164f686aea96f27a0de2"
 
 PV = "0.0"
