@@ -283,7 +283,6 @@ PROVIDES += "\
             ncurses \
             go \
             go-runtime \
-            virtual/${TUNE_PKGARCH}-go \
             virtual/${TARGET_PREFIX}go-runtime \
             attr \
 "
@@ -515,9 +514,7 @@ PKG_libltdl = "libltdl7"
 PACKAGES += "libltdl"
 PROVIDES += "libltdl"
 RPROVIDES_libltdl += "libltdl"
-FILES_libltdl += "\
-        ${libdir}/${UBUN_TARGET_SYS}/libltdl* \
-"
+FILES_libltdl += "dummy"
 
 PKGR_libltdl = "0"
 PKGV_libltdl = "0"
