@@ -90,7 +90,7 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'sensors-client', '', d)} \
 "
 
-UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-20.04.3-base-arm64.tar.gz"
+UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #fix for fakeroot do_rootfs chmod the dir permission to 700
 do_unpack_ubuntu_base(){
