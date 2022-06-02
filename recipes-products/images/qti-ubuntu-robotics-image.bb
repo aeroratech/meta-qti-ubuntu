@@ -78,6 +78,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for sensors
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-sensors-see', '', d)} \
+            ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-test-sensors-see', '', d)} \
 "
 
 #Install packages for vslam
