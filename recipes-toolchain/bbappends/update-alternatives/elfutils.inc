@@ -30,9 +30,6 @@ ALTERNATIVE_LINK_NAME[eu-findtextrel] = "/usr/bin/eu-findtextrel"
 
 ALTERNATIVE_LINK_NAME[eu-make-debug-archive] = "/usr/bin/eu-make-debug-archive"
 
-# set FILES for "elfutils" package
-FILES_elfutils += " /usr/bin/eu-unstrip /usr/bin/eu-elfcompress /usr/bin/eu-strings /usr/bin/eu-stack /usr/bin/eu-elflint /usr/bin/eu-elfcmp /usr/bin/eu-ranlib /usr/bin/eu-objdump /usr/bin/eu-ar /usr/bin/eu-findtextrel /usr/bin/eu-make-debug-archive"
-
 
 # set update-alternatives priority for "libasm" package
 ALTERNATIVE_PRIORITY_libasm = "100"
@@ -43,9 +40,6 @@ ALTERNATIVE_libasm = " libasm.so.1"
 # set update-alternatives symbolic link path or real target path for "libasm" package
 QTI_SEPECIFIC_LINK[libasm.so.1] = "/usr/lib/libasm.so.1"
 ALTERNATIVE_LINK_NAME[libasm.so.1] = "/usr/lib/aarch64-linux-gnu/libasm.so.1"
-
-# set FILES for "libasm" package
-FILES_libasm += " /usr/lib/libasm.so.1"
 
 
 # set update-alternatives priority for "libdw" package
@@ -58,9 +52,6 @@ ALTERNATIVE_libdw = " libdw.so.1"
 QTI_SEPECIFIC_LINK[libdw.so.1] = "/usr/lib/libdw.so.1"
 ALTERNATIVE_LINK_NAME[libdw.so.1] = "/usr/lib/aarch64-linux-gnu/libdw.so.1"
 
-# set FILES for "libdw" package
-FILES_libdw += " /usr/lib/libdw.so.1"
-
 
 # set update-alternatives priority for "libelf" package
 ALTERNATIVE_PRIORITY_libelf = "100"
@@ -72,6 +63,4 @@ ALTERNATIVE_libelf = " libelf.so.1"
 QTI_SEPECIFIC_LINK[libelf.so.1] = "/usr/lib/libelf.so.1"
 ALTERNATIVE_LINK_NAME[libelf.so.1] = "/usr/lib/aarch64-linux-gnu/libelf.so.1"
 
-# set FILES for "libelf" package
-FILES_libelf += " /usr/lib/libelf.so.1"
 

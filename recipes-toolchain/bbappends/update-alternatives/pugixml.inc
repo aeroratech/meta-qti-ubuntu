@@ -11,6 +11,3 @@ ALTERNATIVE_pugixml = " libpugixml.so.1"
 QTI_SEPECIFIC_LINK[libpugixml.so.1] = "/usr/lib/libpugixml.so.1"
 ALTERNATIVE_LINK_NAME[libpugixml.so.1] = "/usr/lib/aarch64-linux-gnu/libpugixml.so.1"
 
-# set FILES for "pugixml" package
-FILES_pugixml += " /usr/lib/libpugixml.so.1"
-

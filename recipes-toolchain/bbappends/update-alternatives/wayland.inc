@@ -29,5 +29,4 @@ QTI_SEPECIFIC_LINK[libwayland-client.so.0] = "/usr/lib/libwayland-client.so.0"
 ALTERNATIVE_LINK_NAME[libwayland-client.so.0] = "/usr/lib/aarch64-linux-gnu/libwayland-client.so.0"
 
 # set FILES for "wayland" package
-FILES_wayland += " /usr/lib/libwayland-cursor.so.0.0.0 /usr/lib/libwayland-server.so.0 /usr/lib/libwayland-cursor.so.0 /usr/lib/libwayland-server.so.0.1.0 /usr/bin/wayland-scanner /usr/lib/libwayland-client.so.0.3.0 /usr/lib/libwayland-client.so.0"
-
+FILES_SOLIBSDEV = "/lib/lib*.so"

@@ -23,9 +23,6 @@ ALTERNATIVE_LINK_NAME[gl-renderer.so] = "/usr/lib/aarch64-linux-gnu/libweston-8/
 QTI_SEPECIFIC_LINK[libweston-8.so.0.0.0] = "/usr/lib/libweston-8.so.0.0.0"
 ALTERNATIVE_LINK_NAME[libweston-8.so.0.0.0] = "/usr/lib/aarch64-linux-gnu/libweston-8.so.0.0.0"
 
-# set FILES for "libweston-8" package
-FILES_libweston-8 += " /usr/lib/libweston-desktop-8.so.0.0.0 /usr/lib/libweston-8.so.0 /usr/lib/libweston-desktop-8.so.0 /usr/lib/libweston-8/gl-renderer.so /usr/lib/libweston-8.so.0.0.0"
-
 
 # set update-alternatives priority for "weston" package
 ALTERNATIVE_PRIORITY_weston = "100"
@@ -180,7 +177,3 @@ ALTERNATIVE_LINK_NAME[wcap-decode] = "/usr/bin/wcap-decode"
 
 QTI_SEPECIFIC_LINK[hmi-controller.so] = "/usr/lib/weston/hmi-controller.so"
 ALTERNATIVE_LINK_NAME[hmi-controller.so] = "/usr/lib/aarch64-linux-gnu/weston/hmi-controller.so"
-
-# set FILES for "weston" package
-FILES_weston += "/usr/lib/weston/weston-simple-im /usr/lib/weston/weston-keyboard /usr/lib/weston/weston-ivi-shell-user-interface /usr/lib/weston/weston-desktop-shell /usr/share/weston/terminal.png /usr/share/weston/panel.png /usr/share/weston/home.png /usr/share/weston/fullscreen.png /usr/share/weston/border.png /usr/share/weston/background.png /usr/share/wayland-sessions/weston.desktop /usr/share/weston/wayland.svg /usr/lib/weston/ivi-shell.so /usr/share/weston/tiling.png /usr/share/weston/sidebyside.png /usr/bin/weston-stacking /usr/bin/weston-fullscreen /usr/share/weston/icon_window.png /usr/bin/weston-content_protection /usr/share/weston/pattern.png /usr/share/weston/wayland.png /usr/bin/weston-simple-dmabuf-v4l /usr/share/weston/icon_ivi_simple-shm.png /usr/bin/weston-editor /usr/lib/weston/libexec_weston.so.0 /usr/bin/weston-simple-egl /usr/bin/weston-simple-dmabuf-egl /usr/share/weston/sign_minimize.png /usr/bin/weston-simple-shm /usr/share/weston/random.png /usr/bin/weston-transformed /usr/share/weston/icon_ivi_flower.png /usr/bin/weston-multi-resource /usr/bin/weston-presentation-shm /usr/bin/weston-image /usr/share/weston/sign_close.png /usr/share/weston/sign_maximize.png /usr/bin/weston-calibrator /usr/bin/weston-smoke /usr/lib/weston/fullscreen-shell.so /usr/share/weston/icon_terminal.png /usr/bin/weston-eventdemo /usr/bin/weston-info /usr/share/weston/icon_editor.png /usr/bin/weston-cliptest /usr/bin/weston-terminal /usr/bin/weston-resizor /usr/bin/weston-simple-damage /usr/bin/weston-scaler /usr/lib/weston/desktop-shell.so /usr/bin/weston-touch-calibrator /usr/share/libweston-8/protocols/weston-debug.xml /usr/lib/weston/screen-share.so /usr/bin/weston-subsurfaces /usr/bin/weston-simple-touch /usr/share/libweston-8/protocols/weston-direct-display.xml /usr/share/weston/icon_flower.png /usr/share/weston/icon_ivi_simple-egl.png /usr/bin/weston-dnd /usr/lib/weston/libexec_weston.so.0.0.0 /usr/share/weston/icon_ivi_smoke.png /usr/share/weston/icon_ivi_clickdot.png /usr/bin/weston-flower /usr/bin/weston-clickdot /usr/bin/weston-confine /usr/bin/weston-screenshooter /usr/bin/wcap-decode /usr/lib/weston/hmi-controller.so"
-

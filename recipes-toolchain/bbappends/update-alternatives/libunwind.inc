@@ -37,7 +37,3 @@ ALTERNATIVE_LINK_NAME[libunwind-aarch64.so.8.0.1] = "/usr/lib/aarch64-linux-gnu/
 
 QTI_SEPECIFIC_LINK[libunwind-aarch64.so.8] = "/usr/lib/libunwind-aarch64.so.8"
 ALTERNATIVE_LINK_NAME[libunwind-aarch64.so.8] = "/usr/lib/aarch64-linux-gnu/libunwind-aarch64.so.8"
-
-# set FILES for "libunwind" package
-FILES_libunwind += " /usr/lib/libunwind.so.8.0.1 /usr/lib/libunwind-setjmp.so.0 /usr/lib/libunwind-ptrace.so.0.0.0 /usr/lib/libunwind.so.8 /usr/lib/libunwind-coredump.so.0 /usr/lib/libunwind-coredump.so.0.0.0 /usr/lib/libunwind-setjmp.so.0.0.0 /usr/lib/libunwind-ptrace.so.0 /usr/lib/libunwind-aarch64.so.8.0.1 /usr/lib/libunwind-aarch64.so.8"
-

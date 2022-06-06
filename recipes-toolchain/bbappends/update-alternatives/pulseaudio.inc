@@ -13,10 +13,6 @@ ALTERNATIVE_LINK_NAME[libpulse.so.0] = "/usr/lib/aarch64-linux-gnu/libpulse.so.0
 
 ALTERNATIVE_LINK_NAME[client.conf] = "/etc/pulse/client.conf"
 
-# set FILES for "libpulse" package
-FILES_libpulse += " /usr/lib/libpulse.so.0 /etc/pulse/client.conf"
-
-
 # set update-alternatives priority for "libpulse-simple" package
 ALTERNATIVE_PRIORITY_libpulse-simple = "100"
 
@@ -30,10 +26,6 @@ ALTERNATIVE_LINK_NAME[libpulse-simple.so.0] = "/usr/lib/aarch64-linux-gnu/libpul
 QTI_SEPECIFIC_LINK[libpulse-simple.so.0.1.1] = "/usr/lib/libpulse-simple.so.0.1.1"
 ALTERNATIVE_LINK_NAME[libpulse-simple.so.0.1.1] = "/usr/lib/aarch64-linux-gnu/libpulse-simple.so.0.1.1"
 
-# set FILES for "libpulse-simple" package
-FILES_libpulse-simple += " /usr/lib/libpulse-simple.so.0 /usr/lib/libpulse-simple.so.0.1.1"
-
-
 # set update-alternatives priority for "pulseaudio-lib-cli" package
 ALTERNATIVE_PRIORITY_pulseaudio-lib-cli = "100"
 
@@ -44,10 +36,6 @@ ALTERNATIVE_pulseaudio-lib-cli = " libcli.so"
 QTI_SEPECIFIC_LINK[libcli.so] = "/usr/lib/pulse-13.0/modules/libcli.so"
 ALTERNATIVE_LINK_NAME[libcli.so] = "/usr/lib/aarch64-linux-gnu/libcli.so"
 
-# set FILES for "pulseaudio-lib-cli" package
-FILES_pulseaudio-lib-cli += " /usr/lib/pulse-13.0/modules/libcli.so"
-
-
 # set update-alternatives priority for "pulseaudio-misc" package
 ALTERNATIVE_PRIORITY_pulseaudio-misc = "100"
 
@@ -57,10 +45,6 @@ ALTERNATIVE_pulseaudio-misc = " libpulsedsp.so"
 # set update-alternatives symbolic link path or real target path for "pulseaudio-misc" package
 QTI_SEPECIFIC_LINK[libpulsedsp.so] = "/usr/lib/pulseaudio/libpulsedsp.so"
 ALTERNATIVE_LINK_NAME[libpulsedsp.so] = "/usr/lib/aarch64-linux-gnu/pulseaudio/libpulsedsp.so"
-
-# set FILES for "pulseaudio-misc" package
-FILES_pulseaudio-misc += " /usr/lib/pulseaudio/libpulsedsp.so"
-
 
 # set update-alternatives priority for "pulseaudio-module-alsa-card" package
 ALTERNATIVE_PRIORITY_pulseaudio-module-alsa-card = "100"
@@ -169,10 +153,6 @@ ALTERNATIVE_LINK_NAME[analog-input-mic-line.conf] = "/usr/share/pulseaudio/alsa-
 
 ALTERNATIVE_LINK_NAME[analog-output-speaker-always.conf] = "/usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker-always.conf"
 
-# set FILES for "pulseaudio-module-alsa-card" package
-FILES_pulseaudio-module-alsa-card += " /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-audio8dj.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-output-lineout.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/maudio-fasttrack-pro.conf /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-5.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/sb-omni-surround-5.1.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-headset-mic.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/cmedia-high-speed-true-hdaudio.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-6.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-output-mono.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-tvtuner.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-linein.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio2.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio6.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktorkontrol-s4.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-internal-mic-always.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones-2.conf /usr/share/pulseaudio/alsa-mixer/paths/iec958-stereo-output.conf /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-7.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-mic.conf.common /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-3.conf /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-0.conf /usr/share/pulseaudio/alsa-mixer/paths/iec958-stereo-input.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-audio4dj.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-rear-mic.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/force-speaker.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-fm.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio10.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-headphone-mic.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/force-speaker-and-int-mic.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/kinect-audio.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/dell-dock-tb16-usb-audio.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-video.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-korecontroller.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input.conf.common /usr/share/pulseaudio/alsa-mixer/profile-sets/default.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-front-mic.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-output-headphones.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-aux.conf /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-2.conf /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-1.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-internal-mic.conf /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-4.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-dock-mic.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-input-mic-line.conf /usr/share/pulseaudio/alsa-mixer/paths/analog-output-speaker-always.conf"
-
-
 # set update-alternatives priority for "pulseaudio-server" package
 ALTERNATIVE_PRIORITY_pulseaudio-server = "100"
 
@@ -213,7 +193,3 @@ ALTERNATIVE_LINK_NAME[daemon.conf] = "/etc/pulse/daemon.conf"
 ALTERNATIVE_LINK_NAME[paplay] = "/usr/bin/paplay"
 
 ALTERNATIVE_LINK_NAME[pulseaudio-system.conf] = "/etc/dbus-1/system.d/pulseaudio-system.conf"
-
-# set FILES for "pulseaudio-server" package
-FILES_pulseaudio-server += " /usr/lib/systemd/user/pulseaudio.socket /usr/bin/pacat /usr/bin/pamon /usr/bin/pasuspender /usr/lib/systemd/user/pulseaudio.service /etc/pulse/system.pa /usr/bin/parec /usr/bin/padsp /usr/bin/parecord /usr/bin/pactl /lib/udev/rules.d/90-pulseaudio.rules /usr/bin/pacmd /etc/pulse/default.pa /etc/pulse/daemon.conf /usr/bin/paplay /etc/dbus-1/system.d/pulseaudio-system.conf"
-

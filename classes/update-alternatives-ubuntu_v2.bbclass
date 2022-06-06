@@ -188,6 +188,12 @@ python apply_update_alternative_renames () {
             f = re.sub(r'(^|\s)%s(\s|$)' % re.escape (alt_target), r'\1%s\2' % alt_target_rename, f)
             d.setVar('FILES_' + pkg, f)
 
+    def add_files( alt_target, pkg, d):
+        f = d.getVar('FILES_' + pkg)
+        if f:
+            f = f + " " +alt_target
+            d.setVar('FILES_' + pkg, f)    
+
     # Check for deprecated usage...
     pn = d.getVar('BPN')
     if d.getVar('ALTERNATIVE_LINKS') != None:
@@ -250,9 +256,17 @@ python apply_update_alternative_renames () {
                         else:
                             link_rename.append((alt_target_real_path, alt_target_rename, ""))
                     else:
-                        bb.note('%s: Rename %s -> %s' % (pn, alt_target_real_path, alt_target_rename))
-                        os.rename(src, dest)
-                        update_files(alt_target_real_path, alt_target_rename, pkg, d)
+                        if qti_link:
+                            bb.note('%s: Rename %s -> %s' % (pn, alt_target_real_path, alt_target_rename))
+                            os.rename(src, dest)
+                            os.makedirs(os.path.dirname(pkgdest+qti_link), exist_ok=True)
+                            os.symlink(('../' * (qti_link.count('/')-1) + alt_target_rename), pkgdest + qti_link)
+                            update_files(alt_target_real_path, alt_target_rename, pkg, d)
+                            add_files(alt_target_real_path, pkg, d)
+                        else:
+                            bb.note('%s: Rename %s -> %s' % (pn, alt_target_real_path, alt_target_rename))
+                            os.rename(src, dest)
+                            update_files(alt_target_real_path, alt_target_rename, pkg, d)
                 else:
                     bb.warn("%s: alternative target (%s or %s) does not exist, skipping..." % (pn, alt_target, alt_target_rename))
                     continue

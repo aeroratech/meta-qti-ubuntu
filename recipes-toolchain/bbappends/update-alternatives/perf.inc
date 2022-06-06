@@ -9,7 +9,3 @@ ALTERNATIVE_perf = " perf"
 
 # set update-alternatives symbolic link path or real target path for "perf" package
 ALTERNATIVE_LINK_NAME[perf] = "/usr/bin/perf"
-
-# set FILES for "perf" package
-FILES_perf += " /usr/bin/perf"
-

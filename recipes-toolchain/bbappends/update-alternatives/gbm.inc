@@ -16,6 +16,4 @@ ALTERNATIVE_LINK_NAME[gbm.pc] = "/usr/lib/aarch64-linux-gnu/pkgconfig/gbm.pc"
 
 ALTERNATIVE_LINK_NAME[gbm.h] = "/usr/include/gbm.h"
 
-# set FILES for "gbm" package
-FILES_gbm += " /usr/lib/libgbm.so /usr/lib/pkgconfig/gbm.pc /usr/include/gbm.h"
 

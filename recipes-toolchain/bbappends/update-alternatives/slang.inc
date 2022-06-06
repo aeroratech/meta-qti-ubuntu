@@ -234,6 +234,3 @@ ALTERNATIVE_LINK_NAME[varray.sl] = "/usr/share/slsh/varray.sl"
 
 ALTERNATIVE_LINK_NAME[zlib.sl] = "/usr/share/slsh/zlib.sl"
 
-# set FILES for "slang" package
-FILES_slang += " /usr/lib/slang/v2/modules/fork-module.so /usr/lib/slang/v2/modules/varray-module.so /usr/lib/slang/v2/modules/sysconf-module.so /usr/lib/slang/v2/modules/csv-module.so"
-

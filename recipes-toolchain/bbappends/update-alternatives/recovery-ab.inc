@@ -10,6 +10,4 @@ ALTERNATIVE_recovery-ab = " applypatch"
 # set update-alternatives symbolic link path or real target path for "recovery-ab" package
 ALTERNATIVE_LINK_NAME[applypatch] = "/usr/bin/applypatch"
 
-# set FILES for "recovery-ab" package
-FILES_recovery-ab += " /usr/bin/applypatch"
 

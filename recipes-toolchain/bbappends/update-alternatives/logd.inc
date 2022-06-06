@@ -9,7 +9,3 @@ ALTERNATIVE_logd = " logd.service"
 
 # set update-alternatives symbolic link path or real target path for "logd" package
 ALTERNATIVE_LINK_NAME[logd.service] = "/lib/systemd/system/logd.service"
-
-# set FILES for "logd" package
-FILES_logd += " /lib/systemd/system/logd.service"
-

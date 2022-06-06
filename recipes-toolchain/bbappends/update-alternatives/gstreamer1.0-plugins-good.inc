@@ -11,6 +11,3 @@ ALTERNATIVE_gstreamer1.0-plugins-good-pulse = " libgstpulseaudio.so"
 QTI_SEPECIFIC_LINK[libgstpulseaudio.so] = "/usr/lib/gstreamer-1.0/libgstpulseaudio.so"
 ALTERNATIVE_LINK_NAME[libgstpulseaudio.so] = "/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstpulseaudio.so"
 
-# set FILES for "gstreamer1.0-plugins-good-pulse" package
-FILES_gstreamer1.0-plugins-good-pulse += " /usr/lib/gstreamer-1.0/libgstpulseaudio.so"
-
