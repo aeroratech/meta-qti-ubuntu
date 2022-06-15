@@ -11,6 +11,5 @@ ALTERNATIVE_liblog = " liblog.so.0.0.0 liblog.so.0"
 QTI_SEPECIFIC_LINK[liblog.so.0.0.0] = "/usr/lib/liblog.so.0.0.0"
 ALTERNATIVE_LINK_NAME[liblog.so.0.0.0] = "/usr/aarch64-linux-gnu/lib/liblog.so.0.0.0"
 
-QTI_SEPECIFIC_LINK[liblog.so.0] = "/usr/lib/liblog.so.0"
 ALTERNATIVE_LINK_NAME[liblog.so.0] = "/usr/aarch64-linux-gnu/lib/liblog.so.0"
 
