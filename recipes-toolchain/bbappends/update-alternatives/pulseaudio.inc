@@ -8,7 +8,6 @@ ALTERNATIVE_PRIORITY_libpulse = "100"
 ALTERNATIVE_libpulse = " libpulse.so.0 client.conf"
 
 # set update-alternatives symbolic link path or real target path for "libpulse" package
-QTI_SEPECIFIC_LINK[libpulse.so.0] = "/usr/lib/libpulse.so.0"
 ALTERNATIVE_LINK_NAME[libpulse.so.0] = "/usr/lib/aarch64-linux-gnu/libpulse.so.0"
 
 ALTERNATIVE_LINK_NAME[client.conf] = "/etc/pulse/client.conf"
@@ -20,21 +19,10 @@ ALTERNATIVE_PRIORITY_libpulse-simple = "100"
 ALTERNATIVE_libpulse-simple = " libpulse-simple.so.0.1.1 libpulse-simple.so.0"
 
 # set update-alternatives symbolic link path or real target path for "libpulse-simple" package
-QTI_SEPECIFIC_LINK[libpulse-simple.so.0] = "/usr/lib/libpulse-simple.so.0"
 ALTERNATIVE_LINK_NAME[libpulse-simple.so.0] = "/usr/lib/aarch64-linux-gnu/libpulse-simple.so.0"
 
 QTI_SEPECIFIC_LINK[libpulse-simple.so.0.1.1] = "/usr/lib/libpulse-simple.so.0.1.1"
 ALTERNATIVE_LINK_NAME[libpulse-simple.so.0.1.1] = "/usr/lib/aarch64-linux-gnu/libpulse-simple.so.0.1.1"
-
-# set update-alternatives priority for "pulseaudio-lib-cli" package
-ALTERNATIVE_PRIORITY_pulseaudio-lib-cli = "100"
-
-# set update-alternatives register name for "pulseaudio-lib-cli" package
-ALTERNATIVE_pulseaudio-lib-cli = " libcli.so"
-
-# set update-alternatives symbolic link path or real target path for "pulseaudio-lib-cli" package
-QTI_SEPECIFIC_LINK[libcli.so] = "/usr/lib/pulse-13.0/modules/libcli.so"
-ALTERNATIVE_LINK_NAME[libcli.so] = "/usr/lib/aarch64-linux-gnu/libcli.so"
 
 # set update-alternatives priority for "pulseaudio-misc" package
 ALTERNATIVE_PRIORITY_pulseaudio-misc = "100"
@@ -193,3 +181,4 @@ ALTERNATIVE_LINK_NAME[daemon.conf] = "/etc/pulse/daemon.conf"
 ALTERNATIVE_LINK_NAME[paplay] = "/usr/bin/paplay"
 
 ALTERNATIVE_LINK_NAME[pulseaudio-system.conf] = "/etc/dbus-1/system.d/pulseaudio-system.conf"
+

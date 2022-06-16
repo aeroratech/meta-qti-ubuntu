@@ -11,10 +11,8 @@ ALTERNATIVE_libweston-8 = " libweston-desktop-8.so.0 gl-renderer.so libweston-de
 QTI_SEPECIFIC_LINK[libweston-desktop-8.so.0.0.0] = "/usr/lib/libweston-desktop-8.so.0.0.0"
 ALTERNATIVE_LINK_NAME[libweston-desktop-8.so.0.0.0] = "/usr/lib/aarch64-linux-gnu/libweston-desktop-8.so.0.0.0"
 
-QTI_SEPECIFIC_LINK[libweston-8.so.0] = "/usr/lib/libweston-8.so.0"
 ALTERNATIVE_LINK_NAME[libweston-8.so.0] = "/usr/lib/aarch64-linux-gnu/libweston-8.so.0"
 
-QTI_SEPECIFIC_LINK[libweston-desktop-8.so.0] = "/usr/lib/libweston-desktop-8.so.0"
 ALTERNATIVE_LINK_NAME[libweston-desktop-8.so.0] = "/usr/lib/aarch64-linux-gnu/libweston-desktop-8.so.0"
 
 QTI_SEPECIFIC_LINK[gl-renderer.so] = "/usr/lib/libweston-8/gl-renderer.so"
@@ -80,7 +78,6 @@ ALTERNATIVE_LINK_NAME[icon_ivi_simple-shm.png] = "/usr/share/weston/icon_ivi_sim
 
 ALTERNATIVE_LINK_NAME[weston-editor] = "/usr/bin/weston-editor"
 
-QTI_SEPECIFIC_LINK[libexec_weston.so.0] = "/usr/lib/weston/libexec_weston.so.0"
 ALTERNATIVE_LINK_NAME[libexec_weston.so.0] = "/usr/lib/aarch64-linux-gnu/weston/libexec_weston.so.0"
 
 ALTERNATIVE_LINK_NAME[weston-simple-egl] = "/usr/bin/weston-simple-egl"
@@ -177,3 +174,4 @@ ALTERNATIVE_LINK_NAME[wcap-decode] = "/usr/bin/wcap-decode"
 
 QTI_SEPECIFIC_LINK[hmi-controller.so] = "/usr/lib/weston/hmi-controller.so"
 ALTERNATIVE_LINK_NAME[hmi-controller.so] = "/usr/lib/aarch64-linux-gnu/weston/hmi-controller.so"
+
