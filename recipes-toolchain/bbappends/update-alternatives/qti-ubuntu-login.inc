@@ -1,5 +1,5 @@
 # use update-alternatives mechanism
-inherit update-alternatives-ubuntu
+inherit update-alternatives-ubuntu_v2
 
 # set update-alternatives priority for qti-ubuntu-login package
 ALTERNATIVE_PRIORITY_qti-ubuntu-login = "100"

@@ -122,14 +122,6 @@ do_ubuntu_rootfs(){
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
     ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
-
-#   ---- design to avoid do_rootfs status error ----
-#    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu
-#    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
-
-#   ---- fix error : unknown group 'messagebus' in statoverride file ----
-#    rm ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
-#    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
 }
 
 def runtime_mapping_rename (varname, pkg, d):
@@ -275,10 +267,10 @@ EOF
     chmod +x ${IMAGE_ROOTFS}/sbin/reboot.sh
 
     #recover package postinsts
-    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst/*.postinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
-    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
-    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
-    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
+    #mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst/*.postinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+   # rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
+    #mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+    #rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
 
 }
 

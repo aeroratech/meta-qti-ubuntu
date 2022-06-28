@@ -27,5 +27,5 @@ PACKAGES_prepend = " \
 do_package_qa[noexec] = "1"
 
 # config update-alternatives for pulseaudio
-#require update-alternatives/pulseaudio_13.0.inc
+require  update-alternatives/pulseaudio.inc
 
