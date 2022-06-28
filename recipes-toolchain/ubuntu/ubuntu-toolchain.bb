@@ -412,6 +412,7 @@ do_install(){
      cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
 
+    cp ${WORKSPACE}/OTA/device/qcom/common/releasetools.py ${D}${datadir}/
 
     if [ -f ${D}${libdir}/libanl.so ];then
         rm -rf ${D}${libdir}/libanl.so
