@@ -1,4 +1,4 @@
-inherit uimage extrausers
+inherit uimage extrausers populate_qti_sdk_ubuntu
 
 #require include/mdm-ota-target-image-ubi.inc
 require include/ubuntu-ota-target-image-ext4.inc
