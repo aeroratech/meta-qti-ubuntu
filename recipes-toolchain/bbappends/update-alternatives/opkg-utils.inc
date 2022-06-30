@@ -1,5 +1,5 @@
 # use update-alternatives mechanism
-inherit update-alternatives-ubuntu
+inherit update-alternatives-ubuntu_v2
 
 # set update-alternatives priority for update-alternatives-opkg package
 ALTERNATIVE_PRIORITY_update-alternatives-opkg = "100"

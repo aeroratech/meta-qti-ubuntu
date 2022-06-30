@@ -22,7 +22,6 @@
 # License applies to this recipe code, not the toolchain itself
 LICENSE = "BSD-3-Clause & MIT"
 
-
 DEPENDS += "download-manager-native"
 require files-blacklist.inc
 #require ubuntu-base-file-blacklist-alternative.inc
@@ -32,7 +31,6 @@ INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 do_install_armmultilib[noexec] = "1"
 do_package_qa[noexec] = "1"
-
 
 #ALLOW_EMPTY_${PN} = "1"
 #ALLOW_EMPTY_${PN}-dev = "1"
@@ -228,7 +226,7 @@ TARGET_SYS = "${UBUN_TARGET_SYS}"
 
 CP_ARGS="-Prfd --preserve=mode,timestamps --no-preserve=ownership"
 HOST_ARCH="x86_64-linux-gnu"
-TARGET_ARCH="aarch64-linux-gnu"
+#TARGET_ARCH="aarch64-linux-gnu"
 
 PACKAGES = "libc6 libunistring2 libc-bin catchsegv sln nscd ldd tzcode glibc-thread-db libcidn libmemusage libnss-db libsegfault libsotruss glibc-extra-nss "
 
@@ -285,7 +283,6 @@ PROVIDES += "\
             ncurses \
             go \
             go-runtime \
-            virtual/${TUNE_PKGARCH}-go \
             virtual/${TARGET_PREFIX}go-runtime \
             attr \
 "
@@ -415,6 +412,7 @@ do_install(){
      cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
 
+    cp ${WORKSPACE}/OTA/device/qcom/common/releasetools.py ${D}${datadir}/
 
     if [ -f ${D}${libdir}/libanl.so ];then
         rm -rf ${D}${libdir}/libanl.so
@@ -517,9 +515,7 @@ PKG_libltdl = "libltdl7"
 PACKAGES += "libltdl"
 PROVIDES += "libltdl"
 RPROVIDES_libltdl += "libltdl"
-FILES_libltdl += "\
-        ${libdir}/${UBUN_TARGET_SYS}/libltdl* \
-"
+FILES_libltdl += "dummy"
 
 PKGR_libltdl = "0"
 PKGV_libltdl = "0"
@@ -1994,7 +1990,7 @@ PACKAGES += "libffi"
 RPROVIDES_libffi += "libffi-staticdev libffi-doc libffi-dbg libffi-dev libffi-locale"
 FILES_libffi = "${libdir}/${UBUN_TARGET_SYS}/libffi.so*"
 PKG_libffi = "libffi7"
-PKGV_libffi = "3.3-4"
+PKGV_libffi = "0"
 PKGR_libffi = "0"
 
 #libdrm

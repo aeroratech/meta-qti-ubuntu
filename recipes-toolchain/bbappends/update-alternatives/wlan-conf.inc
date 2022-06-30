@@ -1,5 +1,5 @@
 # use update-alternatives mechanism
-inherit update-alternatives-ubuntu
+inherit update-alternatives-ubuntu_v2
 
 # set update-alternatives priority for wlan-conf package
 ALTERNATIVE_PRIORITY_wlan-conf = "100"

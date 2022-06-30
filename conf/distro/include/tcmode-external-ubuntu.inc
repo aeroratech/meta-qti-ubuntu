@@ -25,6 +25,7 @@ EXTERNAL_TOOLCHAIN ?= "${DL_DIR}"
 #TOOLCHAIN_PATH_ADD = "/usr/bin:/usr/local/go/bin/:"
 TOOLCHAIN_PATH_ADD = "/usr/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
+OECMAKE_EXTRA_ROOT_PATH += "/usr/bin"
 LICENSE_FLAGS_WHITELIST = "commercial license"
 # MACROS below are for self-contained toolchain
 #CFLAGS += " --sysroot=${STAGING_DIR_HOST}  -L/local/mnt/workspace/tq/src/ubuntu-toolchain/deb/usr/lib/gcc-cross/aarch64-linux-gnu/7   "

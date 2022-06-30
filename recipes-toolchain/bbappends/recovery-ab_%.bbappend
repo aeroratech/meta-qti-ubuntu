@@ -1,5 +1,5 @@
 # config update-alternatives for recovery-ab
-#require update-alternatives/recovery-ab.inc
+require update-alternatives/recovery-ab.inc
 
 do_install_append() {
         install -d ${D}/res/

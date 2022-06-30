@@ -53,7 +53,6 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  libjsoncpp-dev \
                                  libltdl7 \
                                  libltdl-dev \
-                                 elfutils \
                                  libext2fs-dev \
                                  comerr-dev \
                                  ss-dev \

@@ -19,7 +19,6 @@ TMP_WKDIR = "${WORKDIR}/ubuntu_base_tmp"
 DEB_CACHE_DIR  = "${WORKDIR}/deb_cache"
 
 do_unpack[noexec] = "1"
-do_install[noexec] = "1"
 do_populate_lic[noexec] = "1"
 do_package_qa[noexec] = "1"
 do_ubuntu_install[dirs] += "${TMP_WKDIR} ${DEB_CACHE_DIR} ${OTA_OSS}"
@@ -216,4 +215,9 @@ do_ubuntu_install() {
 	do_create_the_links
 }
 
-addtask do_ubuntu_install after do_install before do_populate_sysroot
+do_install() {
+	install -d ${D}${datadir}
+	cp ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/${UBUNTU_BASE_TAR} ${D}${datadir}
+}
+
+addtask do_ubuntu_install after do_compile before do_install 

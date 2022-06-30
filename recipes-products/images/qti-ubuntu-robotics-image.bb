@@ -1,4 +1,4 @@
-inherit uimage extrausers
+inherit uimage extrausers populate_qti_sdk_ubuntu
 
 #require include/mdm-ota-target-image-ubi.inc
 require include/ubuntu-ota-target-image-ext4.inc
@@ -31,7 +31,6 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-ss-mgr \
             packagegroup-qti-qmmf \
             packagegroup-qti-qmmf-sdk \
-            packagegroup-qti-mmframeworks \
             packagegroup-qti-core \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
@@ -44,9 +43,9 @@ CORE_IMAGE_BASE_INSTALL += " \
 "
 
 #Install packages for wlan
-#CORE_IMAGE_BASE_INSTALL += " \
-#            packagegroup-qti-wifi \
-#            "
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-wifi \
+            "
 #install drm
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
@@ -63,9 +62,9 @@ CORE_IMAGE_BASE_INSTALL += " \
             recovery-ab \
             "
 #Install packages for camera
-CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-camera \
-            "
+#CORE_IMAGE_BASE_INSTALL += " \
+#            packagegroup-qti-camera \
+#            "
 #Install packages for bluetooth
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-bluetooth \
@@ -91,7 +90,7 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'sensors-client', '', d)} \
 "
 
-UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-20.04.3-base-arm64.tar.gz"
+UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #fix for fakeroot do_rootfs chmod the dir permission to 700
 do_unpack_ubuntu_base(){
@@ -123,14 +122,6 @@ do_ubuntu_rootfs(){
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
     ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
-
-#   ---- design to avoid do_rootfs status error ----
-#    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu
-#    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
-
-#   ---- fix error : unknown group 'messagebus' in statoverride file ----
-#    rm ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
-#    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
 }
 
 def runtime_mapping_rename (varname, pkg, d):
@@ -276,10 +267,10 @@ EOF
     chmod +x ${IMAGE_ROOTFS}/sbin/reboot.sh
 
     #recover package postinsts
-    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst/*.postinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
-    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
-    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
-    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
+    #mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst/*.postinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+   # rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
+    #mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+    #rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
 
 }
 

@@ -69,4 +69,4 @@ python do_install() {
             bb.fatal("failed to excute cmd: " + cmd)
 }
 
-deltask do_populate_sysroot_setscene do_unpack
+deltask do_unpack

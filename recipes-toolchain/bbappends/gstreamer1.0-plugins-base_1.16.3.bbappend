@@ -3,7 +3,7 @@ PACKAGES = "gstreamer1.0-plugins-base-audio"
 PROVIDES = "gstreamer1.0-plugins-base-audio"
 DEPENDS += "libxcb"
 RPROVIDES_gstreamer1.0-plugins-base-audio = "gstreamer1.0-plugins-base-audio"
-FILES_gstreamer1.0-plugins-base-audio = " ${libdir}/${UBUN_TARGET_SYS}/libgstaudio* "
+FILES_gstreamer1.0-plugins-base-audio = " ${libdir}/libgstaudio* "
 PKG_gstreamer1.0-plugins-base-audio = "gstreamer1.0-plugins-base-audio"
 PKGV_gstreamer1.0-plugins-base-audio = "1.16.3"
 PKGR_gstreamer1.0-plugins-base-audio = "0"
@@ -22,16 +22,16 @@ do_install_append () {
     rm -rf ${D}${includedir}/gstreamer-1.0/gst/t*
     rm -rf ${D}${includedir}/gstreamer-1.0/gst/v*
     rm -rf ${D}${datadir}
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/pkgconfig
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstp*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstt*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstr*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgsts*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstf*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstv*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstal*
-    rm -rf ${D}${libdir}/${UBUN_TARGET_SYS}/libgstap*
+    rm -rf ${D}${libdir}/pkgconfig
+    rm -rf ${D}${libdir}/gstreamer-1.0/
+    rm -rf ${D}${libdir}/libgstp*
+    rm -rf ${D}${libdir}/libgstt*
+    rm -rf ${D}${libdir}/libgstr*
+    rm -rf ${D}${libdir}/libgsts*
+    rm -rf ${D}${libdir}/libgstf*
+    rm -rf ${D}${libdir}/libgstv*
+    rm -rf ${D}${libdir}/libgstal*
+    rm -rf ${D}${libdir}/libgstap*
     rm -rf ${D}${bindir}
 }
 
