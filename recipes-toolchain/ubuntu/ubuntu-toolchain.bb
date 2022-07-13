@@ -37,8 +37,6 @@ PACKAGES_remove = "${PN}-dbg"
 #ALLOW_EMPTY_${PN}-dev = "1"
 #ALLOW_EMPTY_${PN}-staticdev = "1"
 ALLOW_EMPTY_libgfortran-staticdev = "1"
-ALLOW_EMPTY_libgcc-dbg = "1"
-ALLOW_EMPTY_libgcc-dev = "1"
 ALLOW_EMPTY_libgfortran-dev = "1"
 ALLOW_EMPTY_libgfortran = "1"
 ALLOW_EMPTY_libtsan-staticdev = "1"
@@ -333,7 +331,6 @@ do_install(){
 
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/* ${D}${libdir}/${UBUN_TARGET_SYS}
 
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/gcc-cross/${UBUN_TARGET_SYS}/10/*.o ${D}${base_libdir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/*.o ${D}${base_libdir}
      cp ${CP_ARGS} -H ${D}${libdir}/${UBUN_TARGET_SYS}/*.o ${D}${base_libdir}
 
@@ -346,10 +343,7 @@ do_install(){
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
      cp ${CP_ARGS} -H ${D}${includedir}/c++/10/* ${D}${includedir}/c++/
      cp ${CP_ARGS} -H ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
-     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/10/libgcc*.a ${D}${libdir}/${UBUN_TARGET_SYS}
-     ln -sf ./libgcc_s.so.1 ${D}/${libdir}/aarch64-linux-gnu/libgcc_s.so
      ln -sf ./libstdc++.so.6.0.28 ${D}/${libdir}/aarch64-linux-gnu/libstdc++.so
-     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/10/libatomic.* ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
@@ -382,10 +376,6 @@ do_install(){
     if [ -f ${D}${base_libdir}/libaudit.so.1 ];then
         rm -rf ${D}${base_libdir}/libaudit.so*
     fi  
-
-    #FIX SYMBOL LINK
-    ln -sf ld-${UBUN_VER_LIBC}.so ${D}${base_libdir}/${UBUN_TARGET_SYS}/ld-linux-aarch64.so.1
-    ln -s ${UBUN_TARGET_SYS}/libanl-${UBUN_VER_LIBC}.so ${D}${libdir}/libanl.so 
 }
 
 PACKAGES += " \ 
@@ -656,28 +646,6 @@ FILES_libevdev-dev = "\
     ${libdir}/${UBUN_TARGET_SYS}/libevdev.a \
     ${libdir}/${UBUN_TARGET_SYS}/libevdev.so \
 "
-
-#  libgcc
-PACKAGES += "\
-    libgcc \
-    libgcc-dev \
-"
-PROVIDES += " \
-            libgcc \
-            "
-RPROVIDES_libgcc = "libgcc1"
-
-FILES_libgcc = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libgcc_s.so.1 \
-    ${libdir}/${UBUN_TARGET_SYS}/libgcc_s.so \
-"
-FILES_libgcc-dev = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libgcc*.so \
-    ${libdir}/${UBUN_TARGET_SYS}/libgcc*.a \
-"
-PKG_libgcc = "libgcc1"
-PKGR = "0"
-PKGV = "0"
 
 #  libpam
 PACKAGES += "libpam"
@@ -1503,8 +1471,6 @@ PKGV_libatomic = "${UBUN_VER_GCC}"
 PKGV_libatomic-staticdev = "${UBUN_VER_GCC}"
 PKGV_libg2c-dev = "0"
 PKGV_libg2c = "0"
-PKGV_libgcc-dev = "0"
-PKGV_libgcc = "0"
 PKGV_libgfortran-dev = "${UBUN_VER_GCC}"
 PKGV_libgfortran = "${UBUN_VER_GCC}"
 PKGV_libgfortran-staticdev = "${UBUN_VER_GCC}"
@@ -1866,7 +1832,6 @@ INSANE_SKIP_${PN} += "installed-vs-shipped"
 INSANE_SKIP_${PN}-utils += "ldflags"
 INSANE_SKIP_libstdc++ += "ldflags"
 INSANE_SKIP_libgfortran += "ldflags"
-INSANE_SKIP_libgcc += "ldflags dev-deps"
 INSANE_SKIP_libgfortran += "ldflags dev-deps"
 INSANE_SKIP_libstdc++ += "ldflags dev-deps"
 INSANE_SKIP_libatomic += "ldflags"

@@ -1,1 +1,1 @@
-DEPENDS += "linux-libc-headers-ubuntu"
+DEPENDS += "linux-libc-headers-ubuntu libgcc"
