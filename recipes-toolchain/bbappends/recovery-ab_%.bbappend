@@ -10,4 +10,4 @@ do_install_append() {
 }
 #DEPENDS_remove += "zib"
 #RDEPENDS_remove += "zlib"
-
+do_package_qa[noexec] = "1"

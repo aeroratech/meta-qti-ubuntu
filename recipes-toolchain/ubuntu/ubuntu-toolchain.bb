@@ -31,6 +31,7 @@ INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 do_install_armmultilib[noexec] = "1"
 do_package_qa[noexec] = "1"
+PACKAGES_remove = "${PN}-dbg"
 
 #ALLOW_EMPTY_${PN} = "1"
 #ALLOW_EMPTY_${PN}-dev = "1"
@@ -54,19 +55,15 @@ ALLOW_EMPTY_libubsan = "1"
 ALLOW_EMPTY_gcc-sanitizers-dev = "1"
 ALLOW_EMPTY_glibc-extra-nss = "1"
 ALLOW_EMPTY_libsotruss  = "1"
-ALLOW_EMPTY_libsegfault  = "1"
 ALLOW_EMPTY_libasan = "1"
 ALLOW_EMPTY_gcc-sanitizers = "1"
 ALLOW_EMPTY_libnss-db  = "1"
-ALLOW_EMPTY_glibc-thread-db = "1"
-ALLOW_EMPTY_libmemusage  = "1"
 ALLOW_EMPTY_tzcode  = "1"
 ALLOW_EMPTY_ldd  = "1"
 ALLOW_EMPTY_libcidn = "1"
 ALLOW_EMPTY_nscd = "1"
 ALLOW_EMPTY_catchsegv = "1"
 ALLOW_EMPTY_sln = "1"
-ALLOW_EMPTY_libc-bin = "1"
 ALLOW_EMPTY_libunistring2 = "1"
 ALLOW_EMPTY_libitm-staticdev = "1"
 ALLOW_EMPTY_libatomic-staticdev = "1"
@@ -80,7 +77,6 @@ ALLOW_EMPTY_libxml2 = "1"
 ALLOW_EMPTY_shadow = "1"
 ALLOW_EMPTY_libnl = "1"
 ALLOW_EMPTY_expat = "1"
-ALLOW_EMPTY_dbus = "1"
 ALLOW_EMPTY_liblzma = "1"
 ALLOW_EMPTY_libpam = "1"
 ALLOW_EMPTY_libquadmath-staticdev = "1"
@@ -226,9 +222,6 @@ CP_ARGS="-Prfd --preserve=mode,timestamps --no-preserve=ownership"
 HOST_ARCH="x86_64-linux-gnu"
 #TARGET_ARCH="aarch64-linux-gnu"
 
-PACKAGES = "libc6 libunistring2 libc-bin catchsegv sln nscd ldd tzcode glibc-thread-db libcidn libmemusage libnss-db libsegfault libsotruss glibc-extra-nss "
-
-
 PROVIDES += "\
             virtual/${TARGET_PREFIX}gcc \
             virtual/${TARGET_PREFIX}g++ \
@@ -237,23 +230,14 @@ PROVIDES += "\
             binutils-cross-${TARGET_ARCH} \
             virtual/${TARGET_PREFIX}libc-for-gcc \
             virtual/${TARGET_PREFIX}compilerlibs \
-            virtual/libc \
-            virtual/libintl \
-            virtual/libiconv \
-            virtual/crypt \
-            virtual/libc-locale \
             libarchive-native \
             e2fsprogs-native \
             nativesdk-libarchive \
-            util-linux \
-            lsbinitscripts \
             libffi \
             mtd-utils-native \
             libpam \
-            ldconfig \
             libxml2 \
             libunistring2 \
-            libc-mtrace \
             gcc-runtime \
             libgcov-dev \
             libg2c \
@@ -276,8 +260,6 @@ PROVIDES += "\
             libquadmath-dev \
             libquadmath-staticdev \
             sqlite3 \
-            bzip2 \
-            ncurses \
             go \
             go-runtime \
             virtual/${TARGET_PREFIX}go-runtime \
@@ -353,13 +335,9 @@ do_install(){
 
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/* ${D}${libdir}/${UBUN_TARGET_SYS}
 
-     sed -i "s@/usr/aarch64-linux-gnu/lib/@./@g" ${D}${libdir}/${UBUN_TARGET_SYS}/libpthread.so
-
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/gcc-cross/${UBUN_TARGET_SYS}/10/*.o ${D}${base_libdir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/${UBUN_TARGET_SYS}/lib/*.o ${D}${base_libdir}
      cp ${CP_ARGS} -H ${D}${libdir}/${UBUN_TARGET_SYS}/*.o ${D}${base_libdir}
-
-     sed -i "s@/usr/aarch64-linux-gnu/lib@./@g" ${D}/usr/lib/${UBUN_TARGET_SYS}/libc.so
 
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
@@ -369,8 +347,6 @@ do_install(){
      rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/sys ${D}${includedir}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/gnu ${D}${includedir}
      cp ${CP_ARGS} -H ${D}${includedir}/c++/10/* ${D}${includedir}/c++/
      cp ${CP_ARGS} -H ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
      cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/usr/lib/gcc-cross/${UBUN_TARGET_SYS}/10/libgcc*.a ${D}${libdir}/${UBUN_TARGET_SYS}
@@ -380,11 +356,6 @@ do_install(){
      ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libtinfo.so.6* ${D}${libdir}/${UBUN_TARGET_SYS}
-     ln -sf ./libtinfo.so.6 ${D}${libdir}/${UBUN_TARGET_SYS}/libtinfo.so
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libncurses.so* ${D}${libdir}/${UBUN_TARGET_SYS}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}
-     ln -sf ./libbz2.so.1.0.4 ${D}${libdir}/${UBUN_TARGET_SYS}/libbz2.so
 
      #libsqlite3-0
      cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsqlite3.*  ${D}${libdir}/
@@ -411,24 +382,9 @@ do_install(){
     if [ -f ${D}${base_libdir}/libattr.so.1 ];then
         rm -rf ${D}${base_libdir}/libattr.so*
     fi  
-    if [ -f ${D}${base_libdir}/libmount.so.1 ];then
-        rm -rf ${D}${base_libdir}/libmount.so*
-    fi  
     if [ -f ${D}${base_libdir}/libaudit.so.1 ];then
         rm -rf ${D}${base_libdir}/libaudit.so*
     fi  
-    if [ -f ${D}${base_libdir}/libsmartcols.so.1 ];then
-        rm -rf ${D}${base_libdir}/libsmartcols.so*
-    fi  
-    if [ -f ${D}${base_libdir}/libuuid.so.1 ];then
-        rm -rf ${D}${base_libdir}/libuuid.so*
-    fi  
-    if [ -f ${D}${base_libdir}/libfdisk.so.1 ];then
-        rm -rf ${D}${base_libdir}/libfdisk.so*
-    fi  
-    if [ -f ${D}${base_libdir}/libblkid.so.1 ];then
-        rm -rf ${D}${base_libdir}/libblkid.so*
-    fi
 
     #FIX SYMBOL LINK
     ln -sf ld-${UBUN_VER_LIBC}.so ${D}${base_libdir}/${UBUN_TARGET_SYS}/ld-linux-aarch64.so.1
@@ -942,22 +898,6 @@ PKGV_zlib = "0"
 PKGR_zlib = "0"
 PKG_zlib ="zlib1g"
 
-PACKAGES += "dbus dbus-lib"
-FILES_dbus += " \
-        ${libdir}/${UBUN_TARGET_SYS}/libdbus*.so*  \
-               "
-
-PROVIDES += " \
-            dbus \
-            dbus-lib \
-            "
-RPROVIDES_dbus += " \
-                dbus \
-                "
-PKGV_dbus = "1.12.2"
-PKGR_dbus = "0"
-PKG_dbus ="libdbus-1-3"
-
 PACKAGES += "liblzma"
 FILES_liblzma += " \
         ${libdir}/${UBUN_TARGET_SYS}/liblzma*.so*  \
@@ -1145,57 +1085,6 @@ PROVIDES += "\
             qemuwrapper-cross-locale \
             qemuwrapper-cross-doc \
             "
-
-                   
-
-#  libc6
-PROVIDES += " libc6 libnsl2 "
-RPROVIDES_libc6 = " \
-                    eglibc rtld(GNU_HASH) libc6 virtual-libc apt libc-bin \
-                    mtd-utils-native \
-                    shared-mime-info shared-mime-info-native \
-                    e2fsprogs-e2fsck\
-		    libnsl2 \
-		    ldconfig \
-                    lsbinitscripts lsbinitscripts-dev \
-                    util-linux \
-                    util-linux-sulogin  util-linux-agetty util-linux-mount util-linux-umount util-linux-fsck \
-                  "
-
-libc_baselibs = " \
-                ${libdir}/${UBUN_TARGET_SYS}/libc.so.* ${libdir}/${UBUN_TARGET_SYS}/libc-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libcrypt*.so.* ${libdir}/${UBUN_TARGET_SYS}/libcrypt-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libm*.so.* ${libdir}/${UBUN_TARGET_SYS}/libm-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libmvec-*.so ${libdir}/${UBUN_TARGET_SYS}/ld*.so.* \
-                ${libdir}/${UBUN_TARGET_SYS}/ld-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libpthread*.so.* ${libdir}/${UBUN_TARGET_SYS}/libpthread-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libresolv*.so.* ${libdir}/${UBUN_TARGET_SYS}/libresolv-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/librt*.so.* ${libdir}/${UBUN_TARGET_SYS}/librt-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libutil*.so.* ${libdir}/${UBUN_TARGET_SYS}/libutil-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libnsl*.so.* ${libdir}/${UBUN_TARGET_SYS}/libnsl-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libnss_files*.so.* ${libdir}/${UBUN_TARGET_SYS}/libnss_files-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libnss_compat*.so.* ${libdir}/${UBUN_TARGET_SYS}/libnss_compat-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libnss_dns*.so.* ${libdir}/${UBUN_TARGET_SYS}/libnss_dns-*.so \
-                ${libdir}/libdl*.so.* ${libdir}/${UBUN_TARGET_SYS}/libdl-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libanl*.so.* ${libdir}/${UBUN_TARGET_SYS}/libanl-*.so \
-                ${libdir}/${UBUN_TARGET_SYS}/libBrokenLocale*.so.* ${libdir}/${UBUN_TARGET_SYS}/libBrokenLocale-*.so\
-                ${libdir}/${UBUN_TARGET_SYS}/libtinfo.so.* \
-		${libdir}/${UBUN_TARGET_SYS}/libpanel.so* \
-		${libdir}/${UBUN_TARGET_SYS}/libncurses.so* \
-                ${base_libdir}/${UBUN_TARGET_SYS}/libuuid.so.* \
-                ${base_libdir}/${UBUN_TARGET_SYS}/libblkid.so.* \
-		${base_libdir}/${UBUN_TARGET_SYS}/libz.so.* \
-				${libdir}/${UBUN_TARGET_SYS}/libbz2.so.* \
-				${libdir}/${UBUN_TARGET_SYS}/libcrypt-*.so ${libdir}/${UBUN_TARGET_SYS}/libcrypt*.so.* \
-                "
-other_libs = " \
-            ${libdir}/${UBUN_TARGET_SYS}/libblkid.so.* \
-            ${libdir}/${UBUN_TARGET_SYS}/libmount.so.* \
-            ${libdir}/${UBUN_TARGET_SYS}/libuuid.so.* \
-            "
-FILES_libc6 = "${libc_baselibs} ${other_libs} DEBIAN/*"
-FILES_libc6-dev = "${libdir}/${UBUN_TARGET_SYS}/*_nonshared.a ${libdir}/${UBUN_TARGET_SYS}/*_nonshared.a ${libdir}/${UBUN_TARGET_SYS}/*.o DEBIAN/*"
-FILES_libc6-staticdev = "${libdir}/${UBUN_TARGET_SYS}/*.a ${libdir}/${UBUN_TARGET_SYS}/*.a DEBIAN/*"
 
 # systemd
 PACKAGES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gatewayd \
@@ -1631,10 +1520,6 @@ PKGR_systemd-binfmt = "0"
 PKGV_systemd-binfmt = "0"
 
 #  version control
-PKG_libc6 = "libc6"
-PKGV_libc6 = "${UBUN_VER_LIBC}"
-PKGR_libc6 = "0"
-
 PKGV_libasan-dev = "${UBUN_VER_GCC}"
 PKGV_libasan = "${UBUN_VER_GCC}"
 PKGV_libasan-staticdev = "${UBUN_VER_GCC}"
@@ -1677,15 +1562,6 @@ PKGV_libtsan-staticdev = "${UBUN_VER_GCC}"
 PKGV_libubsan-dev = "${UBUN_VER_GCC}"
 PKGV_libubsan = "${UBUN_VER_GCC}"
 PKGV_libubsan-staticdev = "${UBUN_VER_GCC}"
-
-PKG_libc-bin = "libc-bin"
-PKGV_libc-bin = "${UBUN_VER_GCC}"
-FILES_libc-bin = "${libdir}/dummy"
-
-PKG_libunistring2 = "libunistring2"
-PKGV_libunistring2 = "0.9.9"
-FILES_libunistring2 = "${libdir}/dummy"
-
 
 # From gcc-runtime.inc
 FILES_libg2c = "${target_libdir}/libg2c.so.*"
@@ -1893,36 +1769,6 @@ PKG_libffi = "libffi7"
 PKGV_libffi = "0"
 PKGR_libffi = "0"
 
-#libdrm
-#PACKAGES += "libdrm libdrm2 libdrm-dev libdrm-freedreno"
-#PROVIDES += "libdrm libdrm2 libdrm-dev libdrm-freedreno drm"
-#FILES_libdrm += " \
-#${libdir}/${UBUN_TARGET_SYS}/libdrm* \
-#             "
-#PKG_libdrm = "libdrm2"
-#PKGV_libdrm = "0"
-#PKGR_libdrm = "0"
-
-#DEPENDS_libdrm += " \
-#libdrm2 \
-#libdrm-dev \
-#libdrm-freedreno \
-#libpthread-stubs \
-#libpciaccess \
-#"
-#cursew
-
-PACKAGES += "curses libncursesw6 libncurses-dev libncurses6"
-PROVIDES += "curses libncursesw6 libncurses-dev libncurses6"
-RPROVIDES_curses += "curses libncursesw6 libncurses-dev libncurses6 nativesdk-curses"
-FILES_curses += " \
-/usr/lib/aarch64-linux-gnu/libcurses* \
-/usr/lib/aarch64-linux-gnu/libform* \
-/usr/lib/aarch64-linux-gnu/libpanel* \
-/usr/lib/aarch64-linux-gnu/libtermcap* \
-/lib/aarch64-linux-gnu/libncursesw.so* \
-"
-
 #libtirpc
 PACKAGES += "libtirpc libtirpc-dev libtirpc3"
 PROVIDES += "libtirpc libtirpc-dev libtirpc3"
@@ -1968,17 +1814,6 @@ FILES_libbrotli1 += " \
 PKG_libbrotli1 = "libbrotli1"
 PKGR_libbrotli1 = "0"
 PKGV_libbrotli1 = "0"
-
-#libcrypt1
-PACKAGES += "libcrypt1"
-PROVIDES += "libcrypt1"
-RPROVIDES_libcrypt1 += "libcrypt1"
-FILES_libcrypt1 += " \
-/usr/lib/aarch64-linux-gnu/libcrypt.so* \
-"
-PKG_libcrypt1 = "libcrypt1"
-PKGR_libcrypt1 = "0"
-PKGV_libcrypt1 = "0"
 
 #update-rc.d
 PACKAGES += "update-rc.d"
