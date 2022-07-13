@@ -31,9 +31,11 @@ libinput10 \
 libinput-dev \
 libsystemd0 \
 libudev1 \
+xtrans-dev \
 udev \
 systemd \
 libudev-dev \
+libpng-dev \
 libsystemd-dev \
 libp11-kit0 \
 libp11-kit-dev \
@@ -93,15 +95,10 @@ iso-codes \
 				 iw \
                                  libevdev2 \
                                  libevdev-dev \
-                                 libbsd0 \
-                                 libbsd-dev \
                                  libpciaccess0 \
                                  libpciaccess-dev \
                                  libion0 \
                                  xutils-dev \
-                                 libpthread-stubs0-dev \
-                                 libpixman-1-dev \
-                                 libpixman-1-0 \
                                  libjsoncpp1 \
                                  libjsoncpp-dev \
                                  libltdl7 \
@@ -122,18 +119,11 @@ UBUN_DEBUG_PACKAGES = " gdb \
 #Packages to enasure display and audio function
 UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    xkb-data \
-                                   libcairo2 \
-                                   libpng16-16 \
                                    libxkbcommon0 \
-                                   libwayland-client0 \
-                                   libwayland-cursor0 \
-                                   libwayland-server0 \
                                    libjpeg-turbo8 \
-                                   libgdk-pixbuf2.0-0 \
                                    libdrm-tests \
                                    libxau6-dbg \
                                    libxdmcp6-dbg \
-                                   libxext6-dbg \
                                    python3-dbg \
                                    python2-dbg \
                                  "
