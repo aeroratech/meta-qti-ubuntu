@@ -19,6 +19,6 @@ PROVIDES += "libffi "
 do_install_append() {
 
 cp -rf ${D}/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
-cp -rf ${D}/usr/lib/${UBUN_TARGET_SYS}/* ${D}/usr/lib/
+mv -f ${D}/usr/lib/${UBUN_TARGET_SYS}/* ${D}/usr/lib/
 
 }

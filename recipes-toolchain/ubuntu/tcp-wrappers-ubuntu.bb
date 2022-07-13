@@ -4,8 +4,7 @@ LICENSE = "Various licenses"
 LICENSE_libwrap0 = "Various licenses"
 LICENSE_libwrap0-dev = "Various licenses"
 LIC_FILES_CHKSUM = "\
-    file://https://changelogs.ubuntu.com/changelogs/pool/main/t/tcp-wrappers/tcp-wrappers_7.6.q-30/c
-opyright;md5=aebfac90929f6a69f2aa763213476b7d \
+    file://https://changelogs.ubuntu.com/changelogs/pool/main/t/tcp-wrappers/tcp-wrappers_7.6.q-30/copyright;md5=aebfac90929f6a69f2aa763213476b7d \
 "
 
 # the information of ubuntu package(s)
