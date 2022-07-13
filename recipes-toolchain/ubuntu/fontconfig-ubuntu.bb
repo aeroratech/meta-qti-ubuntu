@@ -16,7 +16,7 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/f/fontconfig/libfontc
 SRC_URI[libfontconfig1-dev.md5sum] = "5a34f5c3763d8e04f9737d25794e8872"
 
 # other configs to feed compilation
-PKG_${UPN} = "libfontconfig1-dev"
+PKG_${UPN} = "libfontconfig1"
 
 DEPENDS += "expat freetype"
 PROVIDES += "fontconfig-utils"

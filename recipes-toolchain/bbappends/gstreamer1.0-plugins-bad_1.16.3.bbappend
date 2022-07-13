@@ -6,10 +6,13 @@ FILES_gstreamer1.0-plugins-bad-waylandsink = " ${libdir}/* "
 PKG_gstreamer1.0-plugins-bad-waylandsink = "gstreamer1.0-plugins-bad-waylandsink"
 PKGV_gstreamer1.0-plugins-bad-waylandsink = "1.16.3"
 PKGR_gstreamer1.0-plugins-bad-waylandsink = "0"
+DEPENDS += "orc"
 
 EXTRA_OECONF_append = " --libdir=${libdir}/${UBUN_TARGET_SYS}"
 
 PACKAGECONFIG  = " wayland "
+
+PKG_${PN} = "gstreamer1.0-plugins-bad-waylandsink"
 DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gbm', '', d)}"
 
 do_install_append () {

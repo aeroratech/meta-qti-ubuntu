@@ -1,15 +1,16 @@
 ALLOW_EMPTY_gstreamer1.0-plugins-good-pulse = "1"
-DEPENDS += "gstreamer1.0-plugins-base-audio"
+DEPENDS += "gstreamer1.0-plugins-base-audio orc"
 PACKAGES = "gstreamer1.0-plugins-good-pulse"
 PROVIDES = "gstreamer1.0-plugins-good-pulse"
 RPROVIDES_gstreamer1.0-plugins-good-pulse = "gstreamer1.0-plugins-good-pulse"
-FILES_gstreamer1.0-plugins-good-pulse = " ${libdir}/gstreamer-1.0/libgstpulseaudio.so "
-PKG_gstreamer1.0-plugins-good-pulse = "gstreamer1.0-plugins-good-pulse"
+FILES_gstreamer1.0-plugins-good-pulse = " ${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/libgstpulseaudio.so "
+PKG_${PN} = "gstreamer1.0-plugins-good-pulse"
 PKGV_gstreamer1.0-plugins-good-pulse = "1.14.4"
 PKGR_gstreamer1.0-plugins-good-pulse = "0"
 RDEPENDS_gstreamer1.0-plugins-good-pulse = "gstreamer1.0-plugins-base-audio"
 
 EXTRA_OECONF_append = " --libdir=${libdir}/${UBUN_TARGET_SYS}"
+
 
 PACKAGECONFIG  = " pulseaudio "
 
