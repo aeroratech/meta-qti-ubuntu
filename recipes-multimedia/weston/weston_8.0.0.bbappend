@@ -1,6 +1,6 @@
 #remove gdk-pixbuf dependency because ubuntu toolchain provided
 DEPENDS_remove_qrb5165-rb5 = "gdk-pixbuf"
 RDEPENDS_${PN}_remove_qrb5165-rb5 += "xkeyboard-config"
-DEPENDS += "util-linux"
+DEPENDS += "util-linux "
 PACKAGES_remove = "${PN}-dbg"
 do_package_qa[noexec] = "1"

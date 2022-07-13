@@ -14,7 +14,7 @@ SRC_URI[libc6-arm64-cross.md5sum] = "faa39c8bc40fdd78c570f21e22331f93"
 # other configs to feed compilation
 PACKAGES += "glibc-thread-db  libmemusage libsegfault ${UPN}-pcprofile apt ldconfig"
 PROVIDES += "virtual/libc virtual/libintl virtual/libiconv libnsl2 ldconfig"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc linux-libc-headers"
+DEPENDS += "virtual/aarch64-linux-gnu-gcc linux-libc-headers libgcc"
 # DEPENDS += "libgcc-initial"
 
 FILES_${UPN} = "${exec_prefix}/${UBUNTU_TARGET_ARCH}/lib/libc.so.* ${exec_prefix}/${UBUNTU_TARGET_ARCH}/lib/libc-*.so \

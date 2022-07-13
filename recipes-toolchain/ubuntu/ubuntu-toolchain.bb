@@ -90,32 +90,9 @@ ALLOW_EMPTY_libssp = "1"
 ALLOW_EMPTY_libstdc++-precompile-dev = "1"
 ALLOW_EMPTY_libstdc++-staticdev = "1"
 ALLOW_EMPTY_udev = "1"
-ALLOW_EMPTY_systemd = "1"
-ALLOW_EMPTY_systemd-dev = "1"
-ALLOW_EMPTY_systemd-journal-remote = "1"
-ALLOW_EMPTY_systemd-journal-gatewayd = "1"
-ALLOW_EMPTY_systemd-journal-upload = "1"
-ALLOW_EMPTY_systemd-compat-units = "1"
-ALLOW_EMPTY_systemd-conf = "1"
-ALLOW_EMPTY_systemd-serialgetty = "1"
-ALLOW_EMPTY_systemd-vconsole-setup = "1"
-ALLOW_EMPTY_systemd-initramfs = "1"
-ALLOW_EMPTY_systemd-container = "1"
-ALLOW_EMPTY_systemd-analyze = "1"
-ALLOW_EMPTY_systemd-rpm-macros = "1"
-ALLOW_EMPTY_systemd-xorg-xinitrc = "1"
-ALLOW_EMPTY_systemd-kernel-install = "1"
-ALLOW_EMPTY_systemd-zsh-completion = "1"
-ALLOW_EMPTY_systemd-gui = "1"
-ALLOW_EMPTY_systemd-binfmt = "1"
 ALLOW_EMPTY_libcap-ng = "1"
 ALLOW_EMPTY_libcap-ng-dev = "1"
-ALLOW_EMPTY_libcap = "1"
-ALLOW_EMPTY_libcap-dev = "1"
-ALLOW_EMPTY_libatomic-ops = "1"
 ALLOW_EMPTY_libffi = "1"
-ALLOW_EMPTY_libvorbis = "1"
-ALLOW_EMPTY_libvorbis-dev = "1"
 ALLOW_EMPTY_libogg = "1"
 ALLOW_EMPTY_libsamplerate0 = "1"
 ALLOW_EMPTY_libsamplerate0-dev = "1"
@@ -161,7 +138,6 @@ ALLOW_EMPTY_json-c-dev = "1"
 ALLOW_EMPTY_libssl1.0 = "1"
 ALLOW_EMPTY_libssl1.0-dev = "1"
 ALLOW_EMPTY_gdk-pixbuf = "1"
-ALLOW_EMPTY_iso-codes = "1"
 
 # add opencv
 ALLOW_EMPTY_libopencv-dev = "1"
@@ -240,9 +216,6 @@ PROVIDES += "\
             libquadmath-dev \
             libquadmath-staticdev \
             sqlite3 \
-            go \
-            go-runtime \
-            virtual/${TARGET_PREFIX}go-runtime \
             attr \
 "
 
@@ -501,36 +474,6 @@ FILES_libcap-ng += " \
 		 ${includedir}/xen \
 "
 
-#  libcap
-PACKAGES += "\
-            libcap \
-            libcap-dev \
-"
-FILES_libcap += " \
-         ${libdir}/${UBUN_TARGET_SYS}/libcap.so.*  \
-         ${libdir}/${UBUN_TARGET_SYS}/libcap.a  \
-"
-PROVIDES += "libcap"
-RPROVIDES_libcap += "libcap"
-PKG_libcap = "libcap2"
-PKGR_libcap = "0"
-PKGV_libcap = "0"
-
-#iso-codes
-PACKAGES += "\
-            iso-codes \
-            iso-codes-dev \
-"
-FILES_iso-codes += " \
-         ${datadir}/iso-codes  \
-         ${datadir}/locale  \
-         ${datadir}/xml  \
-"
-PROVIDES += "iso-codes"
-RPROVIDES_iso-codes += "iso-codes"
-PKG_iso-codes = "iso-codes"
-PKGR_iso-codes = "0"
-PKGV_iso-codes = "0"
 
 #libpixman-1
 PACKAGES += "pixman  pixman-dev"
@@ -756,16 +699,6 @@ PKG_flac ="libflac8"
 PKGV_flac = "0"
 PKGR_flac = "0"
 
-#  libvorbis
-PACKAGES += "libvorbis"
-PROVIDES += "libvorbis"
-RPROVIDES_libvorbis += "libvorbis"
-FILES_libvorbis += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libvorbis.so.* \
-"
-PKG_libvorbis ="libvorbis0a"
-PKGV_libvorbis = "0"
-PKGR_libvorbis = "0"
 
 #  libvorbisenc2
 PACKAGES += "libvorbisenc2"
@@ -788,19 +721,6 @@ FILES_libvorbisfile3 += " \
 PKG_libvorbisfile3 = "libvorbisfile3"
 PKGV_libvorbisfile3 = "0"
 PKGR_libvorbisfile3 = "0"
-
-#  libatomic-ops
-PACKAGES += "libatomic-ops"
-PROVIDES += " libatomic-ops "
-RPROVIDES_libatomic-ops += " \
-                libatomic-ops \
-                "
-FILES_libatomic-ops += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libatomic-ops.* \
-"
-PKG_libatomic-ops ="libatomic1"
-PKGV_libatomic-ops = "0"
-PKGR_libatomic-ops = "0"
 
 #  libsamplerate0
 PACKAGES += "libsamplerate0"
@@ -984,16 +904,6 @@ PROVIDES += "\
             qemuwrapper-cross-doc \
             "
 
-# systemd
-PACKAGES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gatewayd \
-              systemd-journal-upload systemd-compat-units systemd-conf systemd-serialgetty \
-              "
-PROVIDES += "udev systemd systemd-dev systemd-journal-remote systemd-journal-gatewayd \
-             systemd-journal-upload systemd-compat-units systemd-conf systemd-serialgetty \
-              "
-PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
-PACKAGES_DYNAMIC += "^systemd-locale-.*"
-
 #libwacom
 PACKAGES += "libwacom libwacom-dev"
 PROVIDES += "libwacom libwacom-dev"
@@ -1051,18 +961,7 @@ PKG_libgudev ="liburcu6"
 PKGV_libgudev = "0"
 PKGR_libgudev = "0"
 
-#libudev1
-PACKAGES += "libudev"
-PROVIDES += "libudev"
-RPROVIDES_libudev += "libudev"
-FILES_libudev += " \
-     /lib/${UBUN_TARGET_SYS}/libudev* \
-"
-PKG_libudev = "libudev1"
-PKGR_libudev = "0"
-PKGV_libudev = "0"
-
-#libudev1
+#alsa-utils
 PACKAGES += "alsa-utils"
 PROVIDES += " \
 alsa-utils-alsabat    \
@@ -1167,20 +1066,6 @@ PKG_sbc = "libsbc-dev"
 PKGR_sbc = "0"
 PKGV_sbc = "0"
 
-#nettle
-PACKAGES += "libnettle7 nettle"
-PROVIDES += "libnettle7 nettle"
-RPROVIDES_nettle += " \
-		libnettle7 \
-		nettle \
-"
-FILES_nettle += "\
-/usr/lib/aarch64-linux-gnu/libnettle.so.7 \
-/usr/lib/aarch64-linux-gnu/libnettle.so.7.0 \
-"
-PKG_nettle = "libnettle7"
-PKGR_nettle = "0"
-PKGV_nettle = "0"
 #json-c
 PACKAGES += "json-c json-c-dev"
 PROVIDES += "json-c json-c-dev "
@@ -1195,11 +1080,6 @@ PKG_json-c ="libjson-c4"
 PKGV_json-c = "0"
 PKGR_json-c = "0"
 
-RPROVIDES_udev = "udev udev-hwdb hotplug"
-FILES_udev += "${libdir}/${UBUN_TARGET_SYS}/libudev.so*"
-PKGR_udev = "0"
-PKGV_udev = "0"
-
 PROVIDES += "libpng"
 RPROVIDES_libpng = "libpng"
 FILES_libpng += "${libdir}/dummy"
@@ -1211,104 +1091,6 @@ RPROVIDES_libxkbcommon = "libxkbcommon"
 FILES_libxkbcommon += "${libdir}/dummy"
 PKGR_libxkbcommon = "0"
 PKGV_libxkbcommon = "0"
-
-RPROVIDES_systemd = "systemd libsystemd0 systemd-locale systemd-dbg \
-                    systemd-bash-completion systemd-staticdev systemd-doc \
-                    "
-FILES_systemd += "${libdir}/${UBUN_TARGET_SYS}/libsystemd*.so*"
-PKGR_systemd = "0"
-PKGV_systemd = "0"
-
-RPROVIDES_systemd-dev = "libsystemd-dev"
-FILES_systemd-dev += "${libdir}/dummy"
-PKGR_systemd-dev = "0"
-PKGV_systemd-dev = "0"
-
-RPROVIDES_systemd-journal-remote = "systemd-journal-remote"
-FILES_systemd-journal-remote += "${libdir}/dummy"
-PKGR_systemd-journal-remote = "0"
-PKGV_systemd-journal-remote = "0"
-
-RPROVIDES_systemd-journal-gatewayd = "systemd-journal-gatewayd"
-FILES_systemd-journal-gatewayd += "${libdir}/dummy"
-PKGR_systemd-journal-gatewayd = "0"
-PKGV_systemd-journal-gatewayd = "0"
-
-RPROVIDES_systemd-journal-upload = "systemd-journal-upload"
-FILES_systemd-journal-upload += "${libdir}/dummy"
-PKGR_systemd-journal-upload = "0"
-PKGV_systemd-journal-upload = "0"
-
-RPROVIDES_systemd-compat-units = "systemd-compat-units"
-FILES_systemd-compat-units += "${libdir}/dummy"
-PKGR_systemd-compat-units = "0"
-PKGV_systemd-compat-units = "0"
-
-RPROVIDES_systemd-conf = "systemd-conf"
-FILES_systemd-conf += "${libdir}/dummy"
-PKGR_systemd-conf = "0"
-PKGV_systemd-conf = "0"
-
-RPROVIDES_systemd-serialgetty = "systemd-serialgetty-locale systemd-serialgetty-dbg systemd-serialgetty-doc \
-                     systemd-serialgetty-staticdev systemd-serialgetty-dev systemd-serialgetty \
-                    "
-FILES_systemd-serialgetty += "${libdir}/dummy"
-PKGR_systemd-serialgetty = "0"
-PKGV_systemd-serialgetty = "0"
-
-PACKAGES += "systemd-vconsole-setup \
-             systemd-initramfs systemd-container systemd-analyze systemd-rpm-macros \
-             systemd-xorg-xinitrc  systemd-kernel-install \
-             systemd-zsh-completion systemd-gui systemd-binfmt \
-             "
-PROVIDES += "systemd-vconsole-setup \
-             systemd-initramfs systemd-container systemd-analyze systemd-rpm-macros \
-             systemd-xorg-xinitrc systemd-zsh-completion systemd-gui systemd-binfmt \
-             "
-RPROVIDES_systemd-vconsole-setup = "systemd-vconsole-setup"
-FILES_systemd-vconsole-setup += "${libdir}/dummy"
-PKGR_systemd-vconsole-setup = "0"
-PKGV_systemd-vconsole-setup = "0"
-
-RPROVIDES_systemd-initramfs = "systemd-initramfs"
-FILES_systemd-initramfs += "${libdir}/dummy"
-PKGR_systemd-initramfs = "0"
-PKGV_systemd-initramfs = "0"
-
-RPROVIDES_systemd-container = "systemd-container"
-FILES_systemd-container += "${libdir}/dummy"
-PKGR_systemd-container = "0"
-PKGV_systemd-container = "0"
-
-RPROVIDES_systemd-analyze = "systemd-analyze"
-FILES_systemd-analyze += "${libdir}/dummy"
-PKGR_systemd-analyze = "0"
-PKGV_systemd-analyze = "0"
-
-RPROVIDES_systemd-rpm-macros = "systemd-rpm-macros"
-FILES_systemd-rpm-macros += "${libdir}/dummy"
-PKGR_systemd-rpm-macros = "0"
-PKGV_systemd-rpm-macros = "0"
-
-RPROVIDES_systemd-xorg-xinitrc = "systemd-xorg-xinitrc"
-FILES_systemd-xorg-xinitrc += "${libdir}/dummy"
-PKGR_systemd-xorg-xinitrc = "0"
-PKGV_systemd-xorg-xinitrc = "0"
-
-RPROVIDES_systemd-zsh-completion = "systemd-zsh-completion"
-FILES_systemd-zsh-completion += "${libdir}/dummy"
-PKGR_systemd-zsh-completion = "0"
-PKGV_systemd-zsh-completion = "0"
-
-RPROVIDES_systemd-gui = "systemd-gui"
-FILES_systemd-gui += "${libdir}/dummy"
-PKGR_systemd-gui = "0"
-PKGV_systemd-gui = "0"
-
-RPROVIDES_systemd-binfmt = "systemd-binfmt"
-FILES_systemd-binfmt += "${libdir}/dummy"
-PKGR_systemd-binfmt = "0"
-PKGV_systemd-binfmt = "0"
 
 #  version control
 PKGV_libasan-dev = "${UBUN_VER_GCC}"

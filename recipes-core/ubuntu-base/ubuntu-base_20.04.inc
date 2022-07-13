@@ -3,7 +3,6 @@ UBUNTU_BASE_TAR="ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #Packages to ensure boot up and WLAN function
 UBUN_BASIC_PACKAGES = " systemd \
-                        udev \
                         dhcpcd5 \
                         libnl-3-dev \
                         libnl-genl-3-dev \
@@ -30,6 +29,56 @@ libmtdev-dev \
 libmtdev1 \
 libinput10 \
 libinput-dev \
+libsystemd0 \
+libudev1 \
+udev \
+systemd \
+libudev-dev \
+libsystemd-dev \
+libp11-kit0 \
+libp11-kit-dev \
+libtasn1-6 \
+libtasn1-6-dev \
+curl \
+libcurl4-openssl-dev \
+libcurl4 \
+libkrb5support0 \
+libkrb5-3 \
+libkrb5-26-heimdal \
+libgssapi-krb5-2 \
+libkrb5-dev \
+krb5-multidev \
+libkeyutils1 \
+libkeyutils-dev \
+libkrb5-3 \
+libkrb5-dev \
+krb5-multidev \
+libkrb5-3 \
+libkrb5-dev \
+libgpg-error0 \
+libgpg-error-dev \
+libgcrypt20 \
+libgcrypt20-dev \
+libldap-2.4-2 \
+libldap2-dev \
+librtmp1 \
+librtmp-dev \
+libsasl2-2 \
+libsasl2-modules \
+libsasl2-dev \
+libsasl2-2 \
+libsasl2-dev \
+libnettle7 \
+nettle-dev \
+libnettle7 \
+nettle-dev \
+libgmp10 \
+libgmp-dev \
+libgnutls28-dev \
+libcap2 \
+libcap-dev \
+libcap-dev \
+iso-codes \
                                  libseccomp2 \
                                  seccomp \
                                  openssh-server \
@@ -116,33 +165,18 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              gstreamer1.0-libav \
                              gstreamer1.0-tools \
                              libgstreamer-gl1.0-0 \
-                             curl \
-                             libcurl4 \
-                             libcurl4-openssl-dev \
                              libidn2-0 \
                              libidn2-dev \
                              libunistring2 \
                              libunistring-dev \
                              libnghttp2-14 \
                              libpsl5 \
-                             libgssapi-krb5-2 \
-                             libldap-2.4-2 \
-                             librtmp1 \
-                             libkrb5-3 \
                              libk5crypto3 \
                              libcom-err2 \
-                             libkrb5support0 \
-                             libsasl2-2 \
                              libgssapi3-heimdal \
                              libgnutls30 \
                              libhogweed5 \
-                             libnettle7 \
-                             libgmp10 \
-                             libp11-kit0 \
-                             libtasn1-6 \
-                             libkeyutils1 \
                              libheimntlm0-heimdal \
-                             libkrb5-26-heimdal \
                              libasn1-8-heimdal \
                              libhcrypto4-heimdal \
                              libroken18-heimdal \
@@ -160,9 +194,7 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libtsan0 \
                              liblsan0 \
                              libcc1-0 \
-                             libcap2 \
                              libcap-ng0 \
-                             libcap-dev \
                              libcap-ng-dev \
                              libatomic1 \
                              libatomic-ops-dev \
@@ -185,6 +217,8 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libflac++-dev \
                              libasound2-plugins \
                              libevdev2 \
+                             libmtdev1 \
+                             libmtdev-dev \
                              libwrap0 \
                              libwrap0-dev \
                              liba52-0.7.4 \
@@ -222,7 +256,6 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libtag1-dev \
                              libjson-c4 \
                              libjson-c-dev \
-                             iso-codes \
                              linux-libc-dev \
                              "
 
