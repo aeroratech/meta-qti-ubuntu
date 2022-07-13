@@ -44,3 +44,5 @@ SRC_URI[libwind0-heimdal.md5sum]="9527f7eca32d10e4f194c82f3ee010ac"
 # other configs to feed compilation
 PKG_${UPN} = "heimdal"
 PROVIDES += "heimdal"
+
+DEPENDS += "sqlite3 libx11 libxau ncurses"

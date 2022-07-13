@@ -90,7 +90,6 @@ ALLOW_EMPTY_libstdc++-staticdev = "1"
 ALLOW_EMPTY_udev = "1"
 ALLOW_EMPTY_libcap-ng = "1"
 ALLOW_EMPTY_libcap-ng-dev = "1"
-ALLOW_EMPTY_libffi = "1"
 ALLOW_EMPTY_libogg = "1"
 ALLOW_EMPTY_libsamplerate0 = "1"
 ALLOW_EMPTY_libsamplerate0-dev = "1"
@@ -105,9 +104,6 @@ ALLOW_EMPTY_libflac++-dev = "1"
 ALLOW_EMPTY_liboggflac = "1"
 ALLOW_EMPTY_liboggflac++ = "1"
 ALLOW_EMPTY_libasound2-plugins = "1"
-ALLOW_EMPTY_libevdev = "1"
-ALLOW_EMPTY_libpciacess = "1"
-ALLOW_EMPTY_libffi = "1"
 ALLOW_EMPTY_libwacom = "1"
 ALLOW_EMPTY_libwacom-dev = "1"
 ALLOW_EMPTY_libcroco = "1"
@@ -130,40 +126,7 @@ ALLOW_EMPTY_taglib = "1"
 ALLOW_EMPTY_taglib-dev = "1"
 ALLOW_EMPTY_json-c = "1"
 ALLOW_EMPTY_json-c-dev = "1"
-ALLOW_EMPTY_libssl1.0 = "1"
-ALLOW_EMPTY_libssl1.0-dev = "1"
 
-# add opencv
-ALLOW_EMPTY_libopencv-dev = "1"
-ALLOW_EMPTY_libopencv-core-dev = "1"
-ALLOW_EMPTY_libopencv-core3.2 = "1"
-ALLOW_EMPTY_libopencv-imgcodecs-dev = "1"
-ALLOW_EMPTY_libopencv-imgcodecs3.2 = "1"
-ALLOW_EMPTY_libopencv-imgproc-dev = "1"
-ALLOW_EMPTY_libopencv-imgproc3.2 = "1"
-ALLOW_EMPTY_libopencv-calib3d-dev = "1"
-ALLOW_EMPTY_libopencv-calib3d3.2 = "1"
-ALLOW_EMPTY_libopencv-features2d-dev = "1"
-ALLOW_EMPTY_libopencv-features2d3.2 = "1"
-ALLOW_EMPTY_libopencv-flann-dev = "1"
-ALLOW_EMPTY_libopencv-highgui-dev = "1"
-ALLOW_EMPTY_libopencv-highgui3.2 = "1"
-ALLOW_EMPTY_libopencv-ml-dev = "1"
-ALLOW_EMPTY_libopencv-objdetect-dev = "1"
-ALLOW_EMPTY_libopencv-photo-dev = "1"
-ALLOW_EMPTY_libopencv-shape-dev = "1"
-ALLOW_EMPTY_libopencv-stitching-dev = "1"
-ALLOW_EMPTY_libopencv-superres-dev = "1"
-ALLOW_EMPTY_libopencv-ts-dev = "1"
-ALLOW_EMPTY_libopencv-video-dev = "1"
-ALLOW_EMPTY_libopencv-videoio-dev = "1"
-ALLOW_EMPTY_libopencv-videoio3.2 = "1"
-ALLOW_EMPTY_libopencv-videostab-dev = "1"
-ALLOW_EMPTY_libopencv-viz-dev = "1"
-ALLOW_EMPTY_libopencv3.2-java = "1"
-
-ALLOW_EMPTY_libopencv-contrib3.2 = "1"
-ALLOW_EMPTY_libopencv-contrib-dev = "1"
 
 PV = "0"
 BINV = "0"
@@ -184,7 +147,6 @@ PROVIDES += "\
             libarchive-native \
             e2fsprogs-native \
             nativesdk-libarchive \
-            libffi \
             mtd-utils-native \
             libpam \
             gcc-runtime \
@@ -208,7 +170,6 @@ PROVIDES += "\
             libquadmath \
             libquadmath-dev \
             libquadmath-staticdev \
-            sqlite3 \
             attr \
 "
 
@@ -286,7 +247,6 @@ do_install(){
 
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
      rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
@@ -297,10 +257,6 @@ do_install(){
      ln -sf ./libatomic.so.1.2.0 ${D}${libdir}/${UBUN_TARGET_SYS}/libatomic.so
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/lib/${UBUN_TARGET_SYS}/libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./libselinux.so.1 ${D}${libdir}/${UBUN_TARGET_SYS}/libselinux.so
-
-     #libsqlite3-0
-     cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsqlite3.*  ${D}${libdir}/
-     ln -sf ./libsqlite3.so.0.8.6 ${D}${libdir}/libsqlite3.so.0
 
      cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
@@ -393,16 +349,6 @@ FILES_libltdl += "dummy"
 
 PKGR_libltdl = "0"
 PKGV_libltdl = "0"
-#  libjpeg-turbo
-PKG_jpeg = "libjpeg-turbo8"
-PACKAGES += "jpeg"
-PROVIDES += "jpeg"
-
-RPROVIDES_jpeg = "jpeg"
-FILES_jpeg += "${libdir}/${UBUN_TARGET_SYS}/libjpeg.so*"
-PKGR_jpeg = "0"
-PKGV_jpeg = "0"
-
 #orc
 PACKAGES += "liborc-0.4 liborc-test-0.4 orc orc-dev"
 PROVIDES += "liborc-0.4 liborc-test-0.4 orc orc-dev "
@@ -466,53 +412,6 @@ FILES_libcap-ng += " \
 		 ${includedir}/video \
 		 ${includedir}/xen \
 "
-# libpciaccess
-PKG_libpciaccess = "libpciaccess0"
-PKGR_libpciaccess = "0"
-PKGV_libpciaccess = "0"
-PACKAGES += "\
-    libpciaccess \
-    libpciaccess-dev \
-"
-PROVIDES += "\
-    libpciaccess \
-    libpciaccess-dev \
-    xorg-macros \
-"
-FILES_libpciaccess  = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so.0 \
-    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so.0.11.1 \
-"
-FILES_libpciacess-dev = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.a \
-    ${libdir}/${UBUN_TARGET_SYS}/libpciaccess.so \
-    ${includedir}/pciaccess.h \
-"
-
-# libevdev
-PKG_libevdev = "libevdev2"
-PKGR_libevdev = "0"
-PKGV_libevdev = "0"
-PACKAGES += "\
-    libevdev \
-"
-PROVIDES +="\
-    libevdev \
-    libevdev-dev \
-"
-RPROVIDES_libevdev +="\
-    libevdev \
-    libevdev-dev \
-"
-FILES_libevdev = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libevdev.so.2 \
-    ${libdir}/${UBUN_TARGET_SYS}/libevdev.so.2.1.20 \
-"
-FILES_libevdev-dev = "\
-    ${libdir}/${UBUN_TARGET_SYS}/libevdev.a \
-    ${libdir}/${UBUN_TARGET_SYS}/libevdev.so \
-"
-
 #  libpam
 PACKAGES += "libpam"
 FILES_libpam += "${libdir}/dummy"
@@ -761,23 +660,6 @@ PKG_libsoup-2.4 ="libsoup2.4-1"
 PKGV_libsoup-2.4 = "0"
 PKGR_libsoup-2.4 = "0"
 
-##libssl & openssl & libssl-dev
-PACKAGES += "openssl"
-PROVIDES += "openssl"
-RPROVIDES_openssl = "openssl openssl-bin liberation-fonts kbd"
-PKG_openssl = "openssl"
-PKGR_openssl = "0"
-PKGV_openssl = "0"
-
-PACKAGES += "libssl1.1 libssl-dev"
-PROVIDES += "libssl1.1 libssl-dev"
-PROVIDES_libssl1.1 = "libssl1.1 libssl-dev"
-FILES_libssl1.1 = "${libdir}/${UBUN_TARGET_SYS}/libssl*.so.*"
-PKG_libssl1.1 = "libssl1.1"
-
-PKGR_libssl1.1 = "0"
-PKGV_libssl1.1 = "0"
-
 ALLOW_EMPTY_libselinux1 = "1"
 PACKAGES += "libselinux1"
 FILES_libselinux1 += "${libdir}/${UBUN_TARGET_SYS}/libselinux.so.* "
@@ -995,12 +877,6 @@ PKG_json-c ="libjson-c4"
 PKGV_json-c = "0"
 PKGR_json-c = "0"
 
-PROVIDES += "libxkbcommon"
-RPROVIDES_libxkbcommon = "libxkbcommon"
-FILES_libxkbcommon += "${libdir}/dummy"
-PKGR_libxkbcommon = "0"
-PKGV_libxkbcommon = "0"
-
 #  version control
 PKGV_libasan-dev = "${UBUN_VER_GCC}"
 PKGV_libasan = "${UBUN_VER_GCC}"
@@ -1183,30 +1059,6 @@ PKG_gstreamer1.0-plugins-base = "libgstreamer-plugins-base1.0-0"
 PKGV_gstreamer1.0-plugins-base = "1.16.2"
 PKGR_gstreamer1.0-plugins-base = "0"
 
-#libopencv-core3.2
-PACKAGES += "\
-    libopencv-core3.2 \
-    libopencv-core-dev \
-"
-PROVIDES += "libopencv-core3.2 libopencv-core-dev"
-RPROVIDES_libopencv-core += "libopencv-core3.2 libopencv-core-dev"
-
-# libopencv-imgcodecs3.2
-PACKAGES += "\
-    libopencv-imgcodecs3.2 \
-    libopencv-imgcodecs-dev \
-"
-PROVIDES += "libopencv-imgcodecs3.2 libopencv-imgcodecs-dev"
-RPROVIDES_libopencv-imgcodecs += "libopencv-imgcodecs3.2 libopencv-imgcodecs-dev"
-
-# libopencv-imgproc3.2
-PACKAGES += "\
-    libopencv-imgproc3.2 \
-    libopencv-imgproc-dev \
-"
-PROVIDES += "libopencv-imgproc3.2 libopencv-imgproc-dev"
-RPROVIDES_libopencv-imgproc += "libopencv-imgproc3.2 libopencv-imgproc-dev"
-
 PACKAGES += "gstreamer1.0-plugins-bad"
 FILES_gstreamer1.0-plugins-bad = "\
     ${libdir}/${UBUN_TARGET_SYS}/libgstadaptivedemux-1.0.so.0* \
@@ -1242,13 +1094,6 @@ RPROVIDES_gstreamer1.0-libav = "gstreamer1.0-libav-locale gstreamer1.0-libav-dbg
 PKGV_gstreamer1.0-libav = "0"
 PKGR_gstreamer1.0-libav = "0"
 
-PACKAGES += "libffi"
-RPROVIDES_libffi += "libffi-staticdev libffi-doc libffi-dbg libffi-dev libffi-locale"
-FILES_libffi = "${libdir}/${UBUN_TARGET_SYS}/libffi.so*"
-PKG_libffi = "libffi7"
-PKGV_libffi = "0"
-PKGR_libffi = "0"
-
 #libtirpc
 PACKAGES += "libtirpc libtirpc-dev libtirpc3"
 PROVIDES += "libtirpc libtirpc-dev libtirpc3"
@@ -1261,17 +1106,6 @@ FILES_libtirpc += " \
 PKG_libtirpc = "libtirpc3"
 PKGR_libtirpc = "0"
 PKGV_libtirpc = "0"
-
-#libsqlite sqlite 
-PACKAGES += "sqlite libsqlite3 libsqlite-dev"
-PROVIDES += "sqlite libsqlite3 libsqlite-dev"
-RPROVIDES_sqlite += "sqlite libsqlite3 libsqlite-dev"
-FILES_sqlite += " \
-/usr/lib/aarch64-linux-gnu/libsqlite3.so* \
-"
-PKG_sqlite = "libsqlite-dev"
-PKGR_sqlite = "0"
-PKGV_sqlite = "0"
 
 #libssh-4
 PACKAGES += "libssh-4"

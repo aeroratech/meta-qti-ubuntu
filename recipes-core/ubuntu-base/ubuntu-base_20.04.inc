@@ -14,10 +14,6 @@ UBUN_BASIC_PACKAGES = " systemd \
                         wireless-tools \
                         psmisc \
                         usbutils \
-                        libffi7 \
-                        libssl1.1 \		
-                        libssl-dev \
-                        openssl \
                         procps \
                         zlib1g \
 			zip \
@@ -25,6 +21,12 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libffi-dev \
+libffi7 \
+libpthread-stubs0-dev \
+libpciaccess0 \
+libpciaccess-dev \
+xutils-dev \
 libmtdev-dev \
 libmtdev1 \
 libinput10 \
@@ -93,12 +95,7 @@ iso-codes \
                                  libgomp1 \
                                  dnsmasq \
 				 iw \
-                                 libevdev2 \
-                                 libevdev-dev \
-                                 libpciaccess0 \
-                                 libpciaccess-dev \
                                  libion0 \
-                                 xutils-dev \
                                  libjsoncpp1 \
                                  libjsoncpp-dev \
                                  libltdl7 \
@@ -119,8 +116,6 @@ UBUN_DEBUG_PACKAGES = " gdb \
 #Packages to enasure display and audio function
 UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    xkb-data \
-                                   libxkbcommon0 \
-                                   libjpeg-turbo8 \
                                    libdrm-tests \
                                    libxau6-dbg \
                                    libxdmcp6-dbg \
@@ -173,11 +168,9 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libwind0-heimdal \
                              libheimbase1-heimdal \
                              libhx509-5-heimdal \
-                             libsqlite3-0 \
                              lsb-release \
                              python3-argcomplete \
                              gnupg2 \
-                             libsqlite3-dev \
                              weston \
                              libweston-8-0 \
                              libitm1 \
@@ -206,7 +199,6 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libflac++6v5 \
                              libflac++-dev \
                              libasound2-plugins \
-                             libevdev2 \
                              libmtdev1 \
                              libmtdev-dev \
                              libwrap0 \

@@ -1,8 +1,8 @@
 inherit upkg_base
 
-LICENSE = ""
-LICENSE_libxft2 = ""
-LICENSE_libxft-dev = ""
+LICENSE = "MIT-Style"
+LICENSE_libxft2 = "MIT-Style"
+LICENSE_libxft-dev = "MIT-Style"
 
 # the information of ubuntu package(s)
 SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/x/xft/libxft-dev_2.3.3-0ubuntu1_arm64.deb;name=libxft-dev"
