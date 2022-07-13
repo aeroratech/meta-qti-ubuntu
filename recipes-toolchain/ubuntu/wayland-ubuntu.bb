@@ -35,3 +35,7 @@ PROVIDES += "wayland "
 SYSROOT_DIRS_BLACKLIST += " \
 ${libdir}/${UBUN_TARGET_SYS}/pkgconfig/wayland-egl.pc \
 "
+
+do_install_append(){
+	rm -rf ${D}/${libdir}/${UBUN_TARGET_SYS}/libwayland-egl.so*
+}
