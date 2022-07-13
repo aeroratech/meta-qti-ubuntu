@@ -12,4 +12,5 @@ SRC_URI[libbz2-dev.md5sum] = "239228b4f3ce6b3f6d929445df491380"
 SRC_URI[libbz2.md5sum] = "b264cacc4783b91a49c929abf9a997e6"
 
 # other configs to feed compilation
-PKG_${UPN} = "libbz2"
+PKG_${UPN} = "libbz2-1.0"
+DEPENDS += "libtool-cross virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc  virtual/update-alternatives"

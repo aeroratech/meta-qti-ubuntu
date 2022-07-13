@@ -12,8 +12,10 @@ SRC_URI[libglib2.0.md5sum] = "1e2d55c0d8a07a22b92c99c3a86cec13"
 SRC_URI[libglib2.0-dev.md5sum] = "01d216bbd4cf8a16ac5ab0df5fd9a8b7"
 
 # other configs to feed compilation
-PKG_${UPN} = "libglib2.0"
+PKG_${UPN} = "libglib2.0-0"
 PACKAGES += "${UPN}-codegen ${UPN}-utils"
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc virtual/libintl virtual/libiconv libffi zlib bash-completion util-linux libselinux libpcre"
+
 
 do_install() {
     cp -r ${DEBOUT}/* ${D}/

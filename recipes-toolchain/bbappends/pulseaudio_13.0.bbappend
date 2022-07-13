@@ -5,10 +5,7 @@ PKG_libpulse = "libpulse0"
 RDEPENDS_pulseaudio-server_remove = "alsa-plugins-pulseaudio-conf"
 RDEPENDS_pulseaudio-server += "libasound2-plugins"
 RDEPENDS_pulseaudio-misc += "libpulse-simple"
-DEPENDS += "util-linux"
 
-DEPENDS += "util-linux"
-DEPENDS_append_qrb5165 += "zlib-ubuntu"
 SYSTEMD_SERVICE_${PN}-server_remove += "volatile-var-lib-pulse.service"
 
 EXTRA_OECONF += "--disable-effect-trumpet"
@@ -27,8 +24,7 @@ PACKAGES_prepend = " \
             pulseaudio-module-qahw-card \
             "
 
-do_package_qa[noexec] = "1"
 
 # config update-alternatives for pulseaudio
 require  update-alternatives/pulseaudio.inc
-
+do_package_qa[noexec] = "1"

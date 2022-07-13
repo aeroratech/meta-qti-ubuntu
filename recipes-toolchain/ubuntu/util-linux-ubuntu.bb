@@ -39,3 +39,4 @@ FILES_${UPN} = "${base_libdir}/${UBUN_TARGET_SYS}/libuuid.so.* ${base_libdir}/${
 PACKAGES += "${UPN}-bash-completion ${UPN}-swaponoff util-linux-sulogin util-linux-agetty util-linux-mount util-linux-umount util-linux-fsck"
 RPROVIDES_${UPN} += "util-linux-sulogin util-linux-agetty util-linux-mount util-linux-umount util-linux-fsck"
 PKG_${UPN} = "libblkid1"
+DEPENDS += "libtool-cross virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libcap-ng ncurses virtual/crypt zlib bash-completion  libpam libselinux virtual/update-alternatives"
