@@ -52,6 +52,10 @@ def gen_src_uri(d):
 SRC_URI := "${@gen_src_uri(d)}"
 
 python do_install() {
+    deb_dir =  (d.getVar('EXTERNAL_TOOLCHAIN') or '') + '/deb/*'
+    cmd_remove = "/usr/bin/rm -rf %s" %(deb_dir)
+    if os.system(cmd_remove) != 0 :
+        bb.fatal("failed to excute cmd: " + cmd_remove)
     src_uri = (d.getVar('SRC_URI') or '').split()
     for item in src_uri:
         deb_name = os.path.basename(item.split(';')[0])
@@ -64,9 +68,10 @@ python do_install() {
 
         inst_dir = os.path.join(inst_dir, "deb")
         cmd = "/usr/bin/dpkg-deb -X %s %s" %(deb_file, inst_dir)
-        bb.warn(cmd)
+        #bb.warn(cmd)
         if os.system(cmd) != 0 :
             bb.fatal("failed to excute cmd: " + cmd)
 }
+
 
 deltask do_unpack
