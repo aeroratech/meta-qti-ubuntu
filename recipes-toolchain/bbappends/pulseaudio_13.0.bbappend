@@ -7,6 +7,8 @@ RDEPENDS_pulseaudio-server += "libasound2-plugins"
 RDEPENDS_pulseaudio-misc += "libpulse-simple"
 DEPENDS += "util-linux"
 
+DEPENDS += "util-linux"
+DEPENDS_append_qrb5165 += "zlib-ubuntu"
 SYSTEMD_SERVICE_${PN}-server_remove += "volatile-var-lib-pulse.service"
 
 EXTRA_OECONF += "--disable-effect-trumpet"

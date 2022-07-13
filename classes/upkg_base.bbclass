@@ -39,7 +39,9 @@ FILES_${UPN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
             ${datadir}/pixmaps ${datadir}/applications \
             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
             ${libdir}/bonobo/servers \
-            ${libdir}/${UBUNTU_TARGET_ARCH}/* ${exec_prefix}/${UBUNTU_TARGET_ARCH}"
+            ${libdir}/${UBUNTU_TARGET_ARCH}/* \
+            ${exec_prefix}/${UBUNTU_TARGET_ARCH} \
+            ${base_libdir}/${UBUNTU_TARGET_ARCH}/*.so*"
 
 FILES_${UPN}-bin = "${bindir}/* ${sbindir}/*"
 

@@ -113,8 +113,6 @@ ALLOW_EMPTY_systemd-gui = "1"
 ALLOW_EMPTY_systemd-binfmt = "1"
 ALLOW_EMPTY_libcap-ng = "1"
 ALLOW_EMPTY_libcap-ng-dev = "1"
-ALLOW_EMPTY_linux-libc-headers = "1"
-ALLOW_EMPTY_linux-libc-headers-dev = "1"
 ALLOW_EMPTY_libcap = "1"
 ALLOW_EMPTY_libcap-dev = "1"
 ALLOW_EMPTY_libatomic-ops = "1"
@@ -345,7 +343,6 @@ do_install(){
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
      rm -rf ${D}${includedir}/gstreamer-1.0/gst/audio/
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/linux ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/aarch64-linux-gnu/include/* ${D}${includedir}
      cp ${CP_ARGS} -H ${D}${includedir}/c++/10/* ${D}${includedir}/c++/
      cp ${CP_ARGS} -H ${D}${includedir}/c++/aarch64-linux-gnu/bits/* ${D}${includedir}/c++/bits
@@ -516,11 +513,6 @@ RPROVIDES_libcap-ng = "libcap-ng libcap-ng-dev"
 PKG_libcap-ng = "libcap-ng0"
 PKGR_libcap-ng = "0"
 PKGV_libcap-ng = "0"
-#  linux-libc-headers-dev
-PACKAGES += "\
-            linux-libc-headers-dev \
-            linux-libc-headers \
-"
 FILES_libcap-ng += " \
          ${includedir}/aarch64-linux-gnu/asm \
 		 ${includedir}/asm-generic \
@@ -534,11 +526,6 @@ FILES_libcap-ng += " \
 		 ${includedir}/video \
 		 ${includedir}/xen \
 "
-PROVIDES += "linux-libc-headers-dev linux-libc-headers"
-RPROVIDES_linux-libc-headers = "linux-libc-headers linux-libc-headers-dev"
-PKG_linux-libc-headers = "linux-libc-dev"
-PKGR_linux-libc-headers = "0"
-PKGV_linux-libc-headers = "0"
 
 #  libcap
 PACKAGES += "\
@@ -885,18 +872,6 @@ PKG_libasound2-plugins ="libasound2-plugins"
 PKGV_libasound2-plugins = "0"
 PKGR_libasound2-plugins = "0"
 
-PACKAGES += "zlib"
-FILES_zlib += " \
-             ${libdir}/${UBUN_TARGET_SYS}/libz.* \
-             ${base_libdir}/${UBUN_TARGET_SYS}/libz.so* \
-             ${includedir}/zlib.h \
-             ${includedir}/zconf.h \
-"
-PROVIDES += "zlib"
-RPROVIDES_zlib += "zlib"
-PKGV_zlib = "0"
-PKGR_zlib = "0"
-PKG_zlib ="zlib1g"
 
 PACKAGES += "liblzma"
 FILES_liblzma += " \
