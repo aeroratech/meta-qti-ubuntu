@@ -11,7 +11,7 @@ SRC_URI[libgnutls30.md5sum] = "6978fc5b135070bb531e225da0c352e5"
 SRC_URI[libgnutls28-dev.md5sum] = "5c978b6e115ff0a1ef78566156c2183d"
 
 # other configs to feed compilation
-PKG_${UPN} = "libgnutls28-dev"
+PKG_${UPN} = "libgnutls30"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc nettle gmp virtual/libiconv libunistring  libidn2"
 PROVIDES += "gnutls "
 

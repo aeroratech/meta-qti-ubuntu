@@ -16,4 +16,4 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/i/icu/libicu-dev_66.1
 SRC_URI[libicu-dev.md5sum] = "c59a1a1e0ebddb4bb18d4ad9513cb15a"
 
 # other configs to feed compilation
-PKG_${UPN} = "libicu-dev"
+PKG_${UPN} = "libicu66"

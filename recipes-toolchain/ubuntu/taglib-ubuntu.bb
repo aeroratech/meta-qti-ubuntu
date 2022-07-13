@@ -24,6 +24,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/t/taglib/libtag1-dev_
 SRC_URI[libtag1-dev.md5sum] = "c56993b15b001672498f4d89665e904e"
 
 # other configs to feed compilation
-PKG_${UPN} = "libtag1-dev"
+PKG_${UPN} = "libtag1v5"
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc zlib"
 PROVIDES += "taglib "
