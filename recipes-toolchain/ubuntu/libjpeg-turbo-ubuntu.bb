@@ -21,5 +21,5 @@ SRC_URI[libjpeg-turbo8.md5sum] = "d9b861903491caa94ff8ea88220b9bf9"
 
 # other configs to feed compilation
 PKG_${UPN} = "libjpeg-turbo8"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc "
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
 PROVIDES += "libjpeg-turbo jpeg"

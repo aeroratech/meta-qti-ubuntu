@@ -13,6 +13,6 @@ SRC_URI[libevdev2.md5sum] = "3405d5ab302ef8ea58ca7b1ed50a4098"
 
 # other configs to feed compilation
 PKG_${UPN} = "libevdev2"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc "
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
 PROVIDES += "libevdev libevdev-dev"
 #RDEPENDS += "libevdev "

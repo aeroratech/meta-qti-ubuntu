@@ -13,5 +13,12 @@ SRC_URI[libffi7.md5sum] = "eae849d100aadd84a3ebee069b63acda"
 
 # other configs to feed compilation
 PKG_${UPN} = "libffi7"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc "
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
 PROVIDES += "libffi "
+
+do_install_append() {
+
+cp -rf ${D}/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
+cp -rf ${D}/usr/lib/${UBUN_TARGET_SYS}/* ${D}/usr/lib/
+
+}

@@ -13,6 +13,6 @@ SRC_URI[libinput10.md5sum] = "098e4f972b3e87d3380952d9a31852c6"
 
 # other configs to feed compilation
 PKG_${UPN} = "libinput10"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libevdev udev mtdev "
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libevdev udev mtdev libwacom"
 PROVIDES += "libinput libinput-bin "
 RPROVIDES_libinput += "libinput-bin"

@@ -9,5 +9,5 @@ SRC_URI[libpthread-stubs0-dev.md5sum] = "93dbd5c581ed753f34c2cc84253d3069"
 
 # other configs to feed compilation
 PKG_${UPN} = "libpthread-stubs0-dev"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-oe-linux-compilerlibs virtual/libc "
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
 PROVIDES += "libpthread-stubs "
