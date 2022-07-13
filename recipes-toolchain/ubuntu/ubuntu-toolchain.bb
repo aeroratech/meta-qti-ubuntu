@@ -126,7 +126,6 @@ ALLOW_EMPTY_libatomic-ops = "1"
 ALLOW_EMPTY_libffi = "1"
 ALLOW_EMPTY_libvorbis = "1"
 ALLOW_EMPTY_libvorbis-dev = "1"
-ALLOW_EMPTY_speexdsp = "1"
 ALLOW_EMPTY_libogg = "1"
 ALLOW_EMPTY_libsamplerate0 = "1"
 ALLOW_EMPTY_libsamplerate0-dev = "1"
@@ -330,20 +329,6 @@ python do_fix_symlink(){
 }
 addtask fix_symlink after do_compile before do_install 
 
-do_test(){
-
-bbwarn "do_test"
-
-}
-
-do_test_append(){
-bbwarn "do_test_append"
-}
-
-do_test_append(){
-bbwarn "do_test_append1"
-}
-addtask do_test
 do_install(){
      install -d ${D}
      install -d ${D}${base_libdir}
@@ -925,31 +910,6 @@ FILES_libatomic-ops += " \
 PKG_libatomic-ops ="libatomic1"
 PKGV_libatomic-ops = "0"
 PKGR_libatomic-ops = "0"
-#  speex
-PACKAGES += "speex"
-PROVIDES += "speex"
-RPROVIDES_speex += "speex"
-FILES_speex += "\
-/usr/lib/aarch64-linux-gnu/libspeex.a \
-/usr/lib/aarch64-linux-gnu/libspeex.so \
-/usr/lib/aarch64-linux-gnu/libspeex.so.1 \
-/usr/lib/aarch64-linux-gnu/libspeex.so.1.5.0 \
-"
-PKG_speex = "libspeex-dev"
-PKGV_speex = "0"
-PKGR_speex = "0"
-
-#  speexdsp
-PACKAGES += "speexdsp"
-PROVIDES += "speexdsp"
-RPROVIDES_speexdsp += "speexdsp"
-FILES_speexdsp += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libspeexdsp*.* \
-    ${libdir}/${UBUN_TARGET_SYS}/libspeex*.* \
-"
-PKG_speexdsp ="libspeexdsp1"
-PKGV_speexdsp = "0"
-PKGR_speexdsp = "0"
 
 #  libsamplerate0
 PACKAGES += "libsamplerate0"
@@ -1095,21 +1055,6 @@ PKG_libsoup-2.4 ="libsoup2.4-1"
 PKGV_libsoup-2.4 = "0"
 PKGR_libsoup-2.4 = "0"
 
-#curl & libcurl4
-PACKAGES += "curl"
-PROVIDES += "curl libcurl curl-dev"
-RPROVIDES_curl += " \
-                libcurl \
-                curl \
-                curl-dev \
-                "
-FILES_curl += " \
-    ${libdir}/${UBUN_TARGET_SYS}/libcurl.* \
-"
-PKG_curl ="libcurl4"
-PKGV_curl = "0"
-PKGR_curl = "0"
-
 #libunistring2
 PACKAGES += "libunistring libunistring-dev"
 PROVIDES += "libunistring libunistring-dev"
@@ -1137,19 +1082,6 @@ FILES_libidn2 += " \
 PKG_libidn2 ="libidn2-0"
 PKGV_libidn2 = "0"
 PKGR_libidn2 = "0"
-
-# #libcurl4-openssl-dev
-# PACKAGES += "libcurl4-openssl-dev"
-# PROVIDES += "libcurl4-openssl-dev"
-# RPROVIDES_libcurl4-openssl-dev += " \
-#                 libcurl4-openssl-dev \
-#                 "
-# FILES_libcurl4-openssl-dev += " \
-#     ${libdir}/${UBUN_TARGET_SYS}/libcurl.* \
-# "
-# PKG_libcurl4-openssl-dev ="libcurl4-openssl-dev"
-# PKGV_libcurl4-openssl-dev = "0"
-# PKGR_libcurl4-openssl-dev = "0"
 
 ##libssl & openssl & libssl-dev
 
@@ -1968,17 +1900,6 @@ PKGR_gstreamer1.0-plugins-good = "0"
 PACKAGES += "gstreamer1.0-plugins-ugly"
 PROVIDES += "gstreamer1.0-plugins-ugly"
 RPROVIDES_gstreamer1.0-plugins-ugly = "gstreamer1.0-plugins-ugly gstreamer1.0-plugins-ugly-apps gstreamer1.0-plugins-ugly-glib gstreamer1.0-plugins-ugly-doc gstreamer1.0-plugins-ugly-dbg gstreamer1.0-plugins-ugly-locale gstreamer1.0-plugins-ugly-meta gstreamer1.0-plugins-ugly-dev gstreamer1.0-plugins-ugly-staticdev"
-
-PACKAGES += "gstreamer1.0-rtsp-server"
-PROVIDES += "gstreamer1.0-rtsp-server"
-RPROVIDES_gstreamer1.0-rtsp-server = "gstreamer1.0-rtsp-server-glib gstreamer1.0-rtsp-server-staticdev gstreamer1.0-rtsp-server-locale gstreamer1.0-rtsp-server-meta gstreamer1.0-rtsp-server-dev gstreamer1.0-rtsp-server-dbg gstreamer1.0-rtsp-server-doc gstreamer1.0-rtsp-server-apps"
-PKG_gstreamer1.0-rtsp-server = "libgstrtspserver-1.0-0"
-PKGV_gstreamer1.0-rtsp-server = "0"
-PKGR_gstreamer1.0-rtsp-server = "0"
-ALLOW_EMPTY_gstreamer1.0-rtsp-server = "1"
-FILES_gstreamer1.0-rtsp-server += "\
-    ${libdir}/${UBUN_TARGET_SYS}/libgstrtspserver* \
-"
 
 PACKAGES += "gstreamer1.0-libav"
 PROVIDES += "gstreamer1.0-libav"
