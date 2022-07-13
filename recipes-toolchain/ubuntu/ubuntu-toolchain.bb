@@ -77,7 +77,6 @@ ALLOW_EMPTY_libgomp-staticdev = "1"
 ALLOW_EMPTY_libatomic = "1"
 ALLOW_EMPTY_libgomp = "1"
 ALLOW_EMPTY_libxml2 = "1"
-ALLOW_EMPTY_glib-2.0 = "1"
 ALLOW_EMPTY_shadow = "1"
 ALLOW_EMPTY_libnl = "1"
 ALLOW_EMPTY_expat = "1"
@@ -248,7 +247,6 @@ PROVIDES += "\
             nativesdk-libarchive \
             util-linux \
             lsbinitscripts \
-            glib-2.0 \
             libffi \
             mtd-utils-native \
             libpam \
@@ -365,7 +363,6 @@ do_install(){
 
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/selinux ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/security ${D}${includedir}
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/glib-2.0 ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/${UBUN_TARGET_SYS}/ffi*.h ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/usr/include/gstreamer-1.0 ${D}${includedir}
      cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/gstreamer-1.0/include/gst ${D}${includedir}
@@ -393,7 +390,6 @@ do_install(){
      cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/libsqlite3.*  ${D}${libdir}/
      ln -sf ./libsqlite3.so.0.8.6 ${D}${libdir}/libsqlite3.so.0
 
-     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/${libdir}/${UBUN_TARGET_SYS}/glib-2.0/include/*.h ${D}${includedir}
      cp ${CP_ARGS} ${EXTERNAL_TOOLCHAIN}/deb/${base_libdir}/${UBUN_TARGET_SYS}/liblzma*.so* ${D}${libdir}/${UBUN_TARGET_SYS}
      ln -sf ./liblzma.so.5.2.2 ${D}${libdir}/${UBUN_TARGET_SYS}/liblzma.so
 
@@ -1100,16 +1096,6 @@ PKG_libssl1.1 = "libssl1.1"
 
 PKGR_libssl1.1 = "0"
 PKGV_libssl1.1 = "0"
-
-PACKAGES += "glib-2.0"
-FILES_glib-2.0 += "${libdir}/dummy"
-RPROVIDES_glib-2.0 = " \
-                    glib-2.0 \
-                    glib-2.0-codegen glib-2.0-locale glib-2.0-dbg glib-2.0-staticdev glib-2.0-bash-completion glib-2.0-doc glib-2.0-utils glib-2.0-dev \
-                   "
-PKG_glib-2.0 = "libglib2.0-0"
-PKGV_glib-2.0 = "0"
-PKGR_glib-2.0 = "0"
                    
 PACKAGES += "libxml2"
 FILES_libxml2 += "${libdir}/${UBUN_TARGET_SYS}/libxml2.so.2*"
@@ -1202,19 +1188,12 @@ libc_baselibs = " \
 				${libdir}/${UBUN_TARGET_SYS}/libbz2.so.* \
 				${libdir}/${UBUN_TARGET_SYS}/libcrypt-*.so ${libdir}/${UBUN_TARGET_SYS}/libcrypt*.so.* \
                 "
-glib_libs = " \
-            ${libdir}/${UBUN_TARGET_SYS}/libgio-2.0.so* \
-            ${libdir}/${UBUN_TARGET_SYS}/libglib-2.0.so* \
-            ${libdir}/${UBUN_TARGET_SYS}/libgmodule-2.0.so* \
-            ${libdir}/${UBUN_TARGET_SYS}/libgobject-2.0.so* \
-            ${libdir}/${UBUN_TARGET_SYS}/libgthread-2.0.so* \
-            "
 other_libs = " \
             ${libdir}/${UBUN_TARGET_SYS}/libblkid.so.* \
             ${libdir}/${UBUN_TARGET_SYS}/libmount.so.* \
             ${libdir}/${UBUN_TARGET_SYS}/libuuid.so.* \
             "
-FILES_libc6 = "${libc_baselibs} ${glib_libs} ${other_libs} DEBIAN/*"
+FILES_libc6 = "${libc_baselibs} ${other_libs} DEBIAN/*"
 FILES_libc6-dev = "${libdir}/${UBUN_TARGET_SYS}/*_nonshared.a ${libdir}/${UBUN_TARGET_SYS}/*_nonshared.a ${libdir}/${UBUN_TARGET_SYS}/*.o DEBIAN/*"
 FILES_libc6-staticdev = "${libdir}/${UBUN_TARGET_SYS}/*.a ${libdir}/${UBUN_TARGET_SYS}/*.a DEBIAN/*"
 
