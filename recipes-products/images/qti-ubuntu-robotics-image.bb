@@ -54,6 +54,10 @@ CORE_IMAGE_BASE_INSTALL += " \
             adreno \
             weston \
             "
+#Install packages for gfx
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-gfx \
+            "
 #Install packages for video
 CORE_IMAGE_BASE_INSTALL += " \
 	    packagegroup-qti-video \	
