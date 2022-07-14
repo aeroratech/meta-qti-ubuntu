@@ -3,7 +3,7 @@ PACKAGES = "gstreamer1.0-plugins-base-audio gstreamer1.0-plugins-base"
 PROVIDES = "gstreamer1.0-plugins-base-audio gstreamer1.0-plugins-base"
 DEPENDS += "libxcb glib-2.0 gstreamer1.0-plugins-base-oss"
 RPROVIDES_gstreamer1.0-plugins-base-audio = "gstreamer1.0-plugins-base-audio"
-FILES_gstreamer1.0-plugins-base-audio = " ${libdir}/${UBUN_TARGET_SYS}/libgstaudio* "
+FILES_gstreamer1.0-plugins-base-audio = " ${libdir}/libgstaudio* "
 PKG_${PN} = "gstreamer1.0-plugins-base-audio"
 PKGV_gstreamer1.0-plugins-base-audio = "1.16.3"
 PKGR_gstreamer1.0-plugins-base-audio = "0"
@@ -37,7 +37,7 @@ do_install_append () {
     rm -rf ${D}${bindir}
 }
 
-do_package_qa[noexec] = "1"
+#do_package_qa[noexec] = "1"
 
 # config update-alternatives for gstreamer1.0-plugins-base
 require update-alternatives/gstreamer1.0-plugins-base.inc
