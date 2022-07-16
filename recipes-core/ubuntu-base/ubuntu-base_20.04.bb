@@ -70,8 +70,10 @@ ubuntu_post_install() {
 }
 
 restore_sourcelist() {
-	mv ${TMP_WKDIR}/etc/apt/sources.list_backup ${TMP_WKDIR}/etc/apt/sources.list
-#	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+	if [ -e "${TMP_WKDIR}/etc/apt/sources.list_backup" ];then
+	    mv ${TMP_WKDIR}/etc/apt/sources.list_backup ${TMP_WKDIR}/etc/apt/sources.list
+#	    fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+	fi
 }
 
 get_rootfs_packages () {

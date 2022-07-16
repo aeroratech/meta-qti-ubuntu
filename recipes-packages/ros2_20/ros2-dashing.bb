@@ -3,6 +3,8 @@ inherit python3native
 LICENSE = "BSD-3-clause-clear"
 # License applies to this recipe code, not the packages itself.
 
+DEPENDS += "console-bridge"
+
 SYSROOT_DIRS_append = "/opt/ros/dashing"
 
 do_install() {

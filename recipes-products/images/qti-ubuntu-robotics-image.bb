@@ -31,6 +31,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-ss-mgr \
             packagegroup-qti-qmmf \
             packagegroup-qti-qmmf-sdk \
+            packagegroup-qti-mmframeworks \
             packagegroup-qti-core \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
@@ -62,9 +63,9 @@ CORE_IMAGE_BASE_INSTALL += " \
             recovery-ab \
             "
 #Install packages for camera
-#CORE_IMAGE_BASE_INSTALL += " \
-#            packagegroup-qti-camera \
-#            "
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-camera \
+            "
 #Install packages for bluetooth
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-bluetooth \

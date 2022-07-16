@@ -1,9 +1,0 @@
-inherit deb-dl
-
-LICENSE = "BSD-3-Clause & MIT & BSD-2-clause"
-
-FULL_LINK = 'http://ports.ubuntu.com/ubuntu-ports/pool/universe/o/opencv/libopencv-viz-dev_4.2.0+dfsg-5_arm64.deb'
-
-DEB_NAME = 'libopencv-viz-dev_4.2.0+dfsg-5_arm64.deb'
-
-SRC_URI[md5sum] = "1c5fc1fad5256342b633962b005d1a72"

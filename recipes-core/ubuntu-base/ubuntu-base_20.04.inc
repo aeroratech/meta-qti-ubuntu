@@ -3,11 +3,7 @@ UBUNTU_BASE_TAR="ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #Packages to ensure boot up and WLAN function
 UBUN_BASIC_PACKAGES = " systemd \
-                        udev \
                         dhcpcd5 \
-                        libnl-3-dev \
-                        libnl-genl-3-dev \
-                        libnl-route-3-dev \
                         kmod \
                         inetutils-ping \
                         wget \
@@ -15,10 +11,6 @@ UBUN_BASIC_PACKAGES = " systemd \
                         wireless-tools \
                         psmisc \
                         usbutils \
-                        libffi7 \
-                        libssl1.1 \		
-                        libssl-dev \
-                        openssl \
                         procps \
                         zlib1g \
 			zip \
@@ -26,6 +18,148 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+gstreamer1.0-libav \
+gstreamer1.0-plugins-base \
+libgstreamer-plugins-base1.0-0 \
+libgstreamer-gl1.0-0 \
+gstreamer1.0-gl \
+gstreamer1.0-plugins-ugly \
+libgstreamer-plugins-good1.0-0 \
+gstreamer1.0-plugins-good \
+libgstreamer-plugins-base1.0-0 \
+gstreamer1.0-plugins-base \
+libgstreamer-plugins-bad1.0-0 \
+gstreamer1.0-plugins-base \
+gstreamer1.0-plugins-bad \
+libdrm2 \
+libdrm-freedreno1 \
+libdrm-dev \
+gobject-introspection \
+gir1.2-glib-2.0 \
+libgirepository-1.0-1 \
+libgirepository1.0-dev \
+libgfortran5 \
+libgfortran-10-dev \
+libtsan0 \
+libstdc++6 \
+libstdc++-10-dev \
+liblsan0 \
+libitm1 \
+libgomp1 \
+libatomic1 \
+libatomic-ops-dev \
+libtbb2 \
+libtbb-dev \
+libaudit1 \
+libauparse0 \
+libauparse-dev \
+libaudit-dev \
+python3-audit \
+libtirpc3 \
+libtirpc-dev \
+liblz4-1 \
+liblz4-dev \
+libconsole-bridge0.4 \
+libconsole-bridge-dev \
+libssh-4 \
+libssh-dev \
+libbrotli1 \
+python3-brotli \
+libbrotli-dev \
+libkmod2 \
+libkmod-dev \
+liborc-0.4-0 \
+liborc-0.4-dev \
+liborc-0.4-dev-bin \
+libcap-ng0 \
+libcap-ng-dev \
+python3-cap-ng \
+alsa-utils \
+libsbc1 \
+libsbc-dev \
+libasound2-plugins \
+libasound2 \
+libasound2-dev \
+libasound2-plugin-smixer \
+libatopology2 \
+libatopology-dev \
+libsepol1 \
+libsepol1-dev \
+libselinux1 \
+libselinux1-dev \
+python3-selinux \
+libpcre3 \
+libpcre32-3 \
+libpcre16-3 \
+libpcre3-dev \
+libpcre2-8-0 \
+libpcre2-16-0 \
+libpcre2-32-0 \
+libpcre2-dev \
+liblzma5 \
+liblzma-dev \
+libffi-dev \
+libffi7 \
+libpthread-stubs0-dev \
+libpciaccess0 \
+libpciaccess-dev \
+xutils-dev \
+libmtdev-dev \
+libmtdev1 \
+libinput10 \
+libinput-dev \
+libsystemd0 \
+libudev1 \
+xtrans-dev \
+udev \
+systemd \
+libudev-dev \
+libpng-dev \
+libsystemd-dev \
+libp11-kit0 \
+libp11-kit-dev \
+libtasn1-6 \
+libtasn1-6-dev \
+curl \
+libcurl4-openssl-dev \
+libcurl4 \
+libkrb5support0 \
+libkrb5-3 \
+libkrb5-26-heimdal \
+libgssapi-krb5-2 \
+libkrb5-dev \
+krb5-multidev \
+libkeyutils1 \
+libkeyutils-dev \
+libkrb5-3 \
+libkrb5-dev \
+krb5-multidev \
+libkrb5-3 \
+libkrb5-dev \
+libgpg-error0 \
+libgpg-error-dev \
+libgcrypt20 \
+libgcrypt20-dev \
+libldap-2.4-2 \
+libldap2-dev \
+librtmp1 \
+librtmp-dev \
+libsasl2-2 \
+libsasl2-modules \
+libsasl2-dev \
+libsasl2-2 \
+libsasl2-dev \
+libnettle7 \
+nettle-dev \
+libnettle7 \
+nettle-dev \
+libgmp10 \
+libgmp-dev \
+libgnutls28-dev \
+libcap2 \
+libcap-dev \
+libcap-dev \
+iso-codes \
                                  libseccomp2 \
                                  seccomp \
                                  openssh-server \
@@ -34,23 +168,9 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
                                  vim \
 				 hostapd \
                                  apparmor \
-                                 libatomic1 \
-                                 libgomp1 \
                                  dnsmasq \
 				 iw \
-                                 libevdev2 \
-                                 libevdev-dev \
-                                 libbsd0 \
-                                 libbsd-dev \
-                                 libpciaccess0 \
-                                 libpciaccess-dev \
                                  libion0 \
-                                 xutils-dev \
-                                 libpthread-stubs0-dev \
-                                 libpixman-1-dev \
-                                 libpixman-1-0 \
-                                 libjsoncpp1 \
-                                 libjsoncpp-dev \
                                  libltdl7 \
                                  libltdl-dev \
                                  libext2fs-dev \
@@ -69,120 +189,49 @@ UBUN_DEBUG_PACKAGES = " gdb \
 #Packages to enasure display and audio function
 UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    xkb-data \
-                                   libcairo2 \
-                                   libpng16-16 \
-                                   libxkbcommon0 \
-                                   libwayland-client0 \
-                                   libwayland-cursor0 \
-                                   libwayland-server0 \
-                                   libjpeg-turbo8 \
-                                   libgdk-pixbuf2.0-0 \
                                    libdrm-tests \
                                    libxau6-dbg \
                                    libxdmcp6-dbg \
-                                   libxext6-dbg \
                                    python3-dbg \
                                    python2-dbg \
                                  "
 
 #video, camera packages
 UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
-                             gstreamer1.0-gl \
-                             gir1.2-gstreamer-1.0 \
                              gstreamer1.0-gtk3 \
-                             gstreamer1.0-plugins-bad \
                              gstreamer1.0-plugins-bad-dbg \
-                             gstreamer1.0-plugins-base \
                              gstreamer1.0-plugins-base-dbg \
                              gstreamer1.0-plugins-base-apps \
-                             gstreamer1.0-plugins-good \
                              gstreamer1.0-plugins-good-dbg \
-                             gstreamer1.0-plugins-ugly \
                              gstreamer1.0-plugins-ugly-dbg \
-                             libgstreamer-gl1.0-0 \
-                             libgstreamer-plugins-bad1.0-0 \
-                             libgstreamer-plugins-base1.0-0 \
-                             libgstreamer-plugins-good1.0-0 \
-                             libgstreamer1.0-0 gstreamer1.0-libav \
-                             gstreamer1.0-plugins-good \
-                             gstreamer1.0-plugins-base \
-                             gstreamer1.0-plugins-bad \
                              gstreamer1.0-rtsp \
                              libgstrtspserver-1.0-0 \
-                             gstreamer1.0-libav \
-                             gstreamer1.0-tools \
-                             libgstreamer-gl1.0-0 \
-                             curl \
-                             libcurl4 \
-                             libcurl4-openssl-dev \
                              libidn2-0 \
                              libidn2-dev \
                              libunistring2 \
                              libunistring-dev \
-                             libnghttp2-14 \
-                             libpsl5 \
-                             libgssapi-krb5-2 \
-                             libldap-2.4-2 \
-                             librtmp1 \
-                             libkrb5-3 \
                              libk5crypto3 \
                              libcom-err2 \
-                             libkrb5support0 \
-                             libsasl2-2 \
                              libgssapi3-heimdal \
                              libgnutls30 \
                              libhogweed5 \
-                             libnettle7 \
-                             libgmp10 \
-                             libp11-kit0 \
-                             libtasn1-6 \
-                             libkeyutils1 \
                              libheimntlm0-heimdal \
-                             libkrb5-26-heimdal \
                              libasn1-8-heimdal \
                              libhcrypto4-heimdal \
                              libroken18-heimdal \
                              libwind0-heimdal \
                              libheimbase1-heimdal \
                              libhx509-5-heimdal \
-                             libsqlite3-0 \
                              lsb-release \
                              python3-argcomplete \
                              gnupg2 \
-                             libsqlite3-dev \
                              weston \
                              libweston-8-0 \
-                             libitm1 \
-                             libtsan0 \
-                             liblsan0 \
                              libcc1-0 \
-                             libcap2 \
-                             libcap-ng0 \
-                             libcap-dev \
-                             libcap-ng-dev \
-                             libatomic1 \
-                             libatomic-ops-dev \
-                             libvorbis0a \
-                             libvorbis-dev \
-                             libvorbisenc2 \
-                             libvorbisfile3 \
                              libspeexdsp1 \
                              libspeexdsp-dev \
                              libspeex1 \
                              libspeex-dev \
-                             libogg0 \
-                             libogg-dev \
-                             libsamplerate0 \
-                             libsamplerate0-dev \
-                             libsndfile1-dev \
-                             libsndfile1 \
-                             libflac8 \
-                             libflac++6v5 \
-                             libflac++-dev \
-                             libasound2-plugins \
-                             libevdev2 \
-                             libinput10 \
-                             libinput-dev \
                              libmtdev1 \
                              libmtdev-dev \
                              libwrap0 \
@@ -193,36 +242,6 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libqhull7 \
                              libcrypto++6 \
                              libcrypto++-dev \
-                             libcroco3 \
-                             libcroco3-dev \
-                             libgudev-1.0-0 \
-                             libgudev-1.0-dev \
-                             libid3tag0 \
-                             libid3tag0-dev \
-                             librsvg2-2 \
-                             librsvg2-dev \
-                             libsoup2.4-1 \
-                             libsoup2.4-dev \
-                             liborc-0.4-0 \
-                             liborc-0.4-dev \
-			     libtheora0 \
-                             libtheora-dev \
-                             liburcu6 \
-                             liburcu-dev \
-                             libwebp6 \
-                             libwebpdemux2 \
-                             libwebpmux3 \
-                             libwebp-dev \
-                             libmpg123-0 \
-                             libmpg123-dev \
-                             libout123-0 \
-                             libtag1v5-vanilla \
-                             libtagc0 \
-                             libtagc0-dev \
-                             libtag1-dev \
-                             libjson-c4 \
-                             libjson-c-dev \
-                             iso-codes \
                              linux-libc-dev \
                              "
 
