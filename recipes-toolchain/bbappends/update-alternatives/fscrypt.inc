@@ -8,5 +8,4 @@ ALTERNATIVE_PRIORITY_fscrypt = "100"
 ALTERNATIVE_fscrypt = "fscrypt"
 
 # set update-alternatives symbolic link path and real target path for fscrypt package
-QTI_SEPECIFIC_LINK[fscrypt] = "/bin/fscrypt"
 ALTERNATIVE_LINK_NAME[fscrypt] = "/usr/bin/fscrypt"

@@ -8,6 +8,7 @@ ALTERNATIVE_PRIORITY_libpulse = "100"
 ALTERNATIVE_libpulse = " libpulse.so.0 client.conf"
 
 # set update-alternatives symbolic link path or real target path for "libpulse" package
+QTI_SEPECIFIC_LINK[libpulse.so.0] = "/usr/lib/libpulse.so.0"
 ALTERNATIVE_LINK_NAME[libpulse.so.0] = "/usr/lib/aarch64-linux-gnu/libpulse.so.0"
 
 ALTERNATIVE_LINK_NAME[client.conf] = "/etc/pulse/client.conf"
@@ -19,6 +20,7 @@ ALTERNATIVE_PRIORITY_libpulse-simple = "100"
 ALTERNATIVE_libpulse-simple = " libpulse-simple.so.0.1.1 libpulse-simple.so.0"
 
 # set update-alternatives symbolic link path or real target path for "libpulse-simple" package
+QTI_SEPECIFIC_LINK[libpulse-simple.so.0] = "/usr/lib/libpulse-simple.so.0"
 ALTERNATIVE_LINK_NAME[libpulse-simple.so.0] = "/usr/lib/aarch64-linux-gnu/libpulse-simple.so.0"
 
 QTI_SEPECIFIC_LINK[libpulse-simple.so.0.1.1] = "/usr/lib/libpulse-simple.so.0.1.1"
