@@ -104,8 +104,6 @@ DISTRO_FEATURES_append = " \
     qti-fastcv \
     qti-qmmf \
     qti-security \
-    qti-gst-ros2 \
-    qti-sensors \
     qti-mmframeworks \
     "
 
