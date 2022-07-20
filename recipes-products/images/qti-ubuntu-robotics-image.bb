@@ -71,10 +71,6 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-bluetooth \
 "
-#Install packages for gst-ros2
-CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-gst-ros2 \
-"
 #Install packages for sensors
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-sensors-see', '', d)} \
