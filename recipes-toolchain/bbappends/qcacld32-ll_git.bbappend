@@ -1,6 +1,7 @@
 DEPENDS_remove = "rtsp-alg"
 
-EXTRA_OEMAKE += "M=../../../work/qrb5165_rb5-oe-linux/qcacld32-ll/git-r8/wlan/qcacld-3.0"
+EXTRA_OEMAKE += "M=../../../work/${MACHINE_ARCH}-oe-linux/qcacld32-ll/git-r8/wlan/qcacld-3.0"
+
 #solve LD argumelist too long
 do_compile_prepend() {
     cp ${STAGING_KERNEL_DIR}/scripts/Kbuild.include ${STAGING_KERNEL_DIR}/scripts/Kbuild.include.bk
