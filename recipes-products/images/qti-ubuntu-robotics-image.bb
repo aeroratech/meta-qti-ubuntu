@@ -53,6 +53,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             adreno \
             weston \
+            weston-init \
             "
 #Install packages for gfx
 CORE_IMAGE_BASE_INSTALL += " \

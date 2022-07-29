@@ -196,6 +196,7 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libxdmcp6-dbg \
                                    python3-dbg \
                                    python2-dbg \
+                                   kbd \
                                  "
 
 #video, camera packages
