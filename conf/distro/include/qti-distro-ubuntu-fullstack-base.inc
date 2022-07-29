@@ -105,6 +105,7 @@ DISTRO_FEATURES_append = " \
     qti-qmmf \
     qti-security \
     qti-mmframeworks \
+    qti-sensors \
     "
 
 ## bootfs parameter ##
