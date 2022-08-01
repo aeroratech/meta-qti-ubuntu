@@ -242,7 +242,7 @@ python apply_update_alternative_renames () {
                     alt_target_real_path = alt_target
                 src = '%s/%s' % (pkgdest, alt_target_real_path)
                 # make qti specific modification
-                alt_target_rename = 'opt/qti%s.%s' % (alt_target_real_path, pn)
+                alt_target_rename = '/opt/qti%s.%s' % (alt_target_real_path, pn)
                 qdir = '%s/%s' % (pkgdest, os.path.dirname(alt_target_rename))
                 os.makedirs(qdir, exist_ok=True)
                 dest = '%s/%s' % (pkgdest, alt_target_rename)
@@ -290,15 +290,15 @@ python apply_update_alternative_renames () {
                 # if the target had been renamed
                 # Try to resolve the broken link to link.${BPN}
                 link_maybe = '%s.%s' % (os.readlink(src), pn)   #pacat.pulseaudio
-                qlink_maybe = 'opt/qti%s/%s' % (os.path.dirname(qtarget), link_maybe)
+                qlink_maybe = '/opt/qti%s/%s' % (os.path.dirname(qtarget), link_maybe)
 
-                if os.path.lexists(os.path.join(pkgdest, qlink_maybe)):
+                if os.path.lexists((pkgdest + qlink_maybe)):
                     # Ok, the renamed link target exists.. create a new link, and remove the original
                     bb.note('%s: Creating new link %s -> %s' % (pn, alt_target_rename, link_maybe))
                     os.symlink(link_maybe, dest)
                     os.unlink(src)
                 else:
-                    bb.warn('%s: Unable to resolve dangling symlink: %s' % (pn, alt_target))
+                    bb.fatal('%s: Unable to resolve dangling symlink: %s' % (pn, alt_target))
                     continue
             if qti_link:
                 os.makedirs(os.path.dirname(pkgdest+qti_link), exist_ok=True)
