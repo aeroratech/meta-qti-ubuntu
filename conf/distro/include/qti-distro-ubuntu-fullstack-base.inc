@@ -70,7 +70,7 @@ DISTRO_FEATURES_append = " \
     wayland \
     drm \
     qwesd \
-    ros2-foxy\
+    ros2-foxy \
     "
 
 ## QTI defined distro features ##
