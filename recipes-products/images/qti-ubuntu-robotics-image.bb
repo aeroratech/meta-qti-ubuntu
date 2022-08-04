@@ -46,7 +46,8 @@ CORE_IMAGE_BASE_INSTALL += " \
 
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-wifi \
+	    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wifi', 'packagegroup-qti-wifi', '', d)} \
+	    ${@bb.utils.contains('MACHINE_FEATURES', 'qca-wifi', 'packagegroup-qti-qcawifi', '', d)} \
             "
 #install drm
 #Install packages for graphic and display
