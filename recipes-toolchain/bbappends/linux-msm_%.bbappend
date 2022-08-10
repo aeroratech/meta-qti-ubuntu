@@ -21,6 +21,26 @@ do_generate_defconfig () {
 }
 do_configure[prefuncs] += "${@oe.utils.conditional('DYNAMIC_DEFCONFIG', 'True', 'do_generate_defconfig', '', d)}"
 
+do_symlink_devicetree () {
+	if [ ! -L "${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor" ]; then
+		ln -sfr ${STAGING_KERNEL_DIR}/vendor/qcom/proprietary/devicetree ${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor
+	fi
+
+	if [ ! -L "${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor/qcom/camera" ]; then
+		ln -sfr ${STAGING_KERNEL_DIR}/vendor/qcom/proprietary/camera-devicetree ${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor/qcom/camera
+	fi
+
+	if [ ! -L "${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor/qcom/display" ]; then
+		ln -sfr ${STAGING_KERNEL_DIR}/vendor/qcom/proprietary/display-devicetree/display ${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor/qcom/display
+	fi
+
+	if [ ! -L "${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor/bindings/display/qcom" ]; then
+		ln -sfr ${STAGING_KERNEL_DIR}/vendor/qcom/proprietary/display-devicetree/bindings ${STAGING_KERNEL_DIR}/arch/arm64/boot/dts/vendor/bindings/display/qcom
+	fi
+}
+addtask do_symlink_devicetree before do_configure after do_symlink_kernsrc
+
+
 do_shared_workdir_append_qrb5165 () {
 	mkdir -p ${H}
 	make_header ${H} ${S} ${B}
