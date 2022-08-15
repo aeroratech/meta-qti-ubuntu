@@ -21,6 +21,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             yavta \
             depends-update \
             ota-upgrade \
+            e2fsprogs-tools \
 	    packagegroup-startup-scripts-base \
             packagegroup-startup-scripts \
 	    packagegroup-android-utils-base \
@@ -45,13 +46,19 @@ CORE_IMAGE_BASE_INSTALL += " \
 
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-wifi \
+	    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wifi', 'packagegroup-qti-wifi', '', d)} \
+	    ${@bb.utils.contains('MACHINE_FEATURES', 'qca-wifi', 'packagegroup-qti-qcawifi', '', d)} \
             "
 #install drm
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
             adreno \
             weston \
+            weston-init \
+            "
+#Install packages for gfx
+CORE_IMAGE_BASE_INSTALL += " \
+            packagegroup-qti-gfx \
             "
 #Install packages for video
 CORE_IMAGE_BASE_INSTALL += " \
@@ -70,10 +77,6 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-bluetooth \
 "
-#Install packages for gst-ros2
-CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-gst-ros2 \
-"
 #Install packages for sensors
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-sensors-see', '', d)} \
@@ -86,12 +89,6 @@ CORE_IMAGE_BASE_INSTALL += " \
             librealsense2-tests \
             "
 
-#Install packages for imu-ros2node
-CORE_IMAGE_BASE_INSTALL += " \
-            ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'imud', '', d)} \
-            ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'imu-ros2node', '', d)} \
-            ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'sensors-client', '', d)} \
-"
 
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 

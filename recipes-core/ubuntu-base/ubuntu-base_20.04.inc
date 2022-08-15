@@ -18,6 +18,8 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libspdlog-dev \
+libspdlog1 \
 gstreamer1.0-libav \
 gstreamer1.0-plugins-base \
 libgstreamer-plugins-base1.0-0 \
@@ -194,6 +196,7 @@ UBUN_MULTIMEDIA_BASIC_PACKAFES = " alsa-utils \
                                    libxdmcp6-dbg \
                                    python3-dbg \
                                    python2-dbg \
+                                   kbd \
                                  "
 
 #video, camera packages
