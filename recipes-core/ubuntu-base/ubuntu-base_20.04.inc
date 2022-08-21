@@ -18,6 +18,8 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libuvc0 \
+libuvc-dev \
 libspdlog-dev \
 libspdlog1 \
 gstreamer1.0-libav \

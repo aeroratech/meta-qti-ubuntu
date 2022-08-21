@@ -112,3 +112,10 @@ DISTRO_FEATURES_append = " \
 BOOTFS_TYPE = "ext3"
 BOOTFS_BLOCK_SIZE = "4096"
 BOOTFS_SIZE_EXT3 = "96M"
+
+## kernel configuration
+PREFERRED_VERSION_linux-msm = "5.4"
+PREFERRED_VERSION_linux-msm-headers = "5.4"
+DEFAULTTUNE = "aarch64"
+KERNEL_DYNAMIC_DEFCONFIG = "True"
+UFS_BSG_DEV_USAGE = "True"
