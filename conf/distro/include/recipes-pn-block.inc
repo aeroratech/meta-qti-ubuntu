@@ -691,3 +691,4 @@ PNBLACKLIST[gstreamer1.0-plugins-ugly] = "Using gstreamer1.0-plugins-ugly-ubuntu
 #PNBLACKLIST[gstreamer1.0-plugins-base] = "Using gstreamer1.0-plugins-base-ubuntu"
 PNBLACKLIST[gstreamer1.0-libav] = "Using gstreamer1.0-libav-ubuntu"
 PNBLACKLIST[spdlog] = "Using spdlog-ubuntu"
+PNBLACKLIST[poco] = "Using poco-ubuntu"
