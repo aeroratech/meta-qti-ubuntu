@@ -1,0 +1,1 @@
+ACTION=="add" SUBSYSTEM=="bsg", KERNEL=="ufs-bsg0", OWNER="root", GROUP="disk", MODE="0664"
