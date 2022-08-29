@@ -34,6 +34,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-qmmf-sdk \
             packagegroup-qti-mmframeworks \
             packagegroup-qti-core \
+            procrank \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
