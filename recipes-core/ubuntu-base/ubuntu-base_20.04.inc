@@ -8,7 +8,7 @@ UBUN_BASIC_PACKAGES = " systemd \
                         inetutils-ping \
                         wget \
                         net-tools \
-                        wireless-tools \
+                        ${@bb.utils.contains('MACHINE_FEATURES', 'qca-wifi', '', 'wireless-tools', d)} \
                         psmisc \
                         usbutils \
                         procps \

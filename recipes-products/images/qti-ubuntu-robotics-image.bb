@@ -89,6 +89,10 @@ CORE_IMAGE_BASE_INSTALL += " \
             librealsense2-tests \
             "
 
+#Install packages for imu-ros2node
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-sensors', 'imu-ros2node', '', d), "", d)} \
+"
 
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
