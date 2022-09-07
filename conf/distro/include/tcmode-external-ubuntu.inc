@@ -256,3 +256,4 @@ PREFERRED_PROVIDER_gstreamer1.0-plugins-ugly = "gstreamer1.0-plugins-ugly-ubuntu
 PREFERRED_PROVIDER_gstreamer1.0-plugins-base = "gstreamer1.0-plugins-base-ubuntu"
 PREFERRED_PROVIDER_gstreamer1.0-libav = "gstreamer1.0-libav-ubuntu"
 PREFERRED_PROVIDER_spdlog = "spdlog-ubuntu"
+PREFERRED_PROVIDER_poco = "poco-ubuntu"
