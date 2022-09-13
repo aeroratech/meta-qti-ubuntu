@@ -94,6 +94,11 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-sensors', 'imu-ros2node', '', d), "", d)} \
 "
 
+#Install packages for gst-ros2node
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2node', '', d), "", d)} \
+"
+
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #fix for fakeroot do_rootfs chmod the dir permission to 700
