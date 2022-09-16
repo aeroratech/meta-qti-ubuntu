@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/\
 ${LICENSE};md5=550794465ba0ec5312d6919e203a55f9"
 
 SRC_URI   = "file://ota-upgrade.sh"
+SRC_URI   += "file://ufs-bsg.rules"
 
 do_config[noexec]="1"
 do_compile[noexec]="1"
@@ -12,6 +13,8 @@ do_compile[noexec]="1"
 do_install_append() {
 	install -m 0744 ${WORKDIR}/ota-upgrade.sh \
 		   -D ${D}${bindir}/ota-upgrade.sh
+	install -m 0755 ${WORKDIR}/ufs-bsg.rules \
+		   -D ${D}${sysconfdir}/udev/rules.d/ufs-bsg.rules
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"

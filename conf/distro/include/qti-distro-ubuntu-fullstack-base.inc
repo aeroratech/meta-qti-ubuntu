@@ -106,6 +106,7 @@ DISTRO_FEATURES_append = " \
     qti-security \
     qti-mmframeworks \
     qti-sensors \
+    qti-gst-ros2 \
     "
 
 ## bootfs parameter ##

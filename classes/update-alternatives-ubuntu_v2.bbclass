@@ -154,7 +154,7 @@ populate_packages[vardeps] += "${UPDALTVARS} ${@gen_updatealternativesvars(d)}"
 # We need to do the rename after the image creation step, but before
 # the split and strip steps..  PACKAGE_PREPROCESS_FUNCS is the right
 # place for that.
-PACKAGE_PREPROCESS_FUNCS += "apply_update_alternative_renames"
+PACKAGE_PREPROCESS_FUNCS += "${@bb.utils.contains("DEPENDS", "virtual/update-alternatives", " ", "apply_update_alternative_renames",d)}"
 python apply_update_alternative_renames () {
     if not update_alternatives_enabled(d):
        return
@@ -349,7 +349,7 @@ def update_alternatives_alt_targets(d, pkg):
 
     return updates
 
-PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
+PACKAGESPLITFUNCS_prepend = "${@bb.utils.contains("DEPENDS", "virtual/update-alternatives", " ", "populate_packages_updatealternatives ",d)}"
 
 python populate_packages_updatealternatives () {
     if not update_alternatives_enabled(d):
