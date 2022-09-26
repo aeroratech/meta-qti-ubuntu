@@ -99,6 +99,7 @@ DISTRO_FEATURES_append_qcs6490 = " \
 # qti-gst-ros2:      Support QTI gst ros2
 # qti-mmframeworks:  Support QTI mmframeworks (synx) driver
 # qti-dfs:           Support QTI DFS solution
+# qti-ib2c:          Support QTI IB2C solution
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -119,6 +120,7 @@ DISTRO_FEATURES_append = " \
     qti-sensors \
     qti-gst-ros2 \
     qti-dfs \
+    qti-ib2c \
     "
 
 ## bootfs parameter ##
