@@ -260,4 +260,5 @@ PREFERRED_PROVIDER_poco = "poco-ubuntu"
 PREFERRED_PROVIDER_libpcap = "libpcap-ubuntu"
 PREFERRED_PROVIDER_libdaemon = "libdaemon-ubuntu"
 PREFERRED_PROVIDER_json-glib = "json-glib-ubuntu"
-
+PREFERRED_PROVIDER_bash-completion = "bash-completion-ubuntu"
+PREFERRED_PROVIDER_libtool = "libtool-ubuntu"

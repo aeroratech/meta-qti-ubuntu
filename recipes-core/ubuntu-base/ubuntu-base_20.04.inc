@@ -18,6 +18,11 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libtool \
+libtool-bin \
+libltdl7 \
+libltdl-dev \
+bash-completion \
 libpcap0.8 \
 libpcap0.8-dev \
 libpcap-dev \
@@ -182,8 +187,6 @@ iso-codes \
                                  dnsmasq \
 				 iw \
                                  libion0 \
-                                 libltdl7 \
-                                 libltdl-dev \
                                  libext2fs-dev \
                                  comerr-dev \
                                  ss-dev \

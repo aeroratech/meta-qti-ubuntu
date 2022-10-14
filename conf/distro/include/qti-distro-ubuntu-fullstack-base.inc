@@ -45,7 +45,7 @@ GROUPADD_PARAM_${PN} += " \
                         -g 3010 wakelock; \
                         -g 3013 qwes; \
                         "
-USERADD_PARAM_${PN}_append =  " -g diag -G root diag "
+USERADD_PARAM_${PN}_append =  " -g diag -G root diag ;"
 # Sizes for EXT4 (in bytes)
 SYSTEM_SIZE_EXT4 = "107374182400"
 KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
