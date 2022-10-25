@@ -23,7 +23,8 @@ SRC_URI[libtool.md5sum] = "ea5d8a9918b4c2a4b3600559a5531526"
 PKG_${UPN} = "libtool"
 DEPENDS += " virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc"
 PROVIDES += "libtool libltdl libtool-cross"
+FILES_${UPN} += " /usr/lib/libltdl.* "
 
 do_install_append(){
-    cp -r ${D}/usr/lib/aarch64-linux-gnu/libltdl* ${D}/usr/lib/
+    mv ${D}/usr/lib/aarch64-linux-gnu/libltdl* ${D}/usr/lib/
 }

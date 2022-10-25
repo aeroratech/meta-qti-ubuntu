@@ -18,6 +18,28 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+v4l-utils \
+ir-keytable \
+qv4l2 \
+dvb-tools \
+libdvbv5-dev \
+libdvbv5-0 \
+libv4l-dev \
+libv4l2rds0 \
+libv4lconvert0 \
+libv4l-0 \
+python3-nose \
+python-nose \
+libexif12 \
+libexif-dev \
+python3-numpy \
+python-numpy \
+libtiff-opengl \
+libtiff-tools \
+libtiffxx5 \
+libtiff5-dev \
+libtiff5 \
+libtiff-dev \
 libtool \
 libtool-bin \
 libltdl7 \
