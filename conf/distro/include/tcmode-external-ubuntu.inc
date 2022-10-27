@@ -258,3 +258,6 @@ PREFERRED_PROVIDER_gstreamer1.0-libav = "gstreamer1.0-libav-ubuntu"
 PREFERRED_PROVIDER_spdlog = "spdlog-ubuntu"
 PREFERRED_PROVIDER_poco = "poco-ubuntu"
 PREFERRED_PROVIDER_libpcap = "libpcap-ubuntu"
+PREFERRED_PROVIDER_libdaemon = "libdaemon-ubuntu"
+PREFERRED_PROVIDER_json-glib = "json-glib-ubuntu"
+

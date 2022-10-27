@@ -21,6 +21,10 @@ UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
 libpcap0.8 \
 libpcap0.8-dev \
 libpcap-dev \
+libjson-glib-1.0-0 \
+libjson-glib-dev \
+libdaemon0 \
+libdaemon-dev \
 libuvc0 \
 libuvc-dev \
 libspdlog-dev \

@@ -25,5 +25,5 @@ SRC_URI[libsoup2.4-1.md5sum] = "01a40acc1f57f889953d9cf1fc992fa2"
 
 # other configs to feed compilation
 PKG_${UPN} = "libsoup2.4-1"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc glib-2.0 libxml2 sqlite3 libpsl  gobject-introspection"
+DEPENDS += "brotli krb5 virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc glib-2.0 libxml2 sqlite3 libpsl  gobject-introspection"
 PROVIDES += "libsoup-2.4 "
