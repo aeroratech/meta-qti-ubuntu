@@ -177,5 +177,5 @@ SRC_URI[libopencv-dev.md5sum] = "4be05ba57a96c607ce87229fefc2c73c"
 
 # other configs to feed compilation
 PKG_${UPN} = "libopencv-dev"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libtool bzip2 zlib glib-2.0 libwebp python3  python3 libeigen gflags glog ade libgphoto2 gstreamer1.0 gstreamer1.0-plugins-base jpeg v4l-utils libpng python3-numpy tbb tiff"
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc gtk+3 gdal libtool bzip2 zlib glib-2.0 libwebp python3  python3 libeigen gflags glog ade libgphoto2 gstreamer1.0 gstreamer1.0-plugins-base jpeg v4l-utils libpng python3-numpy tbb tiff"
 PROVIDES += "opencv "
