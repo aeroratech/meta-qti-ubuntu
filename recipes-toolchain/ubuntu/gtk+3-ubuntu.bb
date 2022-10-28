@@ -37,5 +37,5 @@ SRC_URI[libgail-3-dev.md5sum] = "de47bd6a22c052f2af24f6ad2c21b995"
 
 # other configs to feed compilation
 PKG_${UPN} = "libgtk-3-0"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf             gobject-introspection libepoxy wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2"
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc glib-2.0 libxi libxfixes at-spi2-atk cairo pango atk jpeg libpng gdk-pixbuf             gobject-introspection libepoxy wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2"
 PROVIDES += "gtk+3  gtk-icon-utils"

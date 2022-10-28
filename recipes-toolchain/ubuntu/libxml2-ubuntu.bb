@@ -26,4 +26,4 @@ SRC_URI[libxml2.md5sum] = "ba30849b81596b430b9fc4b73d8b1820"
 # other configs to feed compilation
 PKG_${UPN} = "libxml2"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc zlib virtual/libiconv  python3 python3 icu"
-PROVIDES += "libxml2 "
+PROVIDES += "libxml2 xml2"

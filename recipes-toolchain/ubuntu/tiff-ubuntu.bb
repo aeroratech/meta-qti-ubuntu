@@ -29,5 +29,5 @@ SRC_URI[libtiff-opengl.md5sum] = "6c5e4b421a605f4a8b0caa3766d96d6c"
 
 # other configs to feed compilation
 PKG_${UPN} = "libtiff-opengl"
-DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc  jpeg xz zlib"
+DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc  jpeg xz jbigkit zlib"
 PROVIDES += "tiff "

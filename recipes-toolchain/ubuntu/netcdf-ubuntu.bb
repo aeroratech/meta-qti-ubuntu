@@ -13,3 +13,5 @@ SRC_URI[libnetcdf15.md5sum] = "58860d0034d95960c7e4121c484c9917"
 
 # other configs to feed compilation
 PKG_${UPN} = "libnetcdf15"
+
+DEPENDS += "hdf5"

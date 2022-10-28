@@ -1,8 +1,8 @@
 inherit upkg_base
 
-LICENSE = "MIT-Style"
-LICENSE_libxrender1 = "MIT-Style"
-LICENSE_libxrender-dev = "MIT-Style"
+LICENSE = "MIT"
+LICENSE_libxrender1 = "MIT"
+LICENSE_libxrender-dev = "MIT"
 
 # the information of ubuntu package(s)
 SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxrender/libxrender-dev_0.9.10-1_arm64.deb;name=libxrender-dev"
@@ -14,4 +14,4 @@ SRC_URI[libxrender1.md5sum] = "bc735af99800cf2014aa58b2ec4c1c44"
 # other configs to feed compilation
 PKG_${UPN} = "libxrender1"
 
-DEPENDS += "virtual/libc libx11 xorgproto"
+DEPENDS += "libx11 xorgproto"

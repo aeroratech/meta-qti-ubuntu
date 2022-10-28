@@ -45,5 +45,5 @@ SRC_URI[libpoppler97.md5sum] = "578c31a221e7072133917ca90de58a39"
 
 # other configs to feed compilation
 PKG_${UPN} = "libpoppler97"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc fontconfig zlib cairo lcms glib-2.0  gobject-introspection jpeg nss openjpeg libpng boost tiff"
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc fontconfig zlib cairo lcms glib-2.0  gobject-introspection jpeg nss openjpeg2 libpng boost tiff"
 PROVIDES += "poppler "

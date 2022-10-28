@@ -22,4 +22,4 @@ SRC_URI[libopenjp3d7.md5sum] = "25c7b0ec8f5dbba23b23cb18f2f19e32"
 # other configs to feed compilation
 PKG_${UPN} = "libopenjp3d7"
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libpng tiff lcms zlib"
-PROVIDES += "openjpeg "
+PROVIDES += "openjpeg2"

@@ -46,7 +46,7 @@ SRC_URI[libtsan0.md5sum] = "7abe15b6536782c6cb6e8dc171db5480"
 # other configs to feed compilation
 PKG_${UPN} = "libstdc++-10-dev"
 DEPENDS += "   virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-g++ libgcc virtual/libc"
-PROVIDES += "gcc-runtime virtual/aarch64-linux-gnu-compilerlibs libstdc++ libstdc++-dev"
+PROVIDES += "libgfortran gcc-runtime virtual/aarch64-linux-gnu-compilerlibs libstdc++ libstdc++-dev"
 RPROVIDES_{UPN} = "libstdc++ libstdc++-dev"
 PKG_libstdc++ = "libstdc++6"
 

@@ -30,4 +30,4 @@ SRC_URI[libgdk-pixbuf2.0-0.md5sum] = "7b76e401725983ce498514e4d83698ef"
 # other configs to feed compilation
 PKG_${UPN} = "libgdk-pixbuf2.0-0"
 
-DEPENDS += "glib-2.0 libpng libx11"
+DEPENDS += "glib-2.0 libpng  libxcursor libx11 libxinerama libxrandr libxcomposite libxdamage"
