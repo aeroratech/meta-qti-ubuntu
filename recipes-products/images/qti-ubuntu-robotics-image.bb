@@ -34,6 +34,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             packagegroup-qti-qmmf-sdk \
             packagegroup-qti-mmframeworks \
             packagegroup-qti-core \
+            procrank \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
@@ -55,6 +56,7 @@ CORE_IMAGE_BASE_INSTALL += " \
             adreno \
             weston \
             weston-init \
+            packagegroup-qti-display \
             "
 #Install packages for gfx
 CORE_IMAGE_BASE_INSTALL += " \
@@ -97,6 +99,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for gst-ros2node
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2node', '', d), "", d)} \
+"
+#Install packages for gst-ros2sink
+CORE_IMAGE_BASE_INSTALL += " \
+			${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), "", d)} \
 "
 
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"

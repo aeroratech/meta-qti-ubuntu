@@ -228,6 +228,9 @@ fi
 sed -i 's/LABEL="persistent_storage_end"/# block\/bootdevice\/by-name links'"\n"'LABEL="persistent_storage_end"/g' /lib/udev/rules.d/60-persistent-storage.rules
 sed -i 's/LABEL="persistent_storage_end"/ENV{ID_PART_ENTRY_SCHEME}=="gpt", ENV{ID_PART_ENTRY_NAME}=="?*", SYMLINK+="block\/bootdevice\/by-name\/$env{ID_PART_ENTRY_NAME}"'"\n\n"'LABEL="persistent_storage_end"/g' /lib/udev/rules.d/60-persistent-storage.rules
 
+#fix build.prop content missed issue
+echo "service.adb.root=1" >> /build.prop
+echo ro.build.version.release=`cat /etc/version ` >> /build.prop
 
 rm -rf /data/QTI/
 rm -rf /data/OSS/
