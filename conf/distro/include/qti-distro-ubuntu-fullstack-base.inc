@@ -61,6 +61,7 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # drm:             Use DRM display drivers, provided machine supports it
 # qwes             Enable qwes feature support
 # ros2-foxy:       Enable ros2 foxy
+# vslam            Enable vslam
 
 DISTRO_FEATURES_append = " \
     opengl \
@@ -71,6 +72,7 @@ DISTRO_FEATURES_append = " \
     drm \
     qwesd \
     ros2-foxy \
+    vslam \
     "
 
 ## QTI defined distro features ##
