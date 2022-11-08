@@ -18,6 +18,73 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libcrypto++-utils \
+libcrypto++-dev \
+libcrypto++6 \
+libboost1.71-dev \
+libboost-wave1.71-dev \
+libboost-wave1.71.0 \
+libboost-type-erasure1.71-dev \
+libboost-type-erasure1.71.0 \
+libboost-timer1.71-dev \
+libboost-timer1.71.0 \
+libboost-thread1.71-dev \
+libboost-thread1.71.0 \
+libboost-test1.71-dev \
+libboost-test1.71.0 \
+libboost-system1.71-dev \
+libboost-system1.71.0 \
+libboost-stacktrace1.71-dev \
+libboost-stacktrace1.71.0 \
+libboost-serialization1.71-dev \
+libboost-serialization1.71.0 \
+libboost-regex1.71-dev \
+libboost-regex1.71.0 \
+libboost-random1.71-dev \
+libboost-random1.71.0 \
+libboost-python1.71-dev \
+libboost-python1.71.0 \
+libboost-program-options1.71-dev \
+libboost-program-options1.71.0 \
+libboost-numpy1.71-dev \
+libboost-numpy1.71.0 \
+libboost-mpi-python1.71-dev \
+libboost-mpi-python1.71.0 \
+libboost-mpi1.71-dev \
+libboost-mpi1.71.0 \
+libboost-math1.71-dev \
+libboost-math1.71.0 \
+libboost-log1.71-dev \
+libboost-log1.71.0 \
+libboost-locale1.71-dev \
+libboost-locale1.71.0 \
+libboost-iostreams1.71-dev \
+libboost-iostreams1.71.0 \
+libboost-graph-parallel1.71-dev \
+libboost-graph-parallel1.71.0 \
+libboost-graph1.71-dev \
+libboost-graph1.71.0 \
+libboost-filesystem1.71-dev \
+libboost-filesystem1.71.0 \
+libboost-fiber1.71-dev \
+libboost-fiber1.71.0 \
+libboost-exception1.71-dev \
+libboost-date-time1.71-dev \
+libboost-date-time1.71.0 \
+libboost-coroutine1.71-dev \
+libboost-coroutine1.71.0 \
+libboost-contract1.71-dev \
+libboost-contract1.71.0 \
+libboost-context1.71-dev \
+libboost-context1.71.0 \
+libboost-container1.71-dev \
+libboost-container1.71.0 \
+libboost-chrono1.71-dev \
+libboost-chrono1.71.0 \
+libboost-atomic1.71-dev \
+libboost-atomic1.71.0 \
+libboost1.71-all-dev \
+libboost1.71-tools-dev \
 libxtst6 \
 libxtst-dev \
 libxinerama1 \
@@ -430,8 +497,6 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              liba52-0.7.4-dev \
                              libqhull-dev \
                              libqhull7 \
-                             libcrypto++6 \
-                             libcrypto++-dev \
                              linux-libc-dev \
                              "
 
