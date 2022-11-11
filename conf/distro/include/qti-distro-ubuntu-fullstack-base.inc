@@ -64,6 +64,7 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # vslam            Enable vslam
 
 DISTRO_FEATURES_append = " \
+    auto-explore \
     opengl \
     opencl \
     pulseaudio \

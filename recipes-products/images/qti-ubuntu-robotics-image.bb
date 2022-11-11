@@ -123,7 +123,7 @@ do_ubuntu_rootfs(){
     cp -r ${APTCONF_TARGET}/rootfs_base ${APTCONF_TARGET}/rootfs
     install -m 0751 -d ${IMAGE_ROOTFS}/dev
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
-    chown -R root:root ${IMAGE_ROOTFS}/bin/su 
+    chown -R root:root ${IMAGE_ROOTFS}/bin/su
     chmod a+s ${IMAGE_ROOTFS}/bin/su
     #add firmware & dsp & bt_firmware
     mkdir -p ${IMAGE_ROOTFS}/firmware
