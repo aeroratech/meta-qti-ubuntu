@@ -286,7 +286,7 @@ echo '############################################'
 echo ''
 
 echo "--update_package=/data/update_ext4.zip" > /cache/recovery/command
-./usr/bin/recovery --update_package=/data/update_ext4.zip
+/usr/bin/recovery --update_package=/data/update_ext4.zip
 
 if [[ $? = 0 ]]; then
     echo "The NON-HLOS and boot.img generation was successful"
