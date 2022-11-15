@@ -204,15 +204,15 @@ RPROVIDES_prelink = " prelink "
 
 #libltdl7 and libltdl-dev
 
-#PKG_libltdl = "libltdl7"
+PKG_cppunit = "libcppunit-dev"
 
-#PACKAGES += "libltdl"
-#PROVIDES += "libltdl"
-#RPROVIDES_libltdl += "libltdl"
-#FILES_libltdl += "dummy"
+PACKAGES += "cppunit libcppunit-dev"
+PROVIDES += "cppunit libcppunit-dev"
+RPROVIDES_cppunit += "cppunit libcppunit-dev"
+FILES_cppunit += "dummy"
 
-#PKGR_libltdl = "0"
-#PKGV_libltdl = "0"
+PKGR_cppunit = "0"
+PKGV_cppunit = "0"
 
 PROVIDES += "\
             nativesdk-qemu \
