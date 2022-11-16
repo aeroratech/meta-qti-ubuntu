@@ -14,4 +14,4 @@ SRC_URI[libcap2.md5sum] = "b2b63c58c7729aef011ca9be196c58c1"
 # other configs to feed compilation
 PKG_${UPN} = "libcap2"
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc"
-PROVIDES += "libcap "
+PROVIDES += "libcap"

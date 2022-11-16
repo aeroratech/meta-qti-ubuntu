@@ -18,6 +18,9 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
+libpcap0.8 \
+libpcap0.8-dev \
+libpcap-dev \
 libuvc0 \
 libuvc-dev \
 libspdlog-dev \
