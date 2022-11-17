@@ -20,6 +20,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/libh/libhdf4/libh
 SRC_URI[libhdf4-alt-dev.md5sum] = "2b6a8061009513b6d5c9daa1e1ad0ad4"
 
 # other configs to feed compilation
-PKG_${UPN} = "libhdf4-alt-dev"
+PKG_${UPN} = "libhdf4-0"
 
 DEPENDS += "libaec libjpeg8-empty zlib"

@@ -68,7 +68,7 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/l/lapack/libblas64-de
 SRC_URI[libblas64-dev.md5sum] = "f4067a4d6b0dfa628d636cf2af1650a4"
 
 # other configs to feed compilation
-PKG_${UPN} = "libblas64-dev"
+PKG_${UPN} = "liblapack3"
 
 DEPENDS += "gcc-runtime libgcc "
 

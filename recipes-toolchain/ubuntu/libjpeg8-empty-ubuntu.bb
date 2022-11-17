@@ -16,6 +16,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libj/libjpeg8-empty/l
 SRC_URI[libjpeg-dev.md5sum] = "90c71b4ee10b266f0eb706f7922055df"
 
 # other configs to feed compilation
-PKG_${UPN} = "libjpeg-dev"
+PKG_${UPN} = "libjpeg8"
 
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc"

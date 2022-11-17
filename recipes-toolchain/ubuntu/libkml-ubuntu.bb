@@ -32,6 +32,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/libk/libkml/libkm
 SRC_URI[libkml-dev.md5sum] = "6a86168371722c2f8068368fd13d2d1e"
 
 # other configs to feed compilation
-PKG_${UPN} = "libkml-dev"
+PKG_${UPN} = "libkmlbase1"
 
 DEPENDS += "boost curl expat minizip uriparser"

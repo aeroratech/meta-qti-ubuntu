@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxfixes/libxfi
 SRC_URI[libxfixes-dev.md5sum] = "f7d9e771b26c3893e1f5196c0606cefe"
 
 # other configs to feed compilation
-PKG_${UPN} = "libxfixes-dev"
+PKG_${UPN} = "libxfixes3"
 
 DEPENDS += "libx11 xorgproto"

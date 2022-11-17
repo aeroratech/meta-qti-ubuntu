@@ -36,6 +36,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/h/hdf5/libhdf5-mp
 SRC_URI[libhdf5-mpi-dev.md5sum] = "9788823a9d92c4609540cbaf6e6d6eda"
 
 # other configs to feed compilation
-PKG_${UPN} = "libhdf5-mpi-dev"
+PKG_${UPN} = "libhdf5-103"
 
 DEPENDS += "mpich zlib libjpeg8-empty libaec"

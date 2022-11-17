@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/m/mysql-8.0/libmysqlc
 SRC_URI[libmysqlclient-dev.md5sum] = "9fa1e06c36876ea2e5e43bd25f716744"
 
 # other configs to feed compilation
-PKG_${UPN} = "libmysqlclient-dev"
+PKG_${UPN} = "libmysqlclient21"
 
 DEPENDS += "zlib libgcc openssl"

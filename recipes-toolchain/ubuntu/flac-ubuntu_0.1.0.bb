@@ -20,6 +20,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/f/flac/libflac++-dev_
 SRC_URI[libflac++-dev.md5sum] = "ce2a216ee96c1b6d12ec1b44747d4c0e"
 
 # other configs to feed compilation
-PKG_${UPN} = "libflac++-dev"
+PKG_${UPN} = "libflac8"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libogg"
 PROVIDES += "flac "

@@ -499,6 +499,7 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
                              libqhull-dev \
                              libqhull7 \
                              linux-libc-dev \
+                             libopencv-dev \
                              "
 
 

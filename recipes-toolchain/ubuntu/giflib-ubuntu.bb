@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/giflib/libgif-dev_5
 SRC_URI[libgif-dev.md5sum] = "d2f98b23e35bae402f89a8c953baad8c"
 
 # other configs to feed compilation
-PKG_${UPN} = "libgif-dev"
+PKG_${UPN} = "libgif7"
 
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libgcc libtool-cross"

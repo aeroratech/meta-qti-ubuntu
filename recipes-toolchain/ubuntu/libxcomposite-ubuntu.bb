@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxcomposite/li
 SRC_URI[libxcomposite-dev.md5sum] = "eb1dcba7eed00d0e557214ae74baaaf9"
 
 # other configs to feed compilation
-PKG_${UPN} = "libxcomposite-dev"
+PKG_${UPN} = "libxcomposite1"
 
 DEPENDS += "libx11 libxfixes libxext xorgproto"

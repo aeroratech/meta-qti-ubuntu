@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/c/cfitsio/libcfit
 SRC_URI[libcfitsio-dev.md5sum] = "7c40fc61d6ff264a5b9dea694d12e7b4"
 
 # other configs to feed compilation
-PKG_${UPN} = "libcfitsio-dev"
+PKG_${UPN} = "libcfitsio8"
 
 DEPENDS += "zlib bzip2 curl"

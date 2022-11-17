@@ -12,4 +12,4 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/s/spdlog/libspdlo
 SRC_URI[libspdlog-dev.md5sum] = "b8423627add63a13a93fecce02319337"
 
 # other configs to feed compilation
-PKG_${UPN} = "libspdlog-dev"
+PKG_${UPN} = "libspdlog1"

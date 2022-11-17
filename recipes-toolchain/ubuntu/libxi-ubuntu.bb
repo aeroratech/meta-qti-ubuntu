@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxi/libxi-dev_
 SRC_URI[libxi-dev.md5sum] = "2009c9e83e1585a081a14e8ba02953e2"
 
 # other configs to feed compilation
-PKG_${UPN} = "libxi-dev"
+PKG_${UPN} = "libxi6"
 
 DEPENDS += "libx11 libxfixes libxext xorgproto"

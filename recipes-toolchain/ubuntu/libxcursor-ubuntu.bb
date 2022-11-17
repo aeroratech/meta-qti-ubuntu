@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxcursor/libxc
 SRC_URI[libxcursor-dev.md5sum] = "31cde09ac079c091dacc2972458cca39"
 
 # other configs to feed compilation
-PKG_${UPN} = "libxcursor-dev"
+PKG_${UPN} = "libxcursor1"
 
 DEPENDS += "libx11 libxfixes libxrender xorgproto"

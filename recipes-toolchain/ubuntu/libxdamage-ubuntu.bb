@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libx/libxdamage/libxd
 SRC_URI[libxdamage-dev.md5sum] = "8bafa7466e36a279a6e2993dd1ccb7c4"
 
 # other configs to feed compilation
-PKG_${UPN} = "libxdamage-dev"
+PKG_${UPN} = "libxdamage1"
 
 DEPENDS += "libx11 libxfixes xorgproto"

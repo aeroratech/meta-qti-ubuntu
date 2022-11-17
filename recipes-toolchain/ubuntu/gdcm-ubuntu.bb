@@ -44,6 +44,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/g/gdcm/libvtkgdcm
 SRC_URI[libvtkgdcm-java.md5sum] = "502bf6aba560bd59ebfd68eefab78fdc"
 
 # other configs to feed compilation
-PKG_${UPN} = "libvtkgdcm-dev"
+PKG_${UPN} = "libgdcm3.0"
 
 DEPENDS += "charls expat libgcc json-c openjpeg2 socket++ openssl zlib util-linux"

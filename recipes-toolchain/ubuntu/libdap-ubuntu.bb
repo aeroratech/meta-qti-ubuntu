@@ -20,6 +20,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/libd/libdap/libda
 SRC_URI[libdap-dev.md5sum] = "0df15fdb9aca3bdf1f2e47174fceaa9f"
 
 # other configs to feed compilation
-PKG_${UPN} = "libdap-dev"
+PKG_${UPN} = "libdap25"
 
 DEPENDS += "zlib libxml2 curl util-linux cppunit openssl flex pth"

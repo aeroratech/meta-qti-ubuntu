@@ -204,7 +204,7 @@ RPROVIDES_prelink = " prelink "
 
 #libltdl7 and libltdl-dev
 
-PKG_cppunit = "libcppunit-dev"
+PKG_cppunit = "libcppunit-1.15-0"
 
 PACKAGES += "cppunit libcppunit-dev"
 PROVIDES += "cppunit libcppunit-dev"

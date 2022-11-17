@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/f/fyba/libfyba-de
 SRC_URI[libfyba-dev.md5sum] = "b2fbab8d44e626159635f0f101c72f09"
 
 # other configs to feed compilation
-PKG_${UPN} = "libfyba-dev"
+PKG_${UPN} = "libfyba0"
 
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libgcc"
