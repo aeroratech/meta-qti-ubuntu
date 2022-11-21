@@ -17,4 +17,4 @@ SRC_URI[libpcap0.8.md5sum] = "1eb6ac14424ba5e79bcc543da8df789c"
 
 # other configs to feed compilation
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc"
-PKG_${UPN} = "libpcap"
+PKG_${UPN} = "libpcap0.8"
