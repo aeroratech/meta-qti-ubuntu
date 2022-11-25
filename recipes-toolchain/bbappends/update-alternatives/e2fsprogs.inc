@@ -9,12 +9,16 @@ ALTERNATIVE_e2fsprogs-tools = "libext2fs.so.2 libext2fs.so.2.4 libss.so.2 libss.
 
 # set update-alternatives symbolic link path and real target path for libext2fs package
 ALTERNATIVE_LINK_NAME[libext2fs.so.2] = "/lib/aarch64-linux-gnu/libext2fs.so.2"
+QTI_SEPECIFIC_LINK[libext2fs.so.2] = "/lib/libext2fs.so.2"
 
 ALTERNATIVE_LINK_NAME[libext2fs.so.2.4] = "/lib/aarch64-linux-gnu/libext2fs.so.2.4"
+QTI_SEPECIFIC_LINK[libext2fs.so.2.4] = "/lib/libext2fs.so.2.4"
 
 ALTERNATIVE_LINK_NAME[libss.so.2] = "/lib/aarch64-linux-gnu/libss.so.2"
+QTI_SEPECIFIC_LINK[libss.so.2] = "/lib/libss.so.2"
 
 ALTERNATIVE_LINK_NAME[libss.so.2.0] = "/lib/aarch64-linux-gnu/libss.so.2.0"
+QTI_SEPECIFIC_LINK[libss.so.2.0] = "/lib/libss.so.2.0"
 
 ALTERNATIVE_LINK_NAME[compile_et] = "/usr/bin/compile_et"
 
@@ -33,8 +37,10 @@ ALTERNATIVE_LINK_NAME[libss.so] = "/usr/lib/aarch64-linux-gnu/libss.so"
 QTI_SEPECIFIC_LINK[libss.so] = "/lib/libss.so"
 
 ALTERNATIVE_LINK_NAME[libcom_err.so.2] = "/lib/aarch64-linux-gnu/libcom_err.so.2"
+QTI_SEPECIFIC_LINK[libcom_err.so.2] = "/lib/libcom_err.so.2"
 
 ALTERNATIVE_LINK_NAME[libcom_err.so.2.1] = "/lib/aarch64-linux-gnu/libcom_err.so.2.1"
+QTI_SEPECIFIC_LINK[libcom_err.so.2.1] = "/lib/libcom_err.so.2.1"
 
 ALTERNATIVE_LINK_NAME[libe2p.so.2] = "/usr/lib/aarch64-linux-gnu/libe2p.so.2"
 QTI_SEPECIFIC_LINK[libe2p.so.2] = "/lib/libe2p.so.2"
