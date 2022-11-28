@@ -38,6 +38,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
+            packagegroup-qti-robotics \
             "
 
 #Install packages for debug
