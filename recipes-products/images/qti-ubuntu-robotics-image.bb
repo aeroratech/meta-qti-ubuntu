@@ -62,6 +62,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for gfx
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-gfx \
+            vulkan-loader \
             "
 #Install packages for video
 CORE_IMAGE_BASE_INSTALL += " \
