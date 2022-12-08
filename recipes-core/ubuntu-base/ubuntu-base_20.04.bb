@@ -15,14 +15,83 @@ DEPENDS += "fakechroot \
 PACKAGE_NO_LOCALE = "1"
 PACKAGES = "${PN}"
 
+lsb_release = "focal"
+arch_ubuntu = "arm64"
+
 TMP_WKDIR = "${WORKDIR}/ubuntu_base_tmp"
 DEB_CACHE_DIR  = "${WORKDIR}/deb_cache"
 
 do_unpack[noexec] = "1"
 do_populate_lic[noexec] = "1"
 do_package_qa[noexec] = "1"
+do_ubuntu_unpack[dirs] += "${TMP_WKDIR} ${DEB_CACHE_DIR} ${OTA_OSS}"
 do_ubuntu_install[dirs] += "${TMP_WKDIR} ${DEB_CACHE_DIR} ${OTA_OSS}"
 do_ubuntu_install[postfuncs] = "restore_sourcelist fix_symlink ubuntu_post_install"
+
+
+UBUNTU_KEY_LINK := ""
+UBUNTU_SOURCE_LIST := ""
+
+do_add_source_key() {
+if [ -n "${UBUNTU_KEY_LINK}" ]; then
+    islink=1
+    link=""
+    for key in ${UBUNTU_KEY_LINK}
+    do
+        if [ $islink == 1 ]
+        then
+            bbwarn " ${key} islink"
+            link="${key}"
+            islink=0
+        else
+            path="${key}"
+            if [ -e "${TMP_WKDIR}/${path}" ];then
+                bbnote "${path} have exist remove it !"
+                rm -rf "${TMP_WKDIR}/${path}"
+            fi
+            fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "curl -sSL ${link} -o ${path}"
+            bbwarn "get ${link} to path ${path}"
+            islink=1
+        fi
+    done
+fi
+}
+
+do_add_sourcelist() {
+if [ -n "${UBUNTU_SOURCE_LIST}" ]; then
+    bbnote "add ${UBUNTU_SOURCE_LIST} into source.list.d/thrid_party.list"
+    touch ${TMP_WKDIR}/etc/apt/sources.list.d/thrid_party.list
+    fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "echo  '#########################thrid-patry sourcelist################################## ' > /etc/apt/sources.list.d/thrid_party.list"
+    sed -i "1i${UBUNTU_SOURCE_LIST}" ${TMP_WKDIR}/etc/apt/sources.list.d/thrid_party.list
+    do_add_source_key
+    fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+    exitcode=$?
+    if [ "$exitcode" != "0" ]; then
+        bbwarn "source_list is invalid , remove it ,please check"
+        rm -rf ${TMP_WKDIR}/etc/apt/sources.list.d/thrid_party.list
+        fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+    fi
+
+fi
+}
+
+do_tzdata_install() {
+        set +e
+        fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c " export DEBIAN_FRONTEND=noninteractive ; apt-get install tzdata -y ;"
+        exitcode=$?
+        flag=0
+        while [[ "$exitcode" != "0" && "${flag}" -le "3" ]]; do
+                echo "tzdata package install failed"
+                echo "re-try count: ${flag}"
+                ((flag++));
+                fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get clean"
+                fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get update"
+                fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "export DEBIAN_FRONTEND=noninteractive ; apt-get install tzdata -y ;"
+                exitcode=$?
+        done
+        set -e
+
+}
 
 ## In chroot environment, when creates a link pointing to a absolute path, the chroot
 ## directory is prepended to it.
@@ -154,40 +223,56 @@ apt_update() {
 	fi
 }
 
+do_ubuntu_unpack() {
+        cache_avaliable=0
+        ## copy cache if exists to speed up apt install process ##
+        if [ -e "${TMP_WKDIR}/var/cache/apt/archives" ]; then
+                find ${TMP_WKDIR}/var/cache/apt/archives -maxdepth 1 -name "*.deb" | xargs -n10 -i cp {} ${DEB_CACHE_DIR}
+                cache_avaliable=1
+        fi
+        rm -rf ${TMP_WKDIR}/*
+
+        fakeroot tar xz --no-same-owner -f ${DL_DIR}/${UBUNTU_BASE_TAR} -C ${TMP_WKDIR}
+        if [ ${cache_avaliable} -eq 1 ]; then
+                find ${DEB_CACHE_DIR} -maxdepth 1 -name "*.deb" | xargs -n10 -i cp {} ${TMP_WKDIR}/var/cache/apt/archives/
+        fi
+
+        get_rootfs_packages
+}
+
+addtask do_ubuntu_unpack before do_ubuntu_basic_configure after do_unpack
+
+do_ubuntu_basic_configure(){
+
+        #set fakeroot and fakechroot
+        bbnote "copy fakeroot and fakechroot lib to ubuntu-base"
+        cp  ${RECIPE_SYSROOT}/usr/lib/fakechroot/libfakechroot.so ${TMP_WKDIR}/usr/lib/libfakechroot.so
+        cp  ${RECIPE_SYSROOT}/usr/lib/libfakeroot-0.so ${TMP_WKDIR}/usr/lib/libfakeroot-sysv.so
+        chmod 777 -R ${TMP_WKDIR}/var/cache/apt/archives/partial
+        chmod 777 -R ${TMP_WKDIR}/var/lib/dpkg/
+
+        sed -i '1i /usr/lib' ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
+        echo '/lib/systemd'>> ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
+        fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "cd /var; rm run; ln -s ../run run"
+        apt_update
+        #set hostname and hosts
+        echo '${MACHINE}' > ${TMP_WKDIR}/etc/hostname
+        echo '127.0.0.1 localhost' > ${TMP_WKDIR}/etc/hosts
+        echo '127.0.1.1 ${MACHINE}' >> ${TMP_WKDIR}/etc/hosts
+        fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install rsyslog curl -y"
+        do_tzdata_install
+        do_add_sourcelist
+
+}
+addtask do_ubuntu_basic_configure after do_compile before do_ubuntu_install
+
 do_ubuntu_install() {
-	cache_avaliable=0
-	## copy cache if exists to speed up apt install process ##
-	if [ -e "${TMP_WKDIR}/var/cache/apt/archives" ]; then
-		find ${TMP_WKDIR}/var/cache/apt/archives -maxdepth 1 -name "*.deb" | xargs -n10 -i cp {} ${DEB_CACHE_DIR}
-		cache_avaliable=1
-	fi
-	rm -rf ${TMP_WKDIR}/*
-
-	fakeroot tar xz --no-same-owner -f ${DL_DIR}/${UBUNTU_BASE_TAR} -C ${TMP_WKDIR}
-	if [ ${cache_avaliable} -eq 1 ]; then
-		find ${DEB_CACHE_DIR} -maxdepth 1 -name "*.deb" | xargs -n10 -i cp {} ${TMP_WKDIR}/var/cache/apt/archives/
-	fi
-
-	get_rootfs_packages
-	cp  ${RECIPE_SYSROOT}/usr/lib/fakechroot/libfakechroot.so ${TMP_WKDIR}/usr/lib/libfakechroot.so
-	cp  ${RECIPE_SYSROOT}/usr/lib/libfakeroot-0.so ${TMP_WKDIR}/usr/lib/libfakeroot-sysv.so
-	chmod 777 -R ${TMP_WKDIR}/var/cache/apt/archives/partial
-	chmod 777 -R ${TMP_WKDIR}/var/lib/dpkg/
-
-	sed -i '1i /usr/lib' ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
-	echo '/lib/systemd'>> ${TMP_WKDIR}/etc/ld.so.conf.d/aarch64-linux-gnu.conf
-	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "cd /var; rm run; ln -s ../run run"
-	apt_update
-	#set hostname and hosts
-	echo '${MACHINE}' > ${TMP_WKDIR}/etc/hostname
-	echo '127.0.0.1 localhost' > ${TMP_WKDIR}/etc/hosts
-	echo '127.0.1.1 ${MACHINE}' >> ${TMP_WKDIR}/etc/hosts
-
+	#get packages list should be installed
+        get_rootfs_packages
 	# There has a low probability that downloaded broken humanity-icon-theme.
 	# We will clean the cache and take a re-try to fix it
 	humanity_theme_install
-	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "apt-get install rsyslog -y"
-	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "export DEBIAN_FRONTEND=noninteractive; apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
+	fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "export DEBIAN_FRONTEND=noninteractive ; apt-get install ${UBUN_ROOTFS_PACKAGE} -y"
 
 	rm -rf ${TMP_WKDIR}/sbin/init
 	ln -sf ../lib/systemd/systemd ${TMP_WKDIR}/sbin/init
@@ -216,10 +301,9 @@ do_ubuntu_install() {
 	# Go to persistent-storage.rules and create bootdevice/by-name symlinks
 	do_create_the_links
 }
+addtask do_ubuntu_install after do_compile before do_install
 
 do_install() {
 	install -d ${D}${datadir}
 	cp ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/${UBUNTU_BASE_TAR} ${D}${datadir}
 }
-
-addtask do_ubuntu_install after do_compile before do_install 

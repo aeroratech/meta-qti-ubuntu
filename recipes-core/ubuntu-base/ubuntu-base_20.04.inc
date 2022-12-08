@@ -3,6 +3,7 @@ UBUNTU_BASE_TAR="ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #Packages to ensure boot up and WLAN function
 UBUN_BASIC_PACKAGES = " systemd \
+                        udev \
                         dhcpcd5 \
                         kmod \
                         inetutils-ping \
@@ -13,7 +14,8 @@ UBUN_BASIC_PACKAGES = " systemd \
                         usbutils \
                         procps \
                         zlib1g \
-			zip \
+                        zip \
+                        ssh-import-id \
                        "
 
 
@@ -266,6 +268,7 @@ libtool-bin \
 libltdl7 \
 libltdl-dev \
 bash-completion \
+udev \
 libpcap0.8 \
 libpcap0.8-dev \
 libpcap-dev \
@@ -506,5 +509,5 @@ UBUN_MULTIMEDIA_PACKAFES = " gstreamer1.0-alsa \
 UBUN_BASIC_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
 UBUN_BASIC_PERF_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
 UBUN_FULLSTACK_DEBUG_PACKAGES = "${UBUN_BASIC_PERF_PACKAGES} ${UBUN_PLATFORM_EXTRA_PACKAGES} ${UBUN_MULTIMEDIA_PACKAFES} ${UBUN_DEBUG_PACKAGES}"
-#UBUN_FULLSTACK_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES}"
+#UBUN_FULLSTACK_DEBUG_PACKAGES = "${UBUN_BASIC_PACKAGES} ${UBUN_MULTIMEDIA_BASIC_PACKAFES}"
 UBUN_FULLSTACK_PERF_PACKAGES = "${UBUN_BASIC_PERF_PACKAGES} ${UBUN_PLATFORM_EXTRA_PACKAGES} ${UBUN_MULTIMEDIA_PACKAFES}"
