@@ -31,11 +31,11 @@ GROUPADD_PARAM_${PN} += " \
                         -g 3003 inet; \
                         -g 19 input; \
                         -g 70 shutdown; \
-                        -g 995 systemd-journal; \
-                        -g 996 sshd; \
-                        -g 997 messagebus; \
-                        -g 998 netdev; \
-                        -g 999 _apt; \
+                        --system systemd-journal; \
+                        --system sshd; \
+                        --system  messagebus; \
+                        --system netdev; \
+                        --system _apt; \
                         -g 1015 sdcard; \
                         -g 1301 rebooters; \
                         -g 2901 kmsg; \

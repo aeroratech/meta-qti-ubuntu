@@ -38,6 +38,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
+            packagegroup-qti-robotics \
             "
 
 #Install packages for debug
@@ -61,6 +62,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 #Install packages for gfx
 CORE_IMAGE_BASE_INSTALL += " \
             packagegroup-qti-gfx \
+            vulkan-loader \
             "
 #Install packages for video
 CORE_IMAGE_BASE_INSTALL += " \
@@ -122,7 +124,7 @@ do_ubuntu_rootfs(){
     cp -r ${APTCONF_TARGET}/rootfs_base ${APTCONF_TARGET}/rootfs
     install -m 0751 -d ${IMAGE_ROOTFS}/dev
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
-    chown -R root:root ${IMAGE_ROOTFS}/bin/su 
+    chown -R root:root ${IMAGE_ROOTFS}/bin/su
     chmod a+s ${IMAGE_ROOTFS}/bin/su
     #add firmware & dsp & bt_firmware
     mkdir -p ${IMAGE_ROOTFS}/firmware

@@ -17,3 +17,5 @@ SRC_URI[libxext6.md5sum] = "300f94cc48e2bef0c26682031a354e97"
 
 # other configs to feed compilation
 PKG_${UPN} = "libxext6"
+
+DEPENDS += "libx11"

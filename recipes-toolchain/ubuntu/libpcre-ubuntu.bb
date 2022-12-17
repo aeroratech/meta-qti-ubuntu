@@ -22,4 +22,4 @@ SRC_URI[libpcre3.md5sum] = "5468d33e7cb52ac5faf8c3e7666ba4f5"
 # other configs to feed compilation
 PKG_${UPN} = "libpcre3"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc  bzip2 zlib"
-PROVIDES += "libpcre  pcre"
+PROVIDES += "libpcre  pcre pcre3"

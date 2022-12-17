@@ -25,4 +25,5 @@ SRC_URI[libx11-xcb-dev.md5sum] = "e2af74dbd815037b6ec1b960301c91ef"
 # other configs to feed compilation
 PKG_${UPN} = "libx11-6"
 
+PROVIDES += "virtual/libx11"
 DEPENDS += "libxau libxcb libxdmcp xorgproto"

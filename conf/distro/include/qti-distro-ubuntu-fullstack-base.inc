@@ -31,11 +31,11 @@ GROUPADD_PARAM_${PN} += " \
                         -g 3003 inet; \
                         -g 19 input; \
                         -g 70 shutdown; \
-                        -g 995 systemd-journal; \
-                        -g 996 sshd; \
-                        -g 997 messagebus; \
-                        -g 998 netdev; \
-                        -g 999 _apt; \
+                        --system systemd-journal; \
+                        --system sshd; \
+                        --system messagebus; \
+                        --system netdev; \
+                        --system _apt; \
                         -g 1015 sdcard; \
                         -g 1301 rebooters; \
                         -g 2901 kmsg; \
@@ -45,7 +45,7 @@ GROUPADD_PARAM_${PN} += " \
                         -g 3010 wakelock; \
                         -g 3013 qwes; \
                         "
-USERADD_PARAM_${PN}_append =  " -g diag -G root diag "
+USERADD_PARAM_${PN}_append =  " -g diag -G root diag ;"
 # Sizes for EXT4 (in bytes)
 SYSTEM_SIZE_EXT4 = "107374182400"
 KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
@@ -61,8 +61,10 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # drm:             Use DRM display drivers, provided machine supports it
 # qwes             Enable qwes feature support
 # ros2-foxy:       Enable ros2 foxy
+# vslam            Enable vslam
 
 DISTRO_FEATURES_append = " \
+    auto-explore \
     opengl \
     opencl \
     pulseaudio \
@@ -71,6 +73,7 @@ DISTRO_FEATURES_append = " \
     drm \
     qwesd \
     ros2-foxy \
+    vslam \
     "
 
 ## QTI defined distro features ##

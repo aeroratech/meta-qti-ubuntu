@@ -279,7 +279,7 @@ def listdir(path, list_name):
             #print ("file_path: ", file_path)
             listdir(file_path, list_name)
         elif os.path.splitext(file_path)[1]=='.h' or os.path.splitext(file_path)[1]=='.a' or os.path.splitext(file_path)[1]=='.so' \
-            or fnmatch.fnmatch(file_path,'*.so.*') or fnmatch.fnmatch(file_path,'*.pc') or fnmatch.fnmatch(file_path,'*.m4'):
+            or fnmatch.fnmatch(file_path,'*.so.*') or fnmatch.fnmatch(file_path,'*.pc') or fnmatch.fnmatch(file_path,'*.m4') or fnmatch.fnmatch(file_path,'*.py'):
             result = os.path.split(file_path)
             #print (result[1])
             list_name.append(result[1])

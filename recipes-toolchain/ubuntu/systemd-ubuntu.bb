@@ -47,4 +47,4 @@ PROVIDES += " udev libudev libsystemd0 libudev-dev libsystemd-dev"
 
 PACKAGES += "libudev"
 RPROVIDES_libudev = "libudev"
-PKG_libudev = "libudev-dev"
+PKG_libudev = "libudev1"
