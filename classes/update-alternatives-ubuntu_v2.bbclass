@@ -283,8 +283,8 @@ python apply_update_alternative_renames () {
             # if the target is not used alternative to rename
             if os.path.lexists(link_target):
                 # Ok, the link_target exists, we can rename
-                bb.note('%s: Rename (link) %s -> %s' % (pn, dest, '../' * alt_target_rename.count('/') + qtarget[1:]))
-                os.symlink(('../' * alt_target_rename.count('/') + qtarget[1:]), dest)
+                bb.note('%s: Rename (link) %s -> %s' % (pn, dest, '../' * (alt_target_rename.count('/') - 1) + qtarget[1:]))
+                os.symlink(('../' * (alt_target_rename.count('/') - 1) + qtarget[1:]), dest)
                 os.unlink(src)
             else:
                 # if the target had been renamed

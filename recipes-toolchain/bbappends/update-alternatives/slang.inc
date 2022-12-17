@@ -5,7 +5,7 @@ inherit update-alternatives-ubuntu_v2
 ALTERNATIVE_PRIORITY_slang = "100"
 
 # set update-alternatives register name for "slang" package
-ALTERNATIVE_slang = " varray-module.so sysconf-module.so fork-module.so csv-module.so slsh.rc slsh histogram-module.so arrayfuns.sl autoload.sl base64.sl chksum.sl cool.map coolwarm.map copper.map cubicl.map cubicyf.map drywet.map ds9b.map ds9sls.map edge.map gebco.map globe.map gray.map haxby.map hot.map jet.map no_green.map ocean.map polar.map rainbow.map red2green.map relief.map sealand.map seis.map split.map topo.map wysiwyg.map cmdopt.sl csv.sl fcntl.sl fork.sl fswalk.sl glob.sl arrayfuns.hlp base64funs.hlp chksumfuns.hlp cmdopt.hlp csvfuns.hlp forkfuns.hlp fswalk.hlp glob.hlp histfuns.hlp jsonfuns.hlp listfuns.hlp onigfuns.hlp pcrefuns.hlp pngfuns.hlp print.hlp process.hlp profile.hlp randfuns.hlp readascii.hlp require.hlp setfuns.hlp slsmg.hlp sockfuns.hlp statsfuns.hlp structfuns.hlp histogram.sl iconv.sl json.sl listfuns.sl onig.sl pcre.sl png.sl print.sl process.sl profile.sl rand.sl readascii.sl require.sl complete.sl editfuns.sl editor.sl emacskeys.sl history.sl histsrch.sl slrline.rc vikeys.sl jpegsize lsrpm sldb slprof slstkchk svnsh select.sl setfuns.sl sldb.sl sldbcore.sl sldbsock.sl slshhelp.sl slshrl.sl slsmg.sl socket.sl stats.sl stkcheck.sl structfuns.sl sysconf.sl termios.sl varray.sl zlib.sl"
+ALTERNATIVE_slang = " varray-module.so iconv-module.so rand-module.so termios-module.so slsmg-module.so base64-module.so json-module.so fcntl-module.so libslang.so.2.3.2 chksum-module.so select-module.so libslang.so.2 socket-module.so stats-module.so sysconf-module.so fork-module.so csv-module.so slsh.rc slsh histogram-module.so arrayfuns.sl autoload.sl base64.sl chksum.sl cool.map coolwarm.map copper.map cubicl.map cubicyf.map drywet.map ds9b.map ds9sls.map edge.map gebco.map globe.map gray.map haxby.map hot.map jet.map no_green.map ocean.map polar.map rainbow.map red2green.map relief.map sealand.map seis.map split.map topo.map wysiwyg.map cmdopt.sl csv.sl fcntl.sl fork.sl fswalk.sl glob.sl arrayfuns.hlp base64funs.hlp chksumfuns.hlp cmdopt.hlp csvfuns.hlp forkfuns.hlp fswalk.hlp glob.hlp histfuns.hlp jsonfuns.hlp listfuns.hlp onigfuns.hlp pcrefuns.hlp pngfuns.hlp print.hlp process.hlp profile.hlp randfuns.hlp readascii.hlp require.hlp setfuns.hlp slsmg.hlp sockfuns.hlp statsfuns.hlp structfuns.hlp histogram.sl iconv.sl json.sl listfuns.sl onig.sl pcre.sl png.sl print.sl process.sl profile.sl rand.sl readascii.sl require.sl complete.sl editfuns.sl editor.sl emacskeys.sl history.sl histsrch.sl slrline.rc vikeys.sl jpegsize lsrpm sldb slprof slstkchk svnsh select.sl setfuns.sl sldb.sl sldbcore.sl sldbsock.sl slshhelp.sl slshrl.sl slsmg.sl socket.sl stats.sl stkcheck.sl structfuns.sl sysconf.sl termios.sl varray.sl zlib.sl"
 
 # set update-alternatives symbolic link path or real target path for "slang" package
 QTI_SEPECIFIC_LINK[fork-module.so] = "/usr/lib/slang/v2/modules/fork-module.so"
@@ -19,6 +19,45 @@ ALTERNATIVE_LINK_NAME[sysconf-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/
 
 QTI_SEPECIFIC_LINK[csv-module.so] = "/usr/lib/slang/v2/modules/csv-module.so"
 ALTERNATIVE_LINK_NAME[csv-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/csv-module.so"
+
+QTI_SEPECIFIC_LINK[socket-module.so] = "/usr/lib/slang/v2/modules/socket-module.so"
+ALTERNATIVE_LINK_NAME[socket-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/socket-module.so"
+
+QTI_SEPECIFIC_LINK[stats-module.so] = "/usr/lib/slang/v2/modules/stats-module.so"
+ALTERNATIVE_LINK_NAME[stats-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/stats-module.so"
+
+QTI_SEPECIFIC_LINK[libslang.so.2] = "/usr/lib/libslang.so.2"
+ALTERNATIVE_LINK_NAME[libslang.so.2] = "/lib/aarch64-linux-gnu/libslang.so.2"
+
+QTI_SEPECIFIC_LINK[base64-module.so] = "/usr/lib/slang/v2/modules/base64-module.so"
+ALTERNATIVE_LINK_NAME[base64-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/base64-module.so"
+
+QTI_SEPECIFIC_LINK[json-module.so] = "/usr/lib/slang/v2/modules/json-module.so"
+ALTERNATIVE_LINK_NAME[json-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/json-module.so"
+
+QTI_SEPECIFIC_LINK[fcntl-module.so] = "/usr/lib/slang/v2/modules/fcntl-module.so"
+ALTERNATIVE_LINK_NAME[fcntl-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/fcntl-module.so"
+
+QTI_SEPECIFIC_LINK[libslang.so.2.3.2] = "/usr/lib/libslang.so.2.3.2"
+ALTERNATIVE_LINK_NAME[libslang.so.2.3.2] = "/lib/aarch64-linux-gnu/libslang.so.2.3.2"
+
+QTI_SEPECIFIC_LINK[chksum-module.so] = "/usr/lib/slang/v2/modules/chksum-module.so"
+ALTERNATIVE_LINK_NAME[chksum-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/chksum-module.so"
+
+QTI_SEPECIFIC_LINK[iconv-module.so] = "/usr/lib/slang/v2/modules/iconv-module.so"
+ALTERNATIVE_LINK_NAME[iconv-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/iconv-module.so"
+
+QTI_SEPECIFIC_LINK[rand-module.so] = "/usr/lib/slang/v2/modules/rand-module.so"
+ALTERNATIVE_LINK_NAME[rand-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/rand-module.so"
+
+QTI_SEPECIFIC_LINK[termios-module.so] = "/usr/lib/slang/v2/modules/termios-module.so"
+ALTERNATIVE_LINK_NAME[termios-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/termios-module.so"
+
+QTI_SEPECIFIC_LINK[slsmg-module.so] = "/usr/lib/slang/v2/modules/slsmg-module.so"
+ALTERNATIVE_LINK_NAME[slsmg-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/slsmg-module.so"
+
+QTI_SEPECIFIC_LINK[select-module.so] = "/usr/lib/slang/v2/modules/select-module.so"
+ALTERNATIVE_LINK_NAME[select-module.so] = "/usr/lib/aarch64-linux-gnu/slang/v2/modules/select-module.so"
 
 ALTERNATIVE_LINK_NAME[slsh.rc] = "/etc/slsh.rc"
 

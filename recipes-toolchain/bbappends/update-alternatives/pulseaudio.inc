@@ -26,6 +26,17 @@ ALTERNATIVE_LINK_NAME[libpulse-simple.so.0] = "/usr/lib/aarch64-linux-gnu/libpul
 QTI_SEPECIFIC_LINK[libpulse-simple.so.0.1.1] = "/usr/lib/libpulse-simple.so.0.1.1"
 ALTERNATIVE_LINK_NAME[libpulse-simple.so.0.1.1] = "/usr/lib/aarch64-linux-gnu/libpulse-simple.so.0.1.1"
 
+# set update-alternatives priority for "pulseaudio-lib-cli" package
+ALTERNATIVE_PRIORITY_pulseaudio-lib-cli = "100"
+
+# set update-alternatives register name for "pulseaudio-lib-cli" package
+ALTERNATIVE_pulseaudio-lib-cli = " libcli.so"
+
+# set update-alternatives symbolic link path or real target path for "pulseaudio-lib-cli" package
+QTI_SEPECIFIC_LINK[libcli.so] = "/usr/lib/pulse-13.0/modules/libcli.so"
+ALTERNATIVE_LINK_NAME[libcli.so] = "/usr/lib/pulse-13.99.1/modules/libcli.so"
+
+
 # set update-alternatives priority for "pulseaudio-misc" package
 ALTERNATIVE_PRIORITY_pulseaudio-misc = "100"
 

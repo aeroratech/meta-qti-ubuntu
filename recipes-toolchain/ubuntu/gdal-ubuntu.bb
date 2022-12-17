@@ -32,6 +32,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/g/gdal/libgdal-ja
 SRC_URI[libgdal-java.md5sum] = "ec32b1975598bf24938954d0f0bf57ce"
 
 # other configs to feed compilation
-PKG_${UPN} = "libgdal"
+PKG_${UPN} = "libgdal26"
 
 DEPENDS += " unixodbc lapack armadillo cfitsio charls curl libdap epsilon expat freexl fyba geos libgeotiff giflib libhdf4 hdf5 json-c libkml xz mysql-8.0 netcdf ogdi-dfsg openjpeg2 pcre3 poppler postgresql proj qhull spatialite sqlite3 tiff uriparser libwebp xerces-c xml2 zstd python3-numpy unixodbc zlib"
