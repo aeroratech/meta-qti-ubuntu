@@ -21,6 +21,10 @@ UBUN_BASIC_PACKAGES = " systemd \
 
 UBUN_PLATFORM_EXTRA_PACKAGES = " libseccomp-dev \
 libslang2 \
+bridge-utils \
+libsysfs2 \
+libpci3 \
+libpci-dev \
 libcrypto++-utils \
 libcppunit-dev \
 libcrypto++-dev \
