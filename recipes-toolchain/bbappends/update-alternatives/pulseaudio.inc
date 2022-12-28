@@ -36,7 +36,6 @@ ALTERNATIVE_pulseaudio-lib-cli = " libcli.so"
 QTI_SEPECIFIC_LINK[libcli.so] = "/usr/lib/pulse-13.0/modules/libcli.so"
 ALTERNATIVE_LINK_NAME[libcli.so] = "/usr/lib/pulse-13.99.1/modules/libcli.so"
 
-
 # set update-alternatives priority for "pulseaudio-misc" package
 ALTERNATIVE_PRIORITY_pulseaudio-misc = "100"
 

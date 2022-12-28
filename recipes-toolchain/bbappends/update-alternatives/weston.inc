@@ -12,10 +12,8 @@ QTI_SEPECIFIC_LINK[libweston-desktop-8.so.0.0.0] = "/usr/lib/libweston-desktop-8
 ALTERNATIVE_LINK_NAME[libweston-desktop-8.so.0.0.0] = "/usr/lib/aarch64-linux-gnu/libweston-desktop-8.so.0.0.0"
 
 ALTERNATIVE_LINK_NAME[libweston-8.so.0] = "/usr/lib/aarch64-linux-gnu/libweston-8.so.0"
-QTI_SEPECIFIC_LINK[libweston-8.so.0] = "/usr/lib/libweston-8.so.0"
 
 ALTERNATIVE_LINK_NAME[libweston-desktop-8.so.0] = "/usr/lib/aarch64-linux-gnu/libweston-desktop-8.so.0"
-QTI_SEPECIFIC_LINK[libweston-desktop-8.so.0] = "/usr/lib/libweston-desktop-8.so.0"
 
 QTI_SEPECIFIC_LINK[gl-renderer.so] = "/usr/lib/libweston-8/gl-renderer.so"
 ALTERNATIVE_LINK_NAME[gl-renderer.so] = "/usr/lib/aarch64-linux-gnu/libweston-8/gl-renderer.so"
@@ -25,7 +23,6 @@ ALTERNATIVE_LINK_NAME[libweston-8.so.0.0.0] = "/usr/lib/aarch64-linux-gnu/libwes
 
 QTI_SEPECIFIC_LINK[drm-backend.so] = "/usr/lib/libweston-8/drm-backend.so"
 ALTERNATIVE_LINK_NAME[drm-backend.so] = "/usr/lib/aarch64-linux-gnu/libweston-8/drm-backend.so"
-
 
 # set update-alternatives priority for "weston" package
 ALTERNATIVE_PRIORITY_weston = "100"
@@ -84,7 +81,6 @@ ALTERNATIVE_LINK_NAME[icon_ivi_simple-shm.png] = "/usr/share/weston/icon_ivi_sim
 ALTERNATIVE_LINK_NAME[weston-editor] = "/usr/bin/weston-editor"
 
 ALTERNATIVE_LINK_NAME[libexec_weston.so.0] = "/usr/lib/aarch64-linux-gnu/weston/libexec_weston.so.0"
-QTI_SEPECIFIC_LINK[libexec_weston.so.0] = "/usr/lib/weston/libexec_weston.so.0"
 
 ALTERNATIVE_LINK_NAME[weston-simple-egl] = "/usr/bin/weston-simple-egl"
 
