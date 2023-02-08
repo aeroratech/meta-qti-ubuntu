@@ -32,10 +32,10 @@ PKG_${UPN} = "libwayland-egl1"
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc libffi expat libxml2 "
 PROVIDES += "wayland "
 
-SYSROOT_DIRS_BLACKLIST += " \
+SYSROOT_DIRS_BLACKLIST_qrb5165 += " \
 ${libdir}/${UBUN_TARGET_SYS}/pkgconfig/wayland-egl.pc \
 "
 
-do_install_append(){
+do_install_append_qrb5165(){
 	rm -rf ${D}/${libdir}/${UBUN_TARGET_SYS}/libwayland-egl.so*
 }
