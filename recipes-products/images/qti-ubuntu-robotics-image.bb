@@ -66,7 +66,7 @@ CORE_IMAGE_BASE_INSTALL += " \
             "
 #Install packages for video
 CORE_IMAGE_BASE_INSTALL += " \
-	    packagegroup-qti-video \	
+	    ${@bb.utils.contains('DISTRO_FEATURES', 'qti-video', "packagegroup-qti-video", "", d)} \
             ${@bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf",  "packagegroup-qti-gst", "", d)} \
 	    "
 #Install packages for OTA
@@ -75,11 +75,11 @@ CORE_IMAGE_BASE_INSTALL += " \
             "
 #Install packages for camera
 CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-camera \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'qti-camera', "packagegroup-qti-camera", "", d)} \
             "
 #Install packages for bluetooth
 CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-bluetooth \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'qti-bluetooth', "packagegroup-qti-bluetooth", "", d)} \
 "
 #Install packages for sensors
 CORE_IMAGE_BASE_INSTALL += " \
