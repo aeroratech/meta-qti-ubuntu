@@ -154,5 +154,6 @@ rm -f ${target_dir}/scripts/selinux/mdp/mdp
 rm -f ${target_dir}/scripts/selinux/genheaders/genheaders
 rm -f ${target_dir}/scripts/genksyms/genksyms
 rm -f ${target_dir}/scripts/sign-file
+rm -f ${target_dir}/scripts/unifdef
 
 }
