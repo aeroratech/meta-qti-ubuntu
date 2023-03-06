@@ -541,6 +541,7 @@ libkeyutils1 \
 UBUN_DEPENDENCES +=  " \
 libcrypto++6 \
 libcrypto++-utils \
+libcrypto++-dev \
 "
 #Package Required by tiff-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
@@ -701,6 +702,7 @@ libvtkgdcm-java \
 #Package Required by qhull-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
 libqhull7 \
+libqhull-dev \
 "
 
 #Package Required by kmod-ubuntu.bb
