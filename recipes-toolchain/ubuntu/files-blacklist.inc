@@ -656,6 +656,7 @@ SYSROOT_DIRS_BLACKLIST += " \
  /usr/lib/aarch64-linux-gnu/libgstaudio-1.0.so \
  /usr/lib/aarch64-linux-gnu/libgstaudio-1.0.so.0 \
  /usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstpulseaudio.so \
+ /usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstvideo4linux2.so \
  /usr/lib/aarch64-linux-gnu/libwayland-egl.so.1.0.0 \
  /usr/lib/aarch64-linux-gnu/libwayland-egl.so.1 \
  /usr/lib/aarch64-linux-gnu/libwayland-egl.so \
