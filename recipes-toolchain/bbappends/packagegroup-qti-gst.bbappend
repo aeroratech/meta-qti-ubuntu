@@ -5,7 +5,3 @@ RDEPENDS_packagegroup-qti-gst_append = " \
       ${@bb.utils.contains("BASEMACHINE", "qcs6490", "gstreamer1.0-plugins-qti-oss-codec2", "", d)} \
       gstreamer1.0-plugins-good-v4l2 \
     "
-
-RDEPENDS_packagegroup-qti-gst_remove = " \
-      ${@bb.utils.contains("BASEMACHINE", "qcs6490", "gstreamer1.0-plugins-qti-oss-examples", "", d)} \
-    "
