@@ -1,1 +1,1 @@
-CFLAGS += " -DUBBASE "
+CFLAGS:qcs6490 += " -DUBBASE "
