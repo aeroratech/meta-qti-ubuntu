@@ -13,6 +13,7 @@ do_populate_lic_deploy[noexec] = "1"
 
 DEPENDS += "ubuntu-base"
 
+PACKAGE_EXCLUDE = "db-dbg"
 CORE_IMAGE_BASE_INSTALL = " \
             kernel-modules \
             msm-header \
