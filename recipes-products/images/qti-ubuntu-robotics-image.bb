@@ -91,6 +91,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             librealsense2 \
             librealsense2-tests \
+            librealsense2-dev \
             "
 
 #Install packages for imu-ros2node
