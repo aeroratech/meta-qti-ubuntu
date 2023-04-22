@@ -91,6 +91,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
             librealsense2 \
             librealsense2-tests \
+            librealsense2-dev \
             "
 
 #Install packages for imu-ros2node
@@ -284,10 +285,10 @@ EOF
     chmod +x ${IMAGE_ROOTFS}/sbin/reboot.sh
 
     #recover package postinsts
-    #mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst/*.postinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
-   # rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
-    #mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
-    #rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
+    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst/*.postinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
+    mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
+    rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
 
 }
 

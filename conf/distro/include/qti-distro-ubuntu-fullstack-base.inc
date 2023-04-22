@@ -62,6 +62,7 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # qwes             Enable qwes feature support
 # ros2-foxy:       Enable ros2 foxy
 # vslam            Enable vslam
+# vulkan:          Include the Vulkan Library
 
 DISTRO_FEATURES_append = " \
     auto-explore \
@@ -74,6 +75,10 @@ DISTRO_FEATURES_append = " \
     qwesd \
     ros2-foxy \
     vslam \
+    "
+
+DISTRO_FEATURES_append_qcs6490 = " \
+    vulkan \
     "
 
 ## QTI defined distro features ##
@@ -93,7 +98,6 @@ DISTRO_FEATURES_append = " \
 # qti-security:      Support QTI security solution
 # qti-gst-ros2:      Support QTI gst ros2
 # qti-mmframeworks:  Support QTI mmframeworks (synx) driver
-# qti-ib2c:          Support QTI IB2C solution
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -113,7 +117,6 @@ DISTRO_FEATURES_append = " \
     qti-mmframeworks \
     qti-sensors \
     qti-gst-ros2 \
-    qti-ib2c \
     "
 
 ## bootfs parameter ##

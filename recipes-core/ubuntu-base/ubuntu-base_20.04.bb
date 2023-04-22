@@ -276,10 +276,7 @@ do_ubuntu_install() {
 
 	rm -rf ${TMP_WKDIR}/sbin/init
 	ln -sf ../lib/systemd/systemd ${TMP_WKDIR}/sbin/init
-	rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so
-	ln -sf ../usr/lib/libwayland-egl.so.1  ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so
-	rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
-	ln -sf ../usr/lib/libwayland-egl.so.1  ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
+
 	# Create socket directory for logd.service
 	touch ${TMP_WKDIR}/usr/lib/tmpfiles.d/platform.conf
 	echo 'd /dev/socket 0777 - - - -' >> ${TMP_WKDIR}/usr/lib/tmpfiles.d/platform.conf
@@ -306,4 +303,11 @@ addtask do_ubuntu_install after do_compile before do_install
 do_install() {
 	install -d ${D}${datadir}
 	cp ${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/${UBUNTU_BASE_TAR} ${D}${datadir}
+}
+
+do_ubuntu_install_append_qrb5165() {
+	rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so
+	ln -sf ../usr/lib/libwayland-egl.so.1  ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so
+	rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
+	ln -sf ../usr/lib/libwayland-egl.so.1  ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
 }
