@@ -14,4 +14,4 @@ SRC_URI[passwd.md5sum] = "645cac2cfac0779c733c00798cfd7829"
 # other configs to feed compilation
 PKG_${UPN} = "passwd"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc virtual/crypt attr audit libpam libselinux libsemanage"
-PROVIDES += "shadow shadow-sysroot"
+PROVIDES += "shadow"
