@@ -211,11 +211,6 @@ UBUN_DEPENDENCES +=  " \
 libxau6 \
 "
 
-#Package Required by gstreamer1.0-libav-ubuntu.bb
-UBUN_DEPENDENCES +=  " \
-gstreamer1.0-libav \
-"
-
 #Package Required by liba52-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
 liba52-0.7.4 \

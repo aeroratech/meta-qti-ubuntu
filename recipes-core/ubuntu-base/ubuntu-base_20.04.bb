@@ -310,4 +310,45 @@ do_ubuntu_install_append_qrb5165() {
 	ln -sf ../usr/lib/libwayland-egl.so.1  ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so
 	rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
 	ln -sf ../usr/lib/libwayland-egl.so.1  ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/libwayland-egl.so.1
+
+    # Remove s/w based encoders & decoders from gstreamer-plugins-base
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstvorbis.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstopus.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgsttheora.so
+
+    # Remove s/w based encoders & decoders from gstreamer-plugins-good
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstalaw.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstwavenc.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstwavpack.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstrtp.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstflac.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstmulaw.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstjpeg.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstpng.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgsty4menc.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstmpg123.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstflxdec.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstdv.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstgdkpixbuf.so
+
+    # Remove s/w based encoders & decoders from gstreamer-plugins-bad
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstvoaacenc.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstvoamrwbenc.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstgsm.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstsbc.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstspeex.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstmpeg2enc.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstpnm.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstwebp.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstfaad.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstdtsdec.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstvmnc.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstrsvg.so
+
+    # Remove s/w based encoders & decoders from gstreamer-plugins-ugly
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgsta52dec.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstdvdlpcmdec.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstamrwbdec.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstamrnb.so
+    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstmpeg2dec.so
 }
