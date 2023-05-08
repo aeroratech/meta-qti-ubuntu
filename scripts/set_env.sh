@@ -47,4 +47,4 @@
 #	echo -e "\033[31m #######################NOTE!!!######################## \033[0m"
 #	return -1
 #fi
-
+find ../bitbake -name siggen.py | xargs perl -pi -e 's|bb.error\("Taskhash|#bb.error("Taskhash|g'
