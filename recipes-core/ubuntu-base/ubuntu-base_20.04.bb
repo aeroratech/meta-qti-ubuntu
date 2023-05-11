@@ -20,6 +20,7 @@ arch_ubuntu = "arm64"
 
 TMP_WKDIR = "${WORKDIR}/ubuntu_base_tmp"
 DEB_CACHE_DIR  = "${WORKDIR}/deb_cache"
+DEB_CACHE_TARBALL_DIR  = "${TOPDIR}/../deb_cache"
 
 do_unpack[noexec] = "1"
 do_populate_lic[noexec] = "1"
@@ -225,6 +226,12 @@ apt_update() {
 
 do_ubuntu_unpack() {
         cache_avaliable=0
+        ## copy deb_cahe from deb_cache in workspace ##
+        if [ -e "${DEB_CACHE_TARBALL_DIR}" ] && [ ! -n "$(ls -A ${DEB_CACHE_DIR})" ]; then
+                cp ${DEB_CACHE_TARBALL_DIR}/*.deb ${DEB_CACHE_DIR}
+                cache_avaliable=1
+        fi
+
         ## copy cache if exists to speed up apt install process ##
         if [ -e "${TMP_WKDIR}/var/cache/apt/archives" ]; then
                 find ${TMP_WKDIR}/var/cache/apt/archives -maxdepth 1 -name "*.deb" | xargs -n10 -i cp {} ${DEB_CACHE_DIR}
