@@ -731,3 +731,7 @@ libunistring2 \
 UBUN_DEPENDENCES +=  " \
 libnpth0 \
 "
+#Package Required by gstreamer1.0-libav-ubuntu.bb for qcs6490
+UBUN_DEPENDENCES +=  " \
+${@bb.utils.contains("BASEMACHINE", "qcs6490", "gstreamer1.0-libav", "", d)} \
+"

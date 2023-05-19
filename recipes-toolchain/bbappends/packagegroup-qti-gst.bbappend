@@ -7,6 +7,6 @@ RDEPENDS_packagegroup-qti-gst_append = " \
       gstreamer1.0-plugins-good-v4l2 \
     "
 
-RDEPENDS_packagegroup-qti-gst_remove = " \
+RDEPENDS_packagegroup-qti-gst_remove_qrb5165 = " \
       ${@bb.utils.contains_any("COMBINED_FEATURES", "qti-video qti-audio", "gstreamer1.0-libav", "", d)} \
     "
