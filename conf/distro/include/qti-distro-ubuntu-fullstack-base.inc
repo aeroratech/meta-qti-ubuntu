@@ -98,6 +98,7 @@ DISTRO_FEATURES_append_qcs6490 = " \
 # qti-security:      Support QTI security solution
 # qti-gst-ros2:      Support QTI gst ros2
 # qti-mmframeworks:  Support QTI mmframeworks (synx) driver
+# qti-dfs:           Support QTI DFS solution
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -117,6 +118,7 @@ DISTRO_FEATURES_append = " \
     qti-mmframeworks \
     qti-sensors \
     qti-gst-ros2 \
+    qti-dfs \
     "
 
 ## bootfs parameter ##
