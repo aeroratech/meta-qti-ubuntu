@@ -39,6 +39,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
+            packagegroup-qti-robotics \
             "
 
 #Install packages for debug
@@ -87,6 +88,27 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-test-sensors-see', '', d)} \
 "
 
+#Install packages for vslam
+CORE_IMAGE_BASE_INSTALL += " \
+            librealsense2 \
+            librealsense2-tests \
+            librealsense2-dev \
+            "
+
+#Install packages for imu-ros2node
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-sensors', 'imu-ros2node', '', d), "", d)} \
+"
+
+#Install packages for gst-ros2node
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2node', '', d), "", d)} \
+"
+#Install packages for gst-ros2sink
+CORE_IMAGE_BASE_INSTALL += " \
+			${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), "", d)} \
+"
+
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #fix for fakeroot do_rootfs chmod the dir permission to 700
@@ -113,7 +135,7 @@ do_ubuntu_rootfs(){
     mkdir -p ${IMAGE_ROOTFS}/dsp
     mkdir -p ${IMAGE_ROOTFS}/bt_firmware
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
-    # replace the cpufreq governor ondemand with schedutil
+#   replace the cpufreq governor ondemand with schedutil
     rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
 
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
