@@ -211,11 +211,6 @@ UBUN_DEPENDENCES +=  " \
 libxau6 \
 "
 
-#Package Required by gstreamer1.0-libav-ubuntu.bb
-UBUN_DEPENDENCES +=  " \
-gstreamer1.0-libav \
-"
-
 #Package Required by liba52-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
 liba52-0.7.4 \
@@ -735,4 +730,8 @@ libunistring2 \
 #Package Required by npth-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
 libnpth0 \
+"
+#Package Required by gstreamer1.0-libav-ubuntu.bb for qcs6490
+UBUN_DEPENDENCES +=  " \
+${@bb.utils.contains("BASEMACHINE", "qcs6490", "gstreamer1.0-libav", "", d)} \
 "

@@ -66,8 +66,6 @@ PROVIDES += "\
             virtual/${TARGET_PREFIX}gcc-initial \
             virtual/${TARGET_PREFIX}binutils \
             binutils-cross-${TARGET_ARCH} \
-            libarchive-native \
-            nativesdk-libarchive \
             mtd-utils-native \
             attr \
 "
@@ -218,7 +216,6 @@ PROVIDES += "\
             nativesdk-qemu \
             nativesdk-qemu-helper \
             nativesdk-qemuwrapper-cross \
-            nativesdk-packagegroup-sdk-host \
             qemuwrapper-cross \
             qemu-helper-native \
             qemu-native \

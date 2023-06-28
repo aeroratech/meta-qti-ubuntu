@@ -89,6 +89,11 @@ PACKAGES += "\
             libitm-staticdev \
             "
 
+ALLOW_EMPTY_libatomic = "1"
+ALLOW_EMPTY_libatomic-dev = "1"
+ALLOW_EMPTY_libstdc++ = "1"
+ALLOW_EMPTY_libstdc++-dev = "1"
+
 #  gcc-sanitizers
 PACKAGES += " \
             gcc-sanitizers gcc-sanitizers-dev \

@@ -48,3 +48,12 @@
 #	return -1
 #fi
 
+#ignore taskhash error due to this is yocto bug
+find ${WS}/poky -name siggen.py | xargs perl -pi -e 's|bb.error\("Taskhash|#bb.error("Taskhash|g'
+
+#fix esdk error, not block esdk generation and usage
+sed -i 's/?/:/g' ${WS}/poky/meta/classes/metadata_scm.bbclass
+head -n 4 ${WS}/poky/meta/classes/metadata_scm.bbclass > ${WS}/poky/temp.txt
+sed -i '1,4d' ${WS}/poky/meta/classes/metadata_scm.bbclass
+cat ${WS}/poky/temp.txt >> ${WS}/poky/meta/classes/metadata_scm.bbclass
+rm ${WS}/poky/temp.txt
