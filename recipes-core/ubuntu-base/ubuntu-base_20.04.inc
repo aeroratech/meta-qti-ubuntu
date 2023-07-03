@@ -787,3 +787,42 @@ libavcodec58 \
 libswresample3 \
 libswresample-dev \
 "
+
+#Package Required by libyaml-ubuntu
+UBUN_DEPENDENCES +=  "\
+libyaml-dev \
+libyaml-0-2 \
+"
+
+#Package Required by python3-setuptools-ubuntu
+UBUN_DEPENDENCES +=  "\
+python3-setuptools \
+"
+
+#Package Required by python3-six-ubuntu
+UBUN_DEPENDENCES +=  "\
+python3-six \
+"
+
+#Package Required by libxslt-ubuntu
+UBUN_DEPENDENCES +=  "\
+libxslt1-dev \
+libxslt1.1 \
+"
+
+#Package Required by python3-docutils-ubuntu
+UBUN_DEPENDENCES +=  "\
+python3-docutils \
+"
+
+#Package Required by net-tools-ubuntu
+UBUN_DEPENDENCES +=  "\
+net-tools \
+"
+
+#Package Required by sqlite-ubuntu
+UBUN_DEPENDENCES +=  "\
+libsqlite3-0 \
+sqlite3 \
+"
+
