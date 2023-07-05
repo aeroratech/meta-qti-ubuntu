@@ -737,3 +737,4 @@ PNBLACKLIST[bridge-utils] = "Using sysfsutils-ubuntu"
 PNBLACKLIST[pciutils] = "Using pciutils-ubuntu"
 #remove warnning from build sdk
 PNBLACKLIST[nativesdk-qemuwrapper-cross] = "Using ubuntu-toolchain"
+PNBLACKLIST[python3] = "Using python3-ubuntu"

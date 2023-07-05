@@ -735,3 +735,20 @@ libnpth0 \
 UBUN_DEPENDENCES +=  " \
 ${@bb.utils.contains("BASEMACHINE", "qcs6490", "gstreamer1.0-libav", "", d)} \
 "
+
+#Package Required by python3-ubuntu
+UBUN_DEPENDENCES +=  " \
+libpython3.8 \
+libpython3.8-dev \
+libpython3.8-minimal \
+libpython3.8-stdlib \
+libpython3.8-testsuite \
+python3.8-dev \
+python3.8-minimal \
+python3.8-full \
+python3.8-venv \
+python3.8-examples \
+pypy3-dev \
+pypy3-lib \
+python3-minimal \
+"
