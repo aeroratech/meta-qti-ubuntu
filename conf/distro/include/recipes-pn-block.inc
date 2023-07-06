@@ -20,7 +20,6 @@ PNBLACKLIST[u-boot] = "Using ubuntu toolchain"
 PNBLACKLIST[usbinit] = "Using ubuntu toolchain"
 PNBLACKLIST[usbutils] = "Using ubuntu toolchain"
 PNBLACKLIST[v86d] = "Using ubuntu toolchain"
-PNBLACKLIST[mkdtimg-native] = "Using ubuntu toolchain"
 # recipes-devtools
 PNBLACKLIST[apt] = "Using ubuntu toolchain"
 #PNBLACKLIST[autoconf-archive] = "Using ubuntu toolchain"

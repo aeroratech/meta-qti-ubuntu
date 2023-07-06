@@ -48,6 +48,7 @@ do_image_ext4[noexec] = "1"
 IMAGE_VERSION_SUFFIX = ""
 
 # Default Image names
+DTBOIMAGE_TARGET ?= "dtbo.img"
 BOOTIMAGE_TARGET ?= "${IMAGE_NAME}-boot.img"
 SYSTEMIMAGE_TARGET ?= "${IMAGE_NAME}-sysfs.ext4"
 SYSTEMIMAGE_MAP_TARGET ?= "${IMAGE_NAME}-sysfs.map"
@@ -189,6 +190,41 @@ do_makesystem() {
     make_ext4fs -s -l ${SYSTEM_SIZE_EXT4} -C ${WORKDIR}/rootfs-fsconfig.conf -B ${DEPLOY_DIR_IMAGE}/system.map ${IMAGE_EXT4_SELINUX_OPTIONS} -a / -b 4096 ${DEPLOY_DIR_IMAGE}/${SYSTEMIMAGE_TARGET} ${IMAGE_ROOTFS}
 }
 
+################################################
+############# Generate dtbo.img ################
+################################################
+MKDTUTIL = '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/mkdtimg-native", "mkdtimg-gki-native", "mkdtboimg/bin/mkdtboimg.py", "mkdtimg", d)}'
+DTBODEPLOYDIR = "${WORKDIR}/deploy-${PN}-dtboimage-complete"
+
+# Create dtbo.img if DTBO support is enabled
+python do_makedtbo () {
+    import subprocess
+
+    mkdtimg_bin_path = d.getVar('STAGING_BINDIR_NATIVE', True) + "/" + d.getVar('MKDTUTIL')
+    dtbodeploydir = d.getVar('DEPLOY_DIR_IMAGE', True) + "/" + "DTOverlays"
+    pagesize = d.getVar("PAGE_SIZE")
+    output          = d.getVar('DTBOIMAGE_TARGET', True)
+    # cmd to make dtbo.img
+    cmd = mkdtimg_bin_path + " create "+ output +" --page_size="+ pagesize +" "+ dtbodeploydir + "/*.dtbo"
+    bb.debug(1, "do_makedtbo cmd: %s" % (cmd))
+    try:
+        ret = subprocess.check_output(cmd, shell=True)
+    except RuntimeError as e:
+        bb.error("cmd: %s failed with error %s" % (cmd, str(e)))
+}
+
+do_makedtbo[dirs]      = "${DTBODEPLOYDIR}"
+# Make sure dtb files ready to create dtbo.img
+do_makedtbo[depends] += "virtual/kernel:do_deploy virtual/mkdtimg-native:do_populate_sysroot"
+SSTATETASKS += "do_makedtbo"
+SSTATE_SKIP_CREATION_task-makedtbo = '1'
+do_makedtbo[sstate-inputdirs] = "${DTBODEPLOYDIR}"
+do_makedtbo[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+do_makedtbo[stamp-extra-info] = "${MACHINE_ARCH}"
+
+python do_makedtbo_setscene () {
+    sstate_setscene(d)
+}
 
 ################################################
 ############# Generate boot.img ################
@@ -271,6 +307,8 @@ python () {
     if bb.utils.contains('DISTRO_FEATURES', 'boot_with_fs', True, False, d):
         bb.build.addtask('do_make_bootfs', 'do_image_complete', 'do_image', d)
         bb.build.addtask('do_bootimg_deb', 'do_image_complete', 'do_make_bootfs', d)
+    if bb.utils.contains('MACHINE_SUPPORTS_DTBO', 'True', True, False, d):
+        bb.build.addtask('do_makedtbo', 'do_image', 'do_make_bootimg', d)
 }
 
 # With boot_with_fs, make the bootfs.img
