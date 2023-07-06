@@ -39,8 +39,9 @@ CORE_IMAGE_BASE_INSTALL = " \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
-            packagegroup-qti-robotics \
             "
+
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'packagegroup-qti-robotics', '', d)}"
 
 #Install packages for debug
 CORE_IMAGE_BASE_INSTALL += " \
@@ -89,25 +90,19 @@ CORE_IMAGE_BASE_INSTALL += " \
 "
 
 #Install packages for vslam
-CORE_IMAGE_BASE_INSTALL += " \
-            librealsense2 \
-            librealsense2-tests \
-            librealsense2-dev \
-            "
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'librealsense2 librealsense2-tests librealsense2-dev', '', d)}"
 
 #Install packages for imu-ros2node
-CORE_IMAGE_BASE_INSTALL += " \
-            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-sensors', 'imu-ros2node', '', d), "", d)} \
-"
+CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
+                             bb.utils.contains('DISTRO_FEATURES', 'qti-sensors', 'imu-ros2node', '', d), '', d), '', d)} "
 
 #Install packages for gst-ros2node
-CORE_IMAGE_BASE_INSTALL += " \
-            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2node', '', d), "", d)} \
-"
+CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
+                             bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2node', '', d), '', d), '', d)} "
+
 #Install packages for gst-ros2sink
-CORE_IMAGE_BASE_INSTALL += " \
-			${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), "", d)} \
-"
+CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
+			     bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), '', d), '', d)} "
 
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
