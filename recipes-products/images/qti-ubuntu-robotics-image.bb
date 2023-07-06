@@ -119,6 +119,8 @@ do_ubuntu_rootfs(){
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
     ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
+    cp ${IMAGE_ROOTFS}//usr/share/systemd/tmp.mount ${IMAGE_ROOTFS}//etc/systemd/system/
+    ln -sf /etc/systemd/system/tmp.mount ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
 }
 
 def runtime_mapping_rename (varname, pkg, d):
