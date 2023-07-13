@@ -53,3 +53,5 @@ do_install() {
     fi
 }
 
+PACKAGES += "${UPN}-sdk"
+FILES_${UPN}-sdk ="${exec_prefix}/*"
