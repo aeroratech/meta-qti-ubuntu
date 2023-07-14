@@ -132,6 +132,7 @@ do_ubuntu_rootfs(){
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
 #   replace the cpufreq governor ondemand with schedutil
     rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
+    rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/ondemand.service
 
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
     ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
