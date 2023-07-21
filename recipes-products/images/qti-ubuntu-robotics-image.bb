@@ -48,6 +48,9 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'packagegroup-qti-ubuntu-debug-tools', '', d)} \
 "
 
+#Install packages for location
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-location', 'packagegroup-qti-location', '', d)}"
+
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
 	    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wifi', 'packagegroup-qti-wifi', '', d)} \

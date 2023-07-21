@@ -1,0 +1,1 @@
+RDEPENDS_gpsd-udev_remove = "udev"

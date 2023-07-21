@@ -554,6 +554,14 @@ gstreamer1.0-plugins-ugly \
 UBUN_DEPENDENCES +=  " \
 openssl \
 "
+
+#Package Required by sqlite3-ubuntu.bb
+UBUN_DEPENDENCES +=  " \
+sqlite3 \
+libsqlite3-0 \
+libsqlite3-dev \
+"
+
 #Package Required by libexif-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
 libexif12 \
