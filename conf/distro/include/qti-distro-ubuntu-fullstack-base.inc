@@ -79,6 +79,7 @@ DISTRO_FEATURES_append = " \
 
 DISTRO_FEATURES_append_qcs6490 = " \
     vulkan \
+    qti-uvc \
     "
 
 ## QTI defined distro features ##
