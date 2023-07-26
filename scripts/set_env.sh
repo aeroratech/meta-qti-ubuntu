@@ -25,6 +25,11 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#Changes from Qualcomm Innovation Center are provided under the following license:
+
+#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
 ## Script to do pre-configurations specific to current layer
 ## before calling oe-init-build-env
 
@@ -47,3 +52,15 @@
 #	echo -e "\033[31m #######################NOTE!!!######################## \033[0m"
 #	return -1
 #fi
+
+#apply patches
+cd ${WS}/poky
+
+for patchfile in $(cat meta-qti-ubuntu/scripts/patches/series); do
+        patch -p1 -N --dry-run --silent < ${WS}/poky/meta-qti-ubuntu/scripts/patches/$patchfile > /dev/null 2>&1
+        # sucessful dryrun sets exit status of last command ($?) to 0
+        if [ $? -eq 0 ]; then
+            #apply the patch
+            patch -p1 -N --silent < ${WS}/poky/meta-qti-ubuntu/scripts/patches/$patchfile > /dev/null 2>&1
+        fi
+done
