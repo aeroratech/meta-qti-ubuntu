@@ -752,3 +752,30 @@ pypy3-dev \
 pypy3-lib \
 python3-minimal \
 "
+
+#Package Required by libtheora-ubuntu
+UBUN_DEPENDENCES +=  " \
+libtheora-bin \
+libtheora0 \
+"
+
+#Package Required by ffmpeg-ubuntu
+UBUN_DEPENDENCES +=  " \
+ffmpeg \
+libavfilter7 \
+libavfilter-dev \
+libpostproc-dev \
+libpostproc55 \
+libavutil-dev \
+libavutil56 \
+libavresample-dev \
+libavresample4 \
+libavformat-dev \
+libavformat58 \
+libavdevice-dev \
+libavdevice58 \
+libavcodec-dev \
+libavcodec58 \
+libswresample3 \
+libswresample-dev \
+"
