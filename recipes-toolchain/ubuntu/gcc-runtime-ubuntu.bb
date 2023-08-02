@@ -22,26 +22,26 @@ SRC_URI[libgfortran5.md5sum] = "ab4e74f8c949ecb3a87a850aa27b76bd"
 SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/libi/libiberty/libiberty-dev_20200409-1_arm64.deb;name=libiberty-dev"
 SRC_URI[libiberty-dev.md5sum] = "7afc973eb1f8741c2d28d166905ff4d6"
 
-SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libatomic1-arm64-cross_10.3.0-1ubuntu1~20.04cross1_all.deb;name=libatomic1-cross"
-SRC_URI[libatomic1-cross.md5sum] = "2ba80c30506c0a71c4616ae874d15890"
+SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libatomic1-arm64-cross_10.5.0-1ubuntu1~20.04cross1_all.deb;name=libatomic1-cross"
+SRC_URI[libatomic1-cross.md5sum] = "d2591ed91fb07c5e5eacbfbedc1c0c7c"
 
-SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libgomp1-arm64-cross_10.3.0-1ubuntu1~20.04cross1_all.deb;name=libgomp1"
-SRC_URI[libgomp1.md5sum] = "1111231ea963836acf2fd81aa3b65bb9"
+SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libgomp1-arm64-cross_10.5.0-1ubuntu1~20.04cross1_all.deb;name=libgomp1"
+SRC_URI[libgomp1.md5sum] = "c101061b33447e757f53c6d62f6fbffe"
 
-SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libitm1-arm64-cross_10.3.0-1ubuntu1~20.04cross1_all.deb;name=libitm1"
-SRC_URI[libitm1.md5sum] = "53b978a4cccef7ead5f47dd31c72e2ca"
+SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libitm1-arm64-cross_10.5.0-1ubuntu1~20.04cross1_all.deb;name=libitm1"
+SRC_URI[libitm1.md5sum] = "321341e4ee398a9ae10864b0e35186e4"
 
 SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10/liblsan0_10-20200411-0ubuntu1_arm64.deb;name=liblsan0"
 SRC_URI[liblsan0.md5sum] = "7d12b91f7f10490416452c73b87ccab7"
 
-SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/g/gcc-10-cross/libstdc++-10-dev-arm64-cross_10.3.0-1ubuntu1~20.04cross1_all.deb;name=libstdc++-10-dev"
-SRC_URI[libstdc++-10-dev.md5sum] = "8b9ee4dd04b8ecb92899266d6a2e935b"
+SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/universe/g/gcc-10-cross/libstdc++-10-dev-arm64-cross_10.5.0-1ubuntu1~20.04cross1_all.deb;name=libstdc++-10-dev"
+SRC_URI[libstdc++-10-dev.md5sum] = "a9a23bdb107b6d73c5ea5f55e1e87d96"
 
-SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libstdc++6-arm64-cross_10.3.0-1ubuntu1~20.04cross1_all.deb;name=libstdc++6"
-SRC_URI[libstdc++6.md5sum] = "ae7c080b8c2130d800aa15b060c32578"
+SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libstdc++6-arm64-cross_10.5.0-1ubuntu1~20.04cross1_all.deb;name=libstdc++6"
+SRC_URI[libstdc++6.md5sum] = "a2ea55fa1ae6ce018b9375b6b70f8c70"
 
-SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libtsan0-arm64-cross_10.3.0-1ubuntu1~20.04cross1_all.deb;name=libtsan0"
-SRC_URI[libtsan0.md5sum] = "7abe15b6536782c6cb6e8dc171db5480"
+SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libtsan0-arm64-cross_10.5.0-1ubuntu1~20.04cross1_all.deb;name=libtsan0"
+SRC_URI[libtsan0.md5sum] = "45c1faadc5646083e3b06d132da464a6"
 
 # other configs to feed compilation
 PKG_${UPN} = "libstdc++-10-dev"
