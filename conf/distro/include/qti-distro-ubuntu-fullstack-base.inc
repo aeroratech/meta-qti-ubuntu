@@ -60,7 +60,8 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # wayland:         Include the Wayland display server protocol
 # drm:             Use DRM display drivers, provided machine supports it
 # qwes             Enable qwes feature support
-# ros2-foxy:       Enable ros2 foxy
+# ros2-foxy:       Enable ros2 foxy, ROS packages are from debian packages
+# meta-ros2:       Enable ros2 from meta-ros
 # vslam            Enable vslam
 # vulkan:          Include the Vulkan Library
 

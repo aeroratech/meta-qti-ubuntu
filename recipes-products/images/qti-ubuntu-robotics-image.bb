@@ -92,6 +92,11 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-test-sensors-see', '', d)} \
 "
 
+#Install packages for meta-ros
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'meta-ros2', "packagegroup-qti-ros2-foxy", "", d)} \
+"
+
 #Install packages for vslam
 CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'librealsense2 librealsense2-tests librealsense2-dev', '', d)}"
 
