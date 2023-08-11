@@ -830,3 +830,8 @@ libsqlite3-0 \
 sqlite3 \
 "
 
+
+#Package Required by pkgconfig-ubuntu
+UBUN_DEPENDENCES +=  "\
+pkg-config\
+"
