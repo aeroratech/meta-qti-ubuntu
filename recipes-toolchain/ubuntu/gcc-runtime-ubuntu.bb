@@ -43,6 +43,9 @@ SRC_URI[libstdc++6.md5sum] = "a2ea55fa1ae6ce018b9375b6b70f8c70"
 SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-10-cross/libtsan0-arm64-cross_10.5.0-1ubuntu1~20.04cross1_all.deb;name=libtsan0"
 SRC_URI[libtsan0.md5sum] = "45c1faadc5646083e3b06d132da464a6"
 
+SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/g/gcc-defaults/cpp_9.3.0-1ubuntu2_arm64.deb;name=cpp"
+SRC_URI[cpp.md5sum] = "988501e01678c75921342807dfd86cf5"
+
 # other configs to feed compilation
 PKG_${UPN} = "libstdc++-10-dev"
 DEPENDS += "   virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-g++ libgcc virtual/libc"
@@ -87,12 +90,16 @@ PACKAGES += "\
             libitm \
             libitm-dev \
             libitm-staticdev \
+            cpp \
+            cpp-symlinks \
             "
 
 ALLOW_EMPTY_libatomic = "1"
 ALLOW_EMPTY_libatomic-dev = "1"
 ALLOW_EMPTY_libstdc++ = "1"
 ALLOW_EMPTY_libstdc++-dev = "1"
+ALLOW_EMPTY_cpp = "1"
+ALLOW_EMPTY_cpp-symlinks = "1"
 
 #  gcc-sanitizers
 PACKAGES += " \

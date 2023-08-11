@@ -819,6 +819,10 @@ python3-docutils \
 UBUN_DEPENDENCES +=  "\
 net-tools \
 "
+#Package Required by gcc-runtime-ubuntu
+UBUN_DEPENDENCES +=  "\
+cpp \
+"
 
 #Package Required by sqlite-ubuntu
 UBUN_DEPENDENCES +=  "\
