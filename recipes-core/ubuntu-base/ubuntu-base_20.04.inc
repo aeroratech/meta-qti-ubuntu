@@ -835,3 +835,13 @@ sqlite3 \
 UBUN_DEPENDENCES +=  "\
 pkg-config\
 "
+
+#Package Required by python3-netifaces-ubuntu
+UBUN_DEPENDENCES +=  "\
+python3-netifaces\
+"
+
+#Package Required by python3-lark-parser-ubuntu
+UBUN_DEPENDENCES +=  "\
+python3-lark\
+"
