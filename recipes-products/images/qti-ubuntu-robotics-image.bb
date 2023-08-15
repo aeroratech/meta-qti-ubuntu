@@ -560,13 +560,12 @@ sign_veritybootimg () {
         sign_boot_image ${imgname}
     fi
 }
-
-do_flush_pseudodb[depends] += "${PN}:do_check_packages"
-do_makesystem[depends] += "${PN}:do_flush_pseudodb"
-do_image_qa[depends] += "${PN}:do_makesystem"
-do_image[depends] += "${PN}:do_image_qa"
-do_image_complete[depends] += "${PN}:do_image"
-do_check_packages[depends] += "${PN}:do_rootfs"
-do_rootfs[depends] += "${PN}:do_gen_partition_bin"
-do_gen_partition_bin[depends] += "${PN}:do_unpack_ubuntu_base"
 do_unpack_ubuntu_base[depends] += "${PN}:do_make_bootimg"
+do_gen_partition_bin[depends] += "${PN}:do_unpack_ubuntu_base"
+do_rootfs[depends] += "${PN}:do_gen_partition_bin"
+do_check_packages[depends] += "${PN}:do_rootfs"
+do_flush_pseudodb[depends] += "${PN}:do_check_packages"
+do_image_qa[depends] += "${PN}:do_flush_pseudodb"
+do_image[depends] += "${PN}:do_image_qa"
+do_makesystem[depends] += "${PN}:do_image"
+do_image_complete[depends] += "${PN}:do_makesystem"
