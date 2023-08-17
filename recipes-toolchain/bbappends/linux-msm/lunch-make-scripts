@@ -36,6 +36,17 @@ MSM_HEADER_CHECK_FILE_ARRAY=(bin2c dtc kallsyms pnmtologo conmakehash \
 				recordmcount sortextable asn1_compiler \
 				mk_elfconfig modpost fixdep conf mdp \
 				genheaders sign-file)
+apt_update ()
+{
+	echo "apt update..."
+	apt update
+	if [ $? != 0 ]; then
+		echo "apt update failed..."
+		return 1
+	else
+		return 0
+	fi
+}
 
 flex_install ()
 {
@@ -43,8 +54,7 @@ flex_install ()
 	if [ -x "$(command -v flex)" ]; then
 		return 0
 	else
-		sleep 10
-		apt-get -y install flex=2.6.4-6
+		apt-get -y install flex
 		if [ $? != 0 ]; then
 			echo "Flex install failed..."
 			return 1
@@ -60,8 +70,7 @@ bison_install ()
 	if [ -x "$(command -v bison)" ]; then
 		return 0
 	else
-		sleep 10
-		apt-get -y install bison=2:3.0.4.dfsg-1build1
+		apt-get -y install bison
 		if [ $? != 0 ]; then
 			echo "Bison install failed..."
 			return 1
@@ -72,11 +81,13 @@ bison_install ()
 }
 
 
-#if the "/usr/src/header" directory exist,proceed to the next step.
+#if the "/usr/src/header" directory did not exist,exit.
 if [ ! -d ${MSM_HEADER_DIR} ]; then
 	echo "No /usr/src/header directory..."
 	exit 1
 fi
+
+apt_update
 
 flex_install
 exitcode_flex=$?
