@@ -396,7 +396,7 @@ libsz2 \
 
 #Package Required by pciutils-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
-libpci3 \
+pciutils \
 "
 #Package Required by at-spi2-core-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
