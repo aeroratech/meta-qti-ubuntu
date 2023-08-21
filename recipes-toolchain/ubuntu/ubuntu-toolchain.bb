@@ -229,14 +229,14 @@ PROVIDES += "\
 #update-rc.d
 PACKAGES += "update-rc.d"
 PROVIDES += "update-rc.d"
-RPROVIDES_update-rc.d += "iupdate-rc.d"
+RPROVIDES_update-rc.d += "update-rc.d"
 FILES_update-rc.d += " \
 /usr/sbin/update-rc.d \
 "
 PKG_update-rc.d = "init-system-helpers"
 PKGR_update-rc.d = "0"
 PKGV_update-rc.d = "0"
-
+ALLOW_EMPTY_update-rc.d = "1"
 
 UBUN_VER_MAIN ??= ""
 
