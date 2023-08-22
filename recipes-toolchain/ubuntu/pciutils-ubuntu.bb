@@ -12,6 +12,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/p/pciutils/libpci-dev
 SRC_URI[libpci-dev.md5sum] = "7af3aa6ef96919e2e84684fc9b6822e7"
 
 # other configs to feed compilation
-PKG_${UPN} = "libpci-dev"
+PKG_${UPN} = "pciutils"
 DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc zlib kmod udev"
 PROVIDES += "pciutils "
