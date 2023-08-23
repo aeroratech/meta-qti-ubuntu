@@ -349,6 +349,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
 	${@bb.utils.contains('COMBINED_FEATURES', 'qti-security', 'packagegroup-qti-securemsm', '', d)} \
 "
+# Install qti-umd-gadget if the qti-uvc COMBINED_FEATURES is present
+CORE_IMAGE_BASE_INSTALL += " \
+        ${@bb.utils.contains('COMBINED_FEATURES', 'qti-uvc', 'qti-umd-gadget', '', d)} \
+"
 
 CORE_IMAGE_BASE_INSTALL_remove_qcs6490 = "packagegroup-qti-gst"
 
