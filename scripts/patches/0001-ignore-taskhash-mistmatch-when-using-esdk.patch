@@ -1,0 +1,27 @@
+From f564890791d2730f438dffe7c35c13ba721218ed Mon Sep 17 00:00:00 2001
+From: fulan liu <quic_fulaliu@quicinc.com>
+Date: Wed, 2 Aug 2023 14:36:18 +0800
+Subject: [PATCH 1/2] ignore taskhash mistmatch when using esdk
+
+Change-Id: I2c3d117446f4fe747b6fac4eadd7f728ffb4feda
+Signed-off-by: fulan liu <quic_fulaliu@quicinc.com>
+---
+ bitbake/lib/bb/siggen.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py
+index 26fa7f05ce..40e45a8101 100644
+--- a/bitbake/lib/bb/siggen.py
++++ b/bitbake/lib/bb/siggen.py
+@@ -358,7 +358,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
+         if runtime and tid in self.taskhash:
+             computed_taskhash = calc_taskhash(data)
+             if computed_taskhash != self.taskhash[tid]:
+-                bb.error("Taskhash mismatch %s versus %s for %s" % (computed_taskhash, self.taskhash[tid], tid))
++                #bb.error("Taskhash mismatch %s versus %s for %s" % (computed_taskhash, self.taskhash[tid], tid))
+                 sigfile = sigfile.replace(self.taskhash[tid], computed_taskhash)
+ 
+         fd, tmpfile = tempfile.mkstemp(dir=os.path.dirname(sigfile), prefix="sigtask.")
+-- 
+2.25.1
+
