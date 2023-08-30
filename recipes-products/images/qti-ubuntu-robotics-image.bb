@@ -56,6 +56,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 	    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wifi', 'packagegroup-qti-wifi', '', d)} \
 	    ${@bb.utils.contains('MACHINE_FEATURES', 'qca-wifi', 'packagegroup-qti-qcawifi', '', d)} \
             "
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains('MACHINE_FEATURES', 'qti-drone', 'packagegroup-qti-drone', '', d)} \
+            "
+
 #install drm
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
