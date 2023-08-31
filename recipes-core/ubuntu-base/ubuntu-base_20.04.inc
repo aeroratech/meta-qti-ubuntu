@@ -845,3 +845,8 @@ python3-netifaces\
 UBUN_DEPENDENCES +=  "\
 python3-lark\
 "
+
+#Package Required by exfat-utils-ubuntu
+UBUN_DEPENDENCES +=  "\
+exfat-utils \
+"

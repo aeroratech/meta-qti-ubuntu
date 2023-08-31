@@ -23,6 +23,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             depends-update \
             ota-upgrade \
             e2fsprogs-tools \
+            exfat-utils \
 	    packagegroup-startup-scripts-base \
             packagegroup-startup-scripts \
 	    packagegroup-android-utils-base \
