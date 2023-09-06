@@ -195,11 +195,11 @@ def add_conf(pkgs):
     os.system("sed -i '/\[%s\]/d' %s" %(RN,blacklist_path))
     os.system("echo 'PNBLACKLIST[%s] = \"Using %s-ubuntu\"' >> %s" %(RN,RN,blacklist_path))
 
-    # add into ubuntu-base.inc 
+    # add into ubuntu-base.inc
     os.system("sed -i '$a \\\\n#Package Required by %s-ubuntu' %s" %(RN,ubuntubase_path))
-    os.system("sed -i '$a UBUN_DEPENDENCES +=  \"\\\\' %s" %(ubuntubase_path))
+    os.system("sed -i '$a UBUN_DEPENDENCES +=  \" \\\\' %s" %(ubuntubase_path))
     for pkg in pkgs:
-        os.system("sed -i '$a %s\\\\' %s" %(pkg,ubuntubase_path))
+        os.system("sed -i '$a %s \\\\' %s" %(pkg,ubuntubase_path))
     os.system("sed -i '$a \"' %s" %ubuntubase_path)
 
 
