@@ -849,3 +849,10 @@ python3-lark \
 UBUN_DEPENDENCES +=  "\
 exfat-utils \
 "
+
+#Package Required by flex-ubuntu
+UBUN_DEPENDENCES +=  " \
+flex \
+libfl2 \
+libfl-dev \
+"
