@@ -846,3 +846,9 @@ flex \
 libfl2 \
 libfl-dev \
 "
+
+#Package Required by bison-ubuntu
+UBUN_DEPENDENCES +=  " \
+bison \
+libbison-dev \
+"
