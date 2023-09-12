@@ -543,6 +543,7 @@ ${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "gstreamer1.0-plugins-ugly", 
 #Package Required by openssl-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
 openssl \
+libssl-dev \
 "
 
 #Package Required by sqlite3-ubuntu.bb
