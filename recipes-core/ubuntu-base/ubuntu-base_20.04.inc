@@ -396,7 +396,7 @@ libsz2 \
 
 #Package Required by pciutils-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
-libpci3 \
+pciutils \
 "
 #Package Required by at-spi2-core-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
@@ -554,6 +554,14 @@ gstreamer1.0-plugins-ugly \
 UBUN_DEPENDENCES +=  " \
 openssl \
 "
+
+#Package Required by sqlite3-ubuntu.bb
+UBUN_DEPENDENCES +=  " \
+sqlite3 \
+libsqlite3-0 \
+libsqlite3-dev \
+"
+
 #Package Required by libexif-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
 libexif12 \
@@ -734,4 +742,110 @@ libnpth0 \
 #Package Required by gstreamer1.0-libav-ubuntu.bb for qcs6490
 UBUN_DEPENDENCES +=  " \
 ${@bb.utils.contains("BASEMACHINE", "qcs6490", "gstreamer1.0-libav", "", d)} \
+"
+
+#Package Required by python3-ubuntu
+UBUN_DEPENDENCES +=  " \
+libpython3.8 \
+libpython3.8-dev \
+libpython3.8-minimal \
+libpython3.8-stdlib \
+libpython3.8-testsuite \
+python3.8-dev \
+python3.8-minimal \
+python3.8-full \
+python3.8-venv \
+python3.8-examples \
+pypy3-dev \
+pypy3-lib \
+python3-minimal \
+"
+
+#Package Required by libtheora-ubuntu
+UBUN_DEPENDENCES +=  " \
+libtheora-bin \
+libtheora0 \
+"
+
+#Package Required by ffmpeg-ubuntu
+UBUN_DEPENDENCES +=  " \
+ffmpeg \
+libavfilter7 \
+libavfilter-dev \
+libpostproc-dev \
+libpostproc55 \
+libavutil-dev \
+libavutil56 \
+libavresample-dev \
+libavresample4 \
+libavformat-dev \
+libavformat58 \
+libavdevice-dev \
+libavdevice58 \
+libavcodec-dev \
+libavcodec58 \
+libswresample3 \
+libswresample-dev \
+"
+
+#Package Required by libyaml-ubuntu
+UBUN_DEPENDENCES +=  " \
+libyaml-dev \
+libyaml-0-2 \
+"
+
+#Package Required by python3-setuptools-ubuntu
+UBUN_DEPENDENCES +=  " \
+python3-setuptools \
+"
+
+#Package Required by python3-six-ubuntu
+UBUN_DEPENDENCES +=  " \
+python3-six \
+"
+
+#Package Required by libxslt-ubuntu
+UBUN_DEPENDENCES +=  " \
+libxslt1-dev \
+libxslt1.1 \
+"
+
+#Package Required by python3-docutils-ubuntu
+UBUN_DEPENDENCES +=  " \
+python3-docutils \
+"
+
+#Package Required by net-tools-ubuntu
+UBUN_DEPENDENCES +=  " \
+net-tools \
+"
+#Package Required by gcc-runtime-ubuntu
+UBUN_DEPENDENCES +=  " \
+cpp \
+"
+
+#Package Required by sqlite-ubuntu
+UBUN_DEPENDENCES +=  " \
+libsqlite3-0 \
+sqlite3 \
+"
+
+#Package Required by pkgconfig-ubuntu
+UBUN_DEPENDENCES +=  " \
+pkg-config \
+"
+
+#Package Required by python3-netifaces-ubuntu
+UBUN_DEPENDENCES +=  " \
+python3-netifaces \
+"
+
+#Package Required by python3-lark-parser-ubuntu
+UBUN_DEPENDENCES +=  " \
+python3-lark \
+"
+
+#Package Required by exfat-utils-ubuntu
+UBUN_DEPENDENCES +=  "\
+exfat-utils \
 "

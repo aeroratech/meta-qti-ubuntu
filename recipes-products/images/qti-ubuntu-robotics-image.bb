@@ -23,6 +23,7 @@ CORE_IMAGE_BASE_INSTALL = " \
             depends-update \
             ota-upgrade \
             e2fsprogs-tools \
+            exfat-utils \
 	    packagegroup-startup-scripts-base \
             packagegroup-startup-scripts \
 	    packagegroup-android-utils-base \
@@ -39,13 +40,19 @@ CORE_IMAGE_BASE_INSTALL = " \
             tdk-chx01-get-data-app \
             tdk-hvc4223f-scripts \
             tdk-thermistor-app \
-            packagegroup-qti-robotics \
             "
+
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qcs6490', 'rplidar-ros2', '', d)}"
+
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'packagegroup-qti-robotics', '', d)}"
 
 #Install packages for debug
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'packagegroup-qti-ubuntu-debug-tools', '', d)} \
 "
+
+#Install packages for location
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-location', 'packagegroup-qti-location', '', d)}"
 
 #Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
@@ -88,26 +95,25 @@ CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('COMBINED_FEATURES', 'qti-sensors', 'packagegroup-qti-test-sensors-see', '', d)} \
 "
 
-#Install packages for vslam
+#Install packages for meta-ros
 CORE_IMAGE_BASE_INSTALL += " \
-            librealsense2 \
-            librealsense2-tests \
-            librealsense2-dev \
-            "
+            ${@bb.utils.contains('DISTRO_FEATURES', 'meta-ros2', "packagegroup-qti-ros2-foxy", "", d)} \
+"
+
+#Install packages for vslam
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'librealsense2 librealsense2-tests librealsense2-dev', '', d)}"
 
 #Install packages for imu-ros2node
-CORE_IMAGE_BASE_INSTALL += " \
-            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-sensors', 'imu-ros2node', '', d), "", d)} \
-"
+CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
+                             bb.utils.contains('DISTRO_FEATURES', 'qti-sensors', 'imu-ros2node', '', d), '', d), '', d)} "
 
 #Install packages for gst-ros2node
-CORE_IMAGE_BASE_INSTALL += " \
-            ${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2node', '', d), "", d)} \
-"
+CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
+                             bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2node', '', d), '', d), '', d)} "
+
 #Install packages for gst-ros2sink
-CORE_IMAGE_BASE_INSTALL += " \
-			${@bb.utils.contains("DISTRO_FEATURES", "ros2-foxy", bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), "", d)} \
-"
+CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
+			     bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), '', d), '', d)} "
 
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
@@ -137,10 +143,13 @@ do_ubuntu_rootfs(){
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
 #   replace the cpufreq governor ondemand with schedutil
     rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
+    rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/ondemand.service
 
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
     ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
+    cp ${IMAGE_ROOTFS}//usr/share/systemd/tmp.mount ${IMAGE_ROOTFS}//etc/systemd/system/
+    ln -sf /etc/systemd/system/tmp.mount ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
 }
 
 def runtime_mapping_rename (varname, pkg, d):
@@ -559,13 +568,12 @@ sign_veritybootimg () {
         sign_boot_image ${imgname}
     fi
 }
-
-do_flush_pseudodb[depends] += "${PN}:do_check_packages"
-do_makesystem[depends] += "${PN}:do_flush_pseudodb"
-do_image_qa[depends] += "${PN}:do_makesystem"
-do_image[depends] += "${PN}:do_image_qa"
-do_image_complete[depends] += "${PN}:do_image"
-do_check_packages[depends] += "${PN}:do_rootfs"
-do_rootfs[depends] += "${PN}:do_gen_partition_bin"
-do_gen_partition_bin[depends] += "${PN}:do_unpack_ubuntu_base"
 do_unpack_ubuntu_base[depends] += "${PN}:do_make_bootimg"
+do_gen_partition_bin[depends] += "${PN}:do_unpack_ubuntu_base"
+do_rootfs[depends] += "${PN}:do_gen_partition_bin"
+do_check_packages[depends] += "${PN}:do_rootfs"
+do_flush_pseudodb[depends] += "${PN}:do_check_packages"
+do_image_qa[depends] += "${PN}:do_flush_pseudodb"
+do_image[depends] += "${PN}:do_image_qa"
+do_makesystem[depends] += "${PN}:do_image"
+do_image_complete[depends] += "${PN}:do_makesystem"

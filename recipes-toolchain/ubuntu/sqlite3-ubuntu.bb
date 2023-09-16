@@ -16,6 +16,6 @@ SRC_URI += "http://ports.ubuntu.com/ubuntu-ports/pool/main/s/sqlite3/sqlite3_3.3
 SRC_URI[sqlite3.md5sum] = "4562b243380e3aae3eb5df8014f2220f"
 
 # other configs to feed compilation
-#PKG_${UPN} = "sqlite3"
+PKG_${UPN} = "libsqlite3-0"
 DEPENDS += "libtool-cross  virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc "
 PROVIDES += "sqlite3"

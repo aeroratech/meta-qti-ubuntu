@@ -60,7 +60,8 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 # wayland:         Include the Wayland display server protocol
 # drm:             Use DRM display drivers, provided machine supports it
 # qwes             Enable qwes feature support
-# ros2-foxy:       Enable ros2 foxy
+# ros2-foxy:       Enable ros2 foxy, ROS packages are from debian packages
+# meta-ros2:       Enable ros2 from meta-ros
 # vslam            Enable vslam
 # vulkan:          Include the Vulkan Library
 
@@ -79,6 +80,7 @@ DISTRO_FEATURES_append = " \
 
 DISTRO_FEATURES_append_qcs6490 = " \
     vulkan \
+    qti-uvc \
     "
 
 ## QTI defined distro features ##
@@ -99,7 +101,6 @@ DISTRO_FEATURES_append_qcs6490 = " \
 # qti-gst-ros2:      Support QTI gst ros2
 # qti-mmframeworks:  Support QTI mmframeworks (synx) driver
 # qti-dfs:           Support QTI DFS solution
-# qti-ib2c:          Support QTI IB2C solution
 
 DISTRO_FEATURES_append = " \
     qti-audio \
@@ -120,7 +121,6 @@ DISTRO_FEATURES_append = " \
     qti-sensors \
     qti-gst-ros2 \
     qti-dfs \
-    qti-ib2c \
     "
 
 ## bootfs parameter ##

@@ -9,5 +9,5 @@ SRC_URI[gstreamer1.0-libav.md5sum] = "95af9be488b9d6da12b1ddd312f77400"
 
 # other configs to feed compilation
 PKG_${UPN} = "gstreamer1.0-libav"
-DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc gstreamer1.0 gstreamer1.0-plugins-base "
+DEPENDS += "virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-compilerlibs virtual/libc gstreamer1.0 gstreamer1.0-plugins-base ffmpeg"
 PROVIDES += "gstreamer1.0-libav "

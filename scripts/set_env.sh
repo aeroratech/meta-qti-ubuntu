@@ -25,6 +25,11 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#Changes from Qualcomm Innovation Center are provided under the following license:
+
+#Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#SPDX-License-Identifier: BSD-3-Clause-Clear
+
 ## Script to do pre-configurations specific to current layer
 ## before calling oe-init-build-env
 
@@ -48,12 +53,14 @@
 #	return -1
 #fi
 
-#ignore taskhash error due to this is yocto bug
-find ${WS}/poky -name siggen.py | xargs perl -pi -e 's|bb.error\("Taskhash|#bb.error("Taskhash|g'
+#apply patches
+cd ${WS}/poky
 
-#fix esdk error, not block esdk generation and usage
-sed -i 's/?/:/g' ${WS}/poky/meta/classes/metadata_scm.bbclass
-head -n 4 ${WS}/poky/meta/classes/metadata_scm.bbclass > ${WS}/poky/temp.txt
-sed -i '1,4d' ${WS}/poky/meta/classes/metadata_scm.bbclass
-cat ${WS}/poky/temp.txt >> ${WS}/poky/meta/classes/metadata_scm.bbclass
-rm ${WS}/poky/temp.txt
+for patchfile in $(cat meta-qti-ubuntu/scripts/patches/series); do
+        patch -p1 -N --dry-run --silent < ${WS}/poky/meta-qti-ubuntu/scripts/patches/$patchfile > /dev/null 2>&1
+        # sucessful dryrun sets exit status of last command ($?) to 0
+        if [ $? -eq 0 ]; then
+            #apply the patch
+            patch -p1 -N --silent < ${WS}/poky/meta-qti-ubuntu/scripts/patches/$patchfile > /dev/null 2>&1
+        fi
+done

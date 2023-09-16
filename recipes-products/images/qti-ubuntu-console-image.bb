@@ -1,9 +1,4 @@
-inherit uimage extrausers
-
-#require include/mdm-ota-target-image-ubi.inc
-require include/ubuntu-ota-target-image-ext4.inc
-
-#MULTILIBRE_ALLOW_REP =. "/usr/include/python2.7/*|${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|${sysconfdir}|${nonarch_base_libdir}/udev|/lib/modules/[^/]*/modules.*|"
+inherit uimage extrausers populate_qti_sdk_ubuntu
 
 EXTRA_USERS_PARAMS = "usermod -P oelinux123 root;"
 EXTRA_USERS_PARAMS += "usermod -g 3003 _apt;"
@@ -13,32 +8,52 @@ do_populate_lic_deploy[noexec] = "1"
 
 DEPENDS += "ubuntu-base"
 
+PACKAGE_EXCLUDE = "db-dbg"
+
+# install debug symbol
+IMAGE_FEATURES_append = "\
+            ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', ' dbg-pkgs', '', d)} \
+"
+
+# set ubuntu base tarball 
+UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
+
+# package install session
 CORE_IMAGE_BASE_INSTALL = " \
             kernel-modules \
-            systemd-machine-units \
+            msm-header \
+            systemd-machine-units-ext4 \
             update-alternatives-recovery \
-            yavta \
             depends-update \
             ota-upgrade \
+            e2fsprogs-tools \
+	        packagegroup-startup-scripts-base \
             packagegroup-startup-scripts \
+    	    packagegroup-android-utils-base \
             packagegroup-android-utils \
-            packagegroup-qti-core \
-            packagegroup-qti-dsp \
-            packagegroup-qti-ss-mgr \
+            procrank \
             "
-#Install packages for wlan
+# Install packages for debug
 CORE_IMAGE_BASE_INSTALL += " \
-            packagegroup-qti-wifi \
-            "
-#Install packages for OTA
+            ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'packagegroup-qti-ubuntu-debug-tools', '', d)} \
+"
+
+# Install packages for wlan
 CORE_IMAGE_BASE_INSTALL += " \
-            recovery-ab \
+	    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wifi', 'packagegroup-qti-wifi', '', d)} \
+	    ${@bb.utils.contains('MACHINE_FEATURES', 'qca-wifi', 'packagegroup-qti-qcawifi', '', d)} \
             "
-
-
-UBUNTU_TAR_FILE="${EXTERNAL_TOOLCHAIN}/ubuntu-base.done/ubuntu-base-20.04.3-base-arm64.tar.gz"
-
-#fix for fakeroot do_rootfs chmod the dir permission to 700
+# Install packages for gfx
+CORE_IMAGE_BASE_INSTALL += " \
+            adreno \
+            packagegroup-qti-gfx \
+            vulkan-loader \
+            "
+#
+# do_prepare_recipe_sysroot -> [do_unpack_ubuntu_base] -> setup rootfs hooks -> do_rootfs -> do_check_packages -> do_makesystem
+#
+# fix for fakeroot do_rootfs chmod the dir permission to 700
+#
 do_unpack_ubuntu_base(){
     if [ ! -d "${APTCONF_TARGET}/rootfs_base" ];then
         mkdir ${APTCONF_TARGET}/rootfs_base
@@ -47,13 +62,21 @@ do_unpack_ubuntu_base(){
 }
 addtask do_unpack_ubuntu_base after do_prepare_recipe_sysroot before do_rootfs
 
+
+
+
+#
+# hooks provided by yocto mechanisms
+#
+# do_prepare_recipe_sysroot -> do_unpack_ubuntu_base -> [setup rootfs hooks] -> do_rootfs ->  do_check_packages -> do_makesystem
+#
 do_ubuntu_rootfs(){
     bbwarn "*****************do_ubuntu_rootfs****************************"
     rm ${IMAGE_ROOTFS} -rf
     cp -r ${APTCONF_TARGET}/rootfs_base ${APTCONF_TARGET}/rootfs
     install -m 0751 -d ${IMAGE_ROOTFS}/dev
     install -m 0777 -d ${IMAGE_ROOTFS}/tmp
-    chown -R root:root ${IMAGE_ROOTFS}/bin/su 
+    chown -R root:root ${IMAGE_ROOTFS}/bin/su
     chmod a+s ${IMAGE_ROOTFS}/bin/su
     #add firmware & dsp & bt_firmware
     mkdir -p ${IMAGE_ROOTFS}/firmware
@@ -64,18 +87,13 @@ do_ubuntu_rootfs(){
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
 #   replace the cpufreq governor ondemand with schedutil
     rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
+    rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/ondemand.service
 
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
     ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
-
-#   ---- design to avoid do_rootfs status error ----
-#    mv ${IMAGE_ROOTFS}/var/lib/dpkg/status ${IMAGE_ROOTFS}/var/lib/dpkg/status-ubuntu
-#    touch ${IMAGE_ROOTFS}/var/lib/dpkg/status
-
-#   ---- fix error : unknown group 'messagebus' in statoverride file ----
-#    rm ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
-#    touch ${IMAGE_ROOTFS}/var/lib/dpkg/statoverride
+    cp ${IMAGE_ROOTFS}//usr/share/systemd/tmp.mount ${IMAGE_ROOTFS}//etc/systemd/system/
+    ln -sf /etc/systemd/system/tmp.mount ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
 }
 
 def runtime_mapping_rename (varname, pkg, d):
@@ -112,69 +130,6 @@ def get_package_mapping (pkg, basepkg, d, depversions=None):
 
     return pkg
 
-fakeroot python do_rootfs(){
-    from oe.rootfs import create_rootfs
-    from oe.manifest import create_manifest
-    import logging
-
-    logger = d.getVar('BB_TASK_LOGGER', False)
-    if logger:
-        logcatcher = bb.utils.LogCatcher()
-        logger.addHandler(logcatcher)
-    else:
-        logcatcher = None
-
-    # NOTE: if you add, remove or significantly refactor the stages of this
-    # process then you should recalculate the weightings here. This is quite
-    # easy to do - just change the MultiStageProgressReporter line temporarily
-    # to pass debug=True as the last parameter and you'll get a printout of
-    # the weightings as well as a map to the lines where next_stage() was
-    # called. Of course this isn't critical, but it helps to keep the progress
-    # reporting accurate.
-    stage_weights = [1, 203, 354, 186, 65, 4228, 1, 353, 49, 330, 382, 23, 1]
-    progress_reporter = bb.progress.MultiStageProgressReporter(d, stage_weights)
-    progress_reporter.next_stage()
-
-    # Handle package exclusions
-    excl_pkgs = d.getVar("PACKAGE_EXCLUDE").split()
-    inst_pkgs = d.getVar("PACKAGE_INSTALL").split()
-    inst_attempt_pkgs = d.getVar("PACKAGE_INSTALL_ATTEMPTONLY").split()
-
-    d.setVar('PACKAGE_INSTALL_ORIG', ' '.join(inst_pkgs))
-    d.setVar('PACKAGE_INSTALL_ATTEMPTONLY', ' '.join(inst_attempt_pkgs))
-
-    for pkg in excl_pkgs:
-        if pkg in inst_pkgs:
-            bb.warn("Package %s, set to be excluded, is in %s PACKAGE_INSTALL (%s).  It will be removed from the list." % (pkg, d.getVar('PN'), inst_pkgs))
-            inst_pkgs.remove(pkg)
-
-        if pkg in inst_attempt_pkgs:
-            bb.warn("Package %s, set to be excluded, is in %s PACKAGE_INSTALL_ATTEMPTONLY (%s).  It will be removed from the list." % (pkg, d.getVar('PN'), inst_pkgs))
-            inst_attempt_pkgs.remove(pkg)
-
-    d.setVar("PACKAGE_INSTALL", ' '.join(inst_pkgs))
-    d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", ' '.join(inst_attempt_pkgs))
-
-    # Ensure we handle package name remapping
-    # We have to delay the runtime_mapping_rename until just before rootfs runs
-    # otherwise, the multilib renaming could step in and squash any fixups that
-    # may have occurred.
-    pn = d.getVar('PN')
-    runtime_mapping_rename("PACKAGE_INSTALL", pn, d)
-    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, d)
-    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, d)
-
-    # Generate the initial manifest
-    create_manifest(d)
-
-    progress_reporter.next_stage()
-
-    # generate rootfs
-    d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', '1')
-    create_rootfs(d, progress_reporter=progress_reporter, logcatcher=logcatcher)
-
-    progress_reporter.finish()
-}
 
 do_deb_pre() {
     do_ubuntu_rootfs
@@ -244,24 +199,88 @@ do_enable_adb_root() {
     echo "service.adb.root=1" >> ${IMAGE_ROOTFS}/build.prop
 }
 
-#install debug symbol
-IMAGE_FEATURES_append = "\
-            ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', ' dbg-pkgs', '', d)} \
-"
+
 #----------------------------------------------------------
 #---- to record 4 useful Yocto process timing ----
 DEB_PREPROCESS_COMMANDS = " do_deb_pre "
 #DEB_POSTPROCESS_COMMANDS = " do_deb_post "
 #ROOTFS_PREPROCESS_COMMAND += "do_fs_pre; "
 ROOTFS_POSTPROCESS_COMMAND += "do_fs_post; "
-ROOTFS_POSTINSTALL_COMMAND += "do_post_install; do_deb; do_enable_adb_root; "
-ROOTFS_POSTPROCESS_COMMAND += "\
-            ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'do_enable_coredump; ', '', d)} \
-"
+ROOTFS_POSTINSTALL_COMMAND += "do_post_install; do_enable_adb_root; "
+ROOTFS_POSTPROCESS_COMMAND += "do_enable_coredump; "
 #----------------------------------------------------------
 
-#addtask do_pm before do_rootfs
-#addtask do_rec_pm after do_image_qa before do_image_complete
+#
+# do_prepare_recipe_sysroot -> do_unpack_ubuntu_base -> setup rootfs hooks -> [do_rootfs] ->  do_check_packages -> do_makesystem
+#
+
+fakeroot python do_rootfs(){
+    from oe.rootfs import create_rootfs
+    from oe.manifest import create_manifest
+    import logging
+
+    logger = d.getVar('BB_TASK_LOGGER', False)
+    if logger:
+        logcatcher = bb.utils.LogCatcher()
+        logger.addHandler(logcatcher)
+    else:
+        logcatcher = None
+
+    # NOTE: if you add, remove or significantly refactor the stages of this
+    # process then you should recalculate the weightings here. This is quite
+    # easy to do - just change the MultiStageProgressReporter line temporarily
+    # to pass debug=True as the last parameter and you'll get a printout of
+    # the weightings as well as a map to the lines where next_stage() was
+    # called. Of course this isn't critical, but it helps to keep the progress
+    # reporting accurate.
+    stage_weights = [1, 203, 354, 186, 65, 4228, 1, 353, 49, 330, 382, 23, 1]
+    progress_reporter = bb.progress.MultiStageProgressReporter(d, stage_weights)
+    progress_reporter.next_stage()
+
+    # Handle package exclusions
+    excl_pkgs = d.getVar("PACKAGE_EXCLUDE").split()
+    inst_pkgs = d.getVar("PACKAGE_INSTALL").split()
+    inst_attempt_pkgs = d.getVar("PACKAGE_INSTALL_ATTEMPTONLY").split()
+
+    d.setVar('PACKAGE_INSTALL_ORIG', ' '.join(inst_pkgs))
+    d.setVar('PACKAGE_INSTALL_ATTEMPTONLY', ' '.join(inst_attempt_pkgs))
+
+    for pkg in excl_pkgs:
+        if pkg in inst_pkgs:
+            bb.warn("Package %s, set to be excluded, is in %s PACKAGE_INSTALL (%s).  It will be removed from the list." % (pkg, d.getVar('PN'), inst_pkgs))
+            inst_pkgs.remove(pkg)
+
+        if pkg in inst_attempt_pkgs:
+            bb.warn("Package %s, set to be excluded, is in %s PACKAGE_INSTALL_ATTEMPTONLY (%s).  It will be removed from the list." % (pkg, d.getVar('PN'), inst_pkgs))
+            inst_attempt_pkgs.remove(pkg)
+
+    d.setVar("PACKAGE_INSTALL", ' '.join(inst_pkgs))
+    d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", ' '.join(inst_attempt_pkgs))
+
+    # Ensure we handle package name remapping
+    # We have to delay the runtime_mapping_rename until just before rootfs runs
+    # otherwise, the multilib renaming could step in and squash any fixups that
+    # may have occurred.
+    pn = d.getVar('PN')
+    runtime_mapping_rename("PACKAGE_INSTALL", pn, d)
+    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, d)
+    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, d)
+
+    # Generate the initial manifest
+    create_manifest(d)
+
+    progress_reporter.next_stage()
+
+    # generate rootfs
+    d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', '1')
+    create_rootfs(d, progress_reporter=progress_reporter, logcatcher=logcatcher)
+
+    progress_reporter.finish()
+}
+
+#
+# do_prepare_recipe_sysroot -> do_unpack_ubuntu_base -> setup rootfs hooks -> do_rootfs ->  [do_check_packages] -> do_makesystem
+#
 
 def check_packages(d) :
     import re, json, os
@@ -442,32 +461,19 @@ def check_packages(d) :
                 "1. package conflicts\n"
                 "2. PKG name defined in ubuntu-toolchain is not consistent with the oss package name\n\n".format(missed_list))
 
-
 do_check_packages[nostamp] = "1"
 python do_check_packages () {
     check_packages(d)
 }
 addtask do_check_packages after do_rootfs before do_makesystem
 
-## Functions to handle boot.img signing ##
-sign_bootimg () {
-    imgname="${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET}"
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'dm-verity', 'true', 'false', d)}; then
-        imgname="${BOOTIMAGE_TARGET}".noverity
-    fi
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'avble', 'true', 'false', d)}; then
-        avbsign_boot_image ${imgname}
-    else
-        sign_boot_image ${imgname}
-    fi
-}
-
-sign_veritybootimg () {
-    imgname="${DEPLOY_DIR_IMAGE}/${BOOTIMAGE_TARGET}"
-    if ${@bb.utils.contains('DISTRO_FEATURES', 'avble', 'true', 'false', d)}; then
-        avbsign_boot_image ${imgname}
-    else
-        sign_boot_image ${imgname}
-    fi
-}
-
+# fixed task order to ensure image creation success
+do_unpack_ubuntu_base[depends] += "${PN}:do_make_bootimg"
+do_gen_partition_bin[depends] += "${PN}:do_unpack_ubuntu_base"
+do_rootfs[depends] += "${PN}:do_gen_partition_bin"
+do_check_packages[depends] += "${PN}:do_rootfs"
+do_flush_pseudodb[depends] += "${PN}:do_check_packages"
+do_image_qa[depends] += "${PN}:do_flush_pseudodb"
+do_image[depends] += "${PN}:do_image_qa"
+do_makesystem[depends] += "${PN}:do_image"
+do_image_complete[depends] += "${PN}:do_makesystem"

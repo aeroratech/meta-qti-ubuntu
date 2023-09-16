@@ -1,3 +1,7 @@
+#remove etc data cache mount on overlayfs for services auto-start
+OVERLAY_MNT_POINTS_qrb5165 = ""
+OVERLAY_MNT_POINTS_qcs6490 = ""
+
 do_install_append(){
 
     for entry in ${MACHINE_MNT_POINTS}; do

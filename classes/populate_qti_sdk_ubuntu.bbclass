@@ -77,3 +77,9 @@ TOOLCHAIN_TARGET_TASK_append = " linux-msm-headers-dev"
 
 # To include kernel sources in SDK to build kernel modules
 TOOLCHAIN_TARGET_TASK_append = "  ath6kl-utils-staticdev"
+
+#To include glibc-sdk in SDK to support sdllvm
+TOOLCHAIN_TARGET_TASK_append = "  glibc-sdk"
+
+#To include linux-libc-headers in SDK to support sdllvm
+TOOLCHAIN_TARGET_TASK_append = "  linux-libc-headers"
