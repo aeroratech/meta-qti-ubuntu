@@ -42,8 +42,6 @@ CORE_IMAGE_BASE_INSTALL = " \
             tdk-thermistor-app \
             "
 
-CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qcs6490', 'rplidar-ros2', '', d)}"
-
 CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'packagegroup-qti-robotics', '', d)}"
 
 #Install packages for debug
