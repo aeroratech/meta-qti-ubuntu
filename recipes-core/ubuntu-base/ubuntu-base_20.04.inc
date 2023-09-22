@@ -21,6 +21,7 @@ libpcrecpp0v5 \
 libuvc0 \
 libuvc-dev \
 libseccomp2 \
+libsodium-dev \
 seccomp \
 openssh-server \
 tftp-hpa \
@@ -756,6 +757,11 @@ python3-minimal \
 UBUN_DEPENDENCES +=  " \
 libtheora-bin \
 libtheora0 \
+"
+
+#Package Required by iproute2-ubuntu
+UBUN_DEPENDENCES +=  " \
+iproute2 \
 "
 
 #Package Required by ffmpeg-ubuntu
