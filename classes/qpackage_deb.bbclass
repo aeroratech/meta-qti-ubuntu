@@ -15,6 +15,16 @@ APTCONF_TARGET = "${WORKDIR}"
 
 APT_ARGS = "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
 
+# Because Ubuntu don't recognize the verision begin with "git", we replcae it to "1.0" to follow Ubuntu standard.
+# For example: adbd_git-r0_arm64.deb ---> adbd_1.0-r0_arm64.deb
+# For example: Depends: adsprpc (>= git)  --->  Depends: adsprpc (>= 1.0)
+python () {
+    machine = d.getVar("MACHINE")
+    if machine == "qcs6490-odk":
+        pkg_pv = d.getVar("PV", True)
+        if pkg_pv == 'git':
+            d.setVar("PV", '1.0')
+}
 
 def get_package_mapping (pkg, basepkg, d, depversions=None):
     import oe.packagedata
@@ -129,11 +139,13 @@ def deb_write_pkg(pkg, d):
         ctrlfile = codecs.open(os.path.join(controldir, 'control'), 'w', 'utf-8')
 
         fields = []
-        pv = d.getVar('PKGV')
-        # Because Ubuntu don't recognize the verision begin with "git", we replcae it to "0" to follow Ubuntu standard.
-        # For example: adbd_git-r0_arm64.deb ---> adbd_0-r0_arm64.deb
-        if pv == 'git':
-            d.setVar('PKGV', '0')
+        machine = d.getVar("MACHINE")
+        if machine != "qcs6490-odk":
+            pv = d.getVar('PKGV')
+            # Because Ubuntu don't recognize the verision begin with "git", we replcae it to "0" to follow Ubuntu standard.
+            # For example: adbd_git-r0_arm64.deb ---> adbd_0-r0_arm64.deb
+            if pv == 'git':
+                d.setVar('PKGV', '0')
         pe = d.getVar('PKGE')
         if pe and int(pe) > 0:
             fields.append(["Version: %s:%s-%s\n", ['PKGE', 'PKGV', 'PKGR']])
@@ -256,7 +268,8 @@ def deb_write_pkg(pkg, d):
         # For example: Depends: adsprpc (>= git)  --->  Depends: adsprpc (>= 0)
         if rdepends:
             qrdepends = bb.utils.join_deps(rdepends)
-            qrdepends = qrdepends.replace('git', '0')
+            if machine != "qcs6490-odk":
+                qrdepends = qrdepends.replace('git', '0')
             ctrlfile.write("Depends: %s\n" % qrdepends)
         if rsuggests:
             ctrlfile.write("Suggests: %s\n" % bb.utils.join_deps(rsuggests))

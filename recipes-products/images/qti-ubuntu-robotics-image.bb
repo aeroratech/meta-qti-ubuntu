@@ -42,8 +42,6 @@ CORE_IMAGE_BASE_INSTALL = " \
             tdk-thermistor-app \
             "
 
-CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qcs6490', 'rplidar-ros2', '', d)}"
-
 CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'packagegroup-qti-robotics', '', d)}"
 
 #Install packages for debug
@@ -357,6 +355,12 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
 	${@bb.utils.contains('COMBINED_FEATURES', 'qti-security', 'packagegroup-qti-securemsm', '', d)} \
 "
+# Install qti-umd-gadget if the qti-uvc COMBINED_FEATURES is present
+CORE_IMAGE_BASE_INSTALL += " \
+        ${@bb.utils.contains('COMBINED_FEATURES', 'qti-uvc', 'qti-umd-gadget', '', d)} \
+"
+
+CORE_IMAGE_BASE_INSTALL_remove_qcs6490 = "packagegroup-qti-gst"
 
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete

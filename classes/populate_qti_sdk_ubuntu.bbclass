@@ -83,3 +83,26 @@ TOOLCHAIN_TARGET_TASK_append = "  glibc-sdk"
 
 #To include linux-libc-headers in SDK to support sdllvm
 TOOLCHAIN_TARGET_TASK_append = "  linux-libc-headers"
+
+POPULATE_SDK_POST_TARGET_COMMAND_append = " install_alternative_link;"
+
+fakeroot install_alternative_link() {
+    cd ${SDK_OUTPUT}${SDKTARGETSYSROOT}
+    touch alternative_install.list
+    find . -name "*.postinst" | xargs -i grep -r "update-alternatives --install" {} | xargs -i echo {} > alternative_install.list
+
+    install_list_file="alternative_install.list"
+
+    while IFS= read -r line; do
+        link=$(echo "$line" | awk '{print $3}')
+        target=$(echo "$line" | awk '{print $5}' |sed 's,//,/,g')
+        file_name=$(basename "$link")
+        dir_name=$(dirname "$link")
+
+        if [ ! -d '.'${dir_name} ];then
+            mkdir -p '.'${dir_name}
+        fi
+        ln --relative -s '.'${target} '.'${link}
+    done < "$install_list_file"
+    rm alternative_install.list
+}
