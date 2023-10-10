@@ -74,6 +74,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
 	    ${@bb.utils.contains('DISTRO_FEATURES', 'qti-video', "packagegroup-qti-video", "", d)} \
             ${@bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf",  "packagegroup-qti-gst", "", d)} \
+            ${@bb.utils.contains_any("BASEMACHINE", "qrbx210 qcs6490", bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf", "qti-c2-module", "", d), "", d)} \
 	    "
 #Install packages for OTA
 CORE_IMAGE_BASE_INSTALL += " \
