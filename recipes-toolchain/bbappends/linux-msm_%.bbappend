@@ -21,36 +21,13 @@ do_generate_defconfig () {
 }
 do_configure[prefuncs] += "${@oe.utils.conditional('DYNAMIC_DEFCONFIG', 'True', 'do_generate_defconfig', '', d)}"
 
-do_shared_workdir_append_qrb5165 () {
+do_shared_workdir_append () {
 	mkdir -p ${H}
 	make_header ${H} ${S} ${B}
 	rm_host_arch_files ${H}
 }
 
-do_install_append_qrb5165 () {
-
-	install -d ${D}/etc/
-	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants/
-
-	install -m 0755 ${WORKDIR}/lunch-make-scripts -D ${D}/etc/lunch-make-scripts
-	install -m 0644 ${WORKDIR}/lunch-make-scripts.service \
-		-D ${D}${systemd_unitdir}/system/lunch-make-scripts.service
-
-	ln -sf ${systemd_unitdir}/system/lunch-make-scripts.service \
-		${D}${systemd_unitdir}/system/multi-user.target.wants/lunch-make-scripts.service
-
-	install -d ${D}/usr/src/header
-	cp ${CP_ARGS} ${H}/. ${D}/usr/src/header/
-	rm -rf ${H}
-}
-
-do_shared_workdir_append_qcs6490 () {
-	mkdir -p ${H}
-	make_header ${H} ${S} ${B}
-	rm_host_arch_files ${H}
-}
-
-do_install_append_qcs6490 () {
+do_install_append () {
 
 	install -d ${D}/etc/
 	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants/
