@@ -44,6 +44,8 @@ CORE_IMAGE_BASE_INSTALL = " \
 
 CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'packagegroup-qti-robotics', '', d)}"
 
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qcs6490', 'qps615-firmware', '', d)}"
+
 #Install packages for debug
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'packagegroup-qti-ubuntu-debug-tools', '', d)} \
