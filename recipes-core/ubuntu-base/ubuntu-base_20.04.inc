@@ -859,3 +859,9 @@ UBUN_DEPENDENCES +=  " \
 bison \
 libbison-dev \
 "
+
+#Package Required by libomp-ubuntu
+UBUN_DEPENDENCES +=  " \
+libomp-10-dev \
+libomp5-10 \
+"
