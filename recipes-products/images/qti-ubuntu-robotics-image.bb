@@ -155,6 +155,10 @@ do_ubuntu_rootfs(){
     ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     cp ${IMAGE_ROOTFS}//usr/share/systemd/tmp.mount ${IMAGE_ROOTFS}//etc/systemd/system/
     ln -sf /etc/systemd/system/tmp.mount ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
+
+    if [[ "${BASEMACHINE}" == "qcs6490" ]] && [[ -e "${IMAGE_ROOTFS}/etc/default/hostapd" ]];then
+        sed -in 's!^#DAEMON_CONF=".*"!DAEMON_CONF="/etc/wlan/hostapd.conf"!' ${IMAGE_ROOTFS}/etc/default/hostapd
+    fi
 }
 
 def runtime_mapping_rename (varname, pkg, d):
