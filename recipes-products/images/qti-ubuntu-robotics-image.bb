@@ -120,6 +120,9 @@ CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.u
 CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
 			     bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), '', d), '', d)} "
 
+#Install packages for perflock
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qcs6490', 'packagegroup-qti-perf', '', d)}"
+
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #fix for fakeroot do_rootfs chmod the dir permission to 700
