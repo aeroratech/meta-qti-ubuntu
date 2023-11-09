@@ -49,8 +49,8 @@ SRC_URI[cpp.md5sum] = "988501e01678c75921342807dfd86cf5"
 # other configs to feed compilation
 PKG_${UPN} = "libstdc++-10-dev"
 DEPENDS += "   virtual/aarch64-linux-gnu-gcc virtual/aarch64-linux-gnu-g++ libgcc virtual/libc"
-PROVIDES += "libgfortran gcc-runtime virtual/aarch64-linux-gnu-compilerlibs libstdc++ libstdc++-dev"
-RPROVIDES_{UPN} = "libstdc++ libstdc++-dev"
+PROVIDES += "libgfortran gcc-runtime virtual/aarch64-linux-gnu-compilerlibs libatomic1 libstdc++ libstdc++-dev"
+RPROVIDES_{UPN} = "libstdc++ libstdc++-dev libatomic1"
 PKG_libstdc++ = "libstdc++6"
 
 do_install_append(){
