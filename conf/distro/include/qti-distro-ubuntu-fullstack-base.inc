@@ -121,6 +121,7 @@ DISTRO_FEATURES_append = " \
     qti-sensors \
     qti-gst-ros2 \
     qti-dfs \
+    ${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "qim-sdk-disable", d)} \
     "
 
 ## bootfs parameter ##

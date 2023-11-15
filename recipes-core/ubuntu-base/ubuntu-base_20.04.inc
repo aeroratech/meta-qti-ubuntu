@@ -48,7 +48,7 @@ kbd \
 
 #video, camera packages
 UBUN_MULTIMEDIA_PACKAFES = " \
-${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "gstreamer1.0-alsa gstreamer1.0-gtk3 gstreamer1.0-rtsp libgstrtspserver-1.0-0 weston libweston-8-0", d)} \
+${@bb.utils.contains("DISTRO_FEATURES", "qim-sdk-disable", "gstreamer1.0-alsa gstreamer1.0-gtk3 gstreamer1.0-rtsp libgstrtspserver-1.0-0 weston libweston-8-0", "", d)} \
 lsb-release \
 python3-argcomplete \
 gnupg2 \
@@ -219,7 +219,7 @@ libwrap0 \
 "
 #Package Required by gstreamer1.0-plugins-good-oss-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
-${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "gstreamer1.0-plugins-good libgstreamer-plugins-good1.0-0", d)} \
+${@bb.utils.contains("DISTRO_FEATURES", "qim-sdk-disable", "gstreamer1.0-plugins-good libgstreamer-plugins-good1.0-0", "", d)} \
 "
 
 #Package Required by at-spi2-atk-ubuntu.bb
@@ -234,7 +234,7 @@ libjbig0 \
 "
 #Package Required by gstreamer1.0-plugins-base-oss-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
-${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "gstreamer1.0-gl libgstreamer-gl1.0-0 libgstreamer-plugins-base1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps", d)} \
+${@bb.utils.contains("DISTRO_FEATURES", "qim-sdk-disable", "gstreamer1.0-gl libgstreamer-gl1.0-0 libgstreamer-plugins-base1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps", "", d)} \
 "
 #Package Required by gtk+3-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
@@ -251,11 +251,11 @@ alsa-utils \
 "
 #Package Required by opencv-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
-${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "libopencv-video4.2", d)} \
+${@bb.utils.contains("DISTRO_FEATURES", "qim-sdk-disable", "libopencv-video4.2", "", d)} \
 "
 #Package Required by gstreamer1.0-plugins-bad-oss-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
-${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "gstreamer1.0-plugins-bad libgstreamer-plugins-bad1.0-0", d)} \
+${@bb.utils.contains("DISTRO_FEATURES", "qim-sdk-disable", "gstreamer1.0-plugins-bad libgstreamer-plugins-bad1.0-0", "", d)} \
 "
 
 #Package Required by boost-ubuntu.bb
@@ -539,7 +539,7 @@ libtiff-opengl \
 
 #Package Required by gstreamer1.0-plugins-ugly-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
-${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "gstreamer1.0-plugins-ugly", d)} \
+${@bb.utils.contains("DISTRO_FEATURES", "qim-sdk-disable", "gstreamer1.0-plugins-ugly", "", d)} \
 "
 #Package Required by openssl-ubuntu.bb
 UBUN_DEPENDENCES +=  " \
@@ -733,7 +733,7 @@ libnpth0 \
 "
 #Package Required by gstreamer1.0-libav-ubuntu.bb for qcs6490
 UBUN_DEPENDENCES +=  " \
-${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "gstreamer1.0-libav", d)} \
+${@bb.utils.contains("DISTRO_FEATURES", "qim-sdk-disable", "gstreamer1.0-libav", "", d)} \
 "
 
 #Package Required by python3-ubuntu

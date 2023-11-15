@@ -58,6 +58,7 @@ KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 DISTRO_FEATURES_append = " \
     qti-adsp \
     qti-cdsp \
+    qim-sdk-disable \
     "
 
 ## bootfs parameter ##
