@@ -150,19 +150,13 @@ do_ubuntu_rootfs(){
     mkdir -p ${IMAGE_ROOTFS}/bt_firmware
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
 #   replace the cpufreq governor ondemand with schedutil
-    rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
-    rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/ondemand.service
+    ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/ondemand.service
 
     # Disable local time sync service based on kernel rtc
     if [[ "${BASEMACHINE}" == "qcs6490" ]]; then
-        rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/systemd-networkd.service
-        rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/systemd-networkd.service
-
-        rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service
-        rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/systemd-networkd-wait-online.service
-
-        rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/sysinit.target.wants/systemd-time-wait-sync.service
-        rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/systemd-time-wait-sync.service
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/systemd-networkd.service
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/systemd-networkd-wait-online.service
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/systemd-time-wait-sync.service
     fi
 
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
