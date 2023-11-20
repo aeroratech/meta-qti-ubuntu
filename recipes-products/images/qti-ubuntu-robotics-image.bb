@@ -173,6 +173,8 @@ do_ubuntu_rootfs(){
 
     if [[ "${BASEMACHINE}" == "qcs6490" ]] && [[ -e "${IMAGE_ROOTFS}/etc/default/hostapd" ]];then
         sed -in 's!^#DAEMON_CONF=".*"!DAEMON_CONF="/etc/wlan/hostapd.conf"!' ${IMAGE_ROOTFS}/etc/default/hostapd
+        # Disable hostapd by default, enduser can comment below line if it's required by product.
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/hostapd.service
     fi
 }
 
