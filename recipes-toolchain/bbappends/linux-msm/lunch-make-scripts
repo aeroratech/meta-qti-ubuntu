@@ -88,6 +88,7 @@ if [ ! -d ${MSM_HEADER_DIR} ]; then
 fi
 
 apt_update
+exitcode_update=$?
 
 flex_install
 exitcode_flex=$?
@@ -95,7 +96,7 @@ exitcode_flex=$?
 bison_install
 exitcode_bison=$?
 
-if [[ ${exitcode_flex} = "0" && ${exitcode_bison} = "0" ]]; then
+if [[ ${exitcode_update} = "0" && ${exitcode_flex} = "0" && ${exitcode_bison} = "0"]]; then
 
 	echo "Detected flex,bison..."
 

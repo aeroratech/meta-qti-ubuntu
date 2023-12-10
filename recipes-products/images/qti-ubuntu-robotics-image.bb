@@ -44,6 +44,8 @@ CORE_IMAGE_BASE_INSTALL = " \
 
 CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qrb5165', 'packagegroup-qti-robotics', '', d)}"
 
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qcs6490', 'qps615-firmware', '', d)}"
+
 #Install packages for debug
 CORE_IMAGE_BASE_INSTALL += " \
             ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'packagegroup-qti-ubuntu-debug-tools', '', d)} \
@@ -57,6 +59,10 @@ CORE_IMAGE_BASE_INSTALL += " \
 	    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wifi', 'packagegroup-qti-wifi', '', d)} \
 	    ${@bb.utils.contains('MACHINE_FEATURES', 'qca-wifi', 'packagegroup-qti-qcawifi', '', d)} \
             "
+CORE_IMAGE_BASE_INSTALL += " \
+            ${@bb.utils.contains('MACHINE_FEATURES', 'qti-drone', 'packagegroup-qti-drone', '', d)} \
+            "
+
 #install drm
 #Install packages for graphic and display
 CORE_IMAGE_BASE_INSTALL += " \
@@ -74,6 +80,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 CORE_IMAGE_BASE_INSTALL += " \
 	    ${@bb.utils.contains('DISTRO_FEATURES', 'qti-video', "packagegroup-qti-video", "", d)} \
             ${@bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf",  "packagegroup-qti-gst", "", d)} \
+            ${@bb.utils.contains_any("BASEMACHINE", "qrbx210 qcs6490", bb.utils.contains_any("DISTRO", "qti-distro-ubuntu-fullstack-debug qti-distro-ubuntu-fullstack-perf", "qti-c2-module", "", d), "", d)} \
 	    "
 #Install packages for OTA
 CORE_IMAGE_BASE_INSTALL += " \
@@ -113,6 +120,9 @@ CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.u
 CORE_IMAGE_BASE_INSTALL += " ${@bb.utils.contains('BASEMACHINE', 'qrb5165', bb.utils.contains('DISTRO_FEATURES', 'ros2-foxy', \
 			     bb.utils.contains('DISTRO_FEATURES', 'qti-gst-ros2', 'gst-ros2sink', '', d), '', d), '', d)} "
 
+#Install packages for perflock
+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('BASEMACHINE', 'qcs6490', 'packagegroup-qti-perf', '', d)}"
+
 UBUNTU_TAR_FILE="${STAGING_DIR_HOST}/usr/share/ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #fix for fakeroot do_rootfs chmod the dir permission to 700
@@ -140,14 +150,26 @@ do_ubuntu_rootfs(){
     mkdir -p ${IMAGE_ROOTFS}/bt_firmware
     ln -sf /bin/bash   ${IMAGE_ROOTFS}/bin/sh
 #   replace the cpufreq governor ondemand with schedutil
-    rm -rf ${IMAGE_ROOTFS}/etc/systemd/system/multi-user.target.wants/ondemand.service
-    rm -rf ${IMAGE_ROOTFS}/usr/lib/systemd/system/ondemand.service
+    ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/ondemand.service
+
+    # Disable local time sync service based on kernel rtc
+    if [[ "${BASEMACHINE}" == "qcs6490" ]]; then
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/systemd-networkd.service
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/systemd-networkd-wait-online.service
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/systemd-time-wait-sync.service
+    fi
 
     install -d 0644 ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires
     ln -sf /usr/lib/systemd/system/bt_firmware-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     ln -sf /usr/lib/systemd/system/dsp-mount.service ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
     cp ${IMAGE_ROOTFS}//usr/share/systemd/tmp.mount ${IMAGE_ROOTFS}//etc/systemd/system/
     ln -sf /etc/systemd/system/tmp.mount ${IMAGE_ROOTFS}/usr/lib/systemd/system/local-fs.target.requires/
+
+    if [[ "${BASEMACHINE}" == "qcs6490" ]] && [[ -e "${IMAGE_ROOTFS}/etc/default/hostapd" ]];then
+        sed -in 's!^#DAEMON_CONF=".*"!DAEMON_CONF="/etc/wlan/hostapd.conf"!' ${IMAGE_ROOTFS}/etc/default/hostapd
+        # Disable hostapd by default, enduser can comment below line if it's required by product.
+        ln -sf /dev/null ${IMAGE_ROOTFS}/etc/systemd/system/hostapd.service
+    fi
 }
 
 def runtime_mapping_rename (varname, pkg, d):
@@ -360,7 +382,7 @@ CORE_IMAGE_BASE_INSTALL += " \
         ${@bb.utils.contains('COMBINED_FEATURES', 'qti-uvc', 'qti-umd-gadget', '', d)} \
 "
 
-CORE_IMAGE_BASE_INSTALL_remove_qcs6490 = "packagegroup-qti-gst"
+CORE_IMAGE_BASE_INSTALL_remove_qcs6490 = "${@bb.utils.contains('DISTRO_FEATURES', 'qim-sdk-disable', '', 'packagegroup-qti-gst', d)}"
 
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete
