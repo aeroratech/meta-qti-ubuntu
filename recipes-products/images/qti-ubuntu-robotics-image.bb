@@ -319,6 +319,11 @@ EOF
     rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/postinst
     mv ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst/*.preinst ${IMAGE_ROOTFS}/var/lib/dpkg/info/
     rm -rf ${IMAGE_ROOTFS}/var/lib/dpkg/info/preinst
+    install -d 0644 ${IMAGE_ROOTFS}/etc/systemd/system/systemd-udevd.service.d
+    cat > ${IMAGE_ROOTFS}/etc/systemd/system/systemd-udevd.service.d/override.conf << EOF
+[Service]
+PrivateMounts=no
+EOF
 
 }
 
