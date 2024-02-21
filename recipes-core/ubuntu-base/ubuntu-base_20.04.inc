@@ -38,6 +38,7 @@ fscrypt \
 UBUN_DEBUG_PACKAGES = " gdb \
 strace \
 valgrind \
+evtest \
 "
 
 #Packages to enasure display and audio function
