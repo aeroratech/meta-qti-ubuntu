@@ -299,8 +299,8 @@ do_ubuntu_install() {
 	# PAM: allow login as root
 	sed -i '/pam_securetty.so/d' ${TMP_WKDIR}/etc/pam.d/login
 
-	#logind.conf -- Ignore PowerKey
-	sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=ignore/' ${TMP_WKDIR}/etc/systemd/logind.conf
+	#logind.conf -- PowerKey triggers suspend
+	sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=suspend/' ${TMP_WKDIR}/etc/systemd/logind.conf
 
 	# Go to persistent-storage.rules and create bootdevice/by-name symlinks
 	do_create_the_links

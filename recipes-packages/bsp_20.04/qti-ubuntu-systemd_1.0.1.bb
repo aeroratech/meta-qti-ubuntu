@@ -9,8 +9,8 @@ do_install() {
 
     cp ${CP_ARGS} -H ${EXTERNAL_TOOLCHAIN}/deb/etc/systemd/logind.conf  ${D}/etc/systemd
 
-    #logind.conf -- Ignore PowerKey
-    sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=ignore/' ${D}/etc/systemd/logind.conf
+    #logind.conf -- PowerKey triggers suspend
+    sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=suspend/' ${D}/etc/systemd/logind.conf
 }
 
 package_remove = "${PN}-dbg ${PN}-staticdev ${PN}-dev"
