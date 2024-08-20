@@ -389,6 +389,12 @@ CORE_IMAGE_BASE_INSTALL += " \
 
 CORE_IMAGE_BASE_INSTALL_remove_qcs6490 = "${@bb.utils.contains('DISTRO_FEATURES', 'qim-sdk-disable', '', 'packagegroup-qti-gst', d)}"
 
+# Install packages for aeroratech
+CORE_IMAGE_BASE_INSTALL += " \
+	packagegroup-aeroratech-bsp \
+	packagegroup-aeroratech-display \
+"
+
 #addtask do_pm before do_rootfs
 #addtask do_rec_pm after do_image_qa before do_image_complete
 
