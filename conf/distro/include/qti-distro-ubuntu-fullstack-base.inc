@@ -123,6 +123,7 @@ DISTRO_FEATURES_append = " \
     qti-gst-ros2 \
     qti-dfs \
     qti-ib2c \
+    qti-snpe \
     ${@bb.utils.contains("BASEMACHINE", "qcs6490", "", "qim-sdk-disable", d)} \
     "
 
