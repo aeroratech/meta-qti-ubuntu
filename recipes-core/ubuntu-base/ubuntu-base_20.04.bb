@@ -327,7 +327,6 @@ do_ubuntu_install_append_qrb5165() {
     rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstalaw.so
     rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstwavenc.so
     rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstwavpack.so
-    rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstrtp.so
     rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstflac.so
     rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstmulaw.so
     # rm -rf ${TMP_WKDIR}/usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstjpeg.so
