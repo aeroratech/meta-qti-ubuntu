@@ -2,7 +2,7 @@ PATH =. "/usr/bin:/usr/sbin:/usr/local/sbin:/usr/sbin:/sbin:/bin:"
 UBUNTU_BASE_TAR="ubuntu-base-20.04.3-base-arm64.tar.gz"
 
 #Packages to ensure boot up and WLAN function
-UBUN_BASIC_PACKAGES = " dhcpcd5 \
+UBUN_BASIC_PACKAGES = " \
 kmod \
 inetutils-ping \
 wget \
