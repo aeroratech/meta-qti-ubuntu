@@ -30,6 +30,14 @@
 #
 ###############################################################################
 
+echo 456 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio456/direction
+echo 1 > /sys/class/gpio/gpio456/value
+
+#killall -9 weston
+#killall -9 gst-launch-1.0
+systemctl stop init_display.service
+
 R="\033[1;31m"
 G="\033[1;32m"
 B="\033[1;36m"
@@ -127,10 +135,16 @@ do
 	else
 		echo -e "\n"
 		echo -e "${name} doesn't exist in the last version. Need remove it "
-		echo -e "#######################################################################"
+		echo -e "#####################################QTI##################################"
 		echo -e "# Using the apt remove to remove the pachages                         #"
-		echo -e "#######################################################################"
-		apt remove ${name}
+		echo -e "#####################################QTI##################################"
+		if [[ "${name}" = "ota-package-decrypted" ]] || [[ "${name}" = "ota-package-decrypted-dbg" ]] || [[ "${name}" = "ota-upgrade" ]] || [[ "${name}" = "ota-upgrade-dbg" ]] || [[ "${name}" = "checksd" ]] || [[ "${name}" = "checksd-dbg" ]]; then
+			echo -e "#####################################skip ota & check sd deb##################################"
+			echo -e "${name} ota upgrade & check sd deb skip"
+			echo -e "######################################QTI#################################"
+		else
+			apt remove ${name} -y
+		fi
 	fi
 done
 ##Update the QTI pacakges list in the device and remove it from /data/QTI
@@ -156,12 +170,13 @@ do
 	else
 		echo -e "\n"
 		echo -e "${oss} doesn't exist in the device. Need apt install it "
-		echo -e "#######################################################################"
+		echo -e "##################################oss#####################################"
 		echo -e "# Using the apt install to the pachages                               #"
-		echo -e "#######################################################################"
-		apt install ${oss}
+		echo -e "###################################oss####################################"
+		apt install ${oss} -y
 	fi
 done
+
 ##Update the OSS pacakges list in the device and remove it from /data/QTI
 cp /data/OSS/oss_deb_list /var/lib/dpkg/oss_deb_list_device -rf
 rm /data/OSS/oss_deb_list
@@ -177,7 +192,50 @@ echo ''
 echo '###############apt update###################'
 apt update
 
-apt install /data/QTI/*
+exclude_list=(
+    "ota-upgrade"
+    "ota-package-decrypted"
+    "checksd"
+    "adbd"
+    "qti-libweston"
+    "qti-weston"
+    "weston-init"
+)
+
+deb_files=$(find /data/QTI -type f -name "*.deb")
+deb_files_list=$(echo "$deb_files" | tr ' ' '\n')
+# del exclude_list file
+for exclude_str in "${exclude_list[@]}"; do
+    deb_files_list=$(echo "$deb_files_list" | grep -v "$exclude_str")
+done
+files_to_install=$(echo "$deb_files_list" | tr '\n' ' ')
+
+if [ -n "$files_to_install" ]; then
+	echo "#########$files_to_install###########"
+	apt install $files_to_install -y
+else
+	echo "not found .deb file"
+fi
+
+for last_file in "${exclude_list[@]}"; do
+	if [[ -f "$last_file" ]]; then
+		echo "last install dpkg -i --force-overwrite: $last_file"
+		dpkg -i --force-overwrite $last_file
+	else
+		echo "exclude_list file not found: $last_file"
+	fi
+done
+
+#apt install /data/QTI/* -y
+#dpkg -i --force-overwrite /data/QTI/*
+#dpkg -i --force-overwrite /data/QTI/ota-upgrade*
+#dpkg -i --force-overwrite /data/QTI/checksd*
+#dpkg -i --force-overwrite /data/QTI/ota-package-decrypted*
+#dpkg -i --force-overwrite /data/QTI/adbd*
+#dpkg -i --force-overwrite /data/QTI/*weston*
+
+apt-get install -f
+
 if [[ $? = 0 ]]; then
 	echo "APT install successfully"
 	echo ''
@@ -213,7 +271,7 @@ else
 	echo -e "################################################################################"
 	echo -e "\n"
 	font_color
-	fix_dependence_link
+	#fix_dependence_link
 fi
 
 #fix adbd launch command
@@ -234,6 +292,8 @@ echo ro.build.version.release=`cat /etc/version ` >> /build.prop
 
 rm -rf /data/QTI/
 rm -rf /data/OSS/
+
+#systemctl restart update-alternatives-recovery.service
 
 #un-zip and install the MODULE debs
 #For now we don't install this debs since the QTI debs have covered it
@@ -312,5 +372,13 @@ echo '#                                          #'
 echo '############################################'
 echo ''
 systemctl restart depends-update
-#reboot
-echo 'Please reboot the devices to reset the status!!'
+
+# clean upgrade package
+echo 'Test Aeroratech'
+
+/usr/bin/rm -rf /data/update_ext4.zip
+cp /mnt/sdcard/ota/update_ext4.aes.sig /data/update_ext4.aes.sig
+
+sync
+
+systemctl reboot
