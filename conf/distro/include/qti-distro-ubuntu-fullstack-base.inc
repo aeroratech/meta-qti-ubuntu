@@ -6,7 +6,7 @@
 require ${COREBASE}/meta-qti-distro/conf/distro/include/qti-distro-base.inc
 DISTRO_NAME = "ubuntu"
 DISTROOVERRIDES =. "ubuntu:"
-DISTRO_FEATURES_remove = "dm-verity"
+DISTRO_FEATURES_remove = "dm-verity pulseaudio"
 
 PRODUCT ?= "ubuntu"
 
