@@ -94,7 +94,7 @@ do_deb() {
    cp qti_deb_list ${IMAGE_ROOTFS}/var/lib/dpkg/qti_deb_list_device
 
    #Gain the OSS debs list
-   cat qti_deb | grep "Package:" > all_deb_list
+   cat qti_deb | grep "^Package:" > all_deb_list
    sed -i 's/Package: //g' all_deb_list
    grep -wvf qti_deb_list all_deb_list > oss_deb_list
 
