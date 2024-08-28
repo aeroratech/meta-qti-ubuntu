@@ -69,7 +69,6 @@ DISTRO_FEATURES_append = " \
     auto-explore \
     opengl \
     opencl \
-    pulseaudio \
     tensorflow-lite \
     wayland \
     drm \
