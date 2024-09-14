@@ -187,6 +187,9 @@ do_makesystem[dirs]       = "${DEPLOY_DIR_IMAGE}"
 
 do_makesystem() {
     cp ${THISDIR}/${BASEMACHINE}/${BASEMACHINE}-fsconfig.conf ${WORKDIR}/rootfs-fsconfig.conf
+	# Delete .debug files
+	rm -rf ${IMAGE_ROOTFS}/usr/lib/.debug ${IMAGE_ROOTFS}/usr/lib64/.debug ${IMAGE_ROOTFS}/usr/lib/gcc
+	find ${IMAGE_ROOTFS} -name ".debug" -exec rm -rf {} + 2>/dev/null
     make_ext4fs -s -l ${SYSTEM_SIZE_EXT4} -C ${WORKDIR}/rootfs-fsconfig.conf -B ${DEPLOY_DIR_IMAGE}/system.map ${IMAGE_EXT4_SELINUX_OPTIONS} -a / -b 4096 ${DEPLOY_DIR_IMAGE}/${SYSTEMIMAGE_TARGET} ${IMAGE_ROOTFS}
 }
 
