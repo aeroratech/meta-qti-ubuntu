@@ -94,6 +94,10 @@ do_tzdata_install() {
 
 }
 
+do_fixup_symlink() {
+        fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "ln -snf ../run/systemd/resolve/resolv.conf /etc/resolv.conf"
+}
+
 ## In chroot environment, when creates a link pointing to a absolute path, the chroot
 ## directory is prepended to it.
 ## task do_install will get in chroot env and create symlink with abs path, thus, need
@@ -304,6 +308,10 @@ do_ubuntu_install() {
 
 	# Go to persistent-storage.rules and create bootdevice/by-name symlinks
 	do_create_the_links
+
+	# stub-resolve.conf is used by default on new installs and need to
+	# fix that to resolve.conf
+	do_fixup_symlink
 }
 addtask do_ubuntu_install after do_compile before do_install
 
