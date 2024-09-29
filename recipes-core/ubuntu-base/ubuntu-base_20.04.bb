@@ -98,6 +98,14 @@ do_fixup_symlink() {
         fakechroot fakeroot  chroot ${TMP_WKDIR} /bin/bash -c "ln -snf ../run/systemd/resolve/resolv.conf /etc/resolv.conf"
 }
 
+do_disable_systemd_resolved_DNSStubListener() {
+        sed -i 's:#DNSStubListener=yes:DNSStubListener=no:g' ${TMP_WKDIR}/etc/systemd/resolved.conf
+}
+
+do_set_systemd_resolved_default_DNS () {
+        sed -i 's:#DNS=:DNS=8.8.8.8,8.8.4.4:g' ${TMP_WKDIR}/etc/systemd/resolved.conf
+}
+
 ## In chroot environment, when creates a link pointing to a absolute path, the chroot
 ## directory is prepended to it.
 ## task do_install will get in chroot env and create symlink with abs path, thus, need
@@ -312,6 +320,12 @@ do_ubuntu_install() {
 	# stub-resolve.conf is used by default on new installs and need to
 	# fix that to resolve.conf
 	do_fixup_symlink
+
+	# Disable DNSStubListner
+	do_disable_systemd_resolved_DNSStubListener
+
+	# Set default DNS
+	do_set_systemd_resolved_default_DNS
 }
 addtask do_ubuntu_install after do_compile before do_install
 
