@@ -29,7 +29,6 @@ tftpd-hpa \
 vim \
 hostapd \
 apparmor \
-dnsmasq \
 iw \
 libion0 \
 fscrypt \
