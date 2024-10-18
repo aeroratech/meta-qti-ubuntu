@@ -393,6 +393,7 @@ CORE_IMAGE_BASE_INSTALL_remove_qcs6490 = "${@bb.utils.contains('DISTRO_FEATURES'
 CORE_IMAGE_BASE_INSTALL += " \
 	packagegroup-aeroratech-bsp \
 	packagegroup-aeroratech-display \
+	packagegroup-aeroratech-mm \
 "
 
 #addtask do_pm before do_rootfs
