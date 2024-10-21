@@ -339,6 +339,54 @@ common_install() {
 	systemctl reboot
 }
 
+common_install_no_kernel() {
+	#fix adbd launch command
+	if [[ -e /sbin/launch_adbd ]]; then
+	 sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" /sbin/launch_adbd
+	else
+	 mv /etc/launch_adbd /sbin/launch_adbd
+	 sed -i "s@start-stop-daemon -S -b -a /sbin/adbd@start-stop-daemon -S -b --exec /sbin/adbd@g" /sbin/launch_adbd
+	fi
+
+	#fix udev link issue
+	sed -i 's/LABEL="persistent_storage_end"/# block\/bootdevice\/by-name links'"\n"'LABEL="persistent_storage_end"/g' /lib/udev/rules.d/60-persistent-storage.rules
+	sed -i 's/LABEL="persistent_storage_end"/ENV{ID_PART_ENTRY_SCHEME}=="gpt", ENV{ID_PART_ENTRY_NAME}=="?*", SYMLINK+="block\/bootdevice\/by-name\/$env{ID_PART_ENTRY_NAME}"'"\n\n"'LABEL="persistent_storage_end"/g' /lib/udev/rules.d/60-persistent-storage.rules
+
+	#fix build.prop content missed issue
+	chown leprop:leprop /etc/build.prop
+	echo "service.adb.root=1" >> /build.prop
+	echo ro.build.version.release=`cat /etc/version ` >> /build.prop
+
+	rm -rf /data/QTI/
+	rm -rf /data/OSS/
+	rm -rf /data/MAIN/
+
+	#End of OTA upgrade
+	echo ''
+	timer_end=`date +'%Y-%m-%d %H:%M:%S'`
+	start_seconds=$(date --date="$timer_start" +%s);
+	end_seconds=$(date --date="$timer_end" +%s);
+	echo "The total time of OTA upgrade is ： "$((end_seconds-start_seconds))"s"
+	echo ''
+
+	#restart the depends-update and reboot the devices
+	echo '############################################'
+	echo '#               End Upgrade                #'
+	echo '#     Restart depends-update and reboot    #'
+	echo '#                                          #'
+	echo '############################################'
+	echo ''
+	systemctl restart depends-update
+
+	# clean upgrade package
+	/usr/bin/rm -rf /data/update_ext4.zip
+	cp /mnt/sdcard/ota/update_ext4.aes.sig /data/update_ext4.aes.sig
+
+	sync
+	sync
+
+	systemctl reboot
+}
 
 echo "status ="$status
 case $status in
@@ -349,13 +397,13 @@ case $status in
     common_install
     ;;
   "all")
-    echo "all debs and kernel upgrade..."
+    echo "all debs and without kernel upgrade..."
     upgrade_pre_fix
     systemctl stop init_display.service
     remove_useless_debs
     upgrade_oss_debs
     upgrade_qti_debs
-    common_install
+    common_install_no_kernel
     ;;
   "kernel")
     echo "non-hlos and boot.img upgrade..."
