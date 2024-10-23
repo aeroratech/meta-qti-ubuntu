@@ -218,7 +218,7 @@ upgrade_qti_debs() {
 
 	if [ -n "$files_to_install" ]; then
 		echo "#########$files_to_install###########"
-		apt install $files_to_install -y
+		DEBIAN_FRONTEND=noninteractive dpkg -i $files_to_install
 	else
 		echo "not found .deb file"
 	fi
