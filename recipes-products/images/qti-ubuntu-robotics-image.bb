@@ -343,6 +343,10 @@ do_enable_adb_root() {
     echo "service.adb.root=1" >> ${IMAGE_ROOTFS}/build.prop
 }
 
+do_enable_adb_tcp() {
+    echo "persist.adb.tcp.port=2445" >> ${IMAGE_ROOTFS}/build.prop
+}
+
 #install debug symbol
 IMAGE_FEATURES_append = "\
             ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', ' dbg-pkgs', '', d)} \
@@ -353,7 +357,7 @@ DEB_PREPROCESS_COMMANDS = " do_deb_pre "
 #DEB_POSTPROCESS_COMMANDS = " do_deb_post "
 #ROOTFS_PREPROCESS_COMMAND += "do_fs_pre; "
 ROOTFS_POSTPROCESS_COMMAND += "do_fs_post; "
-ROOTFS_POSTINSTALL_COMMAND += "do_post_install; do_deb; do_enable_adb_root; "
+ROOTFS_POSTINSTALL_COMMAND += "do_post_install; do_deb; do_enable_adb_root; do_enable_adb_tcp; "
 ROOTFS_POSTPROCESS_COMMAND += "\
             ${@bb.utils.contains('DISTRO', 'qti-distro-ubuntu-fullstack-debug', 'do_enable_coredump; ', '', d)} \
 "
