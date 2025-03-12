@@ -331,7 +331,7 @@ common_install() {
 	echo 'Test Aeroratech'
 
 	/usr/bin/rm -rf /data/update_ext4.zip
-	cp /mnt/sdcard/ota/update_ext4.aes.sig /data/update_ext4.aes.sig
+	cp /mnt/sdcard/update/update_ext4.aes.sig /data/update_ext4.aes.sig
 
 	sync
 	sync
@@ -380,7 +380,7 @@ common_install_no_kernel() {
 
 	# clean upgrade package
 	/usr/bin/rm -rf /data/update_ext4.zip
-	cp /mnt/sdcard/ota/update_ext4.aes.sig /data/update_ext4.aes.sig
+	cp /mnt/sdcard/update/update_ext4.aes.sig /data/update_ext4.aes.sig
 
 	sync
 	sync
