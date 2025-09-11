@@ -198,14 +198,9 @@ upgrade_qti_debs() {
 	#apt update
 
 	exclude_list=(
-	    "ota-upgrade"
-	    "ota-package-decrypted"
-	    "checksd"
-	    "adbd"
 	    "qti-libweston"
 	    "qti-weston"
 	    "weston-init"
-	    "leds-mode"
 	)
 
 	deb_files=$(find /data/QTI -type f -name "*.deb")
