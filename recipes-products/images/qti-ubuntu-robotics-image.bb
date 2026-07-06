@@ -398,6 +398,7 @@ CORE_IMAGE_BASE_INSTALL += " \
 	packagegroup-aeroratech-bsp \
 	packagegroup-aeroratech-display \
 	packagegroup-aeroratech-mm \
+	packagegroup-aeroratech-ml \
 "
 
 #addtask do_pm before do_rootfs
