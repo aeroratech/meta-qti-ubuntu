@@ -47,7 +47,8 @@ GROUPADD_PARAM_${PN} += " \
                         "
 USERADD_PARAM_${PN}_append =  " -g diag -G root diag ;"
 # Sizes for EXT4 (in bytes)
-SYSTEM_SIZE_EXT4 = "107374182400"
+# 99 GiB fits the replacement Flash's system partition (0x18E4D73000 bytes).
+SYSTEM_SIZE_EXT4 = "106300440576"
 KERNEL_CMD_PARAMS += "apparmor=1 security=apparmor"
 
 ##################################################################
